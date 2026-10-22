@@ -59,7 +59,7 @@ export const OrderConfirmationPage: React.FC = () => {
         <div className="w-16 h-16 mx-auto rounded-full bg-status-error/10 flex items-center justify-center text-status-error">
           <AlertCircle className="w-8 h-8" />
         </div>
-        <h2 className="font-display text-2xl font-bold text-ink-900">
+        <h2 className="font-display text-2xl font-normal text-ink-900">
           Order Not Found
         </h2>
         <p className="text-xs sm:text-sm text-ink-600">
@@ -101,7 +101,7 @@ export const OrderConfirmationPage: React.FC = () => {
             </motion.svg>
           </div>
 
-          <h1 className="font-display text-3xl sm:text-4xl font-bold text-ink-900">
+          <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900">
             Order placed! Your vibes are on the way.
           </h1>
           <p className="text-xs sm:text-sm text-ink-600">
@@ -122,7 +122,7 @@ export const OrderConfirmationPage: React.FC = () => {
             </div>
             <span className="font-bold text-accent-700 uppercase">{order.status.replace(/_/g, ' ')}</span>
           </div>
-          <p className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+          <p className="font-display text-xl sm:text-2xl font-normal text-ink-900">
             {order.estimatedDeliveryDate}
           </p>
           <p className="text-xs text-ink-600">
@@ -132,7 +132,7 @@ export const OrderConfirmationPage: React.FC = () => {
 
         {/* Order Details Breakdown */}
         <div className="bg-surface rounded-3xl border border-border p-6 sm:p-8 space-y-6 shadow-sm">
-          <h3 className="font-display text-lg font-bold text-ink-900 pb-3 border-b border-border flex items-center justify-between">
+          <h3 className="font-display text-lg font-normal text-ink-900 pb-3 border-b border-border flex items-center justify-between">
             <span>Ordered Items</span>
             <span className="text-xs font-sans font-normal text-ink-600">
               {order.items.reduce((s, i) => s + i.qty, 0)} items

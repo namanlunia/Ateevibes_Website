@@ -116,21 +116,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/cart</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ateevibes.com/wishlist</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://ateevibes.com/track-order</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://ateevibes.com/about</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

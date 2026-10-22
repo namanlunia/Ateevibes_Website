@@ -20,7 +20,7 @@ export const PrivacyPage: React.FC = () => {
             <ShieldCheck className="w-3.5 h-3.5" />
             <span>Data Protection & Privacy</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
             Privacy Policy
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
@@ -30,7 +30,7 @@ export const PrivacyPage: React.FC = () => {
 
         <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm space-y-8 text-xs sm:text-sm text-ink-700 leading-relaxed">
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">1. Information We Collect</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">1. Information We Collect</h2>
             <p>
               When you purchase from Ateevibes or create an account, we collect necessary transactional information:
             </p>
@@ -42,7 +42,7 @@ export const PrivacyPage: React.FC = () => {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">2. Payment Security & Encryption</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">2. Payment Security & Encryption</h2>
             <p>
               All online payments on Ateevibes (UPI, Debit/Credit Cards, Net Banking) are routed through authorized PCI-DSS Level 1 certified payment gateways (e.g. Razorpay).
             </p>
@@ -52,7 +52,7 @@ export const PrivacyPage: React.FC = () => {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">3. How Your Data Is Used</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">3. How Your Data Is Used</h2>
             <ul className="list-disc pl-5 space-y-1 text-ink-600">
               <li>Processing, packing, and dispatching your orders.</li>
               <li>Sending live tracking updates and invoice confirmations via SMS, WhatsApp, and email.</li>
@@ -62,21 +62,21 @@ export const PrivacyPage: React.FC = () => {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">4. Sharing with Third Parties</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">4. Sharing with Third Parties</h2>
             <p>
               We only share your shipping data with trusted third-party logistics partners (such as Bluedart, Delhivery, or Indian Postal Express) strictly to facilitate courier delivery of your parcel. We do not sell or rent customer data to marketing brokers.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">5. Cookies & Local Storage</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">5. Cookies & Local Storage</h2>
             <p>
               We use lightweight local storage tokens to remember your shopping cart items, wishlist, and preferred filters during your session. You can clear this data anytime through your browser settings.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-display text-lg font-bold text-ink-900">6. Contact Our Data Officer</h2>
+            <h2 className="font-display text-lg font-normal text-ink-900">6. Contact Our Data Officer</h2>
             <p>
               If you have any questions regarding your personal information, or wish to request data deletion, contact us at{' '}
               <a href="mailto:privacy@ateevibes.com" className="font-bold text-accent-700 underline">

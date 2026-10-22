@@ -270,7 +270,7 @@ export const CheckoutPage: React.FC = () => {
             <div className="w-20 h-20 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center mb-6 animate-pulse">
               <Lock className="w-8 h-8 text-brand-green" />
             </div>
-            <h3 className="font-display text-2xl sm:text-3xl font-bold mb-2">
+            <h3 className="font-display text-2xl sm:text-3xl font-normal mb-2">
               Processing Demo Order
             </h3>
             <p className="text-xs sm:text-sm text-brand-cream/80 max-w-sm mb-6">
@@ -398,7 +398,7 @@ export const CheckoutPage: React.FC = () => {
             {currentStep === 1 && (
               <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-ink-900">
+                  <h2 className="font-display text-2xl font-normal text-ink-900">
                     Shipping & Contact Details
                   </h2>
                   <p className="text-xs text-ink-600 mt-1">
@@ -607,7 +607,7 @@ export const CheckoutPage: React.FC = () => {
             {currentStep === 2 && (
               <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-ink-900">
+                  <h2 className="font-display text-2xl font-normal text-ink-900">
                     Shipping Method
                   </h2>
                   <p className="text-xs text-ink-600 mt-1">
@@ -692,7 +692,7 @@ export const CheckoutPage: React.FC = () => {
             {currentStep === 3 && (
               <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-ink-900">
+                  <h2 className="font-display text-2xl font-normal text-ink-900">
                     Payment Method
                   </h2>
                   <div className="mt-1 flex items-center gap-2 text-xs font-semibold text-accent-700 bg-accent-500/10 p-2.5 rounded-xl border border-accent-500/20">
@@ -910,7 +910,7 @@ export const CheckoutPage: React.FC = () => {
             {currentStep === 4 && (
               <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-bold text-ink-900">
+                  <h2 className="font-display text-2xl font-normal text-ink-900">
                     Final Review & Confirmation
                   </h2>
                   <p className="text-xs text-ink-600 mt-1">
@@ -987,7 +987,7 @@ export const CheckoutPage: React.FC = () => {
           {/* RIGHT: Persistent Order Summary (Desktop) */}
           <div className="hidden lg:block lg:col-span-5 lg:sticky lg:top-24 space-y-6">
             <div className="bg-surface-tint rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
-              <h3 className="font-display text-xl font-bold text-ink-900 pb-3 border-b border-border">
+              <h3 className="font-display text-xl font-normal text-ink-900 pb-3 border-b border-border">
                 In Your Bag ({items.length})
               </h3>
 

@@ -23,7 +23,7 @@ export const NotFoundPage: React.FC = () => {
 
       <div className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto text-center space-y-8">
         <div className="relative inline-block">
-          <span className="font-display text-8xl sm:text-9xl font-black text-ink-900/10 tracking-tight select-none">
+          <span className="font-display text-8xl sm:text-9xl font-normal text-ink-900/10 tracking-tight select-none">
             404
           </span>
           <div className="absolute inset-0 flex items-center justify-center">
@@ -35,7 +35,7 @@ export const NotFoundPage: React.FC = () => {
         </div>
 
         <div className="space-y-3">
-          <h1 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 tracking-tight">
             This Vibe Doesn&apos;t Exist
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-md mx-auto leading-relaxed">

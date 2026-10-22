@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /cart
+Disallow: /checkout
+Disallow: /account
+Disallow: /wishlist
+Disallow: /track-order
+Disallow: /order-confirmation
 
 Sitemap: https://ateevibes.com/sitemap.xml

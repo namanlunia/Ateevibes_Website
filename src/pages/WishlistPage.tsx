@@ -67,7 +67,7 @@ export const WishlistPage: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-border">
           <div>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-ink-900">
+            <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900">
               My Wishlist ({items.length})
             </h1>
             <p className="text-xs sm:text-sm text-ink-600 mt-1">
@@ -101,7 +101,7 @@ export const WishlistPage: React.FC = () => {
             <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream flex items-center justify-center text-ink-700">
               <Heart className="w-8 h-8 text-accent-700" />
             </div>
-            <h3 className="font-display text-2xl font-bold text-ink-900">
+            <h3 className="font-display text-2xl font-normal text-ink-900">
               Your wishlist is empty
             </h3>
             <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">

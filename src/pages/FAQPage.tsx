@@ -136,7 +136,7 @@ export const FAQPage: React.FC = () => {
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Help Center</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
             Frequently Asked Questions
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
@@ -177,7 +177,7 @@ export const FAQPage: React.FC = () => {
         <div className="space-y-3">
           {filteredFaqs.length === 0 ? (
             <div className="bg-surface-tint rounded-3xl p-10 border border-border text-center space-y-2">
-              <p className="font-display text-lg font-bold text-ink-900">
+              <p className="font-display text-lg font-normal text-ink-900">
                 No matching questions found
               </p>
               <p className="text-xs text-ink-600">
@@ -228,7 +228,7 @@ export const FAQPage: React.FC = () => {
 
         {/* Bottom Contact Strip */}
         <div className="bg-surface-tint rounded-3xl border border-border p-8 text-center space-y-4">
-          <h3 className="font-display text-xl font-bold text-ink-900">
+          <h3 className="font-display text-xl font-normal text-ink-900">
             Still have questions?
           </h3>
           <p className="text-xs text-ink-600 max-w-md mx-auto">

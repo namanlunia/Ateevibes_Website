@@ -154,7 +154,7 @@ export const QuickViewModal: React.FC = () => {
                 )}
               </div>
 
-              <h2 className="font-display text-2xl font-bold text-ink-900 leading-tight">
+              <h2 className="font-display text-2xl font-normal text-ink-900 leading-tight">
                 {product.name}
               </h2>
 

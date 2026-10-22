@@ -117,7 +117,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
             <div className="p-5 border-b border-border bg-surface-tint flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ShoppingBag className="w-5 h-5 text-ink-900" />
-                <h3 className="font-display text-lg font-bold text-ink-900">
+                <h3 className="font-display text-lg font-normal text-ink-900">
                   Your Bag ({items.reduce((s, i) => s + i.qty, 0)})
                 </h3>
               </div>
@@ -158,7 +158,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                   <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream flex items-center justify-center text-ink-700">
                     <ShoppingBag className="w-8 h-8" />
                   </div>
-                  <h4 className="font-display text-xl font-bold text-ink-900">
+                  <h4 className="font-display text-xl font-normal text-ink-900">
                     Your bag is feeling light
                   </h4>
                   <p className="text-xs text-ink-600 max-w-xs mx-auto">

@@ -7,7 +7,7 @@ export const siteConfig = {
     'Style. Comfort. Quality.',
   ],
   description: "Ateevibes - Feel the Vibes. India's premium men's T-shirt brand bringing contemporary fits, unmatched comfort, and vibrant styles.",
-  url: 'https://ateevibes.com',
+  url: import.meta.env.VITE_SITE_URL || 'https://ateevibes.com',
   ogImage: '/brand/logo.png',
   contact: {
     email: 'support@ateevibes.com', // PLACEHOLDER

@@ -11,7 +11,7 @@
 
   html {
     scroll-behavior: smooth;
-    font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    font-family: 'Instrument Sans', system-ui, -apple-system, sans-serif;
     color: var(--ink-900);
     background-color: var(--surface);
     text-rendering: optimizeLegibility;
@@ -27,7 +27,8 @@
 
   /* Typography headings */
   h1, h2, h3, h4, .font-display {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
     font-feature-settings: 'lnum' 1;
   }
 
@@ -260,3 +261,12 @@
     display: none !important;
   }
 }
+
+@layer utilities {
+  .font-display {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+  }
+}
+
+

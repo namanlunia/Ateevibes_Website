@@ -28,7 +28,7 @@ export const SizeGuidePage: React.FC = () => {
             <Ruler className="w-3.5 h-3.5" />
             <span>Tailored Fit System</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
             Size Guide & Fit Chart
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
@@ -40,7 +40,7 @@ export const SizeGuidePage: React.FC = () => {
         <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border">
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+              <h2 className="font-display text-xl sm:text-2xl font-normal text-ink-900">
                 Garment Measurements
               </h2>
               <p className="text-xs text-ink-600">Measured flat across relaxed garments</p>
@@ -121,7 +121,7 @@ export const SizeGuidePage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
               Measuring Instructions
             </span>
-            <h3 className="font-display text-2xl font-bold text-ink-900">
+            <h3 className="font-display text-2xl font-normal text-ink-900">
               How To Measure Accurately
             </h3>
             <p className="text-xs text-ink-600">
@@ -162,7 +162,7 @@ export const SizeGuidePage: React.FC = () => {
 
         {/* Fit Guidelines & WhatsApp Concierge */}
         <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm space-y-6">
-          <h3 className="font-display text-xl font-bold text-ink-900">
+          <h3 className="font-display text-xl font-normal text-ink-900">
             Fit Recommendations
           </h3>
 

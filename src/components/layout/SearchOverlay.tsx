@@ -272,7 +272,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                 <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream/80 flex items-center justify-center text-ink-900">
                   <Search className="w-8 h-8 text-ink-700" />
                 </div>
-                <h4 className="font-display text-xl font-bold text-ink-900">No vibes found</h4>
+                <h4 className="font-display text-xl font-normal text-ink-900">No vibes found</h4>
                 <p className="text-sm text-ink-600 max-w-sm mx-auto">
                   No vibes found for that. Try another keyword, fabric type, or category (e.g. &ldquo;jacquard&rdquo;).
                 </p>

@@ -81,7 +81,7 @@ export const ContactPage: React.FC = () => {
             <MessageCircle className="w-3.5 h-3.5" />
             <span>Concierge & Support</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
             We&apos;re Here To Help
           </h1>
           <p className="text-xs sm:text-base text-ink-600 leading-relaxed">
@@ -105,7 +105,7 @@ export const ContactPage: React.FC = () => {
                   <MessageCircle className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-display text-base font-bold text-ink-900">
+                  <h3 className="font-display text-base font-normal text-ink-900">
                     Instant WhatsApp Support
                   </h3>
                   <p className="text-xs text-ink-600 mt-0.5">
@@ -125,7 +125,7 @@ export const ContactPage: React.FC = () => {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-display text-sm font-bold text-ink-900">Email Concierge</h4>
+                  <h4 className="font-display text-sm font-normal text-ink-900">Email Concierge</h4>
                   <a
                     href="mailto:support@ateevibes.com"
                     className="text-xs font-semibold text-accent-700 hover:underline"
@@ -146,7 +146,7 @@ export const ContactPage: React.FC = () => {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-display text-sm font-bold text-ink-900">Operating Hours</h4>
+                  <h4 className="font-display text-sm font-normal text-ink-900">Operating Hours</h4>
                   <p className="text-xs font-bold text-ink-900">Monday – Saturday: 10:00 AM – 7:00 PM IST</p>
                 </div>
               </div>
@@ -162,7 +162,7 @@ export const ContactPage: React.FC = () => {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-display text-sm font-bold text-ink-900">Dispatch & Design Hub</h4>
+                  <h4 className="font-display text-sm font-normal text-ink-900">Dispatch & Design Hub</h4>
                   <p className="text-xs font-medium text-ink-700">Surat, Gujarat - 395002, India</p>
                 </div>
               </div>
@@ -183,7 +183,7 @@ export const ContactPage: React.FC = () => {
                 <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
-                <h3 className="font-display text-2xl font-bold text-ink-900">
+                <h3 className="font-display text-2xl font-normal text-ink-900">
                   Message Sent Successfully
                 </h3>
                 <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto leading-relaxed">
@@ -207,7 +207,7 @@ export const ContactPage: React.FC = () => {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
-                <h3 className="font-display text-xl font-bold text-ink-900 pb-2 border-b border-border">
+                <h3 className="font-display text-xl font-normal text-ink-900 pb-2 border-b border-border">
                   Send Us A Message
                 </h3>
 

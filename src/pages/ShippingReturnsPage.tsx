@@ -29,7 +29,7 @@ export const ShippingReturnsPage: React.FC = () => {
             <Truck className="w-3.5 h-3.5" />
             <span>Clear & Honest Policies</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
             Shipping & 7-Day Exchanges
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
@@ -41,22 +41,22 @@ export const ShippingReturnsPage: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <Truck className="w-6 h-6 text-accent-700" />
-            <h4 className="font-display text-sm font-bold text-ink-900">Free Shipping</h4>
+            <h4 className="font-display text-sm font-normal text-ink-900">Free Shipping</h4>
             <p className="text-xs text-ink-600">On all prepaid & COD orders exceeding ₹1,499 across India.</p>
           </div>
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <Clock className="w-6 h-6 text-accent-700" />
-            <h4 className="font-display text-sm font-bold text-ink-900">3–5 Days Transit</h4>
+            <h4 className="font-display text-sm font-normal text-ink-900">3–5 Days Transit</h4>
             <p className="text-xs text-ink-600">Dispatched in 24–48h via Express Air courier networks.</p>
           </div>
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <RotateCcw className="w-6 h-6 text-accent-700" />
-            <h4 className="font-display text-sm font-bold text-ink-900">7-Day Exchanges</h4>
+            <h4 className="font-display text-sm font-normal text-ink-900">7-Day Exchanges</h4>
             <p className="text-xs text-ink-600">Convenient return window if you need a different size.</p>
           </div>
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <ShieldCheck className="w-6 h-6 text-accent-700" />
-            <h4 className="font-display text-sm font-bold text-ink-900">Quality Assured</h4>
+            <h4 className="font-display text-sm font-normal text-ink-900">Quality Assured</h4>
             <p className="text-xs text-ink-600">Secure mailer packing with quality verification checks.</p>
           </div>
         </div>
@@ -68,7 +68,7 @@ export const ShippingReturnsPage: React.FC = () => {
               <Truck className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+              <h2 className="font-display text-xl sm:text-2xl font-normal text-ink-900">
                 Domestic Shipping Policy
               </h2>
               <p className="text-xs text-ink-600">Fulfillment directly from our Surat, Gujarat hub</p>
@@ -118,7 +118,7 @@ export const ShippingReturnsPage: React.FC = () => {
               <RotateCcw className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+              <h2 className="font-display text-xl sm:text-2xl font-normal text-ink-900">
                 7-Day Hassle-Free Size Exchanges
               </h2>
               <p className="text-xs text-ink-600">Reverse courier pickup with zero extra fees</p>

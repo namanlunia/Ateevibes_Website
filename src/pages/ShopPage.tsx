@@ -129,7 +129,7 @@ export const ShopPage: React.FC = () => {
               </span>
             </div>
 
-            <h1 className="font-display text-3xl sm:text-5xl font-bold text-ink-900 tracking-tight">
+            <h1 className="font-display text-3xl sm:text-5xl font-normal text-ink-900 tracking-tight">
               {pageTitle}
             </h1>
             <p className="text-xs sm:text-sm text-ink-700 leading-relaxed max-w-xl">
@@ -427,7 +427,7 @@ export const ShopPage: React.FC = () => {
                 <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream flex items-center justify-center text-ink-900">
                   <SlidersHorizontal className="w-8 h-8 text-ink-700" />
                 </div>
-                <h3 className="font-display text-2xl font-bold text-ink-900">No vibes found</h3>
+                <h3 className="font-display text-2xl font-normal text-ink-900">No styles match your filters</h3>
                 <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
                   No matching t-shirts found for this filter combination. Try clearing some filters to see all available drops.
                 </p>
@@ -463,7 +463,7 @@ export const ShopPage: React.FC = () => {
                 className="fixed bottom-0 left-0 right-0 max-h-[85vh] bg-surface rounded-t-3xl shadow-2xl flex flex-col z-10 overflow-hidden"
               >
                 <div className="p-4 border-b border-border flex items-center justify-between">
-                  <span className="font-display text-lg font-bold text-ink-900">Filters</span>
+                  <span className="font-display text-lg font-normal text-ink-900">Filters</span>
                   <button
                     onClick={() => setMobileFilterOpen(false)}
                     className="p-1 rounded-full text-ink-700 hover:bg-black/5"

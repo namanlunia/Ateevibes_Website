@@ -38,7 +38,7 @@ export const RouteErrorElement: React.FC = () => {
         </div>
 
         <div className="space-y-2">
-          <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">
+          <h2 className="font-display text-2xl sm:text-3xl font-normal text-ink-900">
             {title}
           </h2>
           <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">

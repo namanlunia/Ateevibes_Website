@@ -10,7 +10,6 @@ import {
   RefreshCw,
   Feather,
   Layers,
-  Star,
   ShoppingBag,
   ChevronRight,
   ChevronLeft,
@@ -22,7 +21,6 @@ import { useUIStore } from '../store/uiStore';
 import { Product, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
-import { TESTIMONIALS } from '../data/testimonials';
 import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
 
@@ -161,12 +159,22 @@ export const HomePage: React.FC = () => {
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
   useEffect(() => {
-    productService.getNewArrivals(8).then(setNewArrivals);
-    productService.getBestSellers(8).then(setBestSellers);
-    productService.getByPno('1007').then((p) => {
-      setHeroProduct(p);
-      setMorphProduct(p);
+    let isMounted = true;
+    productService.getNewArrivals(8).then((res) => {
+      if (isMounted) setNewArrivals(res);
     });
+    productService.getBestSellers(8).then((res) => {
+      if (isMounted) setBestSellers(res);
+    });
+    productService.getByPno('1007').then((p) => {
+      if (isMounted) {
+        setHeroProduct(p);
+        setMorphProduct(p);
+      }
+    });
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Auto-cycle colours for "Same Print, Different Vibes" every 3.5s
@@ -246,43 +254,41 @@ export const HomePage: React.FC = () => {
 
       <div className="space-y-16 sm:space-y-24 overflow-hidden">
         {/* ======================================================== */}
-        {/* 1. HERO SECTION: Dynamic Gradient, Word Reveal, 3D Tilt */}
+        {/* 1. HERO SECTION: Editorial Contemporary Menswear */}
         {/* ======================================================== */}
-        <section className="relative min-h-[90vh] flex items-center justify-center pt-8 pb-16 px-4 sm:px-6 lg:px-8 bg-flow-animated">
-          {/* Ambient Floating Blobs */}
-          <div className="absolute top-1/4 left-10 w-72 h-72 rounded-full bg-brand-green/20 blur-3xl pointer-events-none animate-pulse" />
-          <div className="absolute bottom-1/4 right-10 w-96 h-96 rounded-full bg-accent-700/10 blur-3xl pointer-events-none" />
-
+        <section className="relative min-h-[82vh] flex items-center justify-center pt-8 sm:pt-12 pb-16 px-4 sm:px-6 lg:px-8 bg-surface border-b border-border/40">
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
             {/* Left Column: Headlines & CTAs */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-border shadow-sm text-xs font-bold text-ink-900"
+                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface-tint border border-border text-xs font-medium text-ink-900"
               >
-                <Sparkles className="w-4 h-4 text-accent-700" />
-                <span className="uppercase tracking-wider">Same Print, Different Vibes</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-accent-700" />
+                <span className="uppercase tracking-[0.16em] text-[11px] font-semibold text-accent-700">
+                  Ateevibes Menswear • New Drop
+                </span>
               </motion.div>
 
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-ink-900 tracking-tight leading-[1.08]">
-                <span>FEEL THE VIBES.</span>
+              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-normal text-ink-900 tracking-tight leading-[1.05]">
+                <span>Feel the Vibes.</span>
                 <br />
-                <span className="text-accent-700">WEAR THE STATEMENT.</span>
+                <span className="italic text-ink-700">Wear the Statement.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-ink-700 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                Engineered China jacquards, waffle weaves, and fluid tencil knitwear for contemporary men who demand tactile distinction and all-day comfort.
+              <p className="text-base sm:text-lg text-ink-700 max-w-lg mx-auto lg:mx-0 leading-relaxed font-normal">
+                Engineered China jacquards, tactile waffle weaves, and fluid tencil knitwear designed for contemporary distinction and all-day comfort.
               </p>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
                 <Link
                   to="/shop"
-                  className="btn-primary w-full sm:w-auto px-8 py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-lg shadow-ink-900/10 hover:shadow-xl"
+                  className="btn-primary w-full sm:w-auto px-8 py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-hover"
                 >
-                  <span>Explore New Drops</span>
+                  <span>Shop the Collection</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
 
@@ -290,66 +296,66 @@ export const HomePage: React.FC = () => {
                   href="#fabrics"
                   className="btn-secondary w-full sm:w-auto px-6 py-3.5 text-sm font-bold flex items-center justify-center gap-2 bg-white"
                 >
-                  <span>Discover Fabric Story</span>
+                  <span>Discover the Fabrics</span>
                   <Layers className="w-4 h-4 text-accent-700" />
                 </a>
               </div>
 
-              {/* Trust Badges */}
+              {/* Trust Points */}
               <div className="pt-6 border-t border-border/60 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-ink-700 font-medium">
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
-                  <span>Breathable fabric</span>
+                  <span>Architectural textured knits</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
-                  <span>Free Shipping Above ₹1,499</span>
+                  <span>Free shipping above ₹1,499</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
-                  <span>7-Day Easy Returns</span>
+                  <span>7-day easy exchanges</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: 3D Visual Cluster & Product Showcase */}
+            {/* Right Column: Editorial Garment Showcase */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 0.8, ease: 'easeOut' }}
-                className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-white group"
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                className="relative w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden shadow-soft-hover border border-border group"
               >
                 <img
                   src={heroProduct?.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
                   srcSet={getProductSrcSet(heroProduct?.variants[0]?.images[0])}
                   sizes={PRODUCT_IMAGE_SIZES}
-                  alt="Ateevibes Signature China Jacquard"
+                  alt={heroProduct ? `${heroProduct.name} - Signature Drop` : 'Ateevibes Signature China Jacquard'}
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/tshirt-silhouette.svg';
                   }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/40 to-transparent flex flex-col justify-end p-6 sm:p-8 text-brand-cream">
-                  <span className="inline-block px-2.5 py-1 rounded-full bg-white text-ink-900 text-[10px] font-extrabold uppercase tracking-widest shadow-sm w-fit mb-2">
-                    FEATURED DROP
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/35 to-transparent flex flex-col justify-end p-6 sm:p-7 text-white">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/95 text-ink-900 text-[10px] font-bold uppercase tracking-wider shadow-sm w-fit mb-2">
+                    Featured Garment
                   </span>
-                  <h3 className="font-display text-2xl font-bold text-white">
-                    China Jacquard Knit
+                  <h3 className="font-display text-2xl font-normal text-white">
+                    {heroProduct?.name || 'China Jacquard Knit'}
                   </h3>
                   <p className="text-xs text-brand-cream/80 mt-1 line-clamp-2">
-                    Structured 3D geometry in 6 mood-defining colorways.
+                    {heroProduct?.description || 'Engineered architectural weave with distinctive dimensional texture.'}
                   </p>
                   <div className="flex items-center justify-between pt-4">
-                    <span className="font-display text-xl font-bold text-white tabular-nums">
+                    <span className="font-display text-2xl font-normal text-white tabular-nums">
                       {heroProduct ? formatPrice(heroProduct.mrp) : '₹999'}
                     </span>
                     <Link
-                      to="/product/royal-print-jacquard-full-sleeve"
+                      to={`/product/${heroProduct?.slug || 'royal-print-jacquard-full-sleeve'}`}
                       className="px-4 py-2 rounded-xl bg-white text-ink-900 text-xs font-bold hover:bg-brand-green transition-colors inline-flex items-center gap-1.5 shadow-sm"
                     >
-                      <span>Shop Featured Drop</span>
+                      <span>Shop This Piece</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
@@ -396,7 +402,7 @@ export const HomePage: React.FC = () => {
               <span className="text-xs font-bold uppercase tracking-wider text-accent-700 block mb-1">
                 Curated Silhouettes
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 tracking-tight">
                 Shop By Category
               </h2>
             </div>
@@ -561,7 +567,7 @@ export const HomePage: React.FC = () => {
               <span className="text-xs font-bold uppercase tracking-wider text-accent-700 block mb-1">
                 Straight From The Atelier
               </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-black text-ink-900 tracking-tight">
+              <h2 className="font-display text-2xl sm:text-3xl font-normal text-ink-900 tracking-tight">
                 Fresh Drops & New Arrivals
               </h2>
             </div>
@@ -641,7 +647,7 @@ export const HomePage: React.FC = () => {
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>Signature Philosophy</span>
                   </span>
-                  <h2 className="font-display text-3xl sm:text-5xl font-black text-ink-900 tracking-tight leading-tight">
+                  <h2 className="font-display text-3xl sm:text-5xl font-normal text-ink-900 tracking-tight leading-tight">
                     Same Print, Different Vibes.
                   </h2>
                   <p className="text-sm sm:text-base text-ink-700 mt-2 leading-relaxed">
@@ -753,7 +759,7 @@ export const HomePage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700 block">
               Behind The Weaves
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 tracking-tight">
               The Fabric Story
             </h2>
             <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
@@ -870,7 +876,7 @@ export const HomePage: React.FC = () => {
               <span className="text-xs font-bold uppercase tracking-wider text-accent-700 block mb-1">
                 Community Favorites
               </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
+              <h2 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 tracking-tight">
                 Best Selling Styles
               </h2>
             </div>
@@ -899,7 +905,7 @@ export const HomePage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
               Color Story
             </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-black text-ink-900 tracking-tight">
+            <h2 className="font-display text-2xl sm:text-3xl font-normal text-ink-900 tracking-tight">
               Shop By Mood & Hue
             </h2>
             <p className="text-xs text-ink-600 max-w-md mx-auto">
@@ -949,7 +955,7 @@ export const HomePage: React.FC = () => {
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-green/20 border border-brand-green/30 text-xs font-bold uppercase tracking-widest text-brand-green">
                 Editorial Lookbook
               </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
+              <h2 className="font-display text-3xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
                 Designed for Distinction. Built for Movement.
               </h2>
               <p className="text-xs sm:text-sm text-brand-cream/80 leading-relaxed max-w-md">
@@ -976,7 +982,7 @@ export const HomePage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
               The Ateevibes Standard
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
+            <h2 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 tracking-tight">
               Why Men Choose Ateevibes
             </h2>
           </div>
@@ -1001,74 +1007,27 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 11. TESTIMONIALS (Tagged SAMPLE DATA, No Fake Badges) */}
-        {/* ======================================================== */}
-        <section className="bg-surface-tint py-16 border-y border-border">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-            <div className="text-center space-y-1">
-              <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
-                Community Words
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900 tracking-tight">
-                Vibes From Our Circle
-              </h2>
-              <p className="text-xs text-ink-600">
-                Early feedback from our initial release drop.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {TESTIMONIALS.map((t) => (
-                <div
-                  key={t.id}
-                  className="bg-white rounded-3xl p-6 border border-border flex flex-col justify-between space-y-4 shadow-sm"
-                >
-                  <div className="space-y-3">
-                    <div className="flex gap-1 text-accent-700">
-                      {[...Array(t.rating)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-xs sm:text-sm text-ink-800 leading-relaxed italic">
-                      &ldquo;{t.quote}&rdquo;
-                    </p>
-                  </div>
-
-                  <div className="pt-3 border-t border-border/60">
-                    <p className="font-bold text-xs text-ink-900">{t.author}</p>
-                    <p className="text-[11px] text-ink-600">{t.city}</p>
-                    <p className="text-[10px] font-semibold text-accent-700 mt-1">
-                      {t.favouriteStyle}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 12. NEWSLETTER VIP CLUB BAND */}
+        {/* 11. NEWSLETTER VIP CLUB BAND */}
         {/* ======================================================== */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl border border-border p-8 sm:p-12 text-center shadow-lg space-y-5">
+          <div className="bg-white rounded-3xl border border-border p-8 sm:p-12 text-center shadow-soft space-y-5">
             <div className="w-12 h-12 rounded-2xl bg-brand-green/30 text-ink-900 flex items-center justify-center mx-auto">
               <Sparkles className="w-6 h-6 text-accent-700" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-display text-2xl sm:text-3xl font-black text-ink-900">
+              <h3 className="font-display text-2xl sm:text-3xl font-normal text-ink-900">
                 Join The Ateevibes Club
               </h3>
               <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto">
-                Get 15% off your first order with code <strong className="font-mono text-ink-900">WELCOME15</strong> plus private access to limited batch drops.
+                Enjoy 15% off your first order with code <strong className="font-mono text-ink-900">WELCOME15</strong> at checkout, plus priority notifications for limited-batch seasonal drops.
               </p>
             </div>
 
             {newsletterSubscribed ? (
-              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold inline-flex items-center gap-2">
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-medium inline-flex items-center gap-2">
                 <Check className="w-4 h-4 text-emerald-600" />
-                <span>You&apos;re on the VIP list! Use code WELCOME15 at checkout.</span>
+                <span>Thank you! (Demo Mode: Newsletter subscriptions connect to your email service in production. You can use code WELCOME15 on your first order.)</span>
               </div>
             ) : (
               <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
@@ -1085,7 +1044,7 @@ export const HomePage: React.FC = () => {
                     type="submit"
                     className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold whitespace-nowrap rounded-full shrink-0"
                   >
-                    Join VIP Club
+                    Join Club
                   </button>
                 </div>
               </form>

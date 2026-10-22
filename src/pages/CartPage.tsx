@@ -90,7 +90,7 @@ export const CartPage: React.FC = () => {
       </Helmet>
 
       <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <h1 className="font-display text-3xl sm:text-4xl font-bold text-ink-900 mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 mb-2">
           Your Shopping Bag
         </h1>
         <p className="text-xs sm:text-sm text-ink-600 mb-8">
@@ -121,7 +121,7 @@ export const CartPage: React.FC = () => {
               <ShoppingBag className="w-10 h-10" />
             </div>
             <div className="space-y-2">
-              <h2 className="font-display text-2xl font-bold text-ink-900">
+              <h2 className="font-display text-2xl font-normal text-ink-900">
                 Your bag is feeling light. Let's fix that.
               </h2>
               <p className="text-xs sm:text-sm text-ink-600 max-w-sm mx-auto">
@@ -135,7 +135,7 @@ export const CartPage: React.FC = () => {
 
             {/* Popular Items Showcase */}
             <div className="pt-10 border-t border-border/80 text-left space-y-4">
-              <h3 className="font-display text-lg font-bold text-ink-900">You Might Like These</h3>
+              <h3 className="font-display text-lg font-normal text-ink-900">You Might Like These</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {popularSuggestions.map((p) => (
                   <ProductCard key={p.id} product={p} />
@@ -239,7 +239,7 @@ export const CartPage: React.FC = () => {
               {/* Saved For Later Section */}
               {savedForLater.length > 0 && (
                 <div className="bg-surface-tint rounded-3xl p-6 border border-border space-y-4">
-                  <h3 className="font-display text-lg font-bold text-ink-900">
+                  <h3 className="font-display text-lg font-normal text-ink-900">
                     Saved for Later ({savedForLater.length})
                   </h3>
                   <div className="divide-y divide-border/60">
@@ -274,7 +274,7 @@ export const CartPage: React.FC = () => {
             {/* Right Summary Card (Sticky) */}
             <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
               <div className="bg-surface-tint rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
-                <h3 className="font-display text-xl font-bold text-ink-900 pb-3 border-b border-border">
+                <h3 className="font-display text-xl font-normal text-ink-900 pb-3 border-b border-border">
                   Order Summary
                 </h3>
 

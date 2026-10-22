@@ -69,12 +69,17 @@ export const SignupPage: React.FC = () => {
       <div className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-md mx-auto w-full">
         <div className="bg-surface rounded-3xl p-8 border border-border shadow-soft space-y-6">
           <div className="text-center space-y-2">
-            <h1 className="font-display text-2xl sm:text-3xl font-bold text-ink-900">
+            <h1 className="font-display text-2xl sm:text-3xl font-normal text-ink-900">
               Create an Account
             </h1>
             <p className="text-xs text-ink-600">
               Join Ateevibes for effortless order tracking, faster checkout, and early drop alerts.
             </p>
+            <div className="pt-1">
+              <span className="inline-block px-3 py-1 rounded-full bg-surface-tint border border-border text-[11px] text-ink-600">
+                Demo Mode: Client-side session for evaluation
+              </span>
+            </div>
           </div>
 
           {error && (

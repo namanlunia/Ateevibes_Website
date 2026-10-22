@@ -36,7 +36,7 @@ export const AccountPage: React.FC = () => {
   if (!isAuthenticated || !user) {
     return (
       <div className="py-20 px-4 max-w-md mx-auto text-center space-y-4">
-        <h2 className="font-display text-2xl font-bold text-ink-900">Sign in Required</h2>
+        <h2 className="font-display text-2xl font-normal text-ink-900">Sign in Required</h2>
         <p className="text-xs sm:text-sm text-ink-600">
           Please sign in to access your customer dashboard and order history.
         </p>
@@ -85,7 +85,7 @@ export const AccountPage: React.FC = () => {
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-8 border-b border-border">
           <div>
-            <h1 className="font-display text-3xl sm:text-4xl font-bold text-ink-900">
+            <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900">
               Welcome, {user.name}
             </h1>
             <p className="text-xs sm:text-sm text-ink-600 mt-1">
@@ -136,7 +136,7 @@ export const AccountPage: React.FC = () => {
               <div className="flex items-center justify-between pb-3 border-b border-border">
                 <div className="flex items-center gap-2">
                   <User className="w-5 h-5 text-accent-700" />
-                  <h3 className="font-display text-xl font-bold text-ink-900">Personal Details</h3>
+                  <h3 className="font-display text-xl font-normal text-ink-900">Personal Details</h3>
                 </div>
                 {!isEditing && (
                   <button
@@ -211,7 +211,7 @@ export const AccountPage: React.FC = () => {
                   className="p-5 rounded-3xl bg-surface-tint border border-border hover:border-ink-900 transition-colors group"
                 >
                   <Package className="w-5 h-5 text-accent-700 mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="text-2xl font-bold font-display text-ink-900 tabular-nums">
+                  <p className="text-2xl font-normal font-display text-ink-900 tabular-nums">
                     {orders.length}
                   </p>
                   <p className="text-xs text-ink-600 font-medium">Orders Placed</p>
@@ -222,7 +222,7 @@ export const AccountPage: React.FC = () => {
                   className="p-5 rounded-3xl bg-surface-tint border border-border hover:border-ink-900 transition-colors group"
                 >
                   <Heart className="w-5 h-5 text-accent-700 mb-2 group-hover:scale-110 transition-transform" />
-                  <p className="text-2xl font-bold font-display text-ink-900 tabular-nums">
+                  <p className="text-2xl font-normal font-display text-ink-900 tabular-nums">
                     {wishlistItems.length}
                   </p>
                   <p className="text-xs text-ink-600 font-medium">Wishlist Items</p>

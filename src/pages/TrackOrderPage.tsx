@@ -165,7 +165,7 @@ export const TrackOrderPage: React.FC = () => {
             <Truck className="w-3.5 h-3.5" />
             <span>Real-time Courier Tracking</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black text-ink-900 tracking-tight">
+          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-normal text-ink-900 tracking-tight">
             Track Your Package
           </h1>
           <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
@@ -290,7 +290,7 @@ export const TrackOrderPage: React.FC = () => {
 
                 {/* Vertical Stepper Timeline */}
                 <div className="space-y-6 pt-2">
-                  <h3 className="font-display text-lg font-bold text-ink-900">Tracking Milestones</h3>
+                  <h3 className="font-display text-lg font-normal text-ink-900">Tracking Milestones</h3>
 
                   <div className="relative pl-6 space-y-8 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
                     {TRACKING_STEPS.map((step, idx) => {
@@ -345,7 +345,7 @@ export const TrackOrderPage: React.FC = () => {
 
               {/* Items in Package */}
               <div className="bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-sm space-y-4">
-                <h3 className="font-display text-lg font-bold text-ink-900">
+                <h3 className="font-display text-lg font-normal text-ink-900">
                   Items in this Package ({order.items.length})
                 </h3>
 
@@ -417,7 +417,7 @@ export const TrackOrderPage: React.FC = () => {
               <div className="w-12 h-12 rounded-full bg-status-error/10 text-status-error flex items-center justify-center mx-auto">
                 <AlertCircle className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">No Order Found</h3>
+              <h3 className="font-display text-xl font-normal text-ink-900">No Order Found</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
                 {errorMsg}
               </p>

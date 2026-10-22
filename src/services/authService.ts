@@ -24,6 +24,22 @@ function saveStoredUsers(users: StoredUserRecord[]): void {
   }
 }
 
+async function hashPassword(password: string): Promise<string> {
+  if (typeof crypto !== 'undefined' && crypto.subtle) {
+    const buffer = new TextEncoder().encode(password);
+    const hash = await crypto.subtle.digest('SHA-256', buffer);
+    return Array.from(new Uint8Array(hash))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
+  }
+  let hash = 0;
+  for (let i = 0; i < password.length; i++) {
+    hash = (hash << 5) - hash + password.charCodeAt(i);
+    hash |= 0;
+  }
+  return `fallback_${Math.abs(hash)}`;
+}
+
 export const authService = {
   getCurrentUser(): User | null {
     try {
@@ -40,8 +56,16 @@ export const authService = {
     const users = getStoredUsers();
     const existing = users.find((u) => u.email.toLowerCase() === cleanEmail);
 
-    if (!existing || existing.passwordHash !== password) {
+    const inputHash = await hashPassword(password);
+    const isValid = existing && (existing.passwordHash === inputHash || existing.passwordHash === password);
+
+    if (!existing || !isValid) {
       throw new Error('Invalid email or password. Please check your credentials.');
+    }
+
+    if (existing.passwordHash === password && existing.passwordHash !== inputHash) {
+      existing.passwordHash = inputHash;
+      saveStoredUsers(users);
     }
 
     const { passwordHash: _, ...user } = existing;
@@ -58,13 +82,15 @@ export const authService = {
       throw new Error('An account with this email already exists. Please log in.');
     }
 
+    const passwordHash = await hashPassword(password);
+
     const newUser: StoredUserRecord = {
       id: `usr-${Date.now()}`,
       name: name.trim(),
       email: cleanEmail,
       phone: phone?.trim(),
       savedAddresses: [],
-      passwordHash: password,
+      passwordHash,
     };
 
     users.push(newUser);

@@ -66,7 +66,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, produ
         >
           <div className="flex items-center justify-between pb-3 border-b border-border">
             <div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Write a Review</h3>
+              <h3 className="font-display text-xl font-normal text-ink-900">Write a Review</h3>
               <p className="text-xs text-ink-600 line-clamp-1">{productName}</p>
             </div>
             <button

@@ -27,7 +27,7 @@ import { REVIEWS_DATA } from '../data/reviews';
 import { Product, Variant, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
-import { generateProductJsonLd } from '../lib/seo';
+import { generateProductJsonLd, generateBreadcrumbJsonLd } from '../lib/seo';
 import { useCartStore } from '../store/cartStore';
 import { useWishlistStore } from '../store/wishlistStore';
 import { useUIStore } from '../store/uiStore';
@@ -218,8 +218,8 @@ export const ProductPage: React.FC = () => {
     }, 1200);
   };
 
-  // Product reviews
-  const productReviews = REVIEWS_DATA.filter((r) => r.productId === product.id);
+  // Product reviews (genuine customer feedback only)
+  const productReviews = REVIEWS_DATA.filter((r) => r.productId === product.id && !r.isSample);
 
   // Icon mapping for highlights
   const getHighlightIcon = (text: string) => {
@@ -249,6 +249,16 @@ export const ProductPage: React.FC = () => {
         <meta name="twitter:image" content={selectedVariant.images[0] || '/brand/tshirt-silhouette.svg'} />
         <script type="application/ld+json">
           {JSON.stringify(generateProductJsonLd(product))}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify(
+            generateBreadcrumbJsonLd([
+              { name: 'Home', url: '/' },
+              { name: 'Shop', url: '/shop' },
+              { name: product.categoryName, url: `/shop/${product.category}` },
+              { name: product.name, url: `/product/${product.slug}` },
+            ])
+          )}
         </script>
       </Helmet>
 
@@ -390,7 +400,7 @@ export const ProductPage: React.FC = () => {
                 </div>
               </div>
 
-              <h1 className="font-display text-2xl sm:text-4xl font-bold text-ink-900 leading-tight">
+              <h1 className="font-display text-2xl sm:text-4xl font-normal text-ink-900 leading-tight">
                 {product.name}
               </h1>
 
@@ -753,7 +763,7 @@ export const ProductPage: React.FC = () => {
                 <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
                   Recommended For You
                 </span>
-                <h3 className="font-display text-2xl font-bold text-ink-900">
+                <h3 className="font-display text-2xl font-normal text-ink-900">
                   You May Also Like
                 </h3>
               </div>
@@ -773,7 +783,7 @@ export const ProductPage: React.FC = () => {
         {/* Recently Viewed Block */}
         {recentlyViewed.length > 0 && (
           <div className="mt-16 pt-12 border-t border-border space-y-6">
-            <h3 className="font-display text-2xl font-bold text-ink-900">
+            <h3 className="font-display text-2xl font-normal text-ink-900">
               Recently Viewed
             </h3>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -789,9 +799,9 @@ export const ProductPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
-                Community Feedback
+                Customer Voices
               </span>
-              <h3 className="font-display text-3xl font-bold text-ink-900">
+              <h3 className="font-display text-3xl font-normal text-ink-900">
                 Customer Reviews
               </h3>
             </div>
@@ -803,49 +813,9 @@ export const ProductPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Rating Summary Breakdown */}
-          <div className="bg-surface-tint rounded-3xl p-6 sm:p-8 border border-border grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-            <div className="text-center md:border-r border-border md:pr-6 space-y-2">
-              <span className="font-display text-5xl font-bold text-ink-900">
-                {product.rating > 0 ? product.rating.toFixed(1) : '4.8'}
-              </span>
-              <div className="flex justify-center text-amber-400">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-4 h-4 fill-amber-400" />
-                ))}
-              </div>
-              <p className="text-xs text-ink-600">
-                Based on {product.reviewCount || 120} community ratings
-              </p>
-            </div>
-
-            {/* Rating distribution bars */}
-            <div className="md:col-span-2 space-y-2 text-xs text-ink-700">
-              {[
-                { stars: 5, pct: 82 },
-                { stars: 4, pct: 14 },
-                { stars: 3, pct: 3 },
-                { stars: 2, pct: 1 },
-                { stars: 1, pct: 0 },
-              ].map((row) => (
-                <div key={row.stars} className="flex items-center gap-3">
-                  <span className="w-12 text-ink-600 font-medium">{row.stars} stars</span>
-                  <div className="flex-1 h-2 bg-white rounded-full overflow-hidden border border-border">
-                    <div
-                      className="h-full bg-accent-700 rounded-full"
-                      style={{ width: `${row.pct}%` }}
-                    />
-                  </div>
-                  <span className="w-8 text-right tabular-nums text-ink-600">{row.pct}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Sample Review List (SAMPLE DATA, no verified buyer badge) */}
-          <div className="space-y-4">
-            {productReviews.length > 0 ? (
-              productReviews.map((rev) => (
+          {productReviews.length > 0 ? (
+            <div className="space-y-4">
+              {productReviews.map((rev) => (
                 <div
                   key={rev.id}
                   className="p-6 rounded-2xl bg-white border border-border space-y-2 shadow-sm"
@@ -861,30 +831,29 @@ export const ProductPage: React.FC = () => {
                     </div>
                     <span className="text-[11px] text-ink-600">{rev.date}</span>
                   </div>
-                  <h4 className="font-bold text-sm text-ink-900">{rev.title}</h4>
-                  <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">{rev.comment}</p>
+                  {rev.title && <h4 className="font-bold text-sm text-ink-900">{rev.title}</h4>}
+                  <p className="text-xs sm:text-sm text-ink-700 leading-relaxed">{rev.comment}</p>
                 </div>
-              ))
-            ) : (
-              <div className="p-6 rounded-2xl bg-white border border-border space-y-2 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="flex text-amber-400">
-                      {[1, 2, 3, 4, 5].map((s) => (
-                        <Star key={s} className="w-3.5 h-3.5 fill-amber-400" />
-                      ))}
-                    </div>
-                    <span className="font-bold text-xs text-ink-900">Karan M.</span>
-                  </div>
-                  <span className="text-[11px] text-ink-600">18 Oct 2025</span>
-                </div>
-                <h4 className="font-bold text-sm text-ink-900">Exceptional fabric quality & breathability</h4>
-                <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
-                  The weave texture is superb. Fits true to size across the shoulders and chest with zero shrinkage after the first wash. Looking forward to grabbing more colorways!
-                </p>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-surface-tint rounded-3xl p-8 sm:p-12 border border-border text-center space-y-3">
+              <p className="font-display text-2xl font-normal text-ink-900">
+                Be the First to Review This Garment
+              </p>
+              <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto leading-relaxed">
+                We value authentic customer feedback on fabric touch, silhouette, and drape. Share your experience with the community.
+              </p>
+              <div className="pt-2">
+                <button
+                  onClick={() => setIsReviewModalOpen(true)}
+                  className="btn-primary px-6 py-2.5 text-xs font-bold inline-flex items-center gap-1.5"
+                >
+                  <span>Write First Review</span>
+                </button>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Modals & Overlays */}

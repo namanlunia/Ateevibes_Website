@@ -30,7 +30,7 @@ export const AboutPage: React.FC = () => {
             <span>The Ateevibes Story</span>
           </div>
 
-          <h1 className="font-display text-4xl sm:text-6xl font-black text-ink-900 tracking-tight leading-tight">
+          <h1 className="font-display text-4xl sm:text-6xl font-normal text-ink-900 tracking-tight leading-tight">
             Knitted for Texture. Built for Comfort.
           </h1>
 
@@ -54,7 +54,7 @@ export const AboutPage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
               Our Core Concept
             </span>
-            <h2 className="font-display text-3xl font-black text-ink-900">
+            <h2 className="font-display text-3xl font-normal text-ink-900">
               Same Print, Different Vibes.
             </h2>
             <p className="text-xs sm:text-sm text-ink-700 leading-relaxed">
@@ -66,15 +66,15 @@ export const AboutPage: React.FC = () => {
 
             <div className="pt-2 flex flex-wrap gap-4">
               <div className="p-4 rounded-2xl bg-surface-tint border border-border flex-1 min-w-[140px]">
-                <span className="font-display text-2xl font-black text-ink-900 block">16+</span>
+                <span className="font-display text-2xl font-normal text-ink-900 block">16+</span>
                 <span className="text-xs text-ink-600">Curated Silhouettes</span>
               </div>
               <div className="p-4 rounded-2xl bg-surface-tint border border-border flex-1 min-w-[140px]">
-                <span className="font-display text-2xl font-black text-ink-900 block">6</span>
+                <span className="font-display text-2xl font-normal text-ink-900 block">6</span>
                 <span className="text-xs text-ink-600">Specialized Weaves</span>
               </div>
               <div className="p-4 rounded-2xl bg-surface-tint border border-border flex-1 min-w-[140px]">
-                <span className="font-display text-2xl font-black text-ink-900 block">100%</span>
+                <span className="font-display text-2xl font-normal text-ink-900 block">100%</span>
                 <span className="text-xs text-ink-600">Shape Retention</span>
               </div>
             </div>
@@ -87,7 +87,7 @@ export const AboutPage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
               Design Philosophy
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900">
+            <h2 className="font-display text-3xl sm:text-4xl font-normal text-ink-900">
               What Defines Our Garments
             </h2>
           </div>
@@ -97,7 +97,7 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <Layers className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Breathable Knits</h3>
+              <h3 className="font-display text-xl font-normal text-ink-900">Breathable Knits</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
                 We craft dimensional textures—including China jacquards, waffle honeycombs, and pique matty—that are lightweight, breathable, and moisture friendly.
               </p>
@@ -107,7 +107,7 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <Feather className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Modern Fit</h3>
+              <h3 className="font-display text-xl font-normal text-ink-900">Modern Fit</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
                 Designed for contemporary silhouettes: balanced shoulder structure, clean drape, and a trendy look that offers all-day comfort.
               </p>
@@ -117,7 +117,7 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Premium Quality</h3>
+              <h3 className="font-display text-xl font-normal text-ink-900">Premium Quality</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
                 Soft and comfortable fabric blends engineered for durability and reliable shape retention throughout everyday rotation.
               </p>
@@ -131,7 +131,7 @@ export const AboutPage: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
               Garment Standards
             </span>
-            <h3 className="font-display text-2xl font-bold text-ink-900">
+            <h3 className="font-display text-2xl font-normal text-ink-900">
               Engineered For Everyday Wear:
             </h3>
           </div>

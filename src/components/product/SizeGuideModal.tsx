@@ -46,7 +46,7 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose 
                 <Ruler className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
+                <h3 className="font-display text-xl sm:text-2xl font-normal text-ink-900">
                   Size & Measurement Guide
                 </h3>
                 <p className="text-xs text-ink-600">Standard Men's Regular Fit</p>
