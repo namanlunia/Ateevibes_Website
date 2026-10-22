@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';

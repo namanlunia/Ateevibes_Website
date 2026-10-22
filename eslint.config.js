@@ -34,7 +34,7 @@ export default tseslint.config(
       'no-empty': 'error',
       'no-constant-condition': 'error',
       'no-debugger': 'error',
-      'no-console': ['error', { allow: ['warn'] }], // we will restrict ErrorBoundary separately
+      'no-console': 'error',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
     },

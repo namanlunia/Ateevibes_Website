@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "deadcode": "knip",
+    "check": "tsc --noEmit && eslint . && knip && vitest run",
+    "prebuild": "npm run check",
     "build": "node scripts/check-images.mjs && tsc -b && vite build",
     "test": "vitest run",
     "lint": "oxlint",

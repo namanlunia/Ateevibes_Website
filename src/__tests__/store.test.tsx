@@ -1,5 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
-import React, { useRef } from 'react';
+import { describe, it, expect } from 'vitest';
 import { render } from '@testing-library/react';
 import { useWishlistStore } from '../store/wishlistStore';
 import { useRecentlyViewedStore } from '../store/recentlyViewedStore';
