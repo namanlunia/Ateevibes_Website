@@ -70,16 +70,16 @@ const FAQ_LIST: FAQItem[] = [
   {
     id: 'f-8',
     category: 'returns',
-    question: 'What is your exchange and return policy?',
+    question: 'Does Ateevibes offer a 7-day return policy?',
     answer:
-      'We offer a hassle-free 7-Day Exchange & Return window. If your t-shirt does not fit perfectly, initiate an exchange request and our courier partner will collect the item directly from your address. The item must be unused, unwashed, and with tags attached.',
+      'No. Ateevibes does not offer an automatic 7-day return or exchange policy. Because each garment is produced in limited fabric runs, sales are considered final once delivered. In the rare event of transit damage or shipping errors, our concierge resolves it directly when notified within 48 hours of delivery.',
   },
   {
     id: 'f-9',
     category: 'returns',
-    question: 'How do refunds work if I return an item?',
+    question: 'What should I do if my package arrives damaged or incorrect?',
     answer:
-      'Once the returned item is inspected at our hub, refunds are credited back to your original payment method (or bank account for COD orders) within 5–7 business days.',
+      'If your parcel arrives damaged from courier transit or contains an incorrect item, contact our WhatsApp concierge or email support@ateevibes.com within 48 hours of delivery with unboxing photos and your Order ID. Our quality team will promptly arrange a replacement.',
   },
   {
     id: 'f-10',
@@ -95,7 +95,7 @@ const CATEGORIES = [
   { key: 'shipping', label: 'Shipping & Delivery' },
   { key: 'sizing', label: 'Sizing & Fit' },
   { key: 'fabrics', label: 'Fabrics & Care' },
-  { key: 'returns', label: 'Exchanges & Returns' },
+  { key: 'returns', label: 'Returns & Policy' },
   { key: 'payments', label: 'Payment & Security' },
 ];
 
@@ -125,7 +125,7 @@ export const FAQPage: React.FC = () => {
         <title>{`Frequently Asked Questions | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Find answers to common questions about Ateevibes t-shirts, shipping times, sizing charts, fabric care, and 7-day exchanges."
+          content="Find answers to common questions about Ateevibes t-shirts, shipping times, sizing charts, fabric care, and order guidelines."
         />
       </Helmet>
 
@@ -140,14 +140,14 @@ export const FAQPage: React.FC = () => {
             Frequently Asked Questions
           </h1>
           <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
-            Everything you need to know about our menswear drops, sizing, order fulfillment, and seamless exchanges.
+            Everything you need to know about our menswear drops, sizing, order fulfillment, and garment quality.
           </p>
 
           {/* Search Input */}
           <div className="relative max-w-md mx-auto pt-2">
             <input
               type="text"
-              placeholder="Search by keyword (e.g. shipping, wash, exchange)..."
+              placeholder="Search by keyword (e.g. shipping, sizing, fabrics)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-ivory border border-sandstone rounded-2xl text-xs sm:text-sm text-obsidian placeholder:text-graphite/50 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian shadow-sm"

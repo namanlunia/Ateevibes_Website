@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import confetti from 'canvas-confetti';
-import { ArrowRight, CheckCircle2, ShieldCheck, Truck, RefreshCw, CreditCard } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, Truck, CreditCard } from 'lucide-react';
 import { siteConfig } from '../../config/site';
 import { useUIStore } from '../../store/uiStore';
 
@@ -64,11 +64,11 @@ export const Footer: React.FC = () => {
 
           <div className="flex items-center gap-3">
             <div className="p-2.5 rounded-full bg-graphite text-gold border border-gold/30 shrink-0">
-              <RefreshCw className="w-5 h-5" />
+              <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs sm:text-sm font-bold text-ivory">7-Day Easy Returns</p>
-              <p className="text-[11px] text-ivory/60">Hassle-free exchange policy</p>
+              <p className="text-xs sm:text-sm font-bold text-ivory">Atelier Direct</p>
+              <p className="text-[11px] text-ivory/60">Crafted in Surat, Gujarat</p>
             </div>
           </div>
 
@@ -173,7 +173,7 @@ export const Footer: React.FC = () => {
             <p className="text-xs font-bold text-gold uppercase tracking-[0.1em]">Help</p>
             <ul className="space-y-2 text-xs sm:text-sm text-ivory/70">
               <li><Link to="/track-order" className="hover:text-gold transition-colors">Track Order</Link></li>
-              <li><Link to="/shipping-returns" className="hover:text-gold transition-colors">Shipping & Returns</Link></li>
+              <li><Link to="/shipping-returns" className="hover:text-gold transition-colors">Shipping & Order Policy</Link></li>
               <li><Link to="/size-guide" className="hover:text-gold transition-colors">Size Guide</Link></li>
               <li><Link to="/faq" className="hover:text-gold transition-colors">FAQs</Link></li>
               <li><Link to="/contact" className="hover:text-gold transition-colors">Contact Us</Link></li>

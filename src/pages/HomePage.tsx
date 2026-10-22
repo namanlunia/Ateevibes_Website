@@ -7,7 +7,7 @@ import {
   ArrowRight,
   Check,
   ShieldCheck,
-  RefreshCw,
+  CheckCircle2,
   Feather,
   Layers,
   ShoppingBag,
@@ -94,27 +94,35 @@ export const FABRIC_STORIES = [
   },
 ];
 
-// Why Ateevibes 4 Value Propositions
+// Why Ateevibes 4 Value Propositions (Color-Blocked, Zero False Claims)
 const VALUE_PROPS = [
   {
     icon: Layers,
     title: 'Architectural Knits',
     description: 'We prioritize dimensional textures like China jacquards and waffle weaves over flat commodity cotton.',
+    accent: 'midnight',
+    bgClass: 'bg-midnight text-warm-neutral border-gold/30',
   },
   {
     icon: Feather,
     title: 'Modern Fit Contour',
     description: 'Contemporary fit crafted with armhole depth, chest taper, and sleeve lengths for all-day comfort.',
+    accent: 'oxblood',
+    bgClass: 'bg-oxblood text-warm-neutral border-oxblood-light/50',
   },
   {
     icon: ShieldCheck,
     title: 'Fair-Price Luxury',
     description: 'Direct-from-atelier pricing with zero showroom middleman markups. Pure fabric value in every rupee.',
+    accent: 'emerald',
+    bgClass: 'bg-emerald-deep text-warm-neutral border-emerald-light/40',
   },
   {
-    icon: RefreshCw,
-    title: '7-Day Easy Exchange',
-    description: 'Hassle-free size exchanges and dedicated WhatsApp support so you never worry about finding your fit.',
+    icon: CheckCircle2,
+    title: 'Precision Quality Checks',
+    description: 'Each piece undergoes strict manual inspection for stitch density, seam strength, and collar shape retention.',
+    accent: 'cobalt',
+    bgClass: 'bg-cobalt text-warm-neutral border-cobalt-light/40',
   },
 ];
 
@@ -138,20 +146,20 @@ export const HomePage: React.FC = () => {
   const addToast = useUIStore((state) => state.addToast);
 
   // Products state
+  const [heroProduct, setHeroProduct] = useState<Product | null>(null);
   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
-  const [heroProduct, setHeroProduct] = useState<Product | null>(null);
-
-  // "Same Print, Different Vibes" Interactive Morph State
   const [morphProduct, setMorphProduct] = useState<Product | null>(null);
+
+  // Interactive "Same Print, Different Vibes" Morph State
   const [morphVariantIndex, setMorphVariantIndex] = useState(0);
   const [morphSize, setMorphSize] = useState<SizeType>('M');
   const [isMorphPaused, setIsMorphPaused] = useState(false);
 
-  // Active Fabric Tab
-  const [activeFabricId, setActiveFabricId] = useState('jacquard');
+  // Fabric Stories Tab state
+  const [activeFabricId, setActiveFabricId] = useState(FABRIC_STORIES[0].id);
 
-  // Carousel ref
+  // Carousel scroll ref for New Arrivals
   const carouselRef = useRef<HTMLDivElement>(null);
 
   // Newsletter state
@@ -161,14 +169,18 @@ export const HomePage: React.FC = () => {
   useEffect(() => {
     let isMounted = true;
     productService.getNewArrivals(8).then((res) => {
-      if (isMounted) setNewArrivals(res);
+      if (isMounted) setNewArrivals(res || []);
     });
     productService.getBestSellers(8).then((res) => {
-      if (isMounted) setBestSellers(res);
+      if (isMounted) setBestSellers(res || []);
     });
-    productService.getByPno('1007').then((p) => {
-      if (isMounted) {
+    productService.getBySlug('royal-print-jacquard-full-sleeve').then((p) => {
+      if (isMounted && p) {
         setHeroProduct(p);
+      }
+    });
+    productService.getBySlug('t-shirt-102-tai-dai').then((p) => {
+      if (isMounted && p) {
         setMorphProduct(p);
       }
     });
@@ -177,26 +189,21 @@ export const HomePage: React.FC = () => {
     };
   }, []);
 
-  // Auto-cycle colours for "Same Print, Different Vibes" every 3.5s
+  // Auto-cycle through colorways for "Same Print, Different Vibes"
   useEffect(() => {
-    if (isMorphPaused || !morphProduct || morphProduct.variants.length <= 1) return;
-    const timer = setInterval(() => {
+    if (!morphProduct || morphProduct.variants.length <= 1 || isMorphPaused) return;
+
+    const interval = setInterval(() => {
       setMorphVariantIndex((prev) => (prev + 1) % morphProduct.variants.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [isMorphPaused, morphProduct]);
+    }, 4500);
 
-  const activeMorphVariant = morphProduct?.variants[morphVariantIndex] || morphProduct?.variants[0];
+    return () => clearInterval(interval);
+  }, [morphProduct, isMorphPaused]);
 
-  const handleScrollCarousel = (direction: 'left' | 'right') => {
-    if (carouselRef.current) {
-      const scrollAmount = direction === 'left' ? -340 : 340;
-      carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
-  };
-
+  // Handle Morph Add to Cart
   const handleMorphAddToCart = () => {
     if (!morphProduct || !activeMorphVariant) return;
+
     addItem({
       product: morphProduct,
       variant: activeMorphVariant,
@@ -205,25 +212,36 @@ export const HomePage: React.FC = () => {
     });
     addToast({
       type: 'success',
-      message: `${morphProduct.name} (${activeMorphVariant.colourName}) added to bag!`,
+      message: `${morphProduct.name} (${activeMorphVariant.colourName}, Size ${morphSize}) added to bag.`,
     });
     openCart();
   };
 
+  // Carousel manual controls
+  const handleScrollCarousel = (direction: 'left' | 'right') => {
+    if (!carouselRef.current) return;
+    const scrollAmount = direction === 'left' ? -320 : 320;
+    carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  };
+
+  // Handle Newsletter Submit
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newsletterEmail.includes('@')) return;
+    if (!newsletterEmail) return;
     setNewsletterSubscribed(true);
     addToast({
       type: 'success',
-      message: 'Welcome to the Vibes Club! Use coupon WELCOME15 at checkout.',
+      message: 'Welcome to the Ateevibes Club! Code WELCOME15 activated for 15% off.',
     });
   };
 
   const activeFabric = FABRIC_STORIES.find((f) => f.id === activeFabricId) || FABRIC_STORIES[0];
+  const activeMorphVariant = morphProduct?.variants ? (morphProduct.variants[morphVariantIndex] || morphProduct.variants[0]) : null;
 
+  // Keyboard navigation for Fabric Story tabs
   const handleFabricTabKeyDown = (e: React.KeyboardEvent, index: number) => {
     let targetIndex = -1;
+
     if (e.key === 'ArrowRight') {
       targetIndex = (index + 1) % FABRIC_STORIES.length;
     } else if (e.key === 'ArrowLeft') {
@@ -245,18 +263,18 @@ export const HomePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{`${siteConfig.name} | Feel the Vibes • Premium Men's T-Shirts`}</title>
+        <title>{`${siteConfig.name} | Modern Luxury Menswear • Feel the Vibes`}</title>
         <meta
           name="description"
           content="Ateevibes crafts modern textured knits, China jacquard weaves, and artistic printed t-shirts for contemporary Indian men. Free shipping on orders over ₹1,499."
         />
       </Helmet>
 
-      <div className="space-y-16 sm:space-y-24 overflow-hidden">
+      <div className="overflow-hidden">
         {/* ======================================================== */}
-        {/* 1. HERO SECTION: Editorial Contemporary Menswear */}
+        {/* 1. HERO SECTION: Cinematic Midnight Black & Gold */}
         {/* ======================================================== */}
-        <section className="relative min-h-[82vh] flex items-center justify-center pt-8 sm:pt-12 pb-16 px-4 sm:px-6 lg:px-8 bg-surface border-b border-sandstone/40">
+        <section className="relative min-h-[85vh] flex items-center justify-center pt-10 sm:pt-16 pb-16 px-4 sm:px-6 lg:px-8 bg-midnight text-warm-neutral border-b border-sandstone/20">
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
             {/* Left Column: Headlines & CTAs */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
@@ -264,56 +282,56 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-ivory border border-sandstone text-xs font-medium text-obsidian shadow-subtle"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-graphite/80 border border-gold/40 text-xs font-medium text-warm-neutral shadow-luxury"
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                <span className="uppercase tracking-[0.16em] text-[11px] font-semibold text-gold-dark">
-                  Ateevibes Menswear • New Drop
+                <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+                <span className="uppercase tracking-[0.18em] text-[11px] font-bold text-clay">
+                  Ateevibes Menswear • Fall/Winter Atelier
                 </span>
               </motion.div>
 
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-normal text-obsidian tracking-tight leading-[1.05]">
-                <span>Feel the Vibes.</span>
+              <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-warm-neutral tracking-tight leading-[1.05]">
+                <span>Elevated Knits.</span>
                 <br />
-                <span className="italic text-ink-700">Wear the Statement.</span>
+                <span className="italic text-clay">Modern Menswear.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-ink-700 max-w-lg mx-auto lg:mx-0 leading-relaxed font-normal">
-                Engineered China jacquards, tactile waffle weaves, and fluid tencil knitwear designed for contemporary distinction and all-day comfort.
+              <p className="text-base sm:text-lg text-sandstone/90 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans font-normal">
+                Engineered China jacquards, tactile waffle weaves, and fluid knitwear tailored for contemporary distinction. Directly from our Surat manufacturing atelier.
               </p>
 
               {/* CTAs */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3.5 pt-2">
                 <Link
                   to="/shop"
-                  className="btn-primary w-full sm:w-auto px-8 py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-soft hover:shadow-soft-hover"
+                  className="btn-gold w-full sm:w-auto px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-luxury"
                 >
-                  <span>Shop the Collection</span>
-                  <ArrowRight className="w-4 h-4 text-gold" />
+                  <span>Explore The Collection</span>
+                  <ArrowRight className="w-4 h-4 text-midnight" />
                 </Link>
 
                 <a
                   href="#fabrics"
-                  className="btn-secondary w-full sm:w-auto px-6 py-3.5 text-sm font-bold flex items-center justify-center gap-2 bg-white"
+                  className="w-full sm:w-auto px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider rounded-full border border-sandstone/40 text-warm-neutral hover:border-gold hover:text-white transition-all flex items-center justify-center gap-2 font-sans"
                 >
-                  <span>Discover the Fabrics</span>
-                  <Layers className="w-4 h-4 text-gold-dark" />
+                  <span>Tactile Fabric Stories</span>
+                  <Layers className="w-4 h-4 text-gold" />
                 </a>
               </div>
 
-              {/* Trust Points */}
-              <div className="pt-6 border-t border-sandstone/60 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-ink-700 font-medium">
-                <div className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-gold" />
-                  <span>Architectural textured knits</span>
-                </div>
+              {/* Verified Atelier Highlights (No false return claims) */}
+              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-sandstone/80 font-sans">
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-gold" />
                   <span>Free shipping above ₹1,499</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-gold" />
-                  <span>7-day easy exchanges</span>
+                  <span>Pre-shrunk dimensional knits</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-4 h-4 text-gold" />
+                  <span>Direct from Surat Atelier</span>
                 </div>
               </div>
             </div>
@@ -323,12 +341,12 @@ export const HomePage: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="relative w-full max-w-md aspect-[4/5] rounded-xl overflow-hidden shadow-luxury border border-sandstone group"
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden border border-gold/40 shadow-luxury bg-graphite group"
               >
                 <img
-                  src={heroProduct?.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
-                  srcSet={getProductSrcSet(heroProduct?.variants[0]?.images[0])}
+                  src={heroProduct?.variants?.[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
+                  srcSet={getProductSrcSet(heroProduct?.variants?.[0]?.images?.[0])}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt={heroProduct ? `${heroProduct.name} - Signature Drop` : 'Ateevibes Signature China Jacquard'}
                   onError={(e) => {
@@ -337,26 +355,26 @@ export const HomePage: React.FC = () => {
                   }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ivory via-ivory/85 to-transparent flex flex-col justify-end p-6 sm:p-7">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-white text-obsidian border border-sandstone text-[10px] font-bold uppercase tracking-wider shadow-subtle w-fit mb-2">
-                    Featured Garment
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/80 to-transparent flex flex-col justify-end p-6 sm:p-7 text-warm-neutral">
+                  <span className="inline-block px-3 py-1 rounded-full bg-clay text-midnight text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
+                    FEATURED SILHOUETTE
                   </span>
-                  <h3 className="font-display text-2xl font-normal text-obsidian">
+                  <h3 className="font-serif text-2xl font-normal text-warm-neutral">
                     {heroProduct?.name || 'Royal Print Jacquard Full Sleeve T-Shirt'}
                   </h3>
-                  <p className="text-xs text-ink-600 mt-1 line-clamp-2">
+                  <p className="text-xs text-sandstone/80 mt-1 line-clamp-2 font-sans">
                     {heroProduct?.description || 'Engineered architectural weave with distinctive dimensional texture.'}
                   </p>
-                  <div className="flex items-center justify-between pt-4">
-                    <span className="font-display text-2xl font-normal text-obsidian tabular-nums">
+                  <div className="flex items-center justify-between pt-4 border-t border-sandstone/20 mt-3">
+                    <span className="font-serif text-2xl font-normal text-gold tabular-nums">
                       {heroProduct ? formatPrice(heroProduct.mrp) : '₹709'}
                     </span>
                     <Link
                       to={`/product/${heroProduct?.slug || 'royal-print-jacquard-full-sleeve'}`}
-                      className="px-4 py-2 rounded-lg bg-obsidian text-ivory text-xs font-bold hover:bg-graphite transition-colors inline-flex items-center gap-1.5 shadow-subtle border border-gold/30"
+                      className="px-4 py-2 rounded-full bg-gold text-midnight text-xs font-bold uppercase tracking-wider hover:bg-gold-light transition-colors inline-flex items-center gap-1.5 shadow-sm"
                     >
-                      <span>Shop This Piece</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                      <span>Shop Piece</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-midnight" />
                     </Link>
                   </div>
                 </div>
@@ -366,254 +384,256 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 2. INFINITE MARQUEE STRIP: Seamless Loop with Hover Pause */}
+        {/* 2. INFINITE MARQUEE STRIP: Rich Oxblood Contemporary Block */}
         {/* ======================================================== */}
-        <section className="relative py-3.5 bg-obsidian text-ivory overflow-hidden border-y border-sandstone/20">
-          <div className="flex space-x-8 animate-marquee hover:[animation-play-state:paused] whitespace-nowrap text-xs sm:text-sm font-medium tracking-[0.14em] uppercase">
+        <section className="relative py-4 bg-oxblood text-warm-neutral overflow-hidden border-y border-oxblood-light/40 shadow-inner">
+          <div className="flex space-x-8 animate-marquee hover:[animation-play-state:paused] whitespace-nowrap text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center space-x-8">
-                <span>JACQUARD KNITS</span>
-                <span className="text-gold">◆</span>
-                <span>SILK-TOUCH TENCIL</span>
-                <span className="text-gold">◆</span>
-                <span>HEAVY WAFFLE WEAVE</span>
-                <span className="text-gold">◆</span>
+                <span>CHINESE JACQUARD KNITS</span>
+                <span className="text-gold">★</span>
+                <span>240+ GSM HEAVYWEIGHT</span>
+                <span className="text-gold">★</span>
                 <span>PIQUE MATTY POLOS</span>
-                <span className="text-gold">◆</span>
-                <span>VIBRANT TAI DAI</span>
-                <span className="text-gold">◆</span>
-                <span>2-WAY STRETCH</span>
-                <span className="text-gold">◆</span>
+                <span className="text-gold">★</span>
+                <span>SILK-TOUCH TENCIL</span>
+                <span className="text-gold">★</span>
                 <span>SAME PRINT, DIFFERENT VIBES</span>
-                <span className="text-gold">◆</span>
-                <span>SHAPE RETENTION</span>
-                <span className="text-gold">◆</span>
+                <span className="text-gold">★</span>
+                <span>DROP-SHOULDER CUTS</span>
+                <span className="text-gold">★</span>
+                <span>CLOUD-WASH TIE-DYE</span>
+                <span className="text-gold">★</span>
               </div>
             ))}
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* 3. 4 CATEGORY TILES GRID: Visual Entrance to the Catalog */}
+        {/* 3. 4 CATEGORY TILES: Warm Neutral with Editorial Badges */}
         {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.12em] text-gold block mb-1">
-                Curated Silhouettes
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
-                Shop By Category
-              </h2>
+        <section className="py-16 sm:py-24 bg-warm-neutral/60">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold block mb-1">
+                  Curated Silhouettes
+                </span>
+                <h2 className="font-serif text-3xl sm:text-5xl font-normal text-obsidian tracking-tight">
+                  Shop By Category
+                </h2>
+              </div>
+              <Link
+                to="/shop"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-obsidian hover:text-gold transition-colors tracking-wider uppercase font-sans"
+              >
+                <span>View Full Catalog</span>
+                <ArrowRight className="w-4 h-4 text-gold" />
+              </Link>
             </div>
-            <Link
-              to="/shop"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-obsidian hover:text-gold transition-colors tracking-wide uppercase"
-            >
-              <span>View Full Catalog</span>
-              <ArrowRight className="w-4 h-4 text-gold" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {/* Tile 1: Round Neck */}
-            <Link
-              to="/shop/round-neck"
-              className="group relative rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-subtle hover:border-gold/60 transition-all block"
-            >
-              <img
-                src="/products/500/pastel-green.jpg"
-                srcSet={getProductSrcSet('/products/500/pastel-green.jpg')}
-                sizes={PRODUCT_IMAGE_SIZES}
-                alt="Round Neck T-shirts"
-                onError={(e) => {
-                  e.currentTarget.srcset = '';
-                  e.currentTarget.src = '/brand/placeholder.svg';
-                }}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/40 to-transparent flex flex-col justify-end p-5 sm:p-6 text-ivory">
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
-                  The Daily Foundation
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl font-normal text-white mt-1">
-                  Round Neck Essentials
-                </h3>
-                <p className="text-xs text-ivory/80 line-clamp-2 mt-1 hidden sm:block">
-                  Matty, waffle, and tencil fabrics tailored for lightweight all-day comfort.
-                </p>
-                <div className="pt-2 sm:pt-3">
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
-                    <span>Explore Round Necks</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-gold" />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {/* Tile 1: Round Neck (Cobalt Accent) */}
+              <Link
+                to="/shop/round-neck"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-cobalt transition-all block"
+              >
+                <img
+                  src="/products/500/pastel-green.jpg"
+                  srcSet={getProductSrcSet('/products/500/pastel-green.jpg')}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt="Round Neck T-shirts"
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/placeholder.svg';
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-clay">
+                    COBALT ROTATION
                   </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
+                    Round Neck Essentials
+                  </h3>
+                  <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
+                    Matty, waffle, and tencil fabrics tailored for lightweight all-day comfort.
+                  </p>
+                  <div className="pt-2 sm:pt-3">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
 
-            {/* Tile 2: Polo & Collar */}
-            <Link
-              to="/shop/polo-collar"
-              className="group relative rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-subtle hover:border-gold/60 transition-all block"
-            >
-              <img
-                src="/products/1400/white.jpg"
-                srcSet={getProductSrcSet('/products/1400/white.jpg')}
-                sizes={PRODUCT_IMAGE_SIZES}
-                alt="Polo & Collar T-shirts"
-                onError={(e) => {
-                  e.currentTarget.srcset = '';
-                  e.currentTarget.src = '/brand/placeholder.svg';
-                }}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/40 to-transparent flex flex-col justify-end p-5 sm:p-6 text-ivory">
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
-                  Smart Casual
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl font-normal text-white mt-1">
-                  Polo & Collar Knits
-                </h3>
-                <p className="text-xs text-ivory/80 line-clamp-2 mt-1 hidden sm:block">
-                  Structured collars, ribbed accents, and pique matty weaves.
-                </p>
-                <div className="pt-2 sm:pt-3">
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
-                    <span>Explore Polos</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-gold" />
+              {/* Tile 2: Polo Collar (Emerald Accent) */}
+              <Link
+                to="/shop/polo-collar"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-emerald-deep transition-all block"
+              >
+                <img
+                  src="/products/1400/white.jpg"
+                  srcSet={getProductSrcSet('/products/1400/white.jpg')}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt="Polo Collar T-shirts"
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/placeholder.svg';
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-light">
+                    EMERALD CLASSIC
                   </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
+                    Polo & Co
+                  </h3>
+                  <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
+                    Crisp pique matty knits with structured reinforced collars.
+                  </p>
+                  <div className="pt-2 sm:pt-3">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
 
-            {/* Tile 3: Jacquard Knits */}
-            <Link
-              to="/shop/jacquard"
-              className="group relative rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-subtle hover:border-gold/60 transition-all block"
-            >
-              <img
-                src="/products/1007/green.jpg"
-                srcSet={getProductSrcSet('/products/1007/green.jpg')}
-                sizes={PRODUCT_IMAGE_SIZES}
-                alt="Jacquard Knits"
-                onError={(e) => {
-                  e.currentTarget.srcset = '';
-                  e.currentTarget.src = '/brand/placeholder.svg';
-                }}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/40 to-transparent flex flex-col justify-end p-5 sm:p-6 text-ivory">
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
-                  Architectural Weaves
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl font-normal text-white mt-1">
-                  Jacquard Drops
-                </h3>
-                <p className="text-xs text-ivory/80 line-clamp-2 mt-1 hidden sm:block">
-                  Engineered 3D geometries and rich tactile knit structures.
-                </p>
-                <div className="pt-2 sm:pt-3">
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
-                    <span>Shop Jacquards</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-gold" />
+              {/* Tile 3: Jacquard (Champagne Gold Accent) */}
+              <Link
+                to="/shop/jacquard"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
+              >
+                <img
+                  src="/products/1007/black.jpg"
+                  srcSet={getProductSrcSet('/products/1007/black.jpg')}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt="China Jacquard Drops"
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/placeholder.svg';
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
+                    ARCHITECTURAL WEAVE
                   </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
+                    Jacquard Drops
+                  </h3>
+                  <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
+                    Engineered 3D geometries and rich tactile knit structures.
+                  </p>
+                  <div className="pt-2 sm:pt-3">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
 
-            {/* Tile 4: Printed & Tai Dai */}
-            <Link
-              to="/shop/printed"
-              className="group relative rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-subtle hover:border-gold/60 transition-all block"
-            >
-              <img
-                src="/products/102/r-gold.jpg"
-                srcSet={getProductSrcSet('/products/102/r-gold.jpg')}
-                sizes={PRODUCT_IMAGE_SIZES}
-                alt="Signature Printed Tees"
-                onError={(e) => {
-                  e.currentTarget.srcset = '';
-                  e.currentTarget.src = '/brand/placeholder.svg';
-                }}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian/90 via-obsidian/40 to-transparent flex flex-col justify-end p-5 sm:p-6 text-ivory">
-                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
-                  Artistic Washes
-                </span>
-                <h3 className="font-display text-xl sm:text-2xl font-normal text-white mt-1">
-                  Printed & Tai Dai
-                </h3>
-                <p className="text-xs text-ivory/80 line-clamp-2 mt-1 hidden sm:block">
-                  Subtle botanical gradients and statement artistic dye patterns.
-                </p>
-                <div className="pt-2 sm:pt-3">
-                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
-                    <span>Shop Printed</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-gold" />
+              {/* Tile 4: Printed & Tai Dai (Oxblood Accent) */}
+              <Link
+                to="/shop/printed"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-oxblood transition-all block"
+              >
+                <img
+                  src="/products/102/r-gold.jpg"
+                  srcSet={getProductSrcSet('/products/102/r-gold.jpg')}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt="Signature Printed Tees"
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/placeholder.svg';
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-oxblood-light">
+                    OXBLOOD WASH
                   </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
+                    Printed & Tai Dai
+                  </h3>
+                  <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
+                    Subtle botanical gradients and statement artistic dye patterns.
+                  </p>
+                  <div className="pt-2 sm:pt-3">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                    </span>
+                  </div>
                 </div>
-              </div>
-            </Link>
+              </Link>
+            </div>
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* 4. NEW ARRIVALS SWIPEABLE CAROUSEL */}
+        {/* 4. NEW ARRIVALS: Rich Deep Emerald Campaign Section */}
         {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-[0.12em] text-gold block mb-1">
-                Straight From The Atelier
-              </span>
-              <h2 className="font-display text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
-                Fresh Drops & New Arrivals
-              </h2>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleScrollCarousel('left')}
-                className="p-2.5 rounded-full border border-sandstone bg-white text-obsidian hover:bg-ivory hover:border-gold transition-colors shadow-subtle"
-                aria-label="Previous items"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={() => handleScrollCarousel('right')}
-                className="p-2.5 rounded-full border border-sandstone bg-white text-obsidian hover:bg-ivory hover:border-gold transition-colors shadow-subtle"
-                aria-label="Next items"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <div
-            ref={carouselRef}
-            className="flex gap-5 overflow-x-auto pb-4 pt-1 no-scrollbar scroll-smooth snap-x snap-mandatory"
-          >
-            {newArrivals.map((product) => (
-              <div
-                key={product.id}
-                className="w-[260px] sm:w-[290px] flex-shrink-0 snap-start"
-              >
-                <ProductCard product={product} />
+        <section className="py-20 sm:py-28 bg-emerald-deep text-warm-neutral border-y border-emerald-dark">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.18em] text-gold block mb-1">
+                  Atelier Drop • Fresh Arrivals
+                </span>
+                <h2 className="font-serif text-3xl sm:text-4xl font-normal text-warm-neutral tracking-tight">
+                  New Season Releases
+                </h2>
               </div>
-            ))}
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleScrollCarousel('left')}
+                  className="p-3 rounded-full border border-sandstone/30 bg-emerald-dark text-warm-neutral hover:border-gold hover:text-gold transition-colors shadow-subtle"
+                  aria-label="Previous items"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => handleScrollCarousel('right')}
+                  className="p-3 rounded-full border border-sandstone/30 bg-emerald-dark text-warm-neutral hover:border-gold hover:text-gold transition-colors shadow-subtle"
+                  aria-label="Next items"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+
+            <div
+              ref={carouselRef}
+              className="flex gap-6 overflow-x-auto pb-4 pt-1 no-scrollbar scroll-smooth snap-x snap-mandatory"
+            >
+              {newArrivals.map((product) => (
+                <div
+                  key={product.id}
+                  className="w-[270px] sm:w-[300px] flex-shrink-0 snap-start bg-white rounded-3xl p-3 border border-sandstone shadow-luxury"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
         {/* ======================================================== */}
-        {/* 5. "SAME PRINT, DIFFERENT VIBES" INTERACTIVE MORPH SECTION */}
+        {/* 5. SAME PRINT, DIFFERENT VIBES: Rich Cobalt Campaign Section */}
         {/* ======================================================== */}
         {morphProduct && activeMorphVariant && (
-          <section className="relative py-16 px-4 sm:px-6 lg:px-8 bg-ivory border-y border-sandstone">
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-              {/* Left: Product Visual with Morph Transitions */}
+          <section className="py-20 sm:py-28 bg-cobalt text-warm-neutral border-y border-cobalt-dark">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+              {/* Left: Garment Morph Card */}
               <div className="lg:col-span-6 flex justify-center">
-                <div className="relative w-full max-w-md aspect-[4/5] rounded-xl overflow-hidden shadow-luxury border border-sandstone bg-white">
+                <div className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-luxury border border-sandstone bg-white">
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={activeMorphVariant.id}
@@ -628,29 +648,29 @@ export const HomePage: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Active Colour Floating Pill */}
-                  <div className="absolute top-4 left-4 bg-white/95 backdrop-blur px-3.5 py-1.5 rounded-full border border-sandstone shadow-subtle flex items-center gap-2">
+                  <div className="absolute top-4 left-4 bg-midnight/90 text-warm-neutral backdrop-blur px-4 py-1.5 rounded-full border border-gold/40 shadow-luxury flex items-center gap-2">
                     <span
-                      className="w-3.5 h-3.5 rounded-full border border-black/10"
+                      className="w-3.5 h-3.5 rounded-full border border-white/20"
                       style={{ backgroundColor: activeMorphVariant.hex }}
                     />
-                    <span className="text-xs font-bold text-obsidian tracking-wide">
+                    <span className="text-xs font-bold tracking-wider uppercase">
                       {activeMorphVariant.colourName}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Right: Interactive Controls & Direct Add to Cart */}
+              {/* Right: Interactive Controls & Direct Add to Bag */}
               <div className="lg:col-span-6 space-y-6">
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone text-xs font-bold text-gold uppercase tracking-wider mb-2 shadow-subtle">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cobalt-dark border border-gold/30 text-xs font-bold text-gold uppercase tracking-wider mb-3 shadow-subtle">
                     <Sparkles className="w-3.5 h-3.5 text-gold" />
                     <span>Signature Philosophy</span>
                   </span>
-                  <h2 className="font-display text-3xl sm:text-5xl font-normal text-obsidian tracking-tight leading-tight">
+                  <h2 className="font-serif text-3xl sm:text-5xl font-normal text-warm-neutral tracking-tight leading-tight">
                     Same Print, Different Vibes.
                   </h2>
-                  <p className="text-sm sm:text-base text-ink-700 mt-2 leading-relaxed font-sans">
+                  <p className="text-sm sm:text-base text-sandstone/90 mt-3 leading-relaxed font-sans">
                     A single architectural pattern creates a radically different persona across every tone. Whether you lean into muted earth shades or deep jewel hues, make the silhouette truly yours.
                   </p>
                 </div>
@@ -658,12 +678,12 @@ export const HomePage: React.FC = () => {
                 {/* Swatches Selector */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs font-bold">
-                    <span className="text-ink-600 uppercase tracking-wider text-[11px]">
+                    <span className="text-sandstone uppercase tracking-wider text-[11px] font-sans">
                       Select Colourway ({morphProduct.variants.length} available)
                     </span>
                     <button
                       onClick={() => setIsMorphPaused(!isMorphPaused)}
-                      className="text-gold hover:text-obsidian underline text-[11px] transition-colors"
+                      className="text-gold hover:text-white underline text-[11px] transition-colors font-sans"
                     >
                       {isMorphPaused ? 'Resume auto-cycle' : 'Pause auto-cycle'}
                     </button>
@@ -679,17 +699,17 @@ export const HomePage: React.FC = () => {
                             setMorphVariantIndex(idx);
                             setIsMorphPaused(true);
                           }}
-                          className={`group relative flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all ${
+                          className={`group relative flex items-center gap-2 px-3.5 py-2 rounded-xl border transition-all ${
                             isActive
-                              ? 'bg-white border-obsidian ring-2 ring-gold/40 shadow-subtle'
-                              : 'bg-white/80 border-sandstone hover:border-gold'
+                              ? 'bg-midnight text-warm-neutral border-gold shadow-luxury ring-2 ring-gold/40'
+                              : 'bg-cobalt-dark/80 text-sandstone border-sandstone/30 hover:border-gold hover:text-white'
                           }`}
                         >
                           <span
-                            className="w-4 h-4 rounded-full border border-black/10 flex-shrink-0"
+                            className="w-3.5 h-3.5 rounded-full border border-black/20 flex-shrink-0"
                             style={{ backgroundColor: v.hex }}
                           />
-                          <span className={`text-xs font-medium ${isActive ? 'text-obsidian font-bold' : 'text-ink-600'}`}>
+                          <span className={`text-xs ${isActive ? 'font-bold text-warm-neutral' : 'font-medium'}`}>
                             {v.colourName}
                           </span>
                         </button>
@@ -700,7 +720,7 @@ export const HomePage: React.FC = () => {
 
                 {/* Size Selector */}
                 <div className="space-y-2">
-                  <span className="text-xs font-bold uppercase tracking-wider text-ink-600 block text-[11px]">
+                  <span className="text-xs font-bold uppercase tracking-wider text-sandstone block text-[11px] font-sans">
                     Choose Size
                   </span>
                   <div className="flex gap-2">
@@ -709,10 +729,10 @@ export const HomePage: React.FC = () => {
                         key={s}
                         onClick={() => setMorphSize(s)}
                         className={cn(
-                          'w-12 h-10 rounded-lg text-xs font-bold border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2',
+                          'w-12 h-10 rounded-xl text-xs font-bold border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
                           morphSize === s
-                            ? 'bg-obsidian text-ivory border-obsidian shadow-subtle'
-                            : 'bg-white border-sandstone text-obsidian hover:border-gold'
+                            ? 'bg-midnight text-gold border-gold shadow-luxury'
+                            : 'bg-cobalt-dark border-sandstone/30 text-sandstone hover:border-gold hover:text-white'
                         )}
                       >
                         {s}
@@ -722,25 +742,25 @@ export const HomePage: React.FC = () => {
                 </div>
 
                 {/* Price & Action Row */}
-                <div className="pt-2 flex flex-wrap items-center gap-4">
+                <div className="pt-3 flex flex-wrap items-center gap-4">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-ink-500 block tracking-wider">All-Inclusive MRP</span>
-                    <span className="font-display text-2xl font-normal text-obsidian tabular-nums">
+                    <span className="text-[10px] uppercase font-bold text-sandstone/70 block tracking-wider font-sans">All-Inclusive MRP</span>
+                    <span className="font-serif text-3xl font-normal text-gold tabular-nums">
                       {formatPrice(morphProduct.mrp)}
                     </span>
                   </div>
 
                   <button
                     onClick={handleMorphAddToCart}
-                    className="btn-primary px-7 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-2"
+                    className="btn-gold px-7 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
                   >
-                    <ShoppingBag className="w-4 h-4 text-gold" />
+                    <ShoppingBag className="w-4 h-4 text-midnight" />
                     <span>Add {activeMorphVariant.colourName} to Bag</span>
                   </button>
 
                   <Link
                     to={`/product/${morphProduct.slug}`}
-                    className="btn-secondary px-5 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-1.5 bg-white"
+                    className="px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center gap-1.5 rounded-full border border-sandstone/40 text-warm-neutral hover:border-gold hover:text-white transition-all font-sans"
                   >
                     <span>Full Details</span>
                     <ArrowRight className="w-4 h-4 text-gold" />
@@ -752,303 +772,316 @@ export const HomePage: React.FC = () => {
         )}
 
         {/* ======================================================== */}
-        {/* 6. FABRIC STORY INTERACTIVE EXPLORER (#fabrics) */}
+        {/* 6. FABRIC STORIES: Rich Oxblood Campaign Section */}
         {/* ======================================================== */}
-        <section id="fabrics" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 scroll-mt-24">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold block">
-              Behind The Weaves
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
-              The Fabric Story
-            </h2>
-            <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
-              We engineer specialized knits rather than standard commodity jerseys. Tap each fabric to explore its physical hand feel, drape, and structural benefits.
-            </p>
-          </div>
+        <section id="fabrics" className="py-20 sm:py-28 bg-oxblood text-warm-neutral border-y border-oxblood-light/30">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="text-center space-y-3 max-w-2xl mx-auto">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-oxblood-dark border border-gold/40 text-xs font-bold text-gold uppercase tracking-wider">
+                <Layers className="w-3.5 h-3.5" />
+                <span>Architectural Knitwear</span>
+              </span>
+              <h2 className="font-serif text-3xl sm:text-5xl font-normal text-warm-neutral tracking-tight">
+                Tactile Fabric Stories
+              </h2>
+              <p className="text-xs sm:text-sm text-sandstone/90 leading-relaxed font-sans">
+                We engineer specialized knits rather than standard commodity jerseys. Tap each fabric to explore its physical hand feel, drape, and structural benefits.
+              </p>
+            </div>
 
-          {/* Fabric Tabs */}
-          <div
-            role="tablist"
-            aria-label="Fabric Stories"
-            className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 no-scrollbar"
-          >
-            {FABRIC_STORIES.map((fabric, idx) => {
-              const isSelected = activeFabricId === fabric.id;
-              return (
-                <button
-                  key={fabric.id}
-                  id={`fabric-tab-${fabric.id}`}
-                  role="tab"
-                  aria-selected={isSelected}
-                  aria-controls={`fabric-panel-${fabric.id}`}
-                  tabIndex={isSelected ? 0 : -1}
-                  onClick={() => setActiveFabricId(fabric.id)}
-                  onKeyDown={(e) => handleFabricTabKeyDown(e, idx)}
-                  className={cn(
-                    'px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2',
-                    isSelected
-                      ? 'bg-tab-active-bg text-tab-active-text border border-gold/40 shadow-sm'
-                      : 'bg-surface-tint border border-sandstone text-ink-700 hover:border-gold/50 hover:text-obsidian'
-                  )}
+            {/* Fabric Tabs (role="tablist" & tokens strictly preserved for test suite) */}
+            <div
+              role="tablist"
+              aria-label="Fabric Stories"
+              className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 no-scrollbar"
+            >
+              {FABRIC_STORIES.map((fabric, idx) => {
+                const isSelected = activeFabricId === fabric.id;
+                return (
+                  <button
+                    key={fabric.id}
+                    id={`fabric-tab-${fabric.id}`}
+                    role="tab"
+                    aria-selected={isSelected}
+                    aria-controls={`fabric-panel-${fabric.id}`}
+                    tabIndex={isSelected ? 0 : -1}
+                    onClick={() => setActiveFabricId(fabric.id)}
+                    onKeyDown={(e) => handleFabricTabKeyDown(e, idx)}
+                    className={cn(
+                      'px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2',
+                      isSelected
+                        ? 'bg-tab-active-bg text-tab-active-text border border-gold/40 shadow-sm'
+                        : 'bg-surface-tint border border-sandstone text-ink-700 hover:border-gold/50 hover:text-obsidian'
+                    )}
+                  >
+                    {fabric.name}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Active Fabric Display Card */}
+            <div
+              id={`fabric-panel-${activeFabric.id}`}
+              role="tabpanel"
+              aria-labelledby={`fabric-tab-${activeFabric.id}`}
+              tabIndex={0}
+              className="bg-white text-obsidian rounded-3xl border border-sandstone p-6 sm:p-10 shadow-luxury grid grid-cols-1 lg:grid-cols-12 gap-8 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            >
+              <div className="lg:col-span-5 aspect-[4/3] sm:aspect-square rounded-2xl overflow-hidden bg-ivory border border-sandstone">
+                <img
+                  src={activeFabric.image}
+                  srcSet={getProductSrcSet(activeFabric.image)}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt={activeFabric.name}
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/placeholder.svg';
+                  }}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+
+              <div className="lg:col-span-7 space-y-5">
+                <div>
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold block">
+                    {activeFabric.tagline}
+                  </span>
+                  <h3 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian mt-1">
+                    {activeFabric.name}
+                  </h3>
+                  <p className="text-xs sm:text-base text-graphite/80 mt-2 leading-relaxed font-sans">
+                    {activeFabric.description}
+                  </p>
+                </div>
+
+                {/* Highlights List */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                  {activeFabric.details.map((detail, idx) => (
+                    <div key={idx} className="flex items-center gap-2 text-xs font-medium text-graphite font-sans">
+                      <div className="w-5 h-5 rounded-full bg-gold/15 text-gold flex items-center justify-center flex-shrink-0">
+                        <Check className="w-3.5 h-3.5 text-gold" />
+                      </div>
+                      <span>{detail}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Catalog Note */}
+                <p className="text-[11px] text-graphite/60 italic border-l-2 border-sandstone pl-3 font-sans">
+                  * Exact blend composition is tailored per seasonal production batch (Composition: to be confirmed on physical care label).
+                </p>
+
+                <div className="pt-2 flex flex-wrap items-center gap-4">
+                  <span className="text-xs font-medium text-graphite/70 font-sans">
+                    Seen in: <strong className="text-obsidian font-bold">{activeFabric.recommendedStyle}</strong>
+                  </span>
+
+                  <Link
+                    to={`/shop/${activeFabric.slug}`}
+                    className="btn-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-luxury"
+                  >
+                    <span>Explore {activeFabric.name} T-Shirts</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* 7. BEST SELLERS: Warm Neutral Surface for Clear Shopping */}
+        {/* ======================================================== */}
+        <section className="py-16 sm:py-24 bg-warm-neutral/60">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold block mb-1">
+                  Community Favorites
+                </span>
+                <h2 className="font-serif text-3xl sm:text-5xl font-normal text-obsidian tracking-tight">
+                  Best Selling Silhouettes
+                </h2>
+              </div>
+
+              <Link
+                to="/shop?sort=best-selling"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold tracking-wider uppercase text-obsidian hover:text-gold transition-colors font-sans"
+              >
+                <span>View All Best Sellers</span>
+                <ArrowRight className="w-4 h-4 text-gold" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+              {bestSellers.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* 8. SHOP BY MOOD & HUE */}
+        {/* ======================================================== */}
+        <section className="py-16 bg-white border-t border-sandstone">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+            <div className="text-center space-y-1">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold">
+                Color Frequency
+              </span>
+              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
+                Shop By Tone & Mood
+              </h2>
+              <p className="text-xs text-graphite/70 max-w-md mx-auto font-sans">
+                Filter our catalog instantly by your personal tonal frequency.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
+              {HOME_COLOUR_SWATCHES.map((swatch) => (
+                <Link
+                  key={swatch.slug}
+                  to={`/shop?color=${swatch.slug}`}
+                  className="group flex flex-col items-center gap-2 p-2.5 rounded-2xl hover:bg-ivory transition-colors"
                 >
-                  {fabric.name}
-                </button>
-              );
-            })}
+                  <div
+                    className="w-12 h-12 rounded-full border-2 border-white shadow-luxury group-hover:scale-110 group-hover:ring-2 group-hover:ring-gold transition-all flex items-center justify-center"
+                    style={{ backgroundColor: swatch.hex }}
+                  />
+                  <span className="text-[11px] font-bold tracking-wider text-graphite group-hover:text-obsidian transition-colors font-sans">
+                    {swatch.name}
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
+        </section>
 
-          {/* Active Fabric Display Card */}
-          <div
-            id={`fabric-panel-${activeFabric.id}`}
-            role="tabpanel"
-            aria-labelledby={`fabric-tab-${activeFabric.id}`}
-            tabIndex={0}
-            className="bg-white rounded-2xl border border-sandstone p-6 sm:p-10 shadow-luxury grid grid-cols-1 lg:grid-cols-12 gap-8 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-          >
-            <div className="lg:col-span-5 aspect-[4/3] sm:aspect-square rounded-xl overflow-hidden bg-surface-tint border border-sandstone">
+        {/* ======================================================== */}
+        {/* 9. EDITORIAL LOOKBOOK: Cinematic Midnight Showcase */}
+        {/* ======================================================== */}
+        <section className="py-16 bg-warm-neutral/50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="relative rounded-3xl overflow-hidden min-h-[480px] flex items-center border border-sandstone shadow-luxury">
+              {/* Background Catalog Image */}
               <img
-                src={activeFabric.image}
-                srcSet={getProductSrcSet(activeFabric.image)}
+                src="/products/1007/green.jpg"
+                srcSet={getProductSrcSet('/products/1007/green.jpg')}
                 sizes={PRODUCT_IMAGE_SIZES}
-                alt={activeFabric.name}
+                alt="Ateevibes Editorial Lookbook"
                 onError={(e) => {
                   e.currentTarget.srcset = '';
                   e.currentTarget.src = '/brand/placeholder.svg';
                 }}
-                className="w-full h-full object-cover"
+                className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
               />
+              <div className="absolute inset-0 bg-gradient-to-r from-midnight via-midnight/90 to-midnight/40" />
+
+              <div className="relative z-10 max-w-xl p-8 sm:p-14 lg:p-16 space-y-5 text-warm-neutral">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-clay text-midnight text-[10px] font-bold uppercase tracking-[0.2em]">
+                  EDITORIAL CAPSULE
+                </span>
+                <h2 className="font-serif text-3xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
+                  Designed for Distinction. Built for Movement.
+                </h2>
+                <p className="text-xs sm:text-sm text-sandstone/90 leading-relaxed max-w-md font-sans">
+                  From morning airport commutes to late-night rooftop hangs, Ateevibes t-shirts bridge structural elegance and all-day comfort.
+                </p>
+                <div className="pt-2 flex flex-wrap items-center gap-3">
+                  <Link
+                    to="/shop"
+                    className="btn-gold px-7 py-3 text-xs sm:text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 shadow-luxury"
+                  >
+                    <span>Explore The Full Drop</span>
+                    <ArrowRight className="w-4 h-4 text-midnight" />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* 10. THE ATEEVIBES STANDARD: 4 Color-Blocked Cards */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-warm-neutral/70 border-t border-sandstone">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="text-center space-y-1">
+              <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold">
+                The Ateevibes Standard
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
+                Why Men Choose Ateevibes
+              </h2>
             </div>
 
-            <div className="lg:col-span-7 space-y-5">
-              <div>
-                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-                  {activeFabric.tagline}
-                </span>
-                <h3 className="font-display text-2xl sm:text-3xl font-normal text-obsidian mt-1">
-                  {activeFabric.name}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {VALUE_PROPS.map((prop, idx) => {
+                const PropIcon = prop.icon;
+                return (
+                  <div
+                    key={idx}
+                    className={`rounded-3xl p-6 sm:p-8 border shadow-luxury space-y-3 transition-transform hover:-translate-y-1 ${prop.bgClass}`}
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-gold shadow-sm">
+                      <PropIcon className="w-6 h-6 text-gold" />
+                    </div>
+                    <h3 className="font-serif text-xl font-normal text-warm-neutral">{prop.title}</h3>
+                    <p className="text-xs text-sandstone/80 leading-relaxed font-sans">{prop.description}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ======================================================== */}
+        {/* 11. NEWSLETTER VIP CLUB: Midnight Black with Gold Accent */}
+        {/* ======================================================== */}
+        <section className="py-20 bg-midnight text-warm-neutral border-t border-sandstone/20">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-graphite/80 rounded-3xl border border-sandstone/30 p-8 sm:p-14 text-center shadow-luxury space-y-6">
+              <div className="w-12 h-12 rounded-2xl bg-gold/15 text-gold flex items-center justify-center mx-auto border border-gold/30">
+                <Sparkles className="w-6 h-6 text-gold" />
+              </div>
+
+              <div className="space-y-2">
+                <h3 className="font-serif text-2xl sm:text-4xl font-normal text-warm-neutral">
+                  Join The Ateevibes Club
                 </h3>
-                <p className="text-xs sm:text-base text-ink-700 mt-2 leading-relaxed">
-                  {activeFabric.description}
+                <p className="text-xs sm:text-sm text-sandstone/80 max-w-md mx-auto font-sans">
+                  Enjoy 15% off your first order with code <strong className="font-mono text-gold font-bold">WELCOME15</strong> at checkout, plus priority notifications for limited seasonal drops.
                 </p>
               </div>
 
-              {/* Highlights List */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-                {activeFabric.details.map((detail, idx) => (
-                  <div key={idx} className="flex items-center gap-2 text-xs font-medium text-ink-900">
-                    <div className="w-5 h-5 rounded-full bg-gold/15 text-gold flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-gold" />
-                    </div>
-                    <span>{detail}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Catalog Note */}
-              <p className="text-[11px] text-ink-500 italic border-l-2 border-sandstone pl-3">
-                * Exact blend composition is tailored per seasonal production batch (Composition: to be confirmed on physical care label).
-              </p>
-
-              <div className="pt-2 flex flex-wrap items-center gap-4">
-                <span className="text-xs font-medium text-ink-600">
-                  Seen in: <strong className="text-obsidian font-semibold">{activeFabric.recommendedStyle}</strong>
-                </span>
-
-                <Link
-                  to={`/shop/${activeFabric.slug}`}
-                  className="btn-primary px-5 py-2.5 text-xs font-bold inline-flex items-center gap-1.5"
-                >
-                  <span>Explore {activeFabric.name} T-Shirts</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-gold" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 7. BEST SELLERS GRID: 8 Curated Pieces */}
-        {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold block mb-1">
-                Community Favorites
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
-                Best Selling Styles
-              </h2>
-            </div>
-
-            <Link
-              to="/shop?sort=best-selling"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold tracking-wider uppercase text-obsidian hover:text-gold transition-colors"
-            >
-              <span>View All Best Sellers</span>
-              <ArrowRight className="w-4 h-4 text-gold" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {bestSellers.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 8. SHOP BY COLOUR: Palette Swatches */}
-        {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-          <div className="text-center space-y-1">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-              Color Story
-            </span>
-            <h2 className="font-display text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
-              Shop By Mood & Hue
-            </h2>
-            <p className="text-xs text-ink-600 max-w-md mx-auto">
-              Filter our catalog instantly by your personal tonal frequency.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            {HOME_COLOUR_SWATCHES.map((swatch) => (
-              <Link
-                key={swatch.slug}
-                to={`/shop?color=${swatch.slug}`}
-                className="group flex flex-col items-center gap-2 p-2 rounded-xl hover:bg-warm-ivory/60 transition-colors"
-              >
-                <div
-                  className="w-12 h-12 rounded-full border-2 border-white shadow-subtle group-hover:scale-110 group-hover:ring-2 group-hover:ring-gold transition-all flex items-center justify-center"
-                  style={{ backgroundColor: swatch.hex }}
-                />
-                <span className="text-[11px] font-semibold tracking-wider text-ink-700 group-hover:text-obsidian transition-colors">
-                  {swatch.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 9. EDITORIAL LOOKBOOK BANNER */}
-        {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-2xl overflow-hidden min-h-[460px] flex items-center border border-sandstone shadow-luxury">
-            {/* Background Catalog Image with Dark Gradient Overlay */}
-            <img
-              src="/products/1007/green.jpg"
-              srcSet={getProductSrcSet('/products/1007/green.jpg')}
-              sizes={PRODUCT_IMAGE_SIZES}
-              alt="Ateevibes Editorial Lookbook"
-              onError={(e) => {
-                e.currentTarget.srcset = '';
-                e.currentTarget.src = '/brand/placeholder.svg';
-              }}
-              className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-obsidian via-obsidian/90 to-obsidian/40" />
-
-            <div className="relative z-10 max-w-xl p-8 sm:p-14 lg:p-16 space-y-5 text-warm-ivory">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/15 border border-gold/40 text-[10px] font-semibold uppercase tracking-[0.25em] text-gold">
-                Editorial Lookbook
-              </span>
-              <h2 className="font-display text-3xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
-                Designed for Distinction. Built for Movement.
-              </h2>
-              <p className="text-xs sm:text-sm text-sandstone/90 leading-relaxed max-w-md">
-                From morning airport commutes to late-night rooftop hangs, Ateevibes t-shirts bridge structural elegance and all-day comfort.
-              </p>
-              <div className="pt-2 flex flex-wrap items-center gap-3">
-                <Link
-                  to="/shop"
-                  className="px-6 py-3 rounded-lg bg-warm-ivory text-obsidian text-xs sm:text-sm font-bold tracking-wider uppercase inline-flex items-center gap-2 hover:bg-gold hover:text-obsidian transition-colors shadow-soft"
-                >
-                  <span>Explore The Full Drop</span>
-                  <ArrowRight className="w-4 h-4 text-obsidian" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 10. WHY ATEEVIBES: 4 Value Proposition Cards */}
-        {/* ======================================================== */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-          <div className="text-center space-y-1">
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
-              The Ateevibes Standard
-            </span>
-            <h2 className="font-display text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
-              Why Men Choose Ateevibes
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {VALUE_PROPS.map((prop, idx) => {
-              const PropIcon = prop.icon;
-              return (
-                <div
-                  key={idx}
-                  className="bg-warm-ivory/60 rounded-2xl p-6 sm:p-8 border border-sandstone space-y-3 hover:border-gold/60 transition-all shadow-subtle"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-white border border-sandstone flex items-center justify-center text-gold shadow-sm">
-                    <PropIcon className="w-6 h-6 text-gold" />
-                  </div>
-                  <h3 className="font-display text-lg font-normal text-obsidian">{prop.title}</h3>
-                  <p className="text-xs text-ink-600 leading-relaxed">{prop.description}</p>
+              {newsletterSubscribed ? (
+                <div className="p-4 rounded-2xl bg-midnight border border-gold/40 text-warm-neutral text-xs sm:text-sm font-medium inline-flex items-center gap-2 shadow-luxury font-sans">
+                  <Check className="w-4 h-4 text-gold" />
+                  <span>Thank you! (Demo Mode: Newsletter subscriptions connect to your email service in production. You can use code WELCOME15 on your first order.)</span>
                 </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ======================================================== */}
-        {/* 11. NEWSLETTER VIP CLUB BAND */}
-        {/* ======================================================== */}
-        <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-warm-ivory rounded-3xl border border-sandstone p-8 sm:p-12 text-center shadow-luxury space-y-5">
-            <div className="w-12 h-12 rounded-2xl bg-gold/15 text-gold flex items-center justify-center mx-auto">
-              <Sparkles className="w-6 h-6 text-gold" />
+              ) : (
+                <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto font-sans">
+                  <div className="relative flex items-center rounded-full bg-midnight border border-sandstone/40 focus-within:border-gold transition-colors p-1.5 shadow-luxury">
+                    <input
+                      type="email"
+                      required
+                      placeholder="Enter your email address"
+                      value={newsletterEmail}
+                      onChange={(e) => setNewsletterEmail(e.target.value)}
+                      className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2.5 text-xs sm:text-sm text-warm-neutral placeholder:text-sandstone/50 focus:outline-none"
+                    />
+                    <button
+                      type="submit"
+                      className="btn-gold px-6 py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase whitespace-nowrap rounded-full shrink-0 shadow-sm"
+                    >
+                      Join Club
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
-
-            <div className="space-y-2">
-              <h3 className="font-display text-2xl sm:text-3xl font-normal text-obsidian">
-                Join The Ateevibes Club
-              </h3>
-              <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto">
-                Enjoy 15% off your first order with code <strong className="font-mono text-obsidian font-bold">WELCOME15</strong> at checkout, plus priority notifications for limited-batch seasonal drops.
-              </p>
-            </div>
-
-            {newsletterSubscribed ? (
-              <div className="p-4 rounded-xl bg-white border border-sandstone text-obsidian text-xs sm:text-sm font-medium inline-flex items-center gap-2 shadow-subtle">
-                <Check className="w-4 h-4 text-gold" />
-                <span>Thank you! (Demo Mode: Newsletter subscriptions connect to your email service in production. You can use code WELCOME15 on your first order.)</span>
-              </div>
-            ) : (
-              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
-                <div className="relative flex items-center rounded-full bg-white border border-sandstone focus-within:border-gold transition-colors p-1.5 shadow-subtle">
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email address"
-                    value={newsletterEmail}
-                    onChange={(e) => setNewsletterEmail(e.target.value)}
-                    className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2.5 text-xs sm:text-sm text-obsidian placeholder:text-ink-500 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold tracking-wider uppercase whitespace-nowrap rounded-full shrink-0"
-                  >
-                    Join Club
-                  </button>
-                </div>
-              </form>
-            )}
           </div>
         </section>
       </div>

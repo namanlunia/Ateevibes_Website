@@ -681,13 +681,13 @@ export const ProductPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Shipping & Returns */}
+              {/* Shipping & Delivery Policy */}
               <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, shipping: !a.shipping }))}
                   className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
-                  <span>Shipping & 7-Day Returns</span>
+                  <span>Shipping & Delivery Information</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.shipping ? 'rotate-180' : ''
@@ -697,9 +697,10 @@ export const ProductPage: React.FC = () => {
                 {accordions.shipping && (
                   <div className="mt-2 space-y-1.5 text-xs text-ink-600">
                     <p>• Free standard delivery on all orders over ₹1,499 (otherwise flat ₹79).</p>
-                    <p>• Estimated delivery time: 3 to 7 business days across India.</p>
-                    <p>• Cash on Delivery (COD) available with a nominal ₹49 handling fee.</p>
-                    <p>• Hassle-free 7-day return and exchange window from delivery.</p>
+                    <p>• Dispatched within 24 to 48 hours directly from our Surat atelier.</p>
+                    <p>• Estimated delivery time: 3 to 5 business days via Express Air courier networks.</p>
+                    <p>• Cash on Delivery (COD) available across 25,000+ PIN codes with flat ₹49 fee.</p>
+                    <p>• Multi-point quality inspection conducted prior to shipping.</p>
                   </div>
                 )}
               </div>

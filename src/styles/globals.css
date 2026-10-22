@@ -160,6 +160,73 @@
   transform: translateY(1px) scale(0.98);
 }
 
+/* Campaign Accent Buttons */
+.btn-oxblood {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background-color: var(--oxblood);
+  color: var(--warm-neutral);
+  border: 1px solid var(--oxblood-light);
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+}
+
+.btn-oxblood:hover:not(:disabled) {
+  background-color: var(--oxblood-light);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(85, 36, 58, 0.35);
+}
+
+.btn-cobalt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background-color: var(--cobalt);
+  color: var(--warm-neutral);
+  border: 1px solid var(--cobalt-light);
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+}
+
+.btn-cobalt:hover:not(:disabled) {
+  background-color: var(--cobalt-light);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(36, 61, 115, 0.35);
+}
+
+.btn-emerald {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  background-color: var(--deep-emerald);
+  color: var(--warm-neutral);
+  border: 1px solid var(--emerald-light);
+  border-radius: 9999px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.25s ease;
+}
+
+.btn-emerald:hover:not(:disabled) {
+  background-color: var(--emerald-light);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(49, 87, 71, 0.35);
+}
+
 /* Custom Cursor: Minimalist Luxury */
 .cursor-dot {
   position: fixed;

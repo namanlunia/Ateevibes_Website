@@ -242,7 +242,7 @@ This manual verification checklist is prepared for the site owner to test and re
   - [ ] Search input filters accordion items.
   - [ ] Categorized into Orders, Shipping, Returns, Products & Care, Payments.
 - [ ] **Shipping & Returns (`/shipping-returns`)**:
-  - [ ] Timelines (3-7 days), fees (₹79 flat, free above ₹1,499), 7-day return window.
+  - [ ] Timelines (3-5 days), fees (₹79 flat, free above ₹1,499), verified order inspection policy.
 - [ ] **Size Guide (`/size-guide`)**:
   - [ ] S, M, L, XL measurement tables in both inches and centimeters.
   - [ ] "How to measure" illustration guide and fit tips.

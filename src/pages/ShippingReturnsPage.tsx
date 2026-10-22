@@ -3,11 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import {
   Truck,
-  RotateCcw,
   CheckCircle2,
   Clock,
   ShieldCheck,
   MessageCircle,
+  AlertCircle,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
 
@@ -15,10 +15,10 @@ export const ShippingReturnsPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{`Shipping & Returns Policy | ${siteConfig.name}`}</title>
+        <title>{`Shipping & Order Policy | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Read our shipping guidelines, free delivery threshold above ₹1,499, and hassle-free 7-day exchange and return policy."
+          content="Learn about Ateevibes order fulfillment, express domestic shipping timelines, free delivery threshold above ₹1,499, and order quality inspection policies."
         />
       </Helmet>
 
@@ -27,13 +27,13 @@ export const ShippingReturnsPage: React.FC = () => {
         <div className="text-center space-y-3.5">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ivory border border-sandstone text-xs font-bold text-gold uppercase tracking-wider">
             <Truck className="w-3.5 h-3.5" />
-            <span>Clear & Honest Policies</span>
+            <span>Atelier Fulfillment & Orders</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-obsidian tracking-tight">
-            Shipping & 7-Day Exchanges
+            Shipping & Order Policy
           </h1>
           <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
-            We want you to feel confident in every wardrobe choice. Here is everything you need to know about delivery milestones and finding your ideal fit.
+            Every Ateevibes garment is engineered, inspected, and dispatched directly from our Surat atelier. Review our delivery timelines and customer support guidelines below.
           </p>
         </div>
 
@@ -50,14 +50,14 @@ export const ShippingReturnsPage: React.FC = () => {
             <p className="text-xs text-graphite/70 font-sans">Dispatched in 24–48h via Express Air courier networks.</p>
           </div>
           <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2.5 shadow-luxury">
-            <RotateCcw className="w-6 h-6 text-gold" />
-            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">7-Day Exchanges</h4>
-            <p className="text-xs text-graphite/70 font-sans">Convenient return window if you need a different size.</p>
+            <ShieldCheck className="w-6 h-6 text-gold" />
+            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Inspected Quality</h4>
+            <p className="text-xs text-graphite/70 font-sans">Multi-point manual check for stitches and fabric before dispatch.</p>
           </div>
           <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2.5 shadow-luxury">
-            <ShieldCheck className="w-6 h-6 text-gold" />
-            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Quality Assured</h4>
-            <p className="text-xs text-graphite/70 font-sans">Secure mailer packing with quality verification checks.</p>
+            <MessageCircle className="w-6 h-6 text-gold" />
+            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Concierge Help</h4>
+            <p className="text-xs text-graphite/70 font-sans">Direct WhatsApp assistance for sizing questions and order status.</p>
           </div>
         </div>
 
@@ -111,76 +111,89 @@ export const ShippingReturnsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Section 2: 7-Day Doorstep Exchange Policy */}
+        {/* Section 2: Order Quality & Return Policy Notice */}
         <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-10 shadow-luxury space-y-6">
           <div className="flex items-center gap-3.5 pb-4 border-b border-sandstone">
             <div className="w-10 h-10 rounded-xl bg-ivory border border-sandstone flex items-center justify-center text-gold shadow-sm">
-              <RotateCcw className="w-5 h-5" />
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
-                7-Day Hassle-Free Size Exchanges
+                Order Verification & Return Policy
               </h2>
-              <p className="text-xs text-graphite/70 font-sans mt-0.5">Reverse courier pickup with zero extra fees</p>
+              <p className="text-xs text-graphite/70 font-sans mt-0.5">Accurate, transparent guidelines for every customer</p>
             </div>
           </div>
 
-          <div className="space-y-4 text-xs sm:text-sm text-graphite leading-relaxed font-sans">
-            <p>
-              We want your t-shirt to fit and drape exactly the way you envision. If the size you ordered isn&apos;t quite right, we offer an easy 7-day size exchange.
-            </p>
+          <div className="space-y-5 text-xs sm:text-sm text-graphite leading-relaxed font-sans">
+            <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-2">
+              <div className="flex items-center gap-2 text-obsidian font-bold text-xs uppercase tracking-wider">
+                <AlertCircle className="w-4 h-4 text-gold shrink-0" />
+                <span>Notice Regarding Returns</span>
+              </div>
+              <p className="text-xs text-graphite/80 leading-relaxed">
+                Ateevibes does not offer an automatic 7-day return or exchange policy. Because each garment is produced in specialized limited fabric runs and tailored with dimensional knits, sales are considered final once delivered and inspected, unless an item has arrived with transit damage or an incorrect variant was dispatched.
+              </p>
+            </div>
 
-            <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-2.5">
-              <h4 className="font-bold text-obsidian uppercase tracking-wider text-xs">Eligibility Criteria:</h4>
-              <ul className="space-y-2 text-xs text-graphite/80">
+            <div className="space-y-2">
+              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Atelier Quality Guarantee</h3>
+              <p>
+                Before any t-shirt leaves our Surat workshop, it undergoes thorough quality verification:
+              </p>
+              <ul className="space-y-2 text-xs text-graphite/80 pt-1">
                 <li className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>The item must be unused, unwashed, and in its original pristine condition.</span>
+                  <span>Stitching, collar ribbing, and hem density are inspected for structural integrity.</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>All brand tags, wash labels, and original packaging must be intact.</span>
+                  <span>Chinese jacquard weaves and tie-dye wash patterns are verified against master standards.</span>
                 </li>
                 <li className="flex items-center gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>Exchange request must be initiated within 7 calendar days of delivery.</span>
+                  <span>Garments are packaged in secure protective mailers to prevent dust or moisture during transit.</span>
                 </li>
               </ul>
             </div>
 
-            <div className="space-y-3 pt-2">
-              <h4 className="font-bold text-obsidian uppercase tracking-wider text-xs">How to request an exchange:</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                <div className="p-5 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-xs uppercase tracking-wider block">STEP 1</span>
-                  <p className="font-bold text-obsidian text-xs">Reach Out</p>
-                  <p className="text-[11px] text-graphite/70">Contact our WhatsApp concierge with your Order ID and preferred size.</p>
+            <div className="space-y-2 pt-2">
+              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Damaged or Incorrect Items</h3>
+              <p>
+                In the rare instance that your package arrives with physical damage from courier transit or you received a size or colorway different from what you ordered:
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
+                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
+                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 1</span>
+                  <p className="font-bold text-obsidian text-xs">Notify Within 48 Hours</p>
+                  <p className="text-[11px] text-graphite/70">Reach out to our WhatsApp concierge or email support@ateevibes.com within 48 hours of parcel delivery.</p>
                 </div>
-                <div className="p-5 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-xs uppercase tracking-wider block">STEP 2</span>
-                  <p className="font-bold text-obsidian text-xs">Courier Pickup</p>
-                  <p className="text-[11px] text-graphite/70">Our courier partner will arrive at your address to collect the original item.</p>
+                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
+                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 2</span>
+                  <p className="font-bold text-obsidian text-xs">Share Unboxing Evidence</p>
+                  <p className="text-[11px] text-graphite/70">Provide clear photos or video showing the outer shipping label, packaging condition, and the garment flaw.</p>
                 </div>
-                <div className="p-5 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-xs uppercase tracking-wider block">STEP 3</span>
-                  <p className="font-bold text-obsidian text-xs">Replacement Dispatched</p>
-                  <p className="text-[11px] text-graphite/70">Your requested replacement size is immediately shipped via Express courier.</p>
+                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
+                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 3</span>
+                  <p className="font-bold text-obsidian text-xs">Prompt Atelier Resolution</p>
+                  <p className="text-[11px] text-graphite/70">Once verified by our quality control manager, a replacement piece is immediately dispatched.</p>
                 </div>
               </div>
             </div>
 
             <div className="pt-5 border-t border-sandstone flex flex-wrap items-center justify-between gap-4">
-              <span className="text-xs text-graphite/70">
-                Ready to initiate a size exchange?
-              </span>
+              <div className="space-y-0.5">
+                <p className="font-bold text-obsidian text-xs">Questions About Sizing Before Ordering?</p>
+                <p className="text-[11px] text-graphite/70">Check our comprehensive <Link to="/size-guide" className="text-gold underline hover:text-obsidian">Size Guide</Link> or chat with our team.</p>
+              </div>
               <a
-                href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I would like to request a size exchange.')}`}
+                href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I have a question about sizing and ordering.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
               >
                 <MessageCircle className="w-3.5 h-3.5 text-gold" />
-                <span>Request Exchange on WhatsApp</span>
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>

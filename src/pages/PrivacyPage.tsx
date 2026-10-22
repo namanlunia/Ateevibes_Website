@@ -56,7 +56,7 @@ export const PrivacyPage: React.FC = () => {
             <ul className="list-disc pl-5 space-y-1 text-graphite/80">
               <li>Processing, packing, and dispatching your orders.</li>
               <li>Sending live tracking updates and invoice confirmations via SMS, WhatsApp, and email.</li>
-              <li>Providing customer support and facilitating 7-day doorstep size exchanges.</li>
+              <li>Providing customer support and order fulfillment assistance.</li>
               <li>With your permission, sharing private drops and exclusive promotional offers.</li>
             </ul>
           </section>

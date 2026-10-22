@@ -16,7 +16,7 @@ import { contactSchema } from '../lib/validators';
 const SUBJECT_OPTIONS = [
   'Order Status & Tracking Inquiry',
   'Size & Fit Recommendation',
-  'Exchange or Return Request',
+  'Order Inquiry or Transit Flaw',
   'Product Fabric & Care Details',
   'Wholesale & Bulk Orders',
   'General Feedback or Suggestion',
@@ -70,7 +70,7 @@ export const ContactPage: React.FC = () => {
         <title>{`Contact Us • Customer Care | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Get in touch with the Ateevibes concierge team for order help, sizing guidance, exchanges, or questions."
+          content="Get in touch with the Ateevibes concierge team for order help, sizing guidance, and atelier product questions."
         />
       </Helmet>
 
