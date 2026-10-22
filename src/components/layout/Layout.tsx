@@ -12,6 +12,7 @@ import { PageCurtain } from '../motion/PageCurtain';
 import { ToastContainer } from '../ui/ToastContainer';
 import { FlyToCart } from '../motion/FlyToCart';
 import { useUIStore } from '../../store/uiStore';
+import { addScrollListener } from '../../lib/scrollListener';
 
 const MobileMenuDrawer = React.lazy(() =>
   import('./MobileMenuDrawer').then((m) => ({ default: m.MobileMenuDrawer }))
@@ -83,12 +84,12 @@ export const Layout: React.FC = () => {
   // Track scroll position per route key/pathname (capped to last 50 routes)
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout;
-    const handleScroll = () => {
+    const unsubscribe = addScrollListener(({ scrollY }) => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         try {
           const scrollMap = JSON.parse(sessionStorage.getItem('ateevibes_scroll_map') || '{}');
-          scrollMap[location.key || location.pathname] = window.scrollY;
+          scrollMap[location.key || location.pathname] = scrollY;
           const keys = Object.keys(scrollMap);
           if (keys.length > 50) {
             const excess = keys.length - 50;
@@ -101,12 +102,11 @@ export const Layout: React.FC = () => {
           // ignore storage error
         }
       }, 100);
-    };
+    });
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       clearTimeout(scrollTimeout);
-      window.removeEventListener('scroll', handleScroll);
+      unsubscribe();
     };
   }, [location.key, location.pathname]);
 

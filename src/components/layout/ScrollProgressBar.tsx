@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import { addScrollListener } from '../../lib/scrollListener';
 
 export const ScrollProgressBar: React.FC = () => {
-  const [scrollPercentage, setScrollPercentage] = useState(0);
+  const barRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (scrollHeight > 0) {
-        const currentProgress = (window.scrollY / scrollHeight) * 100;
-        setScrollPercentage(Math.min(100, Math.max(0, currentProgress)));
+    const unsubscribe = addScrollListener(({ progress }) => {
+      if (barRef.current) {
+        barRef.current.style.width = `${progress}%`;
       }
-    };
+    }, true);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return unsubscribe;
   }, []);
 
   return (
@@ -22,8 +20,9 @@ export const ScrollProgressBar: React.FC = () => {
       className="fixed top-0 left-0 right-0 h-[3px] z-[120] pointer-events-none bg-transparent"
     >
       <div
+        ref={barRef}
         className="h-full bg-gradient-to-r from-brand-green via-brand-cream to-accent-500 transition-all duration-75 ease-out"
-        style={{ width: `${scrollPercentage}%` }}
+        style={{ width: '0%' }}
       />
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
+import { addScrollListener } from '../../lib/scrollListener';
 
 export const BackToTop: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -9,19 +10,12 @@ export const BackToTop: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-
+    const unsubscribe = addScrollListener(({ scrollY, progress }) => {
       setVisible(scrollY > 600);
+      setScrollProgress(progress);
+    }, true);
 
-      if (docHeight > 0) {
-        setScrollProgress((scrollY / docHeight) * 100);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return unsubscribe;
   }, []);
 
   // Hide on checkout

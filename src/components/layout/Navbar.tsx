@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Heart, ShoppingBag, User, Menu, ChevronDown } from 'lucide-react';
 import { MegaMenu } from './MegaMenu';
+import { addScrollListener } from '../../lib/scrollListener';
 import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useUIStore } from '../../store/uiStore';
@@ -26,19 +27,17 @@ export const Navbar: React.FC = () => {
 
   // Scroll direction and shrink handler
   useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
+    const unsubscribe = addScrollListener(({ scrollY }) => {
       // Shrink threshold
-      setIsScrolled(currentScrollY > 40);
+      setIsScrolled(scrollY > 40);
 
       // Hide on scroll down, show on scroll up
-      if (currentScrollY > 120) {
-        if (currentScrollY > lastScrollY.current + 6) {
+      if (scrollY > 120) {
+        if (scrollY > lastScrollY.current + 6) {
           // Scrolling down
           setIsVisible(false);
           setIsMegaMenuOpen(false);
-        } else if (currentScrollY < lastScrollY.current - 6) {
+        } else if (scrollY < lastScrollY.current - 6) {
           // Scrolling up
           setIsVisible(true);
         }
@@ -46,11 +45,10 @@ export const Navbar: React.FC = () => {
         setIsVisible(true);
       }
 
-      lastScrollY.current = currentScrollY;
-    };
+      lastScrollY.current = scrollY;
+    }, true);
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return unsubscribe;
   }, []);
 
   // Close mega menu on route change
