@@ -46,12 +46,6 @@ export default {
           warning: 'var(--warning)',
         },
       },
-      backgroundImage: {
-        'grad-flow': 'var(--grad-flow)',
-        'grad-flow-rev': 'var(--grad-flow-rev)',
-        'grad-vertical': 'var(--grad-vertical)',
-        'grad-glow': 'var(--grad-glow)',
-      },
       fontFamily: {
         display: ['"Playfair Display"', 'Georgia', 'serif'],
         sans: ['"DM Sans"', 'system-ui', '-apple-system', 'sans-serif'],
@@ -77,39 +71,13 @@ export default {
         preloader: '110',
       },
       keyframes: {
-        gradientShift: {
-          '0%': { backgroundPosition: '0% 50%' },
-          '50%': { backgroundPosition: '100% 50%' },
-          '100%': { backgroundPosition: '0% 50%' },
-        },
-        floatSlow1: {
-          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
-          '50%': { transform: 'translate(40px, -30px) scale(1.08)' },
-        },
-        floatSlow2: {
-          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
-          '50%': { transform: 'translate(-50px, 35px) scale(0.92)' },
-        },
-        floatSlow3: {
-          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
-          '50%': { transform: 'translate(30px, 45px) scale(1.05)' },
-        },
         marquee: {
           '0%': { transform: 'translateX(0%)' },
           '100%': { transform: 'translateX(-50%)' },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-200% 0' },
-          '100%': { backgroundPosition: '200% 0' },
-        },
       },
       animation: {
-        gradient: 'gradientShift 18s ease-in-out infinite',
-        'float-1': 'floatSlow1 22s ease-in-out infinite',
-        'float-2': 'floatSlow2 26s ease-in-out infinite',
-        'float-3': 'floatSlow3 24s ease-in-out infinite',
         marquee: 'marquee 40s linear infinite',
-        shimmer: 'shimmer 1.4s infinite linear',
       },
     },
   },
