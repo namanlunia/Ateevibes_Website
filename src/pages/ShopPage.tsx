@@ -117,27 +117,27 @@ export const ShopPage: React.FC = () => {
           )}
         </nav>
 
-        {/* Category Header Banner with Luxury Architectural Styling - Oxblood Burgundy Editorial Panel */}
-        <div className="relative rounded-2xl p-6 sm:p-10 lg:p-12 mb-8 bg-oxblood text-warm-neutral border border-oxblood-light/40 shadow-luxury overflow-hidden">
+        {/* Category Header Banner with Luxury Architectural Styling - Matte Black & Champagne Gold Editorial Panel */}
+        <div className="relative rounded-2xl p-6 sm:p-10 lg:p-12 mb-8 bg-midnight text-ivory border border-sandstone/30 shadow-luxury overflow-hidden">
           {/* Subtle Decorative Architectural Watermark */}
-          <div className="absolute right-0 top-0 bottom-0 w-80 opacity-10 pointer-events-none flex items-center justify-center translate-x-12 select-none">
-            <div className="w-72 h-72 rounded-full border border-gold/40 flex items-center justify-center">
-              <div className="w-48 h-48 rounded-full border border-gold/30" />
+          <div className="absolute right-0 top-0 bottom-0 w-80 opacity-5 pointer-events-none flex items-center justify-center translate-x-12 select-none">
+            <div className="w-72 h-72 rounded-full border border-gold flex items-center justify-center">
+              <div className="w-48 h-48 rounded-full border border-gold" />
             </div>
           </div>
 
           <div className="relative z-10 max-w-3xl space-y-3">
             <div className="flex flex-wrap items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-midnight/60 border border-gold/40 text-gold text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] backdrop-blur-sm">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-deepBlack border border-gold/40 text-gold text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold" />
                 Atelier Drop • Collection Archive
               </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-oxblood-dark/80 text-warm-neutral/90 border border-white/10 text-[11px] font-medium tracking-wide">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-deepBlack/80 text-ivory/80 border border-sandstone/20 text-[11px] font-medium tracking-wide">
                 {filteredProducts.length} styles available
               </span>
             </div>
 
-            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-warm-neutral tracking-tight leading-[1.1] pt-1">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-ivory tracking-tight leading-[1.1] pt-1">
               {pageTitle}
             </h1>
             <p className="text-xs sm:text-sm md:text-base text-sandstone/90 leading-relaxed max-w-2xl font-light">
@@ -147,13 +147,13 @@ export const ShopPage: React.FC = () => {
 
           {/* Quick Sub-Category Pills for Horizontal Switching */}
           {currentCategory && currentCategory.subCategories.length > 0 && (
-            <div className="mt-6 pt-5 border-t border-white/15 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar relative z-10">
+            <div className="mt-6 pt-5 border-t border-sandstone/20 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar relative z-10">
               <Link
                 to={`/shop/${currentCategory.slug}`}
                 className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
                   !subParam
-                    ? 'bg-midnight text-warm-neutral border border-gold/70 shadow-luxury'
-                    : 'bg-oxblood-dark/80 text-sandstone border border-sandstone/25 hover:border-gold hover:text-warm-neutral'
+                    ? 'bg-gold text-midnight border border-gold shadow-sm'
+                    : 'bg-deepBlack/90 text-ivory/80 border border-sandstone/25 hover:border-gold hover:text-ivory'
                 }`}
               >
                 All {currentCategory.name}
@@ -166,8 +166,8 @@ export const ShopPage: React.FC = () => {
                     to={`/shop/${currentCategory.slug}/${sub.slug}`}
                     className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
                       isActive
-                        ? 'bg-midnight text-warm-neutral border border-gold/70 shadow-luxury'
-                        : 'bg-oxblood-dark/80 text-sandstone border border-sandstone/25 hover:border-gold hover:text-warm-neutral'
+                        ? 'bg-gold text-midnight border border-gold shadow-sm'
+                        : 'bg-deepBlack/90 text-ivory/80 border border-sandstone/25 hover:border-gold hover:text-ivory'
                     }`}
                   >
                     {sub.name}
@@ -184,7 +184,7 @@ export const ShopPage: React.FC = () => {
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden h-10 px-4 text-xs font-semibold flex items-center gap-2 rounded-lg bg-oxblood text-warm-neutral border border-oxblood-light/50 hover:bg-oxblood-dark transition-colors shadow-sm"
+              className="lg:hidden h-10 px-4 text-xs font-semibold flex items-center gap-2 rounded-lg bg-midnight text-ivory border border-sandstone/30 hover:border-gold transition-colors shadow-sm"
               aria-label="Open filter sidebar"
             >
               <SlidersHorizontal className="w-4 h-4 text-gold" />
@@ -240,7 +240,7 @@ export const ShopPage: React.FC = () => {
                 aria-label="2 Columns layout"
                 aria-pressed={gridColumns === 2}
                 className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
-                  gridColumns === 2 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
+                  gridColumns === 2 ? 'bg-midnight text-ivory' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <Grid2X2 className="w-4 h-4" />
@@ -250,7 +250,7 @@ export const ShopPage: React.FC = () => {
                 aria-label="3 Columns layout"
                 aria-pressed={gridColumns === 3}
                 className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
-                  gridColumns === 3 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
+                  gridColumns === 3 ? 'bg-midnight text-ivory' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
@@ -260,7 +260,7 @@ export const ShopPage: React.FC = () => {
                 aria-label="4 Columns layout"
                 aria-pressed={gridColumns === 4}
                 className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
-                  gridColumns === 4 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
+                  gridColumns === 4 ? 'bg-midnight text-ivory' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -277,7 +277,7 @@ export const ShopPage: React.FC = () => {
           filters.sizes.length > 0 ||
           filters.inStockOnly ||
           filters.search) && (
-          <div className="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-xl bg-warm-neutral/60 border border-sandstone/60">
+          <div className="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-xl bg-ivory border border-sandstone/60">
             <span className="text-xs font-semibold text-ink-700 uppercase tracking-wider">Active:</span>
 
             {filters.sleeve.map((s) => (
@@ -291,7 +291,7 @@ export const ShopPage: React.FC = () => {
                     updateFilter((prev) => ({ sleeve: prev.sleeve.filter((x) => x !== s) }))
                   }
                   aria-label={`Remove filter ${s === 'half' ? 'Half Sleeve' : 'Full Sleeve'}`}
-                  className="hover:text-oxblood transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -309,7 +309,7 @@ export const ShopPage: React.FC = () => {
                     updateFilter((prev) => ({ neck: prev.neck.filter((x) => x !== n) }))
                   }
                   aria-label={`Remove filter ${n === 'round' ? 'Round Neck' : 'Polo Collar'}`}
-                  className="hover:text-oxblood transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -327,7 +327,7 @@ export const ShopPage: React.FC = () => {
                     updateFilter((prev) => ({ fabric: prev.fabric.filter((x) => x !== f) }))
                   }
                   aria-label={`Remove filter fabric ${f}`}
-                  className="hover:text-oxblood transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -345,7 +345,7 @@ export const ShopPage: React.FC = () => {
                     updateFilter((prev) => ({ sizes: prev.sizes.filter((x) => x !== sz) }))
                   }
                   aria-label={`Remove filter size ${sz}`}
-                  className="hover:text-oxblood transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -360,7 +360,7 @@ export const ShopPage: React.FC = () => {
                 <button
                   onClick={() => updateFilter(() => ({ inStockOnly: false }))}
                   aria-label="Remove filter in stock only"
-                  className="hover:text-oxblood transition-colors"
+                  className="hover:text-gold transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -369,7 +369,7 @@ export const ShopPage: React.FC = () => {
 
             <button
               onClick={clearAllFilters}
-              className="text-xs font-semibold text-oxblood hover:text-gold ml-2 underline uppercase tracking-wider transition-colors"
+              className="text-xs font-semibold text-obsidian hover:text-gold ml-2 underline uppercase tracking-wider transition-colors"
             >
               Clear all
             </button>

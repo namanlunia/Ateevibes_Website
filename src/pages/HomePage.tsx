@@ -94,35 +94,35 @@ export const FABRIC_STORIES = [
   },
 ];
 
-// Why Ateevibes 4 Value Propositions (Color-Blocked, Zero False Claims)
+// Why Ateevibes 4 Value Propositions (Matte Black & Warm Ivory Alternation)
 const VALUE_PROPS = [
   {
     icon: Layers,
     title: 'Architectural Knits',
     description: 'We prioritize dimensional textures like China jacquards and waffle weaves over flat commodity cotton.',
     accent: 'midnight',
-    bgClass: 'bg-midnight text-warm-neutral border-gold/30',
+    bgClass: 'bg-midnight text-ivory border-sandstone/30',
   },
   {
     icon: Feather,
     title: 'Modern Fit Contour',
     description: 'Contemporary fit crafted with armhole depth, chest taper, and sleeve lengths for all-day comfort.',
-    accent: 'oxblood',
-    bgClass: 'bg-oxblood text-warm-neutral border-oxblood-light/50',
+    accent: 'ivory',
+    bgClass: 'bg-white text-obsidian border-sandstone',
   },
   {
     icon: ShieldCheck,
     title: 'Fair-Price Luxury',
     description: 'Direct-from-atelier pricing with zero showroom middleman markups. Pure fabric value in every rupee.',
-    accent: 'emerald',
-    bgClass: 'bg-emerald-deep text-warm-neutral border-emerald-light/40',
+    accent: 'midnight',
+    bgClass: 'bg-midnight text-ivory border-sandstone/30',
   },
   {
     icon: CheckCircle2,
     title: 'Precision Quality Checks',
     description: 'Each piece undergoes strict manual inspection for stitch density, seam strength, and collar shape retention.',
-    accent: 'cobalt',
-    bgClass: 'bg-cobalt text-warm-neutral border-cobalt-light/40',
+    accent: 'ivory',
+    bgClass: 'bg-white text-obsidian border-sandstone',
   },
 ];
 
@@ -285,7 +285,7 @@ export const HomePage: React.FC = () => {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-graphite/80 border border-gold/40 text-xs font-medium text-warm-neutral shadow-luxury"
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-                <span className="uppercase tracking-[0.18em] text-[11px] font-bold text-clay">
+                <span className="uppercase tracking-[0.18em] text-[11px] font-bold text-gold">
                   Ateevibes Menswear • Fall/Winter Atelier
                 </span>
               </motion.div>
@@ -293,7 +293,7 @@ export const HomePage: React.FC = () => {
               <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal text-warm-neutral tracking-tight leading-[1.05]">
                 <span>Elevated Knits.</span>
                 <br />
-                <span className="italic text-clay">Modern Menswear.</span>
+                <span className="italic text-sandstone">Modern Menswear.</span>
               </h1>
 
               <p className="text-base sm:text-lg text-sandstone/90 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans font-normal">
@@ -356,7 +356,7 @@ export const HomePage: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/80 to-transparent flex flex-col justify-end p-6 sm:p-7 text-warm-neutral">
-                  <span className="inline-block px-3 py-1 rounded-full bg-clay text-midnight text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
+                  <span className="inline-block px-3 py-1 rounded-full bg-gold text-midnight text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
                     FEATURED SILHOUETTE
                   </span>
                   <h3 className="font-serif text-2xl font-normal text-warm-neutral">
@@ -384,9 +384,9 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 2. INFINITE MARQUEE STRIP: Rich Oxblood Contemporary Block */}
+        {/* 2. INFINITE MARQUEE STRIP: Matte Black & Champagne Gold */}
         {/* ======================================================== */}
-        <section className="relative py-4 bg-oxblood text-warm-neutral overflow-hidden border-y border-oxblood-light/40 shadow-inner">
+        <section className="relative py-4 bg-deepBlack text-ivory overflow-hidden border-y border-sandstone/20 shadow-inner">
           <div className="flex space-x-8 animate-marquee hover:[animation-play-state:paused] whitespace-nowrap text-xs sm:text-sm font-semibold tracking-[0.16em] uppercase">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center space-x-8">
@@ -410,9 +410,9 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 3. 4 CATEGORY TILES: Warm Neutral with Editorial Badges */}
+        {/* 3. 4 CATEGORY TILES: Warm Ivory with Editorial Badges */}
         {/* ======================================================== */}
-        <section className="py-16 sm:py-24 bg-warm-neutral/60">
+        <section className="py-16 sm:py-24 bg-ivory">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
@@ -433,10 +433,10 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {/* Tile 1: Round Neck (Cobalt Accent) */}
+              {/* Tile 1: Round Neck */}
               <Link
                 to="/shop/round-neck"
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-cobalt transition-all block"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
               >
                 <img
                   src="/products/500/pastel-green.jpg"
@@ -450,8 +450,8 @@ export const HomePage: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-clay">
-                    COBALT ROTATION
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
+                    ESSENTIAL KNITS
                   </span>
                   <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
                     Round Neck Essentials
@@ -468,10 +468,10 @@ export const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Tile 2: Polo Collar (Emerald Accent) */}
+              {/* Tile 2: Polo Collar */}
               <Link
                 to="/shop/polo-collar"
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-emerald-deep transition-all block"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
               >
                 <img
                   src="/products/1400/white.jpg"
@@ -485,8 +485,8 @@ export const HomePage: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-emerald-light">
-                    EMERALD CLASSIC
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
+                    STRUCTURED PIQUE
                   </span>
                   <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
                     Polo & Co
@@ -503,7 +503,7 @@ export const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Tile 3: Jacquard (Champagne Gold Accent) */}
+              {/* Tile 3: Jacquard */}
               <Link
                 to="/shop/jacquard"
                 className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
@@ -538,10 +538,10 @@ export const HomePage: React.FC = () => {
                 </div>
               </Link>
 
-              {/* Tile 4: Printed & Tai Dai (Oxblood Accent) */}
+              {/* Tile 4: Printed & Tai Dai */}
               <Link
                 to="/shop/printed"
-                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-oxblood transition-all block"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
               >
                 <img
                   src="/products/102/r-gold.jpg"
@@ -555,8 +555,8 @@ export const HomePage: React.FC = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-oxblood-light">
-                    OXBLOOD WASH
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
+                    STATEMENT WASH
                   </span>
                   <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
                     Printed & Tai Dai
@@ -577,16 +577,16 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 4. NEW ARRIVALS: Rich Deep Emerald Campaign Section */}
+        {/* 4. NEW ARRIVALS: Matte Black Showcase */}
         {/* ======================================================== */}
-        <section className="py-20 sm:py-28 bg-emerald-deep text-warm-neutral border-y border-emerald-dark">
+        <section className="py-20 sm:py-28 bg-midnight text-ivory border-y border-sandstone/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.18em] text-gold block mb-1">
                   Atelier Drop • Fresh Arrivals
                 </span>
-                <h2 className="font-serif text-3xl sm:text-4xl font-normal text-warm-neutral tracking-tight">
+                <h2 className="font-serif text-3xl sm:text-4xl font-normal text-ivory tracking-tight">
                   New Season Releases
                 </h2>
               </div>
@@ -594,14 +594,14 @@ export const HomePage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleScrollCarousel('left')}
-                  className="p-3 rounded-full border border-sandstone/30 bg-emerald-dark text-warm-neutral hover:border-gold hover:text-gold transition-colors shadow-subtle"
+                  className="p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory hover:border-gold hover:text-gold transition-colors shadow-subtle"
                   aria-label="Previous items"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => handleScrollCarousel('right')}
-                  className="p-3 rounded-full border border-sandstone/30 bg-emerald-dark text-warm-neutral hover:border-gold hover:text-gold transition-colors shadow-subtle"
+                  className="p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory hover:border-gold hover:text-gold transition-colors shadow-subtle"
                   aria-label="Next items"
                 >
                   <ChevronRight className="w-4 h-4" />
@@ -626,10 +626,10 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 5. SAME PRINT, DIFFERENT VIBES: Rich Cobalt Campaign Section */}
+        {/* 5. SAME PRINT, DIFFERENT VIBES: Matte Black Showcase */}
         {/* ======================================================== */}
         {morphProduct && activeMorphVariant && (
-          <section className="py-20 sm:py-28 bg-cobalt text-warm-neutral border-y border-cobalt-dark">
+          <section className="py-20 sm:py-28 bg-deepBlack text-ivory border-y border-sandstone/20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {/* Left: Garment Morph Card */}
               <div className="lg:col-span-6 flex justify-center">
@@ -648,7 +648,7 @@ export const HomePage: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Active Colour Floating Pill */}
-                  <div className="absolute top-4 left-4 bg-midnight/90 text-warm-neutral backdrop-blur px-4 py-1.5 rounded-full border border-gold/40 shadow-luxury flex items-center gap-2">
+                  <div className="absolute top-4 left-4 bg-midnight/90 text-ivory backdrop-blur px-4 py-1.5 rounded-full border border-gold/40 shadow-luxury flex items-center gap-2">
                     <span
                       className="w-3.5 h-3.5 rounded-full border border-white/20"
                       style={{ backgroundColor: activeMorphVariant.hex }}
@@ -663,11 +663,11 @@ export const HomePage: React.FC = () => {
               {/* Right: Interactive Controls & Direct Add to Bag */}
               <div className="lg:col-span-6 space-y-6">
                 <div>
-                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-cobalt-dark border border-gold/30 text-xs font-bold text-gold uppercase tracking-wider mb-3 shadow-subtle">
+                  <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-midnight border border-gold/30 text-xs font-bold text-gold uppercase tracking-wider mb-3 shadow-subtle">
                     <Sparkles className="w-3.5 h-3.5 text-gold" />
                     <span>Signature Philosophy</span>
                   </span>
-                  <h2 className="font-serif text-3xl sm:text-5xl font-normal text-warm-neutral tracking-tight leading-tight">
+                  <h2 className="font-serif text-3xl sm:text-5xl font-normal text-ivory tracking-tight leading-tight">
                     Same Print, Different Vibes.
                   </h2>
                   <p className="text-sm sm:text-base text-sandstone/90 mt-3 leading-relaxed font-sans">
@@ -701,15 +701,15 @@ export const HomePage: React.FC = () => {
                           }}
                           className={`group relative flex items-center gap-2 px-3.5 py-2 rounded-xl border transition-all ${
                             isActive
-                              ? 'bg-midnight text-warm-neutral border-gold shadow-luxury ring-2 ring-gold/40'
-                              : 'bg-cobalt-dark/80 text-sandstone border-sandstone/30 hover:border-gold hover:text-white'
+                              ? 'bg-gold text-midnight border-gold shadow-luxury ring-2 ring-gold/40'
+                              : 'bg-midnight/80 text-sandstone border-sandstone/30 hover:border-gold hover:text-white'
                           }`}
                         >
                           <span
                             className="w-3.5 h-3.5 rounded-full border border-black/20 flex-shrink-0"
                             style={{ backgroundColor: v.hex }}
                           />
-                          <span className={`text-xs ${isActive ? 'font-bold text-warm-neutral' : 'font-medium'}`}>
+                          <span className={`text-xs ${isActive ? 'font-bold text-midnight' : 'font-medium'}`}>
                             {v.colourName}
                           </span>
                         </button>
@@ -731,8 +731,8 @@ export const HomePage: React.FC = () => {
                         className={cn(
                           'w-12 h-10 rounded-xl text-xs font-bold border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
                           morphSize === s
-                            ? 'bg-midnight text-gold border-gold shadow-luxury'
-                            : 'bg-cobalt-dark border-sandstone/30 text-sandstone hover:border-gold hover:text-white'
+                            ? 'bg-gold text-midnight border-gold shadow-luxury font-bold'
+                            : 'bg-midnight border-sandstone/30 text-sandstone hover:border-gold hover:text-white'
                         )}
                       >
                         {s}
@@ -760,7 +760,7 @@ export const HomePage: React.FC = () => {
 
                   <Link
                     to={`/product/${morphProduct.slug}`}
-                    className="px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center gap-1.5 rounded-full border border-sandstone/40 text-warm-neutral hover:border-gold hover:text-white transition-all font-sans"
+                    className="px-5 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center gap-1.5 rounded-full border border-sandstone/40 text-ivory hover:border-gold hover:text-white transition-all font-sans"
                   >
                     <span>Full Details</span>
                     <ArrowRight className="w-4 h-4 text-gold" />
@@ -772,16 +772,16 @@ export const HomePage: React.FC = () => {
         )}
 
         {/* ======================================================== */}
-        {/* 6. FABRIC STORIES: Rich Oxblood Campaign Section */}
+        {/* 6. FABRIC STORIES: Matte Black Campaign Section */}
         {/* ======================================================== */}
-        <section id="fabrics" className="py-20 sm:py-28 bg-oxblood text-warm-neutral border-y border-oxblood-light/30">
+        <section id="fabrics" className="py-20 sm:py-28 bg-midnight text-ivory border-y border-sandstone/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="text-center space-y-3 max-w-2xl mx-auto">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-oxblood-dark border border-gold/40 text-xs font-bold text-gold uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-deepBlack border border-gold/40 text-xs font-bold text-gold uppercase tracking-wider">
                 <Layers className="w-3.5 h-3.5" />
                 <span>Architectural Knitwear</span>
               </span>
-              <h2 className="font-serif text-3xl sm:text-5xl font-normal text-warm-neutral tracking-tight">
+              <h2 className="font-serif text-3xl sm:text-5xl font-normal text-ivory tracking-tight">
                 Tactile Fabric Stories
               </h2>
               <p className="text-xs sm:text-sm text-sandstone/90 leading-relaxed font-sans">
@@ -893,7 +893,7 @@ export const HomePage: React.FC = () => {
         {/* ======================================================== */}
         {/* 7. BEST SELLERS: Warm Neutral Surface for Clear Shopping */}
         {/* ======================================================== */}
-        <section className="py-16 sm:py-24 bg-warm-neutral/60">
+        <section className="py-16 sm:py-24 bg-ivory">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
@@ -962,7 +962,7 @@ export const HomePage: React.FC = () => {
         {/* ======================================================== */}
         {/* 9. EDITORIAL LOOKBOOK: Cinematic Midnight Showcase */}
         {/* ======================================================== */}
-        <section className="py-16 bg-warm-neutral/50">
+        <section className="py-16 bg-ivory">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative rounded-3xl overflow-hidden min-h-[480px] flex items-center border border-sandstone shadow-luxury">
               {/* Background Catalog Image */}
@@ -979,8 +979,8 @@ export const HomePage: React.FC = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-midnight via-midnight/90 to-midnight/40" />
 
-              <div className="relative z-10 max-w-xl p-8 sm:p-14 lg:p-16 space-y-5 text-warm-neutral">
-                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-clay text-midnight text-[10px] font-bold uppercase tracking-[0.2em]">
+              <div className="relative z-10 max-w-xl p-8 sm:p-14 lg:p-16 space-y-5 text-ivory">
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gold text-midnight text-[10px] font-bold uppercase tracking-[0.2em]">
                   EDITORIAL CAPSULE
                 </span>
                 <h2 className="font-serif text-3xl sm:text-5xl font-normal text-white tracking-tight leading-tight">
@@ -1004,9 +1004,9 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 10. THE ATEEVIBES STANDARD: 4 Color-Blocked Cards */}
+        {/* 10. THE ATEEVIBES STANDARD: 4 Alternating Cards */}
         {/* ======================================================== */}
-        <section className="py-20 bg-warm-neutral/70 border-t border-sandstone">
+        <section className="py-20 bg-ivory border-t border-sandstone">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="text-center space-y-1">
               <span className="text-xs font-bold uppercase tracking-[0.16em] text-gold">
@@ -1020,16 +1020,23 @@ export const HomePage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {VALUE_PROPS.map((prop, idx) => {
                 const PropIcon = prop.icon;
+                const isDark = prop.accent === 'midnight';
                 return (
                   <div
                     key={idx}
                     className={`rounded-3xl p-6 sm:p-8 border shadow-luxury space-y-3 transition-transform hover:-translate-y-1 ${prop.bgClass}`}
                   >
-                    <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-gold shadow-sm">
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center text-gold shadow-sm ${
+                      isDark ? 'bg-white/10 border border-white/20' : 'bg-midnight/5 border border-sandstone'
+                    }`}>
                       <PropIcon className="w-6 h-6 text-gold" />
                     </div>
-                    <h3 className="font-serif text-xl font-normal text-warm-neutral">{prop.title}</h3>
-                    <p className="text-xs text-sandstone/80 leading-relaxed font-sans">{prop.description}</p>
+                    <h3 className={`font-serif text-xl font-normal ${isDark ? 'text-ivory' : 'text-obsidian'}`}>
+                      {prop.title}
+                    </h3>
+                    <p className={`text-xs leading-relaxed font-sans ${isDark ? 'text-sandstone/80' : 'text-ink-600'}`}>
+                      {prop.description}
+                    </p>
                   </div>
                 );
               })}
@@ -1038,17 +1045,17 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 11. NEWSLETTER VIP CLUB: Midnight Black with Gold Accent */}
+        {/* 11. NEWSLETTER VIP CLUB: Deep Black with Gold Accent */}
         {/* ======================================================== */}
-        <section className="py-20 bg-midnight text-warm-neutral border-t border-sandstone/20">
+        <section className="py-20 bg-deepBlack text-ivory border-t border-sandstone/20">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="bg-graphite/80 rounded-3xl border border-sandstone/30 p-8 sm:p-14 text-center shadow-luxury space-y-6">
+            <div className="bg-midnight rounded-3xl border border-sandstone/30 p-8 sm:p-14 text-center shadow-luxury space-y-6">
               <div className="w-12 h-12 rounded-2xl bg-gold/15 text-gold flex items-center justify-center mx-auto border border-gold/30">
                 <Sparkles className="w-6 h-6 text-gold" />
               </div>
 
               <div className="space-y-2">
-                <h3 className="font-serif text-2xl sm:text-4xl font-normal text-warm-neutral">
+                <h3 className="font-serif text-2xl sm:text-4xl font-normal text-ivory">
                   Join The Ateevibes Club
                 </h3>
                 <p className="text-xs sm:text-sm text-sandstone/80 max-w-md mx-auto font-sans">
@@ -1057,20 +1064,20 @@ export const HomePage: React.FC = () => {
               </div>
 
               {newsletterSubscribed ? (
-                <div className="p-4 rounded-2xl bg-midnight border border-gold/40 text-warm-neutral text-xs sm:text-sm font-medium inline-flex items-center gap-2 shadow-luxury font-sans">
+                <div className="p-4 rounded-2xl bg-deepBlack border border-gold/40 text-ivory text-xs sm:text-sm font-medium inline-flex items-center gap-2 shadow-luxury font-sans">
                   <Check className="w-4 h-4 text-gold" />
                   <span>Thank you! (Demo Mode: Newsletter subscriptions connect to your email service in production. You can use code WELCOME15 on your first order.)</span>
                 </div>
               ) : (
                 <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto font-sans">
-                  <div className="relative flex items-center rounded-full bg-midnight border border-sandstone/40 focus-within:border-gold transition-colors p-1.5 shadow-luxury">
+                  <div className="relative flex items-center rounded-full bg-deepBlack border border-sandstone/40 focus-within:border-gold transition-colors p-1.5 shadow-luxury">
                     <input
                       type="email"
                       required
                       placeholder="Enter your email address"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2.5 text-xs sm:text-sm text-warm-neutral placeholder:text-sandstone/50 focus:outline-none"
+                      className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2.5 text-xs sm:text-sm text-ivory placeholder:text-sandstone/50 focus:outline-none"
                     />
                     <button
                       type="submit"

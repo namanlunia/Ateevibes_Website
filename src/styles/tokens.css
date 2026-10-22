@@ -1,72 +1,74 @@
 :root {
-  /* Core Brand Identity (Midnight Black & Metallic Gold) */
-  --midnight: #101114;
-  --obsidian: #101114;
+  /* Strictly Enforced Brand Identity: Matte Black, Champagne Gold, Warm Ivory, Warm Grey */
+  --primary-black: #111111;
+  --deep-black: #191919;
+  --midnight: #111111;
+  --obsidian: #111111;
+
   --champagne-gold: #c9a45c;
   --gold: #c9a45c;
-  --gold-light: #dfca95;
-  --gold-dark: #9e7b35;
+  --gold-light: #e2cb97;
+  --gold-dark: #a9833b;
 
-  /* Rich Campaign Section Colors */
-  --oxblood: #55243a;
-  --oxblood-dark: #3e192a;
-  --oxblood-light: #733451;
-  --cobalt: #243d73;
-  --cobalt-dark: #182a52;
-  --cobalt-light: #325399;
-  --deep-emerald: #315747;
-  --emerald-dark: #223e32;
-  --emerald-light: #41735e;
-
-  /* Warm Softening Elements */
-  --warm-clay: #e8b9a4;
-  --clay: #e8b9a4;
-  --clay-light: #f4d3c6;
-  --warm-neutral: #f1ede5;
-  --neutral-warm: #f1ede5;
-  --warm-ivory: #f1ede5;
-  --graphite: #292925;
-  --sandstone: #e7e0d3;
+  --warm-ivory: #f5f1e8;
+  --ivory: #f5f1e8;
+  --warm-grey: #d8d2c7;
+  --sandstone: #d8d2c7;
+  --secondary-text: #77736b;
   --white: #ffffff;
+
+  /* Legacy color aliases safely mapped to the strict brand palette */
+  --oxblood: #191919;
+  --oxblood-dark: #111111;
+  --oxblood-light: #292925;
+  --cobalt: #111111;
+  --cobalt-dark: #191919;
+  --cobalt-light: #292925;
+  --deep-emerald: #191919;
+  --emerald-dark: #111111;
+  --emerald-light: #292925;
+  --warm-clay: #d8d2c7;
+  --clay: #d8d2c7;
+  --clay-light: #f5f1e8;
+  --warm-neutral: #f5f1e8;
+  --neutral-warm: #f5f1e8;
+  --graphite: #292925;
 
   /* Surfaces */
   --surface: #ffffff;
-  --surface-neutral: #f1ede5;
-  --surface-ivory: #f1ede5;
-  --surface-tint: #f1ede5;
-  --surface-dark: #101114;
+  --surface-neutral: #f5f1e8;
+  --surface-ivory: #f5f1e8;
+  --surface-tint: #f5f1e8;
+  --surface-dark: #111111;
+  --surface-deep: #191919;
   --surface-graphite: #292925;
-  --surface-oxblood: #55243a;
-  --surface-cobalt: #243d73;
-  --surface-emerald: #315747;
 
   /* Borders & Dividers */
-  --border: #e7e0d3;
-  --border-light: #f0ebe1;
+  --border: #d8d2c7;
+  --border-light: #ede7dc;
   --border-dark: #292925;
   --border-gold: #c9a45c;
-  --border-clay: #e8b9a4;
 
   /* Typography & Ink */
-  --ink-900: #101114;
+  --ink-900: #111111;
   --ink-700: #292925;
-  --ink-600: #51594c;
-  --ink-500: #7d7d75;
+  --ink-600: #54514a;
+  --ink-500: #77736b;
 
-  /* Tab & Selector Active States (Protected design tokens) */
-  --tab-active-bg: #101114;
-  --tab-active-text: #f1ede5;
+  /* Tab & Selector Active States (Protected design tokens for Vitest) */
+  --tab-active-bg: #111111;
+  --tab-active-text: #f5f1e8;
 
   /* Accents */
   --accent-500: #c9a45c;
-  --accent-700: #9e7b35;
+  --accent-700: #a9833b;
 
   /* Brand Backward-Compatible Aliases */
   --green: #c9a45c;
-  --cream: #f1ede5;
+  --cream: #f5f1e8;
 
   /* System Status */
-  --success: #315747;
+  --success: #3a5c43;
   --error: #b3261e;
   --warning: #c9a45c;
 }

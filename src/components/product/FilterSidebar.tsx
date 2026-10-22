@@ -82,7 +82,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
         {hasActiveFilters && (
           <button
             onClick={clearAllFilters}
-            className="text-xs font-semibold text-oxblood hover:text-gold flex items-center gap-1 transition-colors uppercase tracking-wider"
+            className="text-xs font-semibold text-obsidian hover:text-gold flex items-center gap-1 transition-colors uppercase tracking-wider"
           >
             <RotateCcw className="w-3 h-3" />
             <span>Reset All</span>
@@ -94,7 +94,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('sleeve')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Sleeve ({filters.sleeve.length || 'All'})</span>
           <ChevronDown
@@ -124,7 +124,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.sleeve.filter((s) => s !== type);
                         updateFilter(() => ({ sleeve: next }));
                       }}
-                      className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+                      className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
                     />
                     <span className="capitalize">{type === 'half' ? 'Half Sleeve' : 'Full Sleeve'}</span>
                   </div>
@@ -140,7 +140,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('neck')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Neck Style</span>
           <ChevronDown
@@ -170,7 +170,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.neck.filter((n) => n !== type);
                         updateFilter(() => ({ neck: next }));
                       }}
-                      className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+                      className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
                     />
                     <span className="capitalize">{type === 'round' ? 'Round Neck' : 'Polo Collar'}</span>
                   </div>
@@ -186,7 +186,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('size')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Size</span>
           <ChevronDown
@@ -215,7 +215,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   }}
                   className={`py-2 rounded-xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
                     isSelected
-                      ? 'bg-oxblood text-warm-neutral border-gold/40 shadow-sm'
+                      ? 'bg-midnight text-ivory border-gold shadow-sm font-semibold'
                       : isDisabled
                       ? 'bg-sandstone/20 text-ink-400 border-transparent cursor-not-allowed'
                       : 'bg-white border-sandstone text-obsidian hover:border-gold/50 shadow-subtle'
@@ -234,7 +234,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('color')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Colours ({filters.colors.length || 'All'})</span>
           <ChevronDown
@@ -287,7 +287,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('fabric')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Fabric Knit</span>
           <ChevronDown
@@ -317,7 +317,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.fabric.filter((f) => f !== fabric);
                         updateFilter(() => ({ fabric: next }));
                       }}
-                      className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+                      className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
                     />
                     <span>{fabric}</span>
                   </div>
@@ -333,7 +333,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('print')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Print & Pattern</span>
           <ChevronDown
@@ -363,7 +363,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.printType.filter((p) => p !== print);
                         updateFilter(() => ({ printType: next }));
                       }}
-                      className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+                      className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
                     />
                     <span>{print}</span>
                   </div>
@@ -379,7 +379,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('price')}
-          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-oxblood transition-colors"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian hover:text-gold transition-colors"
         >
           <span>Price (MRP)</span>
           <ChevronDown
@@ -406,7 +406,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 const max = Number(e.target.value);
                 updateFilter(() => ({ priceMax: max }));
               }}
-              className="w-full accent-oxblood cursor-pointer"
+              className="w-full accent-midnight cursor-pointer"
             />
           </div>
         )}
@@ -420,7 +420,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
             type="checkbox"
             checked={filters.inStockOnly}
             onChange={(e) => updateFilter(() => ({ inStockOnly: e.target.checked }))}
-            className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+            className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
           />
         </label>
 
@@ -430,7 +430,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
             type="checkbox"
             checked={filters.hideComingSoon}
             onChange={(e) => updateFilter(() => ({ hideComingSoon: e.target.checked }))}
-            className="w-4 h-4 rounded border-sandstone/80 text-oxblood focus:ring-gold accent-oxblood cursor-pointer"
+            className="w-4 h-4 rounded border-sandstone/80 text-midnight focus:ring-gold accent-midnight cursor-pointer"
           />
         </label>
       </div>
@@ -440,7 +440,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
         <div className="pt-4 sticky bottom-0 bg-surface border-t border-sandstone mt-6">
           <button
             onClick={onCloseMobile}
-            className="w-full btn-oxblood py-3.5 text-xs font-bold uppercase tracking-wider shadow-luxury"
+            className="w-full btn-primary py-3.5 text-xs font-bold uppercase tracking-wider shadow-luxury"
           >
             Apply Filters ({totalResults} results)
           </button>
