@@ -10,8 +10,11 @@ export const CustomCursor: React.FC = () => {
   const cursorText = useUIStore((state) => state.cursorText);
 
   useEffect(() => {
-    // Check if device supports fine pointer
-    if (window.matchMedia('(pointer: coarse)').matches) {
+    // Check if device supports fine pointer or prefers reduced motion
+    if (
+      window.matchMedia('(pointer: coarse)').matches ||
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
       setIsTouchDevice(true);
       return;
     }

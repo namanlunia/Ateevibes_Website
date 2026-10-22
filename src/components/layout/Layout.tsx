@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigationType } from 'react-router-dom';
 import Lenis from 'lenis';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Navbar } from './Navbar';
@@ -27,11 +27,49 @@ export const Layout: React.FC = () => {
   const closeCart = useUIStore((state) => state.closeCart);
 
   const location = useLocation();
+  const navigationType = useNavigationType();
 
-  // Scroll to top on route change
+  // Track scroll position per route key/pathname
   useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScroll = () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        try {
+          const scrollMap = JSON.parse(sessionStorage.getItem('ateevibes_scroll_map') || '{}');
+          scrollMap[location.key || location.pathname] = window.scrollY;
+          sessionStorage.setItem('ateevibes_scroll_map', JSON.stringify(scrollMap));
+        } catch {
+          // ignore storage error
+        }
+      }, 100);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      clearTimeout(scrollTimeout);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [location.key, location.pathname]);
+
+  // Restore scroll position on POP (back/forward), or scroll to top on PUSH
+  useEffect(() => {
+    if (navigationType === 'POP') {
+      try {
+        const scrollMap = JSON.parse(sessionStorage.getItem('ateevibes_scroll_map') || '{}');
+        const savedY = scrollMap[location.key || location.pathname];
+        if (typeof savedY === 'number') {
+          setTimeout(() => {
+            window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
+          }, 60);
+          return;
+        }
+      } catch {
+        // fallback
+      }
+    }
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-  }, [location.pathname]);
+  }, [location.pathname, location.key, navigationType]);
 
   // Lenis smooth scroll initialization (respecting reduced motion)
   useEffect(() => {

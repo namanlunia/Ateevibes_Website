@@ -71,4 +71,15 @@ export const productService = {
       return p.variants.some((v) => v.colourName.toLowerCase() === colourName.toLowerCase());
     }).slice(0, limit);
   },
+
+  decrementStock(items: { productId: string; variantId: string; size: string; qty: number }[]): void {
+    items.forEach((item) => {
+      const product = PRODUCTS.find((p) => p.id === item.productId);
+      if (!product) return;
+      const variant = product.variants.find((v) => v.id === item.variantId);
+      if (!variant || !variant.stockBySize) return;
+      const currentStock = variant.stockBySize[item.size] ?? 10;
+      variant.stockBySize[item.size] = Math.max(0, currentStock - item.qty);
+    });
+  },
 };

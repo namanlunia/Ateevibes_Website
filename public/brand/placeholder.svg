@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cdf0a7" stop-opacity="0.4"/>
+      <stop offset="50%" stop-color="#faf3d0" stop-opacity="0.7"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect x="40" y="40" width="720" height="920" rx="32" fill="none" stroke="#e4e8d6" stroke-width="2"/>
+  <g transform="translate(400, 460)">
+    <circle cx="0" cy="0" r="70" fill="#1c241a" fill-opacity="0.04" stroke="#8fbf5a" stroke-width="2"/>
+    <path d="M-22 22 L0 -24 L22 22 L8 22 L0 0 L-8 22 Z" fill="#1c241a"/>
+    <text y="120" text-anchor="middle" font-family="'Playfair Display', Georgia, serif" font-size="28" font-weight="bold" fill="#1c241a" letter-spacing="4">ATEEVIBES</text>
+    <text y="155" text-anchor="middle" font-family="'DM Sans', system-ui, sans-serif" font-size="14" font-weight="600" fill="#4d7a2a" letter-spacing="3">FEEL THE VIBES</text>
+    <text y="195" text-anchor="middle" font-family="'DM Sans', system-ui, sans-serif" font-size="12" fill="#556150">Image Preview Placeholder</text>
+  </g>
+</svg>

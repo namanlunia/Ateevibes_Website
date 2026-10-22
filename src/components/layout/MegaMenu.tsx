@@ -107,8 +107,11 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                   className="block relative aspect-[4/5] rounded-xl overflow-hidden bg-brand-cream/30 mb-3"
                 >
                   <img
-                    src={featuredProduct.variants[0]?.images[0] || '/brand/logo.png'}
+                    src={featuredProduct.variants[0]?.images[0] || '/brand/placeholder.svg'}
                     alt={featuredProduct.name}
+                    onError={(e) => {
+                      e.currentTarget.src = '/brand/placeholder.svg';
+                    }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute top-2 left-2 bg-ink-900 text-brand-cream text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">

@@ -51,8 +51,8 @@ export const ProductPage: React.FC = () => {
 
   const product = PRODUCTS.find((p) => p.slug === slug);
 
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(null);
-  const [selectedSize, setSelectedSize] = useState<SizeType | string>('M');
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(() => product?.variants[0] || null);
+  const [selectedSize, setSelectedSize] = useState<SizeType | string>(() => product?.sizes[0] || 'M');
   const [qty, setQty] = useState(1);
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [activeTab, setActiveTab] = useState<'photos' | 'catalog'>('photos');
@@ -229,6 +229,16 @@ export const ProductPage: React.FC = () => {
       <Helmet>
         <title>{`${product.name} (Style ${product.pno}) | ${siteConfig.name}`}</title>
         <meta name="description" content={product.description} />
+        <link rel="canonical" href={`${siteConfig.url}/product/${product.slug}`} />
+        <meta property="og:type" content="product" />
+        <meta property="og:url" content={`${siteConfig.url}/product/${product.slug}`} />
+        <meta property="og:title" content={`${product.name} (Style ${product.pno}) | ${siteConfig.name}`} />
+        <meta property="og:description" content={product.description} />
+        <meta property="og:image" content={selectedVariant.images[0] || product.catalogPoster} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${product.name} | ${siteConfig.name}`} />
+        <meta name="twitter:description" content={product.description} />
+        <meta name="twitter:image" content={selectedVariant.images[0] || product.catalogPoster} />
         <script type="application/ld+json">
           {JSON.stringify(generateProductJsonLd(product))}
         </script>
@@ -303,6 +313,9 @@ export const ProductPage: React.FC = () => {
                 key={`${selectedVariant.id}-${activeImageIdx}-${activeTab}`}
                 src={activeMainImage}
                 alt={`${product.name} view`}
+                onError={(e) => {
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -347,7 +360,14 @@ export const ProductPage: React.FC = () => {
                         : 'border-border/80 opacity-70 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt="thumbnail"
+                      onError={(e) => {
+                        e.currentTarget.src = '/brand/placeholder.svg';
+                      }}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -462,7 +482,11 @@ export const ProductPage: React.FC = () => {
                           ? 'border-ink-900 ring-2 ring-ink-900/30 scale-110'
                           : 'border-white hover:scale-105'
                       }`}
-                      style={{ backgroundColor: v.hex }}
+                      style={
+                        v.patternImage
+                          ? { backgroundImage: `url(${v.patternImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                          : { backgroundColor: v.hex }
+                      }
                     >
                       {isSelected && (
                         <Check

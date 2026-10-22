@@ -70,12 +70,23 @@ export const Navbar: React.FC = () => {
     }, 200);
   };
 
+  const handleMegaMenuFocus = () => {
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    setIsMegaMenuOpen(true);
+  };
+
+  const handleMegaMenuBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (e.currentTarget.contains(e.relatedTarget as Node)) return;
+    if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
+    setIsMegaMenuOpen(false);
+  };
+
   return (
     <motion.header
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={`sticky top-0 z-40 w-full transition-all duration-300 ${
+      className={`sticky top-0 z-40 w-full relative transition-all duration-300 ${
         isScrolled ? 'glass py-2.5 shadow-soft' : 'bg-surface/85 backdrop-blur-md py-4'
       }`}
     >
@@ -108,9 +119,13 @@ export const Navbar: React.FC = () => {
         >
           {/* Shop with Mega Menu Trigger */}
           <div
-            className="relative"
             onMouseEnter={handleMegaMenuEnter}
             onMouseLeave={handleMegaMenuLeave}
+            onFocus={handleMegaMenuFocus}
+            onBlur={handleMegaMenuBlur}
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') setIsMegaMenuOpen(false);
+            }}
           >
             <Link
               to="/shop"

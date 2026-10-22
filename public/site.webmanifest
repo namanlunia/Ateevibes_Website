@@ -1,0 +1,17 @@
+{
+  "name": "Ateevibes",
+  "short_name": "Ateevibes",
+  "description": "Feel the Vibes. Premium Men's T-Shirts crafted for style, comfort, and quality.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#faf3d0",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

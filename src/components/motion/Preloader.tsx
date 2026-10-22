@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { useUIStore } from '../../store/uiStore';
 
 export const Preloader: React.FC = () => {
   const preloaderFinished = useUIStore((state) => state.preloaderFinished);
   const setPreloaderFinished = useUIStore((state) => state.setPreloaderFinished);
-  const [shouldRender, setShouldRender] = useState(!preloaderFinished);
+  const shouldReduceMotion = useReducedMotion();
+  const [shouldRender, setShouldRender] = useState(!preloaderFinished && !shouldReduceMotion);
 
   useEffect(() => {
-    if (preloaderFinished) {
+    if (preloaderFinished || shouldReduceMotion) {
+      if (shouldReduceMotion && !preloaderFinished) {
+        setPreloaderFinished(true);
+      }
       setShouldRender(false);
       return;
     }
@@ -20,7 +24,7 @@ export const Preloader: React.FC = () => {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [preloaderFinished, setPreloaderFinished]);
+  }, [preloaderFinished, setPreloaderFinished, shouldReduceMotion]);
 
   if (!shouldRender) return null;
 

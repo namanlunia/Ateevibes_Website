@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { productService } from '../services/productService';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -95,10 +96,11 @@ export const CheckoutPage: React.FC = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentFailureError, setPaymentFailureError] = useState<string | null>(null);
   const [termsAccepted, setTermsAccepted] = useState(true);
+  const isPlacingOrderRef = useRef(false);
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty (unless an order was just placed)
   useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !isPlacingOrderRef.current) {
       navigate('/cart', { replace: true });
     }
   }, [items, navigate]);
@@ -114,7 +116,7 @@ export const CheckoutPage: React.FC = () => {
 
   const breakdown = getBreakdown(false, paymentMethod === 'cod', isExpress);
 
-  // Step 1 Validation
+  // Step 1 Validation with automatic focus on first invalid field
   const validateStep1 = () => {
     const errors: Record<string, string> = {};
     if (addressData.fullName.trim().length < 2) errors.fullName = 'Name must be at least 2 characters';
@@ -126,10 +128,22 @@ export const CheckoutPage: React.FC = () => {
     if (!pinCodeRegex.test(addressData.pincode)) errors.pincode = 'Enter a valid 6-digit Indian PIN code';
 
     setAddressErrors(errors);
-    return Object.keys(errors).length === 0;
+
+    if (Object.keys(errors).length > 0) {
+      const fieldOrder = ['fullName', 'email', 'phone', 'addressLine1', 'city', 'state', 'pincode'];
+      const firstInvalid = fieldOrder.find((f) => errors[f]);
+      if (firstInvalid) {
+        setTimeout(() => {
+          const el = document.getElementById(firstInvalid) || document.querySelector(`[name="${firstInvalid}"]`);
+          if (el) (el as HTMLElement).focus();
+        }, 50);
+      }
+      return false;
+    }
+    return true;
   };
 
-  // Step 3 Validation
+  // Step 3 Validation with automatic focus on first invalid field
   const validateStep3 = () => {
     const errors: Record<string, string> = {};
     if (paymentMethod === 'upi') {
@@ -151,7 +165,19 @@ export const CheckoutPage: React.FC = () => {
       }
     }
     setPaymentErrors(errors);
-    return Object.keys(errors).length === 0;
+
+    if (Object.keys(errors).length > 0) {
+      const fieldOrder = ['upiId', 'cardNumber', 'cardExpiry', 'cardCvv', 'cardName'];
+      const firstInvalid = fieldOrder.find((f) => errors[f]);
+      if (firstInvalid) {
+        setTimeout(() => {
+          const el = document.getElementById(firstInvalid) || document.querySelector(`[name="${firstInvalid}"]`);
+          if (el) (el as HTMLElement).focus();
+        }, 50);
+      }
+      return false;
+    }
+    return true;
   };
 
   const handleNextStep = () => {
@@ -212,7 +238,11 @@ export const CheckoutPage: React.FC = () => {
       estimatedDeliveryDate: formatDate(deliveryDate),
     };
 
+    isPlacingOrderRef.current = true;
     await addOrder(newOrder);
+
+    // Mock stock decrement for session
+    productService.decrementStock(items);
 
     // Clear cart and session checkout info
     clearCart();
@@ -398,10 +428,12 @@ export const CheckoutPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Full Name */}
                   <div className="sm:col-span-2 space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="fullName" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       Full Name *
                     </label>
                     <input
+                      id="fullName"
+                      name="fullName"
                       type="text"
                       value={addressData.fullName}
                       onChange={(e) => setAddressData({ ...addressData, fullName: e.target.value })}
@@ -415,10 +447,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Email */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="email" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       Email Address *
                     </label>
                     <input
+                      id="email"
+                      name="email"
                       type="email"
                       value={addressData.email}
                       onChange={(e) => setAddressData({ ...addressData, email: e.target.value })}
@@ -432,10 +466,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Phone */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="phone" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       Mobile Number (10 digits) *
                     </label>
                     <input
+                      id="phone"
+                      name="phone"
                       type="tel"
                       maxLength={10}
                       value={addressData.phone}
@@ -452,10 +488,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Address Line 1 */}
                   <div className="sm:col-span-2 space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="addressLine1" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       House / Flat No., Building, Street Address *
                     </label>
                     <input
+                      id="addressLine1"
+                      name="addressLine1"
                       type="text"
                       value={addressData.addressLine1}
                       onChange={(e) => setAddressData({ ...addressData, addressLine1: e.target.value })}
@@ -469,10 +507,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Address Line 2 / Landmark */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="landmark" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       Landmark (Optional)
                     </label>
                     <input
+                      id="landmark"
+                      name="landmark"
                       type="text"
                       value={addressData.landmark || ''}
                       onChange={(e) => setAddressData({ ...addressData, landmark: e.target.value })}
@@ -483,10 +523,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* City */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="city" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       City *
                     </label>
                     <input
+                      id="city"
+                      name="city"
                       type="text"
                       value={addressData.city}
                       onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
@@ -500,10 +542,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* State Dropdown */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="state" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       State / Union Territory *
                     </label>
                     <select
+                      id="state"
+                      name="state"
                       value={addressData.state}
                       onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
                       className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
@@ -518,10 +562,12 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* PIN Code */}
                   <div className="space-y-1">
-                    <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="pincode" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                       PIN Code (6 digits) *
                     </label>
                     <input
+                      id="pincode"
+                      name="pincode"
                       type="text"
                       maxLength={6}
                       value={addressData.pincode}
@@ -700,10 +746,12 @@ export const CheckoutPage: React.FC = () => {
                   {/* UPI */}
                   {paymentMethod === 'upi' && (
                     <div className="space-y-3">
-                      <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                      <label htmlFor="upiId" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                         Enter UPI ID (Google Pay, PhonePe, Paytm, BHIM)
                       </label>
                       <input
+                        id="upiId"
+                        name="upiId"
                         type="text"
                         value={upiId}
                         onChange={(e) => setUpiId(e.target.value)}
@@ -729,10 +777,12 @@ export const CheckoutPage: React.FC = () => {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                        <label htmlFor="cardNumber" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                           Card Number
                         </label>
                         <input
+                          id="cardNumber"
+                          name="cardNumber"
                           type="text"
                           maxLength={19}
                           value={cardNumber}
@@ -747,10 +797,12 @@ export const CheckoutPage: React.FC = () => {
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                          <label htmlFor="cardExpiry" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                             Expiry (MM/YY)
                           </label>
                           <input
+                            id="cardExpiry"
+                            name="cardExpiry"
                             type="text"
                             maxLength={5}
                             value={cardExpiry}
@@ -764,10 +816,12 @@ export const CheckoutPage: React.FC = () => {
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                          <label htmlFor="cardCvv" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                             CVV
                           </label>
                           <input
+                            id="cardCvv"
+                            name="cardCvv"
                             type="password"
                             maxLength={4}
                             value={cardCvv}
@@ -782,10 +836,12 @@ export const CheckoutPage: React.FC = () => {
                       </div>
 
                       <div className="space-y-1">
-                        <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                        <label htmlFor="cardName" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
                           Cardholder Name
                         </label>
                         <input
+                          id="cardName"
+                          name="cardName"
                           type="text"
                           value={cardName}
                           onChange={(e) => setCardName(e.target.value)}

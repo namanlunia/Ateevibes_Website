@@ -106,6 +106,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
             src={mainImage}
             alt={`${product.name} - ${activeVariant.colourName}`}
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.src = '/brand/placeholder.svg';
+            }}
             className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
               isHovered && secondImage ? 'opacity-0 scale-100' : 'opacity-100'
             }`}
@@ -117,6 +120,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
               src={secondImage}
               alt={`${product.name} alternate view`}
               loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = '/brand/placeholder.svg';
+              }}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
                 isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
@@ -294,7 +300,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
                       ? 'ring-2 ring-ink-900 ring-offset-1 scale-110'
                       : 'border-border/80 hover:scale-110'
                   }`}
-                  style={{ backgroundColor: v.hex }}
+                  style={
+                    v.patternImage
+                      ? { backgroundImage: `url(${v.patternImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+                      : { backgroundColor: v.hex }
+                  }
                 />
               );
             })}
