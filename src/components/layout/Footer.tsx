@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import confetti from 'canvas-confetti';
 import { ArrowRight, CheckCircle2, ShieldCheck, Truck, RefreshCw, CreditCard } from 'lucide-react';
 import { siteConfig } from '../../config/site';
-import { newsletterSchema } from '../../lib/validators';
 import { useUIStore } from '../../store/uiStore';
+
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 interface NewsletterForm {
   email: string;
@@ -21,9 +21,7 @@ export const Footer: React.FC = () => {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-  } = useForm<NewsletterForm>({
-    resolver: zodResolver(newsletterSchema),
-  });
+  } = useForm<NewsletterForm>();
 
   const onSubmit = async (_data: NewsletterForm) => {
     await new Promise((r) => setTimeout(r, 400));
@@ -199,7 +197,13 @@ export const Footer: React.FC = () => {
                 <div className="relative flex items-center bg-white border border-border focus-within:border-ink-900 rounded-full p-1.5 transition-colors shadow-sm">
                   <input
                     type="email"
-                    {...register('email')}
+                    {...register('email', {
+                      required: 'Please enter a valid email address',
+                      pattern: {
+                        value: EMAIL_REGEX,
+                        message: 'Please enter a valid email address',
+                      },
+                    })}
                     placeholder="Enter your email"
                     className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2 text-xs sm:text-sm text-ink-900 placeholder:text-ink-600/60 focus:outline-none"
                   />

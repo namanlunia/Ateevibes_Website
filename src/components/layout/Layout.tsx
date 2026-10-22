@@ -1,22 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Outlet, useLocation, useNavigationType } from 'react-router-dom';
 import Lenis from 'lenis';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Navbar } from './Navbar';
-import { MobileMenuDrawer } from './MobileMenuDrawer';
-import { SearchOverlay } from './SearchOverlay';
 import { Footer } from './Footer';
 import { BackToTop } from './BackToTop';
 import { WhatsAppFloat } from './WhatsAppFloat';
-import { CookieNotice } from './CookieNotice';
 import { ScrollProgressBar } from './ScrollProgressBar';
-import { CustomCursor } from '../motion/CustomCursor';
 import { Preloader } from '../motion/Preloader';
 import { PageCurtain } from '../motion/PageCurtain';
 import { ToastContainer } from '../ui/ToastContainer';
-import { CartDrawer } from '../cart/CartDrawer';
 import { FlyToCart } from '../motion/FlyToCart';
 import { useUIStore } from '../../store/uiStore';
+
+const MobileMenuDrawer = React.lazy(() =>
+  import('./MobileMenuDrawer').then((m) => ({ default: m.MobileMenuDrawer }))
+);
+const SearchOverlay = React.lazy(() =>
+  import('./SearchOverlay').then((m) => ({ default: m.SearchOverlay }))
+);
+const CookieNotice = React.lazy(() =>
+  import('./CookieNotice').then((m) => ({ default: m.CookieNotice }))
+);
+const CustomCursor = React.lazy(() =>
+  import('../motion/CustomCursor').then((m) => ({ default: m.CustomCursor }))
+);
+const CartDrawer = React.lazy(() =>
+  import('../cart/CartDrawer').then((m) => ({ default: m.CartDrawer }))
+);
 
 export const Layout: React.FC = () => {
   const isMobileMenuOpen = useUIStore((state) => state.isMobileMenuOpen);
@@ -26,10 +37,50 @@ export const Layout: React.FC = () => {
   const isCartOpen = useUIStore((state) => state.isCartOpen);
   const closeCart = useUIStore((state) => state.closeCart);
 
+  const [hasOpenedMobileMenu, setHasOpenedMobileMenu] = useState(isMobileMenuOpen);
+  const [hasOpenedSearch, setHasOpenedSearch] = useState(isSearchOpen);
+  const [hasOpenedCart, setHasOpenedCart] = useState(isCartOpen);
+  const [hasMovedMouse, setHasMovedMouse] = useState(false);
+  const [showCookieNotice, setShowCookieNotice] = useState(false);
+
+  useEffect(() => {
+    if (isMobileMenuOpen) setHasOpenedMobileMenu(true);
+  }, [isMobileMenuOpen]);
+
+  useEffect(() => {
+    if (isSearchOpen) setHasOpenedSearch(true);
+  }, [isSearchOpen]);
+
+  useEffect(() => {
+    if (isCartOpen) setHasOpenedCart(true);
+  }, [isCartOpen]);
+
+  useEffect(() => {
+    const onMove = () => {
+      setHasMovedMouse(true);
+    };
+    window.addEventListener('mousemove', onMove, { passive: true, once: true });
+    window.addEventListener('pointermove', onMove, { passive: true, once: true });
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('pointermove', onMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    try {
+      if (!localStorage.getItem('atv:v1:cookie_consent')) {
+        setShowCookieNotice(true);
+      }
+    } catch {
+      setShowCookieNotice(true);
+    }
+  }, []);
+
   const location = useLocation();
   const navigationType = useNavigationType();
 
-  // Track scroll position per route key/pathname
+  // Track scroll position per route key/pathname (capped to last 50 routes)
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout;
     const handleScroll = () => {
@@ -38,6 +89,13 @@ export const Layout: React.FC = () => {
         try {
           const scrollMap = JSON.parse(sessionStorage.getItem('ateevibes_scroll_map') || '{}');
           scrollMap[location.key || location.pathname] = window.scrollY;
+          const keys = Object.keys(scrollMap);
+          if (keys.length > 50) {
+            const excess = keys.length - 50;
+            for (let i = 0; i < excess; i++) {
+              delete scrollMap[keys[i]];
+            }
+          }
           sessionStorage.setItem('ateevibes_scroll_map', JSON.stringify(scrollMap));
         } catch {
           // ignore storage error
@@ -111,7 +169,11 @@ export const Layout: React.FC = () => {
 
       {/* Global Overlays & Motion */}
       <Preloader />
-      <CustomCursor />
+      {hasMovedMouse && (
+        <Suspense fallback={null}>
+          <CustomCursor />
+        </Suspense>
+      )}
       <ScrollProgressBar />
 
       {/* Headers */}
@@ -119,8 +181,16 @@ export const Layout: React.FC = () => {
       <Navbar />
 
       {/* Mobile Drawer & Search Overlay */}
-      <MobileMenuDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
-      <SearchOverlay isOpen={isSearchOpen} onClose={closeSearch} />
+      {hasOpenedMobileMenu && (
+        <Suspense fallback={null}>
+          <MobileMenuDrawer isOpen={isMobileMenuOpen} onClose={closeMobileMenu} />
+        </Suspense>
+      )}
+      {hasOpenedSearch && (
+        <Suspense fallback={null}>
+          <SearchOverlay isOpen={isSearchOpen} onClose={closeSearch} />
+        </Suspense>
+      )}
 
       {/* Main Content Area Wrapped with Curtain Transitions */}
       <main id="main-content" className="flex-1 flex flex-col focus:outline-none">
@@ -135,10 +205,18 @@ export const Layout: React.FC = () => {
       {/* Utility Floaters */}
       <BackToTop />
       <WhatsAppFloat />
-      <CookieNotice />
+      {showCookieNotice && (
+        <Suspense fallback={null}>
+          <CookieNotice />
+        </Suspense>
+      )}
       <ToastContainer />
       <FlyToCart />
-      <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+      {hasOpenedCart && (
+        <Suspense fallback={null}>
+          <CartDrawer isOpen={isCartOpen} onClose={closeCart} />
+        </Suspense>
+      )}
     </div>
   );
 };

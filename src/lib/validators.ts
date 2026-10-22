@@ -86,12 +86,6 @@ export const addressSchema = z.object({
   saveAddress: z.boolean().optional(),
 });
 
-/**
- * Newsletter subscription schema
- */
-export const newsletterSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-});
 
 /**
  * Contact form schema
