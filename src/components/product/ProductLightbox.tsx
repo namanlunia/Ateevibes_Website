@@ -68,7 +68,7 @@ export const ProductLightbox: React.FC<ProductLightboxProps> = ({
 
           <div className="flex items-center gap-2">
             {/* Zoom Controls */}
-            <div className="flex items-center bg-white/10 backdrop-blur-md rounded-full px-2 py-1 gap-1 border border-white/20">
+            <div className="flex items-center bg-white/10 backdrop-blur rounded-full px-2 py-1 gap-1 border border-white/20">
               <button
                 onClick={() => setZoomLevel((z) => Math.max(1, z - 0.5))}
                 aria-label="Zoom out"

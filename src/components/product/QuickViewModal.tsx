@@ -89,7 +89,7 @@ export const QuickViewModal: React.FC = () => {
           <button
             onClick={closeQuickView}
             aria-label="Close dialog"
-            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 backdrop-blur-md border border-border text-ink-700 hover:text-ink-900 transition-colors"
+            className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 backdrop-blur border border-border text-ink-700 hover:text-ink-900 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>

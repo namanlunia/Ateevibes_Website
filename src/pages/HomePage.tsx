@@ -260,7 +260,7 @@ export const HomePage: React.FC = () => {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/80 border border-border shadow-sm text-xs font-bold text-ink-900 backdrop-blur-sm"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-border shadow-sm text-xs font-bold text-ink-900"
               >
                 <Sparkles className="w-4 h-4 text-accent-700" />
                 <span className="uppercase tracking-wider">Same Print, Different Vibes</span>
@@ -288,7 +288,7 @@ export const HomePage: React.FC = () => {
 
                 <a
                   href="#fabrics"
-                  className="btn-secondary w-full sm:w-auto px-6 py-3.5 text-sm font-bold flex items-center justify-center gap-2 bg-white/70 backdrop-blur-sm"
+                  className="btn-secondary w-full sm:w-auto px-6 py-3.5 text-sm font-bold flex items-center justify-center gap-2 bg-white"
                 >
                   <span>Discover Fabric Story</span>
                   <Layers className="w-4 h-4 text-accent-700" />
@@ -622,7 +622,7 @@ export const HomePage: React.FC = () => {
                   </AnimatePresence>
 
                   {/* Active Colour Floating Pill */}
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-border shadow-sm flex items-center gap-2">
+                  <div className="absolute top-4 left-4 bg-white px-3.5 py-1.5 rounded-full border border-border shadow-sm flex items-center gap-2">
                     <span
                       className="w-3.5 h-3.5 rounded-full border border-black/10"
                       style={{ backgroundColor: activeMorphVariant.hex }}

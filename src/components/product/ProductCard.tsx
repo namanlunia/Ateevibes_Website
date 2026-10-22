@@ -93,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
   return (
     <div
-      className={`product-card-container group relative flex flex-col bg-surface rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-soft-hover ${className}`}
+      className={`product-card-container group relative flex flex-col bg-surface rounded-2xl overflow-hidden transition-shadow duration-300 hover:shadow-soft-hover ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -118,7 +118,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
               e.currentTarget.srcset = '';
               e.currentTarget.src = '/brand/placeholder.svg';
             }}
-            className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
+            className={`w-full h-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-105 ${
               isHovered && secondImage ? 'opacity-0 scale-100' : 'opacity-100'
             }`}
           />
@@ -135,7 +135,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
                 e.currentTarget.srcset = '';
                 e.currentTarget.src = '/brand/placeholder.svg';
               }}
-              className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
+              className={`absolute inset-0 w-full h-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-105 ${
                 isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
             />
@@ -165,7 +165,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
         <button
           onClick={handleWishlistClick}
           aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
-          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur-md border border-white/60 text-ink-900 hover:scale-110 active:scale-95 transition-all shadow-sm"
+          className="absolute top-3 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur border border-white/60 text-ink-900 hover:scale-110 active:scale-95 transition-[transform,colors,box-shadow] shadow-sm"
         >
           <motion.div
             animate={{ scale: isInWishlist ? [1, 1.35, 1] : 1 }}
@@ -183,7 +183,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
         <button
           onClick={handleQuickView}
           aria-label="Quick preview"
-          className="hidden lg:flex absolute top-12 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur-md border border-white/60 text-ink-900 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-200 hover:bg-white shadow-sm"
+          className="hidden lg:flex absolute top-12 right-3 z-10 p-2 rounded-full bg-white/80 backdrop-blur border border-white/60 text-ink-900 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-[opacity,transform,background-color] duration-200 hover:bg-white shadow-sm"
         >
           <Eye className="w-4 h-4 text-ink-900" />
         </button>
@@ -191,7 +191,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
         {/* Desktop Quick Add Bar (Slides up on Hover) */}
         {!isComingSoon && (
           <div className="hidden lg:block absolute bottom-0 left-0 right-0 p-3 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-gradient-to-t from-ink-900/80 via-ink-900/40 to-transparent">
-            <div className="bg-white/95 backdrop-blur-md rounded-xl p-2.5 shadow-lg border border-white/70">
+            <div className="bg-white/95 backdrop-blur rounded-xl p-2.5 shadow-lg border border-white/70">
               <p className="text-[11px] font-bold text-ink-700 tracking-wide uppercase mb-1.5 text-center">
                 Quick Add Size
               </p>
@@ -206,7 +206,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
                       key={size}
                       disabled={isOutOfStock}
                       onClick={(e) => handleQuickAddSize(e, size)}
-                      className={`min-w-[32px] h-7 px-2 text-xs font-bold rounded-lg transition-all ${
+                      className={`min-w-[32px] h-7 px-2 text-xs font-bold rounded-lg transition-[color,background-color,border-color,transform] ${
                         isJustAdded
                           ? 'bg-status-success text-white'
                           : isOutOfStock
@@ -307,7 +307,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
                   aria-label={`Preview ${v.colourName}`}
                   onMouseEnter={() => setHoveredVariant(v)}
                   onClick={() => setSelectedVariant(v)}
-                  className={`w-3.5 h-3.5 rounded-full border transition-all ${
+                  className={`w-3.5 h-3.5 rounded-full border transition-transform ${
                     isSelected
                       ? 'ring-2 ring-ink-900 ring-offset-1 scale-110'
                       : 'border-border/80 hover:scale-110'

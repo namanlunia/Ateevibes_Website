@@ -101,7 +101,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
           onKeyDown={(e) => {
             if (e.key === 'Escape') onClose();
           }}
-          className="fixed inset-0 z-50 glass bg-white/95 backdrop-blur-3xl overflow-y-auto p-4 sm:p-6 lg:p-12 flex flex-col"
+          className="fixed inset-0 z-50 bg-white/95 overflow-y-auto p-4 sm:p-6 lg:p-12 flex flex-col"
         >
           {/* Top Bar with Close */}
           <div className="max-w-4xl w-full mx-auto flex items-center justify-between pb-6 border-b border-border">
