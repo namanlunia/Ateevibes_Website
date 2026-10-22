@@ -77,7 +77,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.995 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full bg-white rounded-3xl border border-border shadow-2xl p-8 overflow-hidden"
+            className="w-full bg-white rounded-2xl border border-sandstone shadow-luxury p-8 overflow-hidden"
           >
             {/* CSS Grid: 4 equal category columns + 260px featured card */}
             <div className="grid grid-cols-[1fr_1fr_1fr_1fr_260px] gap-6 items-start">
@@ -91,15 +91,15 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                       onClick={onClose}
                       className="group block"
                     >
-                      <h4 className="font-display text-sm font-bold text-ink-900 group-hover:text-accent-700 transition-colors flex items-center justify-between gap-1">
+                      <h4 className="font-display text-base font-normal text-obsidian group-hover:text-gold transition-colors flex items-center justify-between gap-1">
                         <span className="truncate">{cat.name.replace(' Tees', '')}</span>
-                        <span className="shrink-0 text-[10px] font-sans font-semibold text-ink-600 bg-surface-tint px-2 py-0.5 rounded-full border border-border">
+                        <span className="shrink-0 text-[10px] font-sans font-semibold text-ink-600 bg-ivory px-2 py-0.5 rounded-full border border-sandstone">
                           {totalCount}
                         </span>
                       </h4>
                     </Link>
 
-                    <ul className="space-y-2 border-t border-border/60 pt-2.5">
+                    <ul className="space-y-2 border-t border-sandstone/60 pt-2.5">
                       {cat.subCategories.map((sub) => {
                         const count = getSubcategoryCount(cat.slug, sub.slug);
                         return (
@@ -107,12 +107,12 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                             <Link
                               to={`/shop/${cat.slug}/${sub.slug}`}
                               onClick={onClose}
-                              className="text-xs text-ink-700 hover:text-accent-700 transition-colors flex items-start justify-between gap-2 py-0.5 group leading-snug"
+                              className="text-xs text-ink-700 hover:text-gold transition-colors flex items-start justify-between gap-2 py-0.5 group leading-snug"
                             >
                               <span className="break-words font-normal group-hover:font-medium line-clamp-2">
                                 {sub.name}
                               </span>
-                              <span className="shrink-0 text-[10px] font-semibold text-ink-600 bg-black/5 px-1.5 py-0.5 rounded-full mt-0.5">
+                              <span className="shrink-0 text-[10px] font-semibold text-ink-500 bg-sandstone/30 px-1.5 py-0.5 rounded-full mt-0.5">
                                 {count}
                               </span>
                             </Link>
@@ -124,7 +124,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                     <Link
                       to={`/shop/${cat.slug}`}
                       onClick={onClose}
-                      className="inline-flex items-center gap-1 text-[11px] font-bold text-accent-700 hover:text-ink-900 transition-colors pt-1"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-gold hover:text-obsidian transition-colors pt-1 uppercase tracking-wider"
                     >
                       <span>View all</span>
                       <ArrowRight className="w-3 h-3" />
@@ -134,17 +134,17 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
               })}
 
               {/* Featured Product Column (about 260px) */}
-              <div className="w-[260px] border-l border-border/80 pl-6 space-y-3">
-                <div className="bg-surface-tint rounded-2xl p-4 border border-border group">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-accent-700 mb-2">
-                    <Sparkles className="w-3.5 h-3.5 text-accent-500" />
+              <div className="w-[260px] border-l border-sandstone/80 pl-6 space-y-3">
+                <div className="bg-ivory rounded-xl p-4 border border-sandstone group">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-gold mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-gold" />
                     <span className="tracking-wider uppercase text-[10px]">Featured Drop</span>
                   </div>
 
                   <Link
                     to={`/product/${featuredProduct.slug}`}
                     onClick={onClose}
-                    className="block relative aspect-[4/5] rounded-xl overflow-hidden bg-brand-cream/30 mb-2.5"
+                    className="block relative aspect-[4/5] rounded-lg overflow-hidden bg-white mb-2.5"
                   >
                     <img
                       src={featuredProduct.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
@@ -156,18 +156,18 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                     />
                   </Link>
 
-                  <h5 className="font-display font-bold text-ink-900 text-xs leading-snug line-clamp-2 mb-1">
+                  <h5 className="font-display font-normal text-obsidian text-sm leading-snug line-clamp-2 mb-1">
                     {featuredProduct.name}
                   </h5>
                   <p className="text-[11px] text-ink-600 mb-2 truncate">{featuredProduct.fabric}</p>
-                  <div className="flex items-center justify-between pt-2 border-t border-border/60">
-                    <span className="font-bold text-ink-900 text-xs tabular-nums">
+                  <div className="flex items-center justify-between pt-2 border-t border-sandstone/60">
+                    <span className="font-bold text-obsidian text-xs tabular-nums">
                       {formatPrice(featuredProduct.mrp)}
                     </span>
                     <Link
                       to={`/product/${featuredProduct.slug}`}
                       onClick={onClose}
-                      className="text-[11px] font-bold text-accent-700 hover:text-ink-900 flex items-center gap-1"
+                      className="text-[11px] font-bold text-gold hover:text-obsidian flex items-center gap-1 uppercase tracking-wider"
                     >
                       <span>View item</span>
                       <ArrowRight className="w-3 h-3" />

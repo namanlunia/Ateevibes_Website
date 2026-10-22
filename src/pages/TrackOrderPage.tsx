@@ -158,27 +158,27 @@ export const TrackOrderPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="py-10 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
+      <div className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full">
         {/* Page Header */}
-        <div className="text-center space-y-3 mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-tint border border-border text-xs font-bold text-accent-700">
+        <div className="text-center space-y-3.5 mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-ivory border border-sandstone text-xs font-bold uppercase tracking-wider text-gold">
             <Truck className="w-3.5 h-3.5" />
-            <span>Real-time Courier Tracking</span>
+            <span>Courier Tracking Concierge</span>
           </div>
-          <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-normal text-ink-900 tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-obsidian tracking-tight">
             Track Your Package
           </h1>
-          <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
-            Enter your order reference code (found in your SMS or email invoice) to view shipment progress.
+          <p className="text-xs sm:text-base text-graphite/70 max-w-lg mx-auto font-sans">
+            Enter your order reference code (found in your SMS or email receipt) to view shipment milestones.
           </p>
         </div>
 
         {/* Search Box */}
-        <div className="bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-sm mb-10">
+        <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-8 shadow-luxury mb-10">
           <form onSubmit={handleSearch} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
-              <div className="sm:col-span-7 space-y-1">
-                <label className="text-[11px] font-bold uppercase text-ink-900">
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3.5">
+              <div className="sm:col-span-7 space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-obsidian">
                   Order Reference ID *
                 </label>
                 <div className="relative">
@@ -188,14 +188,14 @@ export const TrackOrderPage: React.FC = () => {
                     placeholder="e.g. ATV-261022-7482"
                     value={orderId}
                     onChange={(e) => setOrderId(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-surface-tint border border-border rounded-xl text-xs sm:text-sm font-mono text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-ink-900"
+                    className="w-full pl-10 pr-4 py-3 bg-ivory border border-sandstone rounded-xl text-xs sm:text-sm font-mono text-obsidian placeholder:text-graphite/40 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian"
                   />
-                  <Search className="w-4 h-4 text-ink-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-graphite/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 </div>
               </div>
 
-              <div className="sm:col-span-5 space-y-1">
-                <label className="text-[11px] font-bold uppercase text-ink-900">
+              <div className="sm:col-span-5 space-y-1.5">
+                <label className="text-[11px] font-bold uppercase tracking-wider text-obsidian">
                   Phone or Email (Optional)
                 </label>
                 <input
@@ -203,7 +203,7 @@ export const TrackOrderPage: React.FC = () => {
                   placeholder="For exact verification"
                   value={contact}
                   onChange={(e) => setContact(e.target.value)}
-                  className="w-full px-4 py-3 bg-surface-tint border border-border rounded-xl text-xs sm:text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-ink-900"
+                  className="w-full px-4 py-3 bg-ivory border border-sandstone rounded-xl text-xs sm:text-sm text-obsidian placeholder:text-graphite/40 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian"
                 />
               </div>
             </div>
@@ -212,7 +212,7 @@ export const TrackOrderPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleAutoFillDemo}
-                className="text-xs font-bold text-accent-700 hover:text-ink-900 underline underline-offset-2"
+                className="text-xs font-semibold text-gold hover:text-obsidian underline underline-offset-4 transition-colors uppercase tracking-wider"
               >
                 Autofill my latest order
               </button>
@@ -220,17 +220,17 @@ export const TrackOrderPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading || !orderId.trim()}
-                className="btn-primary w-full sm:w-auto px-8 py-3 text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 disabled:opacity-50"
+                className="btn-primary w-full sm:w-auto px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center justify-center gap-2 shadow-luxury disabled:opacity-50"
               >
                 {loading ? (
                   <>
-                    <div className="w-4 h-4 border-2 border-cream border-t-transparent rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-gold border-t-transparent rounded-full animate-spin" />
                     <span>Locating Package...</span>
                   </>
                 ) : (
                   <>
                     <span>Track Order</span>
-                    <Truck className="w-4 h-4" />
+                    <Truck className="w-4 h-4 text-gold" />
                   </>
                 )}
               </button>
@@ -249,40 +249,40 @@ export const TrackOrderPage: React.FC = () => {
               className="space-y-6"
             >
               {/* Status Header Box */}
-              <div className="bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-sm space-y-6">
-                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-border">
+              <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-8 shadow-luxury space-y-6">
+                <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-sandstone">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-ink-600 block">
+                    <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">
                       Tracking Reference
                     </span>
-                    <h2 className="font-mono text-xl sm:text-2xl font-bold text-ink-900">
+                    <h2 className="font-mono text-xl sm:text-2xl font-bold text-obsidian">
                       {order.id}
                     </h2>
                   </div>
 
                   <div className="text-left sm:text-right">
-                    <span className="text-[10px] uppercase font-bold text-ink-600 block">
+                    <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">
                       Estimated Delivery
                     </span>
-                    <span className="text-sm sm:text-base font-bold text-accent-700">
+                    <span className="text-sm sm:text-base font-bold text-gold">
                       {order.estimatedDeliveryDate || '3 - 5 Business Days'}
                     </span>
                   </div>
                 </div>
 
                 {/* Carrier & Route Strip */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 rounded-2xl bg-surface-tint border border-border/60 text-xs">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-ivory border border-sandstone text-xs">
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-ink-600 block">Carrier</span>
-                    <span className="font-bold text-ink-900">Bluedart / Express Air</span>
+                    <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Carrier</span>
+                    <span className="font-bold text-obsidian">Bluedart / Express Air</span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-ink-600 block">AWB Number</span>
-                    <span className="font-mono font-bold text-ink-900">EXP-IN-8893921</span>
+                    <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">AWB Number</span>
+                    <span className="font-mono font-bold text-obsidian">EXP-IN-8893921</span>
                   </div>
                   <div>
-                    <span className="text-[10px] uppercase font-bold text-ink-600 block">Destination</span>
-                    <span className="font-bold text-ink-900">
+                    <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Destination</span>
+                    <span className="font-bold text-obsidian">
                       {order.shippingAddress.city}, {order.shippingAddress.state}
                     </span>
                   </div>
@@ -290,9 +290,9 @@ export const TrackOrderPage: React.FC = () => {
 
                 {/* Vertical Stepper Timeline */}
                 <div className="space-y-6 pt-2">
-                  <h3 className="font-display text-lg font-normal text-ink-900">Tracking Milestones</h3>
+                  <h3 className="font-serif text-xl font-normal text-obsidian tracking-tight">Tracking Milestones</h3>
 
-                  <div className="relative pl-6 space-y-8 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-border">
+                  <div className="relative pl-6 space-y-8 before:absolute before:left-3 before:top-2 before:bottom-2 before:w-0.5 before:bg-sandstone">
                     {TRACKING_STEPS.map((step, idx) => {
                       const isCompleted = idx <= currentStepIndex;
                       const isCurrent = idx === currentStepIndex;
@@ -304,10 +304,10 @@ export const TrackOrderPage: React.FC = () => {
                           <div
                             className={`absolute -left-6 top-0.5 w-6 h-6 rounded-full flex items-center justify-center transition-all ${
                               isCurrent
-                                ? 'bg-accent-700 text-cream ring-4 ring-accent-700/20 scale-110 shadow-sm'
+                                ? 'bg-gold text-white ring-4 ring-gold/20 scale-110 shadow-sm'
                                 : isCompleted
-                                ? 'bg-tab-active-bg text-tab-active-text'
-                                : 'bg-white border-2 border-border text-ink-400'
+                                ? 'bg-obsidian text-white'
+                                : 'bg-white border-2 border-sandstone text-graphite/40'
                             }`}
                           >
                             <StepIcon className="w-3.5 h-3.5" />
@@ -318,21 +318,21 @@ export const TrackOrderPage: React.FC = () => {
                               <h4
                                 className={`text-xs sm:text-sm font-bold ${
                                   isCurrent
-                                    ? 'text-accent-700'
+                                    ? 'text-gold'
                                     : isCompleted
-                                    ? 'text-ink-900'
-                                    : 'text-ink-500'
+                                    ? 'text-obsidian'
+                                    : 'text-graphite/50'
                                 }`}
                               >
                                 {step.title}
                               </h4>
                               {isCurrent && (
-                                <span className="px-2 py-0.5 rounded-full bg-accent-700/10 text-accent-700 text-[10px] font-extrabold uppercase animate-pulse">
+                                <span className="px-2.5 py-0.5 rounded-full bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-wider animate-pulse">
                                   Current Status
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs text-ink-600 mt-1 leading-relaxed">
+                            <p className="text-xs text-graphite/70 mt-1 leading-relaxed font-sans">
                               {step.description}
                             </p>
                           </div>
@@ -344,32 +344,32 @@ export const TrackOrderPage: React.FC = () => {
               </div>
 
               {/* Items in Package */}
-              <div className="bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-sm space-y-4">
-                <h3 className="font-display text-lg font-normal text-ink-900">
+              <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-8 shadow-luxury space-y-4">
+                <h3 className="font-serif text-xl font-normal text-obsidian tracking-tight">
                   Items in this Package ({order.items.length})
                 </h3>
 
-                <div className="divide-y divide-border/60">
+                <div className="divide-y divide-sandstone">
                   {order.items.map((item, idx) => (
-                    <div key={idx} className="py-3 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
+                    <div key={idx} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3.5">
                         <img
                           src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                           alt={item.product?.name || 'Item'}
-                          className="w-14 h-16 rounded-xl object-cover bg-surface-tint border border-border"
+                          className="w-14 h-16 rounded-xl object-cover bg-ivory border border-sandstone"
                         />
                         <div>
-                          <p className="font-bold text-xs sm:text-sm text-ink-900">
-                            {item.product?.name || 'Ateevibes T-shirt'}
+                          <p className="font-bold text-xs sm:text-sm text-obsidian">
+                            {item.product?.name || 'Ateevibes Garment'}
                           </p>
-                          <p className="text-[11px] text-ink-600 mt-0.5">
+                          <p className="text-[11px] text-graphite/70 mt-0.5">
                             Colour: {item.variant?.colourName || 'Default'} • Size: {item.size} • Qty: {item.qty}
                           </p>
                         </div>
                       </div>
 
                       <div className="text-right">
-                        <span className="font-bold text-xs sm:text-sm text-ink-900 tabular-nums">
+                        <span className="font-bold text-xs sm:text-sm text-obsidian tabular-nums">
                           {formatCurrency((item.product?.mrp || 999) * item.qty)}
                         </span>
                       </div>
@@ -377,28 +377,28 @@ export const TrackOrderPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
-                  <div className="text-xs text-ink-600">
-                    Need instant assistance with delivery?
+                <div className="pt-5 border-t border-sandstone flex flex-wrap items-center justify-between gap-3">
+                  <div className="text-xs text-graphite/70 font-sans">
+                    Need instant concierge assistance with delivery?
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <a
                       href={`https://wa.me/919999999999?text=${encodeURIComponent(`Hi Ateevibes team, I am checking status on order ${order.id}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary px-3.5 py-1.5 text-xs font-bold inline-flex items-center gap-1.5 text-accent-700"
+                      className="btn-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
                     >
-                      <MessageCircle className="w-3.5 h-3.5" />
-                      <span>WhatsApp Support</span>
+                      <MessageCircle className="w-3.5 h-3.5 text-gold" />
+                      <span>Concierge WhatsApp</span>
                     </a>
 
                     <Link
                       to={`/account/orders/${order.id}`}
-                      className="btn-primary px-4 py-1.5 text-xs font-bold inline-flex items-center gap-1.5"
+                      className="btn-primary px-4 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-luxury"
                     >
                       <span>View Invoice</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
+                      <ExternalLink className="w-3.5 h-3.5 text-gold" />
                     </Link>
                   </div>
                 </div>
@@ -412,40 +412,40 @@ export const TrackOrderPage: React.FC = () => {
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
-              className="bg-surface-tint rounded-3xl border border-border p-8 sm:p-12 text-center space-y-4 max-w-lg mx-auto"
+              className="bg-ivory rounded-3xl border border-sandstone p-8 sm:p-12 text-center space-y-4 max-w-lg mx-auto shadow-luxury"
             >
-              <div className="w-12 h-12 rounded-full bg-status-error/10 text-status-error flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-600 flex items-center justify-center mx-auto">
                 <AlertCircle className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-normal text-ink-900">No Order Found</h3>
-              <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
+              <h3 className="font-serif text-2xl font-normal text-obsidian tracking-tight">No Order Found</h3>
+              <p className="text-xs sm:text-sm text-graphite/70 leading-relaxed font-sans">
                 {errorMsg}
               </p>
-              <div className="p-4 rounded-2xl bg-white border border-border/80 text-left text-xs text-ink-600 space-y-1.5">
-                <p className="font-bold text-ink-900">Tips for tracking:</p>
-                <p>• Check your confirmation SMS or email for the reference format <span className="font-mono font-bold">ATV-YYMMDD-####</span>.</p>
+              <div className="p-4 rounded-2xl bg-white border border-sandstone text-left text-xs text-graphite/80 space-y-1.5 font-sans">
+                <p className="font-bold text-obsidian uppercase tracking-wider text-[11px]">Tips for tracking:</p>
+                <p>• Check your confirmation SMS or email for the reference format <span className="font-mono font-bold text-obsidian">ATV-YYMMDD-####</span>.</p>
                 <p>• If you recently placed the order, give the system a minute to generate your tracking code.</p>
               </div>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2.5">
                 <button
                   onClick={() => {
                     setSearched(false);
                     setErrorMsg('');
                   }}
-                  className="btn-secondary px-4 py-2 text-xs font-bold inline-flex items-center gap-1.5"
+                  className="btn-secondary px-5 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
                 >
-                  <RotateCcw className="w-3.5 h-3.5" />
+                  <RotateCcw className="w-3.5 h-3.5 text-gold" />
                   <span>Try Again</span>
                 </button>
                 <a
                   href={`https://wa.me/919999999999?text=${encodeURIComponent(`Hi Ateevibes team, I need help finding my order ${orderId}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-1.5"
+                  className="btn-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-luxury"
                 >
-                  <MessageCircle className="w-3.5 h-3.5" />
-                  <span>Chat With Support</span>
+                  <MessageCircle className="w-3.5 h-3.5 text-gold" />
+                  <span>Chat With Concierge</span>
                 </a>
               </div>
             </motion.div>

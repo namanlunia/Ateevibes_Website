@@ -1,28 +1,48 @@
 :root {
-  /* Brand */
-  --green: #cdf0a7;
-  --cream: #faf3d0;
+  /* Brand Luxury Menswear Palette */
+  --obsidian: #111111;
+  --champagne-gold: #c9a45c;
+  --gold: #c9a45c;
+  --gold-light: #dfca95;
+  --gold-dark: #9e7b35;
+  --warm-ivory: #f7f4ee;
+  --graphite: #292925;
+  --sandstone: #e7e0d3;
   --white: #ffffff;
-  --gold: #e8c26a;
 
-  /* Tab & selector active states */
-  --tab-active-bg: #1c241a;
-  --tab-active-text: #ffffff;
-
-  /* Neutrals and text */
-  --ink-900: #1c241a;
-  --ink-700: #3a4636;
-  --ink-600: #556150;
-  --border: #e4e8d6;
+  /* Surfaces */
   --surface: #ffffff;
-  --surface-tint: #fbfdf6;
+  --surface-ivory: #f7f4ee;
+  --surface-tint: #f7f4ee;
+  --surface-dark: #111111;
+  --surface-graphite: #292925;
+
+  /* Borders & Dividers */
+  --border: #e7e0d3;
+  --border-light: #f0ebe1;
+  --border-dark: #292925;
+  --border-gold: #c9a45c;
+
+  /* Typography & Ink */
+  --ink-900: #111111;
+  --ink-700: #292925;
+  --ink-600: #51594c;
+  --ink-500: #7d7d75;
+
+  /* Tab & Selector Active States */
+  --tab-active-bg: #111111;
+  --tab-active-text: #f7f4ee;
 
   /* Accents */
-  --accent-500: #8fbf5a;
-  --accent-700: #4d7a2a;
+  --accent-500: #c9a45c;
+  --accent-700: #9e7b35;
 
-  /* Status */
+  /* Brand Backward-Compatible Aliases */
+  --green: #c9a45c;
+  --cream: #f7f4ee;
+
+  /* System Status */
   --success: #2e7d32;
   --error: #b3261e;
-  --warning: #b26a00;
+  --warning: #c9a45c;
 }

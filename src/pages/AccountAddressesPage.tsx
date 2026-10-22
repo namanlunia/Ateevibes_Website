@@ -125,59 +125,59 @@ export const AccountAddressesPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-ink-900">Saved Addresses</h2>
-          <p className="text-xs sm:text-sm text-ink-600">
-            Manage your delivery destinations for lightning-fast checkout.
+          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">Saved Addresses</h2>
+          <p className="text-xs sm:text-sm text-graphite/70 font-sans mt-1">
+            Manage your delivery destinations for effortless contemporary checkout.
           </p>
         </div>
 
         <button
           onClick={handleOpenAddModal}
-          className="btn-primary px-4 py-2 text-xs font-bold inline-flex items-center gap-1.5 self-start sm:self-auto"
+          className="btn-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 self-start sm:self-auto shadow-luxury"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5 text-gold" />
           <span>Add New Address</span>
         </button>
       </div>
 
       {addresses.length === 0 ? (
-        <div className="bg-surface-tint rounded-3xl p-10 sm:p-14 border border-border text-center space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-white border border-border flex items-center justify-center mx-auto text-accent-700 shadow-sm">
+        <div className="bg-ivory rounded-3xl p-10 sm:p-14 border border-sandstone text-center space-y-4 shadow-luxury">
+          <div className="w-14 h-14 rounded-2xl bg-white border border-sandstone flex items-center justify-center mx-auto text-gold shadow-sm">
             <MapPin className="w-7 h-7" />
           </div>
           <div className="max-w-md mx-auto space-y-1.5">
-            <h3 className="font-display text-lg font-bold text-ink-900">No saved addresses yet</h3>
-            <p className="text-xs text-ink-600">
-              Add your home, office, or standard shipping address to speed up future orders.
+            <h3 className="font-serif text-xl font-normal text-obsidian tracking-tight">No saved addresses yet</h3>
+            <p className="text-xs text-graphite/70 font-sans">
+              Add your residence, studio, or standard shipping address to speed up future orders.
             </p>
           </div>
           <button
             onClick={handleOpenAddModal}
-            className="btn-primary px-5 py-2 text-xs font-bold inline-flex items-center gap-1.5"
+            className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-3.5 h-3.5 text-gold" />
             <span>Add Address Now</span>
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
           {addresses.map((addr) => (
             <motion.div
               key={addr.id}
               layout
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
-              className={`p-6 rounded-3xl border transition-all ${
+              className={`p-6 sm:p-7 rounded-3xl border transition-all duration-300 shadow-luxury ${
                 addr.isDefault
-                  ? 'bg-white border-accent-700 ring-2 ring-accent-700/10 shadow-sm'
-                  : 'bg-surface-tint border-border hover:border-ink-900'
+                  ? 'bg-white border-gold shadow-luxury'
+                  : 'bg-ivory border-sandstone hover:border-gold/60'
               }`}
             >
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex items-center gap-2">
-                  <span className="font-bold text-sm text-ink-900">{addr.fullName}</span>
+              <div className="flex items-start justify-between gap-3 mb-3.5">
+                <div className="flex items-center gap-2.5">
+                  <span className="font-serif text-base sm:text-lg font-normal text-obsidian tracking-tight">{addr.fullName}</span>
                   {addr.isDefault && (
-                    <span className="px-2 py-0.5 rounded-full bg-accent-700/10 text-accent-700 text-[10px] font-extrabold uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded-full bg-gold/10 border border-gold/30 text-gold text-[10px] font-bold uppercase tracking-wider">
                       Default
                     </span>
                   )}
@@ -186,14 +186,14 @@ export const AccountAddressesPage: React.FC = () => {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => handleOpenEditModal(addr)}
-                    className="p-1.5 text-ink-600 hover:text-ink-900 rounded-lg hover:bg-black/5 transition-colors"
+                    className="p-1.5 text-graphite/60 hover:text-obsidian rounded-lg hover:bg-black/5 transition-colors"
                     title="Edit address"
                   >
-                    <Edit2 className="w-3.5 h-3.5" />
+                    <Edit2 className="w-3.5 h-3.5 text-gold" />
                   </button>
                   <button
                     onClick={() => addr.id && handleDelete(addr.id)}
-                    className="p-1.5 text-ink-600 hover:text-status-error rounded-lg hover:bg-black/5 transition-colors"
+                    className="p-1.5 text-graphite/60 hover:text-red-500 rounded-lg hover:bg-black/5 transition-colors"
                     title="Delete address"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -201,21 +201,21 @@ export const AccountAddressesPage: React.FC = () => {
                 </div>
               </div>
 
-              <p className="text-xs text-ink-700 leading-relaxed min-h-[50px]">
+              <p className="text-xs text-graphite leading-relaxed min-h-[50px] font-sans">
                 {addr.addressLine1}
                 {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}
                 {addr.landmark ? ` (Near ${addr.landmark})` : ''}
                 <br />
-                {addr.city}, {addr.state} - <span className="font-bold">{addr.pincode}</span>
+                {addr.city}, {addr.state} - <span className="font-bold text-obsidian">{addr.pincode}</span>
               </p>
 
-              <div className="pt-3 mt-3 border-t border-border flex items-center justify-between text-xs">
-                <span className="text-ink-600 font-medium">📞 {addr.phone}</span>
+              <div className="pt-3.5 mt-3.5 border-t border-sandstone flex items-center justify-between text-xs">
+                <span className="text-graphite/70 font-medium">📞 {addr.phone}</span>
 
                 {!addr.isDefault && (
                   <button
                     onClick={() => handleSetDefault(addr)}
-                    className="text-[11px] font-bold text-accent-700 hover:underline"
+                    className="text-[11px] font-semibold text-gold hover:text-obsidian uppercase tracking-wider transition-colors"
                   >
                     Set as default
                   </button>
@@ -235,22 +235,22 @@ export const AccountAddressesPage: React.FC = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(false)}
-              className="absolute inset-0 bg-ink-900/40 backdrop-blur-sm"
+              className="absolute inset-0 bg-obsidian/60 backdrop-blur-sm"
             />
 
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              className="relative w-full max-w-lg bg-white rounded-3xl border border-border p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar z-10 space-y-5"
+              className="relative w-full max-w-lg bg-white rounded-3xl border border-sandstone p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto no-scrollbar z-10 space-y-5"
             >
-              <div className="flex items-center justify-between pb-3 border-b border-border">
-                <h3 className="font-display text-xl font-bold text-ink-900">
+              <div className="flex items-center justify-between pb-3.5 border-b border-sandstone">
+                <h3 className="font-serif text-2xl font-normal text-obsidian tracking-tight">
                   {editingAddress ? 'Edit Address' : 'Add New Address'}
                 </h3>
                 <button
                   onClick={() => setIsModalOpen(false)}
-                  className="p-1 rounded-full text-ink-600 hover:text-ink-900 hover:bg-black/5"
+                  className="p-1.5 rounded-full text-graphite/60 hover:text-obsidian hover:bg-black/5 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>

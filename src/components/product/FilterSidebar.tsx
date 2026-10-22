@@ -74,15 +74,15 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       }`}
     >
       {/* Sidebar Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-border">
+      <div className="flex items-center justify-between pb-4 border-b border-sandstone">
         <div className="flex items-center gap-2">
-          <SlidersHorizontal className="w-4 h-4 text-ink-900" />
-          <h3 className="font-display text-lg font-normal text-ink-900">Filters</h3>
+          <SlidersHorizontal className="w-4 h-4 text-gold" />
+          <h3 className="font-display text-lg font-normal text-obsidian">Filters</h3>
         </div>
         {hasActiveFilters && (
           <button
             onClick={clearAllFilters}
-            className="text-xs font-semibold text-accent-700 hover:text-ink-900 flex items-center gap-1 transition-colors"
+            className="text-xs font-semibold text-gold hover:text-obsidian flex items-center gap-1 transition-colors"
           >
             <RotateCcw className="w-3 h-3" />
             <span>Reset All</span>
@@ -91,14 +91,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 1. Sleeve Filter */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('sleeve')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Sleeve ({filters.sleeve.length || 'All'})</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.sleeve ? 'rotate-180' : ''
             }`}
           />
@@ -112,7 +112,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               return (
                 <label
                   key={type}
-                  className="flex items-center justify-between text-xs text-ink-700 hover:text-ink-900 cursor-pointer py-0.5"
+                  className="flex items-center justify-between text-xs text-ink-700 hover:text-obsidian cursor-pointer py-0.5"
                 >
                   <div className="flex items-center gap-2.5">
                     <input
@@ -124,11 +124,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.sleeve.filter((s) => s !== type);
                         updateFilter(() => ({ sleeve: next }));
                       }}
-                      className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+                      className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
                     />
                     <span className="capitalize">{type === 'half' ? 'Half Sleeve' : 'Full Sleeve'}</span>
                   </div>
-                  <span className="text-[11px] text-ink-600/70">{count}</span>
+                  <span className="text-[11px] text-ink-500">{count}</span>
                 </label>
               );
             })}
@@ -137,14 +137,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 2. Neck Filter */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('neck')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Neck Style</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.neck ? 'rotate-180' : ''
             }`}
           />
@@ -158,7 +158,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               return (
                 <label
                   key={type}
-                  className="flex items-center justify-between text-xs text-ink-700 hover:text-ink-900 cursor-pointer py-0.5"
+                  className="flex items-center justify-between text-xs text-ink-700 hover:text-obsidian cursor-pointer py-0.5"
                 >
                   <div className="flex items-center gap-2.5">
                     <input
@@ -170,11 +170,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.neck.filter((n) => n !== type);
                         updateFilter(() => ({ neck: next }));
                       }}
-                      className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+                      className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
                     />
                     <span className="capitalize">{type === 'round' ? 'Round Neck' : 'Polo Collar'}</span>
                   </div>
-                  <span className="text-[11px] text-ink-600/70">{count}</span>
+                  <span className="text-[11px] text-ink-500">{count}</span>
                 </label>
               );
             })}
@@ -183,14 +183,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 3. Sizes Filter Chips */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('size')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Size</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.size ? 'rotate-180' : ''
             }`}
           />
@@ -215,10 +215,10 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   }}
                   className={`py-2 rounded-xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
                     isSelected
-                      ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-sm'
+                      ? 'bg-obsidian text-warm-ivory border-gold/40 shadow-sm'
                       : isDisabled
-                      ? 'bg-black/5 text-ink-600/40 border-transparent cursor-not-allowed'
-                      : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'
+                      ? 'bg-sandstone/20 text-ink-400 border-transparent cursor-not-allowed'
+                      : 'bg-white border-sandstone text-obsidian hover:border-gold/50 shadow-subtle'
                   }`}
                 >
                   <span>{size}</span>
@@ -231,14 +231,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 4. Color Swatches Multi-Select */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('color')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Colours ({filters.colors.length || 'All'})</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.color ? 'rotate-180' : ''
             }`}
           />
@@ -264,15 +264,15 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   title={`${def.name} (${count})`}
                   className={`relative w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
                     isSelected
-                      ? 'ring-2 ring-ink-900 ring-offset-2 scale-110'
-                      : 'border-white hover:scale-105'
+                      ? 'ring-2 ring-gold ring-offset-2 scale-110 shadow-sm'
+                      : 'border-white hover:scale-105 shadow-subtle'
                   }`}
                   style={{ backgroundColor: def.hex }}
                 >
                   {isSelected && (
                     <Check
                       className={`w-3.5 h-3.5 ${
-                        slug === 'white' || slug === 'off-white' ? 'text-black' : 'text-white'
+                        slug === 'white' || slug === 'off-white' ? 'text-obsidian' : 'text-white'
                       }`}
                     />
                   )}
@@ -284,14 +284,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 5. Fabric Filter */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('fabric')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Fabric Knit</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.fabric ? 'rotate-180' : ''
             }`}
           />
@@ -305,7 +305,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               return (
                 <label
                   key={fabric}
-                  className="flex items-center justify-between text-xs text-ink-700 hover:text-ink-900 cursor-pointer py-0.5"
+                  className="flex items-center justify-between text-xs text-ink-700 hover:text-obsidian cursor-pointer py-0.5"
                 >
                   <div className="flex items-center gap-2.5">
                     <input
@@ -317,11 +317,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.fabric.filter((f) => f !== fabric);
                         updateFilter(() => ({ fabric: next }));
                       }}
-                      className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+                      className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
                     />
                     <span>{fabric}</span>
                   </div>
-                  <span className="text-[11px] text-ink-600/70">{count}</span>
+                  <span className="text-[11px] text-ink-500">{count}</span>
                 </label>
               );
             })}
@@ -330,14 +330,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 6. Print Type Filter */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('print')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Print & Pattern</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.print ? 'rotate-180' : ''
             }`}
           />
@@ -351,7 +351,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               return (
                 <label
                   key={print}
-                  className="flex items-center justify-between text-xs text-ink-700 hover:text-ink-900 cursor-pointer py-0.5"
+                  className="flex items-center justify-between text-xs text-ink-700 hover:text-obsidian cursor-pointer py-0.5"
                 >
                   <div className="flex items-center gap-2.5">
                     <input
@@ -363,11 +363,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           : filters.printType.filter((p) => p !== print);
                         updateFilter(() => ({ printType: next }));
                       }}
-                      className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+                      className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
                     />
                     <span>{print}</span>
                   </div>
-                  <span className="text-[11px] text-ink-600/70">{count}</span>
+                  <span className="text-[11px] text-ink-500">{count}</span>
                 </label>
               );
             })}
@@ -376,14 +376,14 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
       </div>
 
       {/* 7. Price Range Filter */}
-      <div className="border-b border-border/70 pb-4">
+      <div className="border-b border-sandstone/70 pb-4">
         <button
           onClick={() => toggleSection('price')}
-          className="w-full flex items-center justify-between py-1 text-xs font-bold uppercase tracking-wider text-ink-900"
+          className="w-full flex items-center justify-between py-1 text-xs font-semibold uppercase tracking-wider text-obsidian"
         >
           <span>Price (MRP)</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${
+            className={`w-4 h-4 transition-transform duration-200 text-gold ${
               openSections.price ? 'rotate-180' : ''
             }`}
           />
@@ -391,7 +391,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
         {openSections.price && (
           <div className="mt-4 space-y-3">
-            <div className="flex items-center justify-between text-xs font-bold text-ink-900">
+            <div className="flex items-center justify-between text-xs font-semibold text-obsidian">
               <span>{formatPrice(filters.priceMin)}</span>
               <span>{formatPrice(filters.priceMax)}</span>
             </div>
@@ -406,41 +406,41 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 const max = Number(e.target.value);
                 updateFilter(() => ({ priceMax: max }));
               }}
-              className="w-full accent-ink-900 cursor-pointer"
+              className="w-full accent-obsidian cursor-pointer"
             />
           </div>
         )}
       </div>
 
       {/* 8. Availability Toggles */}
-      <div className="border-b border-border/70 pb-4 space-y-2.5">
-        <label className="flex items-center justify-between text-xs text-ink-900 font-medium cursor-pointer">
+      <div className="border-b border-sandstone/70 pb-4 space-y-2.5">
+        <label className="flex items-center justify-between text-xs text-obsidian font-medium cursor-pointer">
           <span>In Stock Only</span>
           <input
             type="checkbox"
             checked={filters.inStockOnly}
             onChange={(e) => updateFilter(() => ({ inStockOnly: e.target.checked }))}
-            className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+            className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
           />
         </label>
 
-        <label className="flex items-center justify-between text-xs text-ink-900 font-medium cursor-pointer">
+        <label className="flex items-center justify-between text-xs text-obsidian font-medium cursor-pointer">
           <span>Hide Coming Soon</span>
           <input
             type="checkbox"
             checked={filters.hideComingSoon}
             onChange={(e) => updateFilter(() => ({ hideComingSoon: e.target.checked }))}
-            className="w-4 h-4 rounded border-border text-ink-900 focus:ring-ink-900"
+            className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold"
           />
         </label>
       </div>
 
       {/* Mobile Apply Sticky Footer */}
       {isMobile && (
-        <div className="pt-4 sticky bottom-0 bg-surface border-t border-border mt-6">
+        <div className="pt-4 sticky bottom-0 bg-surface border-t border-sandstone mt-6">
           <button
             onClick={onCloseMobile}
-            className="w-full btn-primary py-3 text-sm font-bold shadow-lg"
+            className="w-full btn-primary py-3 text-sm font-bold shadow-luxury"
           >
             Apply Filters ({totalResults} results)
           </button>

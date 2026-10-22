@@ -90,7 +90,7 @@ export const CartPage: React.FC = () => {
       </Helmet>
 
       <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-        <h1 className="font-display text-3xl sm:text-4xl font-normal text-ink-900 mb-2">
+        <h1 className="font-display text-3xl sm:text-4xl font-normal text-obsidian mb-2">
           Your Shopping Bag
         </h1>
         <p className="text-xs sm:text-sm text-ink-600 mb-8">
@@ -98,15 +98,15 @@ export const CartPage: React.FC = () => {
         </p>
 
         {/* Free Shipping Alert Banner */}
-        <div className="mb-8 p-4 rounded-2xl bg-gradient-to-r from-brand-green/30 via-brand-cream/50 to-surface-tint border border-border flex items-center justify-between">
+        <div className="mb-8 p-4 rounded-2xl bg-warm-ivory border border-sandstone flex items-center justify-between shadow-subtle">
           <div className="flex items-center gap-3">
-            <div className="p-2 rounded-full bg-white text-ink-900">
-              <Truck className="w-4 h-4 text-accent-700" />
+            <div className="p-2 rounded-full bg-white text-gold border border-sandstone shadow-sm">
+              <Truck className="w-4 h-4 text-gold" />
             </div>
             <div>
-              <p className="font-bold text-xs sm:text-sm text-ink-900">
+              <p className="font-semibold text-xs sm:text-sm text-obsidian">
                 {breakdown.isFreeShipping === 0
-                  ? '🎉 Free Shipping Unlocked!'
+                  ? 'Free Shipping Unlocked'
                   : `Add ${formatPrice(breakdown.isFreeShipping)} more to get FREE Standard Delivery`}
               </p>
               <p className="text-[11px] text-ink-600">Standard delivery in 3 to 7 business days</p>
@@ -116,26 +116,26 @@ export const CartPage: React.FC = () => {
 
         {items.length === 0 ? (
           /* Empty Cart State */
-          <div className="text-center py-16 bg-surface-tint rounded-3xl border border-border p-8 space-y-6 max-w-xl mx-auto">
-            <div className="w-20 h-20 mx-auto rounded-full bg-brand-cream flex items-center justify-center text-ink-700 shadow-sm">
-              <ShoppingBag className="w-10 h-10" />
+          <div className="text-center py-16 bg-warm-ivory/60 rounded-3xl border border-sandstone p-8 space-y-6 max-w-xl mx-auto shadow-luxury">
+            <div className="w-20 h-20 mx-auto rounded-full bg-white border border-sandstone flex items-center justify-center text-gold shadow-subtle">
+              <ShoppingBag className="w-10 h-10 text-gold" />
             </div>
             <div className="space-y-2">
-              <h2 className="font-display text-2xl font-normal text-ink-900">
+              <h2 className="font-display text-2xl font-normal text-obsidian">
                 Your bag is feeling light. Let's fix that.
               </h2>
               <p className="text-xs sm:text-sm text-ink-600 max-w-sm mx-auto">
-                Discover our newest arrivals in round-neck matty, China jacquard, and tie-dye patterns.
+                Discover our newest arrivals in round-neck matty, China jacquard, and artistic patterns.
               </p>
             </div>
-            <Link to="/shop" className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold inline-flex items-center gap-2">
+            <Link to="/shop" className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider inline-flex items-center gap-2">
               <span>Explore Collection</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-gold" />
             </Link>
 
             {/* Popular Items Showcase */}
-            <div className="pt-10 border-t border-border/80 text-left space-y-4">
-              <h3 className="font-display text-lg font-normal text-ink-900">You Might Like These</h3>
+            <div className="pt-10 border-t border-sandstone text-left space-y-4">
+              <h3 className="font-display text-lg font-normal text-obsidian">You Might Like These</h3>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {popularSuggestions.map((p) => (
                   <ProductCard key={p.id} product={p} />
@@ -162,53 +162,53 @@ export const CartPage: React.FC = () => {
               )}
 
               {/* Items List */}
-              <div className="bg-surface rounded-3xl border border-border divide-y divide-border/60 overflow-hidden shadow-sm">
+              <div className="bg-white rounded-2xl border border-sandstone divide-y divide-sandstone/60 overflow-hidden shadow-luxury">
                 {items.map((item) => (
                   <div key={item.id} className="p-4 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-4 min-w-0">
                       <img
                         src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                         alt={item.product?.name || 'T-shirt'}
-                        className="w-20 h-24 sm:w-24 sm:h-28 rounded-2xl object-cover bg-brand-cream/30 border border-border shrink-0"
+                        className="w-20 h-24 sm:w-24 sm:h-28 rounded-xl object-cover bg-warm-ivory border border-sandstone shrink-0"
                       />
                       <div className="space-y-1 min-w-0">
                         <Link
                           to={`/product/${item.product?.slug}`}
-                          className="block font-bold text-sm sm:text-base text-ink-900 hover:text-accent-700 transition-colors line-clamp-1"
+                          className="block font-semibold text-sm sm:text-base text-obsidian hover:text-gold transition-colors line-clamp-1"
                         >
                           {item.product?.name}
                         </Link>
                         <p className="text-xs text-ink-600">
-                          Colour: <span className="font-medium text-ink-900">{item.variant?.colourName}</span> • Size:{' '}
-                          <span className="font-medium text-ink-900">{item.size}</span>
+                          Colour: <span className="font-semibold text-obsidian">{item.variant?.colourName}</span> • Size:{' '}
+                          <span className="font-semibold text-obsidian">{item.size}</span>
                         </p>
                         <p className="text-xs text-ink-600">
                           Unit Price:{' '}
-                          <span className="font-bold text-ink-900">{formatPrice(item.product?.mrp || 0)}</span>
+                          <span className="font-semibold text-obsidian">{formatPrice(item.product?.mrp || 0)}</span>
                         </p>
                       </div>
                     </div>
 
                     {/* Stepper, Line Total, Actions */}
-                    <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-border/40">
-                      <span className="text-base sm:text-lg font-bold text-ink-900 tabular-nums">
+                    <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-3 pt-2 sm:pt-0 border-t sm:border-0 border-sandstone/60">
+                      <span className="text-base sm:text-lg font-semibold text-obsidian tabular-nums">
                         {formatPrice((item.product?.mrp || 0) * item.qty)}
                       </span>
 
                       {/* Stepper */}
-                      <div className="flex items-center border border-border rounded-full bg-surface-tint p-1">
+                      <div className="flex items-center border border-sandstone rounded-full bg-white p-1 shadow-subtle">
                         <button
                           onClick={() => updateQuantity(item.id, item.qty - 1)}
-                          className="w-7 h-7 rounded-full hover:bg-white flex items-center justify-center text-xs font-bold"
+                          className="w-7 h-7 rounded-full hover:bg-warm-ivory flex items-center justify-center text-xs font-bold text-obsidian"
                         >
                           -
                         </button>
-                        <span className="w-8 text-center text-xs font-bold tabular-nums">
+                        <span className="w-8 text-center text-xs font-bold tabular-nums text-obsidian">
                           {item.qty}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.id, item.qty + 1)}
-                          className="w-7 h-7 rounded-full hover:bg-white flex items-center justify-center text-xs font-bold"
+                          className="w-7 h-7 rounded-full hover:bg-warm-ivory flex items-center justify-center text-xs font-bold text-obsidian"
                         >
                           +
                         </button>
@@ -218,14 +218,14 @@ export const CartPage: React.FC = () => {
                       <div className="flex items-center gap-3 text-xs text-ink-600">
                         <button
                           onClick={() => saveForLater(item.id)}
-                          className="hover:text-ink-900 underline flex items-center gap-1"
+                          className="hover:text-gold underline flex items-center gap-1 transition-colors"
                         >
                           Save for later
                         </button>
                         <span>•</span>
                         <button
                           onClick={() => handleRemove(item.id, item.product?.name || 'Item')}
-                          className="hover:text-status-error flex items-center gap-1"
+                          className="hover:text-gold flex items-center gap-1 transition-colors"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                           <span>Remove</span>
@@ -238,21 +238,21 @@ export const CartPage: React.FC = () => {
 
               {/* Saved For Later Section */}
               {savedForLater.length > 0 && (
-                <div className="bg-surface-tint rounded-3xl p-6 border border-border space-y-4">
-                  <h3 className="font-display text-lg font-normal text-ink-900">
+                <div className="bg-warm-ivory/60 rounded-2xl p-6 border border-sandstone space-y-4 shadow-subtle">
+                  <h3 className="font-display text-lg font-normal text-obsidian">
                     Saved for Later ({savedForLater.length})
                   </h3>
-                  <div className="divide-y divide-border/60">
+                  <div className="divide-y divide-sandstone/60">
                     {savedForLater.map((saved) => (
                       <div key={saved.id} className="py-3 flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                           <img
                             src={saved.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                             alt={saved.product?.name}
-                            className="w-12 h-14 rounded-lg object-cover"
+                            className="w-12 h-14 rounded-lg object-cover bg-white border border-sandstone"
                           />
                           <div>
-                            <p className="font-bold text-xs text-ink-900">{saved.product?.name}</p>
+                            <p className="font-semibold text-xs text-obsidian">{saved.product?.name}</p>
                             <p className="text-[11px] text-ink-600">
                               {saved.variant?.colourName} • Size {saved.size} • {formatPrice(saved.product?.mrp || 0)}
                             </p>
@@ -260,7 +260,7 @@ export const CartPage: React.FC = () => {
                         </div>
                         <button
                           onClick={() => moveToCartFromSaved(saved.id)}
-                          className="btn-secondary px-3.5 py-1.5 text-xs font-bold"
+                          className="btn-secondary px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider bg-white border-sandstone"
                         >
                           Move to Bag
                         </button>
@@ -273,25 +273,25 @@ export const CartPage: React.FC = () => {
 
             {/* Right Summary Card (Sticky) */}
             <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
-              <div className="bg-surface-tint rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
-                <h3 className="font-display text-xl font-normal text-ink-900 pb-3 border-b border-border">
+              <div className="bg-warm-ivory/80 rounded-2xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
+                <h3 className="font-display text-xl font-normal text-obsidian pb-3 border-b border-sandstone">
                   Order Summary
                 </h3>
 
                 {/* Promo Code Input */}
                 <form onSubmit={handleApplyPromo} className="space-y-2">
-                  <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                  <label className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                     Promo Code
                   </label>
-                  <div className="flex items-center w-full bg-white border border-border focus-within:border-ink-900 rounded-full p-1 shadow-sm transition-colors">
+                  <div className="flex items-center w-full bg-white border border-sandstone focus-within:border-gold rounded-full p-1 shadow-subtle transition-colors">
                     <input
                       type="text"
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                      placeholder="e.g. ATEE10"
-                      className="flex-1 min-w-0 bg-transparent pl-4 pr-2 py-1.5 text-xs font-bold text-ink-900 uppercase focus:outline-none"
+                      placeholder="e.g. WELCOME15"
+                      className="flex-1 min-w-0 bg-transparent pl-4 pr-2 py-1.5 text-xs font-bold text-obsidian uppercase focus:outline-none"
                     />
-                    <button type="submit" className="btn-secondary shrink-0 px-4 py-1.5 text-xs font-bold rounded-full">
+                    <button type="submit" className="btn-secondary shrink-0 px-4 py-1.5 text-xs font-bold rounded-full bg-white">
                       Apply
                     </button>
                   </div>
@@ -299,7 +299,7 @@ export const CartPage: React.FC = () => {
                   {promoFeedback && (
                     <p
                       className={`text-xs font-medium pl-1 ${
-                        promoFeedback.isError ? 'text-status-error' : 'text-status-success'
+                        promoFeedback.isError ? 'text-status-error' : 'text-gold'
                       }`}
                     >
                       {promoFeedback.message}
@@ -307,9 +307,9 @@ export const CartPage: React.FC = () => {
                   )}
 
                   {promoCode && (
-                    <div className="flex items-center justify-between text-xs text-status-success font-semibold bg-brand-green/30 px-3 py-1.5 rounded-xl">
+                    <div className="flex items-center justify-between text-xs text-gold font-semibold bg-gold/15 border border-gold/30 px-3 py-1.5 rounded-xl">
                       <span>Promo code {promoCode} applied</span>
-                      <button onClick={removePromoCode} className="text-ink-700 hover:text-ink-900 text-xs">
+                      <button onClick={removePromoCode} className="text-obsidian hover:text-gold text-xs">
                         Remove
                       </button>
                     </div>
@@ -317,14 +317,14 @@ export const CartPage: React.FC = () => {
                 </form>
 
                 {/* Price Breakdown Details */}
-                <div className="space-y-2.5 text-xs sm:text-sm text-ink-700 border-t border-border pt-4">
+                <div className="space-y-2.5 text-xs sm:text-sm text-ink-700 border-t border-sandstone pt-4">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
                     <span className="font-medium tabular-nums">{formatPrice(breakdown.subtotal)}</span>
                   </div>
 
                   {breakdown.discount > 0 && (
-                    <div className="flex justify-between text-status-success font-medium">
+                    <div className="flex justify-between text-gold font-medium">
                       <span>Discount ({promoCode})</span>
                       <span className="tabular-nums">-{formatPrice(breakdown.discount)}</span>
                     </div>
@@ -337,32 +337,32 @@ export const CartPage: React.FC = () => {
                     </span>
                   </div>
 
-                  <div className="flex justify-between text-base sm:text-lg font-bold text-ink-900 pt-3 border-t border-border">
+                  <div className="flex justify-between text-base sm:text-lg font-semibold text-obsidian pt-3 border-t border-sandstone">
                     <span>Total Amount</span>
-                    <span className="tabular-nums">{formatPrice(breakdown.grandTotal)}</span>
+                    <span className="tabular-nums font-display text-2xl">{formatPrice(breakdown.grandTotal)}</span>
                   </div>
-                  <p className="text-[11px] text-ink-600">Tax inclusive MRP • No hidden fees</p>
+                  <p className="text-[11px] text-ink-500">Tax inclusive MRP • No hidden fees</p>
                 </div>
 
                 {/* Checkout CTA */}
                 <button
                   onClick={() => navigate('/checkout')}
                   disabled={hasStockErrors}
-                  className="w-full btn-primary py-3.5 text-sm font-bold flex items-center justify-center gap-2 shadow-soft disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full btn-primary py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-luxury disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   <span>Proceed to Checkout</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 text-gold" />
                 </button>
               </div>
 
-              {/* Trust Badges Row */}
-              <div className="bg-surface rounded-2xl p-4 border border-border space-y-2 text-xs text-ink-700">
-                <div className="flex items-center gap-2 font-bold text-ink-900">
-                  <ShieldCheck className="w-4 h-4 text-accent-700" />
-                  <span>Guaranteed Safe & Secure Checkout</span>
+              {/* Order Information Note */}
+              <div className="bg-white rounded-2xl p-4 border border-sandstone space-y-1.5 text-xs text-ink-700 shadow-subtle">
+                <div className="flex items-center gap-2 font-semibold text-obsidian">
+                  <ShieldCheck className="w-4 h-4 text-gold" />
+                  <span>Order & Delivery Information</span>
                 </div>
                 <p className="text-[11px] text-ink-600 leading-relaxed">
-                  Support for UPI, Net Banking, Credit/Debit cards & Cash on Delivery across India.
+                  Deliveries dispatched within 48 business hours. Test & demo store simulated order placement.
                 </p>
               </div>
             </div>

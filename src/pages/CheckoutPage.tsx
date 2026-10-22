@@ -265,20 +265,20 @@ export const CheckoutPage: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[150] bg-ink-900/90 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-white"
+            className="fixed inset-0 z-[150] bg-obsidian/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center text-warm-ivory"
           >
-            <div className="w-20 h-20 rounded-full bg-brand-green/20 border-2 border-brand-green flex items-center justify-center mb-6 animate-pulse">
-              <Lock className="w-8 h-8 text-brand-green" />
+            <div className="w-20 h-20 rounded-full bg-gold/15 border-2 border-gold flex items-center justify-center mb-6 animate-pulse shadow-luxury">
+              <Lock className="w-8 h-8 text-gold" />
             </div>
-            <h3 className="font-display text-2xl sm:text-3xl font-normal mb-2">
+            <h3 className="font-display text-2xl sm:text-3xl font-normal mb-2 text-white">
               Processing Demo Order
             </h3>
-            <p className="text-xs sm:text-sm text-brand-cream/80 max-w-sm mb-6">
-              Simulating secure Razorpay gateway handshake. No real funds are being transferred.
+            <p className="text-xs sm:text-sm text-sandstone/80 max-w-sm mb-6">
+              Simulated demonstration transaction. No real payment or card charges are made.
             </p>
-            <div className="flex items-center gap-2 text-xs font-semibold text-brand-green">
-              <Loader2 className="w-4 h-4 animate-spin" />
-              <span>Verifying transaction integrity...</span>
+            <div className="flex items-center gap-2 text-xs font-semibold text-gold">
+              <Loader2 className="w-4 h-4 animate-spin text-gold" />
+              <span>Verifying order integrity...</span>
             </div>
           </motion.div>
         )}
@@ -286,16 +286,16 @@ export const CheckoutPage: React.FC = () => {
 
       <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Top Header */}
-        <div className="flex items-center justify-between pb-6 border-b border-border mb-8">
+        <div className="flex items-center justify-between pb-6 border-b border-sandstone mb-8">
           <Link
             to="/cart"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-ink-700 hover:text-ink-900 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-obsidian hover:text-gold transition-colors tracking-wide uppercase"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-4 h-4 text-gold" />
             <span>Return to bag</span>
           </Link>
-          <div className="flex items-center gap-1.5 text-xs text-ink-600 font-semibold bg-surface-tint border border-border px-3 py-1.5 rounded-full">
-            <Lock className="w-3.5 h-3.5 text-accent-700" />
+          <div className="flex items-center gap-1.5 text-xs text-ink-600 font-medium bg-warm-ivory border border-sandstone px-3.5 py-1.5 rounded-full shadow-subtle">
+            <Lock className="w-3.5 h-3.5 text-gold" />
             <span>Demo checkout. No real payment is taken.</span>
           </div>
         </div>
@@ -303,9 +303,9 @@ export const CheckoutPage: React.FC = () => {
         {/* Multi-Step Indicator */}
         <div className="max-w-2xl mx-auto mb-10">
           <div className="flex items-center justify-between relative">
-            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-border -translate-y-1/2 -z-10" />
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-sandstone -translate-y-1/2 -z-10" />
             <div
-              className="absolute top-1/2 left-0 h-0.5 bg-ink-900 -translate-y-1/2 -z-10 transition-all duration-300"
+              className="absolute top-1/2 left-0 h-0.5 bg-gold -translate-y-1/2 -z-10 transition-all duration-300"
               style={{ width: `${((currentStep - 1) / 3) * 100}%` }}
             />
 
@@ -318,17 +318,17 @@ export const CheckoutPage: React.FC = () => {
                   <div
                     className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 ${
                       isPassed
-                        ? 'bg-status-success text-white'
+                        ? 'bg-obsidian text-gold border border-gold/40 shadow-sm'
                         : isCurrent
-                        ? 'bg-tab-active-bg text-tab-active-text ring-4 ring-brand-green/40 shadow-sm'
-                        : 'bg-surface border-2 border-border text-ink-600'
+                        ? 'bg-obsidian text-warm-ivory ring-4 ring-gold/20 shadow-sm'
+                        : 'bg-white border-2 border-sandstone text-ink-500'
                     }`}
                   >
-                    {isPassed ? <CheckCircle2 className="w-4 h-4" /> : step}
+                    {isPassed ? <CheckCircle2 className="w-4 h-4 text-gold" /> : step}
                   </div>
                   <span
-                    className={`text-[11px] mt-1.5 font-bold ${
-                      isCurrent ? 'text-ink-900' : 'text-ink-600'
+                    className={`text-[11px] mt-1.5 font-semibold tracking-wider uppercase ${
+                      isCurrent ? 'text-obsidian' : 'text-ink-500'
                     }`}
                   >
                     {stepTitles[step - 1]}
@@ -340,18 +340,18 @@ export const CheckoutPage: React.FC = () => {
         </div>
 
         {/* Mobile Order Summary Collapsible */}
-        <div className="lg:hidden mb-6 bg-surface-tint rounded-2xl border border-border p-4">
+        <div className="lg:hidden mb-6 bg-warm-ivory rounded-2xl border border-sandstone p-4 shadow-subtle">
           <button
             onClick={() => setMobileSummaryOpen(!mobileSummaryOpen)}
-            className="w-full flex items-center justify-between text-xs font-bold text-ink-900"
+            className="w-full flex items-center justify-between text-xs font-semibold text-obsidian"
           >
             <span>
               {mobileSummaryOpen ? 'Hide order summary' : 'Show order summary'} ({items.length} items)
             </span>
             <div className="flex items-center gap-2">
-              <span className="font-bold tabular-nums">{formatPrice(breakdown.grandTotal)}</span>
+              <span className="font-semibold tabular-nums">{formatPrice(breakdown.grandTotal)}</span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform ${
+                className={`w-4 h-4 transition-transform text-gold ${
                   mobileSummaryOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -359,21 +359,21 @@ export const CheckoutPage: React.FC = () => {
           </button>
 
           {mobileSummaryOpen && (
-            <div className="mt-4 pt-3 border-t border-border space-y-3">
+            <div className="mt-4 pt-3 border-t border-sandstone space-y-3">
               {items.map((i) => (
                 <div key={i.id} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <img
                       src={i.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                       alt={i.product?.name}
-                      className="w-8 h-10 object-cover rounded"
+                      className="w-8 h-10 object-cover rounded border border-sandstone"
                     />
                     <div>
-                      <p className="font-bold text-ink-900">{i.product?.name}</p>
+                      <p className="font-semibold text-obsidian">{i.product?.name}</p>
                       <p className="text-ink-600">Qty: {i.qty} • Size: {i.size}</p>
                     </div>
                   </div>
-                  <span className="font-bold tabular-nums">
+                  <span className="font-semibold text-obsidian tabular-nums">
                     {formatPrice((i.product?.mrp || 0) * i.qty)}
                   </span>
                 </div>
@@ -396,9 +396,9 @@ export const CheckoutPage: React.FC = () => {
 
             {/* STEP 1: INFORMATION */}
             {currentStep === 1 && (
-              <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
+              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-normal text-ink-900">
+                  <h2 className="font-display text-2xl font-normal text-obsidian">
                     Shipping & Contact Details
                   </h2>
                   <p className="text-xs text-ink-600 mt-1">
@@ -408,8 +408,8 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* Pre-fill from user address if logged in */}
                 {user && user.savedAddresses.length > 0 && (
-                  <div className="p-4 rounded-2xl bg-surface-tint border border-border space-y-2">
-                    <p className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                  <div className="p-4 rounded-2xl bg-warm-ivory border border-sandstone space-y-2">
+                    <p className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       Select Saved Address
                     </p>
                     <div className="space-y-2">
@@ -417,9 +417,9 @@ export const CheckoutPage: React.FC = () => {
                         <button
                           key={addr.id}
                           onClick={() => setAddressData({ ...addr })}
-                          className="w-full text-left p-3 rounded-xl border border-border bg-white hover:border-ink-900 text-xs text-ink-700"
+                          className="w-full text-left p-3 rounded-xl border border-sandstone bg-white hover:border-gold text-xs text-ink-700 shadow-subtle transition-colors"
                         >
-                          <span className="font-bold text-ink-900 block">{addr.fullName}</span>
+                          <span className="font-semibold text-obsidian block">{addr.fullName}</span>
                           <span>{addr.addressLine1}, {addr.city}, {addr.state} - {addr.pincode}</span>
                         </button>
                       ))}
@@ -430,7 +430,7 @@ export const CheckoutPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Full Name */}
                   <div className="sm:col-span-2 space-y-1">
-                    <label htmlFor="fullName" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="fullName" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       Full Name *
                     </label>
                     <input
@@ -440,7 +440,7 @@ export const CheckoutPage: React.FC = () => {
                       value={addressData.fullName}
                       onChange={(e) => setAddressData({ ...addressData, fullName: e.target.value })}
                       placeholder="e.g. Rahul Sharma"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                     {addressErrors.fullName && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.fullName}</p>
@@ -449,7 +449,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Email */}
                   <div className="space-y-1">
-                    <label htmlFor="email" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="email" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       Email Address *
                     </label>
                     <input
@@ -459,7 +459,7 @@ export const CheckoutPage: React.FC = () => {
                       value={addressData.email}
                       onChange={(e) => setAddressData({ ...addressData, email: e.target.value })}
                       placeholder="e.g. rahul@example.com"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                     {addressErrors.email && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.email}</p>
@@ -468,7 +468,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Phone */}
                   <div className="space-y-1">
-                    <label htmlFor="phone" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="phone" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       Mobile Number (10 digits) *
                     </label>
                     <input
@@ -481,7 +481,7 @@ export const CheckoutPage: React.FC = () => {
                         setAddressData({ ...addressData, phone: e.target.value.replace(/\D/g, '') })
                       }
                       placeholder="e.g. 9876543210"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none tabular-nums"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none tabular-nums shadow-subtle"
                     />
                     {addressErrors.phone && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.phone}</p>
@@ -490,7 +490,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Address Line 1 */}
                   <div className="sm:col-span-2 space-y-1">
-                    <label htmlFor="addressLine1" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="addressLine1" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       House / Flat No., Building, Street Address *
                     </label>
                     <input
@@ -500,7 +500,7 @@ export const CheckoutPage: React.FC = () => {
                       value={addressData.addressLine1}
                       onChange={(e) => setAddressData({ ...addressData, addressLine1: e.target.value })}
                       placeholder="e.g. Flat 402, Sunshine Residency, Ring Road"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                     {addressErrors.addressLine1 && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.addressLine1}</p>
@@ -509,7 +509,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Address Line 2 / Landmark */}
                   <div className="space-y-1">
-                    <label htmlFor="landmark" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="landmark" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       Landmark (Optional)
                     </label>
                     <input
@@ -519,13 +519,13 @@ export const CheckoutPage: React.FC = () => {
                       value={addressData.landmark || ''}
                       onChange={(e) => setAddressData({ ...addressData, landmark: e.target.value })}
                       placeholder="e.g. Near City Center Mall"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                   </div>
 
                   {/* City */}
                   <div className="space-y-1">
-                    <label htmlFor="city" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="city" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       City *
                     </label>
                     <input
@@ -535,7 +535,7 @@ export const CheckoutPage: React.FC = () => {
                       value={addressData.city}
                       onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
                       placeholder="e.g. Surat"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                     {addressErrors.city && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.city}</p>
@@ -544,7 +544,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* State Dropdown */}
                   <div className="space-y-1">
-                    <label htmlFor="state" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="state" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       State / Union Territory *
                     </label>
                     <select
@@ -552,7 +552,7 @@ export const CheckoutPage: React.FC = () => {
                       name="state"
                       value={addressData.state}
                       onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     >
                       <option value="">Select state</option>
                       {INDIAN_STATES.map((st) => (
@@ -565,7 +565,7 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* PIN Code */}
                   <div className="space-y-1">
-                    <label htmlFor="pincode" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                    <label htmlFor="pincode" className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                       PIN Code (6 digits) *
                     </label>
                     <input
@@ -578,7 +578,7 @@ export const CheckoutPage: React.FC = () => {
                         setAddressData({ ...addressData, pincode: e.target.value.replace(/\D/g, '') })
                       }
                       placeholder="e.g. 395002"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none tabular-nums"
+                      className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none tabular-nums shadow-subtle"
                     />
                     {addressErrors.pincode && (
                       <p className="text-[11px] text-status-error font-medium">{addressErrors.pincode}</p>
@@ -586,18 +586,18 @@ export const CheckoutPage: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-between border-t border-border">
-                  <Link to="/cart" className="text-xs font-bold text-ink-700 hover:text-ink-900 flex items-center gap-1">
-                    <ArrowLeft className="w-3.5 h-3.5" />
+                <div className="pt-4 flex items-center justify-between border-t border-sandstone">
+                  <Link to="/cart" className="text-xs font-semibold text-obsidian hover:text-gold uppercase tracking-wider flex items-center gap-1 transition-colors">
+                    <ArrowLeft className="w-3.5 h-3.5 text-gold" />
                     <span>Return to Bag</span>
                   </Link>
 
                   <button
                     onClick={handleNextStep}
-                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold flex items-center gap-2"
+                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-luxury"
                   >
                     <span>Continue to Shipping</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 text-gold" />
                   </button>
                 </div>
               </div>
@@ -605,13 +605,13 @@ export const CheckoutPage: React.FC = () => {
 
             {/* STEP 2: SHIPPING */}
             {currentStep === 2 && (
-              <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-normal text-ink-900">
+                  <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
                     Shipping Method
                   </h2>
-                  <p className="text-xs text-ink-600 mt-1">
-                    Delivering to: <span className="font-bold text-ink-900">{addressData.fullName}</span>, {addressData.city}, {addressData.state} ({addressData.pincode})
+                  <p className="text-xs text-graphite/70 mt-1.5">
+                    Delivering to: <span className="font-semibold text-obsidian">{addressData.fullName}</span>, {addressData.city}, {addressData.state} ({addressData.pincode})
                   </p>
                 </div>
 
@@ -620,24 +620,24 @@ export const CheckoutPage: React.FC = () => {
                   {/* Standard Shipping */}
                   <label
                     onClick={() => setIsExpress(false)}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
-                      !isExpress ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white hover:border-border/80'
+                    className={`p-4 sm:p-5 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
+                      !isExpress ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
                       <div
-                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                          !isExpress ? 'border-ink-900' : 'border-border'
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
+                          !isExpress ? 'border-obsidian' : 'border-sandstone'
                         }`}
                       >
-                        {!isExpress && <div className="w-2 h-2 rounded-full bg-ink-900" />}
+                        {!isExpress && <div className="w-2 h-2 rounded-full bg-gold" />}
                       </div>
                       <div>
-                        <p className="font-bold text-xs sm:text-sm text-ink-900">Standard Surface Delivery</p>
-                        <p className="text-xs text-ink-600">3 to 7 business days</p>
+                        <p className="font-bold text-xs sm:text-sm text-obsidian">Standard Surface Delivery</p>
+                        <p className="text-xs text-graphite/70">3 to 7 business days</p>
                       </div>
                     </div>
-                    <span className="font-bold text-xs sm:text-sm text-ink-900">
+                    <span className="font-bold text-xs sm:text-sm text-obsidian tabular-nums">
                       {breakdown.subtotal >= commerceConfig.FREE_SHIPPING_THRESHOLD ? 'FREE' : formatPrice(commerceConfig.SHIPPING_FLAT)}
                     </span>
                   </label>
@@ -645,44 +645,44 @@ export const CheckoutPage: React.FC = () => {
                   {/* Express Air Delivery */}
                   <label
                     onClick={() => setIsExpress(true)}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
-                      isExpress ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white hover:border-border/80'
+                    className={`p-4 sm:p-5 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
+                      isExpress ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3.5">
                       <div
-                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                          isExpress ? 'border-ink-900' : 'border-border'
+                        className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
+                          isExpress ? 'border-obsidian' : 'border-sandstone'
                         }`}
                       >
-                        {isExpress && <div className="w-2 h-2 rounded-full bg-ink-900" />}
+                        {isExpress && <div className="w-2 h-2 rounded-full bg-gold" />}
                       </div>
                       <div>
-                        <p className="font-bold text-xs sm:text-sm text-ink-900">Express Priority Air</p>
-                        <p className="text-xs text-ink-600">2 to 3 business days</p>
+                        <p className="font-bold text-xs sm:text-sm text-obsidian">Express Priority Air</p>
+                        <p className="text-xs text-graphite/70">2 to 3 business days</p>
                       </div>
                     </div>
-                    <span className="font-bold text-xs sm:text-sm text-ink-900">
+                    <span className="font-bold text-xs sm:text-sm text-obsidian tabular-nums">
                       {formatPrice(commerceConfig.EXPRESS_SHIPPING_FEE)}
                     </span>
                   </label>
                 </div>
 
-                <div className="pt-4 flex items-center justify-between border-t border-border">
+                <div className="pt-6 flex items-center justify-between border-t border-sandstone">
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="text-xs font-bold text-ink-700 hover:text-ink-900 flex items-center gap-1"
+                    className="text-xs font-semibold text-obsidian hover:text-gold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <ArrowLeft className="w-3.5 h-3.5 text-gold" />
                     <span>Back to Information</span>
                   </button>
 
                   <button
                     onClick={handleNextStep}
-                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold flex items-center gap-2"
+                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-luxury"
                   >
                     <span>Continue to Payment</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 text-gold" />
                   </button>
                 </div>
               </div>
@@ -690,66 +690,66 @@ export const CheckoutPage: React.FC = () => {
 
             {/* STEP 3: PAYMENT */}
             {currentStep === 3 && (
-              <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-normal text-ink-900">
+                  <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
                     Payment Method
                   </h2>
-                  <div className="mt-1 flex items-center gap-2 text-xs font-semibold text-accent-700 bg-accent-500/10 p-2.5 rounded-xl border border-accent-500/20">
-                    <Info className="w-4 h-4 shrink-0" />
-                    <span>DEMO CHECKOUT: No actual money or card data is charged or persisted.</span>
+                  <div className="mt-2.5 flex items-center gap-2 text-xs font-medium text-obsidian bg-ivory p-3 rounded-xl border border-sandstone">
+                    <Info className="w-4 h-4 shrink-0 text-gold" />
+                    <span>DEMO CHECKOUT: Simulated payment environment. No actual money is charged.</span>
                   </div>
                 </div>
 
                 {/* Payment Selection Tabs */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                   <button
                     onClick={() => setPaymentMethod('upi')}
-                    className={`p-3 rounded-2xl border-2 flex flex-col items-center gap-1.5 transition-all ${
-                      paymentMethod === 'upi' ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white'
+                    className={`p-3.5 rounded-2xl border-2 flex flex-col items-center gap-2 transition-all ${
+                      paymentMethod === 'upi' ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <Smartphone className="w-5 h-5 text-ink-900" />
-                    <span className="text-xs font-bold">UPI</span>
+                    <Smartphone className={`w-5 h-5 ${paymentMethod === 'upi' ? 'text-gold' : 'text-obsidian'}`} />
+                    <span className="text-xs font-bold uppercase tracking-wider text-obsidian">UPI</span>
                   </button>
 
                   <button
                     onClick={() => setPaymentMethod('card')}
-                    className={`p-3 rounded-2xl border-2 flex flex-col items-center gap-1.5 transition-all ${
-                      paymentMethod === 'card' ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white'
+                    className={`p-3.5 rounded-2xl border-2 flex flex-col items-center gap-2 transition-all ${
+                      paymentMethod === 'card' ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <CreditCard className="w-5 h-5 text-ink-900" />
-                    <span className="text-xs font-bold">Card</span>
+                    <CreditCard className={`w-5 h-5 ${paymentMethod === 'card' ? 'text-gold' : 'text-obsidian'}`} />
+                    <span className="text-xs font-bold uppercase tracking-wider text-obsidian">Card</span>
                   </button>
 
                   <button
                     onClick={() => setPaymentMethod('netbanking')}
-                    className={`p-3 rounded-2xl border-2 flex flex-col items-center gap-1.5 transition-all ${
-                      paymentMethod === 'netbanking' ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white'
+                    className={`p-3.5 rounded-2xl border-2 flex flex-col items-center gap-2 transition-all ${
+                      paymentMethod === 'netbanking' ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <Building className="w-5 h-5 text-ink-900" />
-                    <span className="text-xs font-bold">Net Banking</span>
+                    <Building className={`w-5 h-5 ${paymentMethod === 'netbanking' ? 'text-gold' : 'text-obsidian'}`} />
+                    <span className="text-xs font-bold uppercase tracking-wider text-obsidian">Net Banking</span>
                   </button>
 
                   <button
                     onClick={() => setPaymentMethod('cod')}
-                    className={`p-3 rounded-2xl border-2 flex flex-col items-center gap-1.5 transition-all ${
-                      paymentMethod === 'cod' ? 'border-ink-900 bg-surface-tint' : 'border-border bg-white'
+                    className={`p-3.5 rounded-2xl border-2 flex flex-col items-center gap-2 transition-all ${
+                      paymentMethod === 'cod' ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
-                    <Banknote className="w-5 h-5 text-ink-900" />
-                    <span className="text-xs font-bold">COD (+₹49)</span>
+                    <Banknote className={`w-5 h-5 ${paymentMethod === 'cod' ? 'text-gold' : 'text-obsidian'}`} />
+                    <span className="text-xs font-bold uppercase tracking-wider text-obsidian">COD (+₹49)</span>
                   </button>
                 </div>
 
                 {/* Payment Subforms */}
-                <div className="p-4 rounded-2xl bg-surface-tint border border-border">
+                <div className="p-5 rounded-2xl bg-ivory border border-sandstone">
                   {/* UPI */}
                   {paymentMethod === 'upi' && (
                     <div className="space-y-3">
-                      <label htmlFor="upiId" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                      <label htmlFor="upiId" className="text-xs font-bold text-obsidian uppercase tracking-wider">
                         Enter UPI ID (Google Pay, PhonePe, Paytm, BHIM)
                       </label>
                       <input
@@ -759,12 +759,12 @@ export const CheckoutPage: React.FC = () => {
                         value={upiId}
                         onChange={(e) => setUpiId(e.target.value)}
                         placeholder="e.g. yourname@okhdfcbank"
-                        className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian"
                       />
                       {paymentErrors.upiId && (
-                        <p className="text-[11px] text-status-error font-medium">{paymentErrors.upiId}</p>
+                        <p className="text-[11px] text-red-600 font-medium">{paymentErrors.upiId}</p>
                       )}
-                      <p className="text-[11px] text-ink-600">
+                      <p className="text-[11px] text-graphite/70">
                         A payment collect request will be triggered to your UPI app.
                       </p>
                     </div>
@@ -774,13 +774,13 @@ export const CheckoutPage: React.FC = () => {
                   {paymentMethod === 'card' && (
                     <div className="space-y-4">
                       {/* Hint for simulation test card failure */}
-                      <div className="text-[11px] text-ink-600 bg-white p-2.5 rounded-lg border border-border space-y-1">
+                      <div className="text-[11px] text-graphite/80 bg-white p-3 rounded-xl border border-sandstone space-y-1">
                         <p><strong>Test card (Pass):</strong> Any valid 16-digit Visa (e.g. <code>4111 1111 1111 1111</code>, expiry <code>12/29</code>, CVV <code>123</code>)</p>
                         <p><strong>Test card (Fail simulator):</strong> <code>{FAILED_SIMULATION_CARD}</code></p>
                       </div>
 
                       <div className="space-y-1">
-                        <label htmlFor="cardNumber" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                        <label htmlFor="cardNumber" className="text-xs font-bold text-obsidian uppercase tracking-wider">
                           Card Number
                         </label>
                         <input
@@ -791,16 +791,16 @@ export const CheckoutPage: React.FC = () => {
                           value={cardNumber}
                           onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                           placeholder="4111 1111 1111 1111"
-                          className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none tabular-nums"
+                          className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian tabular-nums"
                         />
                         {paymentErrors.cardNumber && (
-                          <p className="text-[11px] text-status-error font-medium">{paymentErrors.cardNumber}</p>
+                          <p className="text-[11px] text-red-600 font-medium">{paymentErrors.cardNumber}</p>
                         )}
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
                         <div className="space-y-1">
-                          <label htmlFor="cardExpiry" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                          <label htmlFor="cardExpiry" className="text-xs font-bold text-obsidian uppercase tracking-wider">
                             Expiry (MM/YY)
                           </label>
                           <input
@@ -811,15 +811,15 @@ export const CheckoutPage: React.FC = () => {
                             value={cardExpiry}
                             onChange={(e) => setCardExpiry(formatExpiryInput(e.target.value))}
                             placeholder="12/29"
-                            className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none tabular-nums"
+                            className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian tabular-nums"
                           />
                           {paymentErrors.cardExpiry && (
-                            <p className="text-[11px] text-status-error font-medium">{paymentErrors.cardExpiry}</p>
+                            <p className="text-[11px] text-red-600 font-medium">{paymentErrors.cardExpiry}</p>
                           )}
                         </div>
 
                         <div className="space-y-1">
-                          <label htmlFor="cardCvv" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                          <label htmlFor="cardCvv" className="text-xs font-bold text-obsidian uppercase tracking-wider">
                             CVV
                           </label>
                           <input
@@ -830,16 +830,16 @@ export const CheckoutPage: React.FC = () => {
                             value={cardCvv}
                             onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
                             placeholder="123"
-                            className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none tabular-nums"
+                            className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian tabular-nums"
                           />
                           {paymentErrors.cardCvv && (
-                            <p className="text-[11px] text-status-error font-medium">{paymentErrors.cardCvv}</p>
+                            <p className="text-[11px] text-red-600 font-medium">{paymentErrors.cardCvv}</p>
                           )}
                         </div>
                       </div>
 
                       <div className="space-y-1">
-                        <label htmlFor="cardName" className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                        <label htmlFor="cardName" className="text-xs font-bold text-obsidian uppercase tracking-wider">
                           Cardholder Name
                         </label>
                         <input
@@ -849,10 +849,10 @@ export const CheckoutPage: React.FC = () => {
                           value={cardName}
                           onChange={(e) => setCardName(e.target.value)}
                           placeholder="e.g. Rahul Sharma"
-                          className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                          className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian"
                         />
                         {paymentErrors.cardName && (
-                          <p className="text-[11px] text-status-error font-medium">{paymentErrors.cardName}</p>
+                          <p className="text-[11px] text-red-600 font-medium">{paymentErrors.cardName}</p>
                         )}
                       </div>
                     </div>
@@ -861,13 +861,13 @@ export const CheckoutPage: React.FC = () => {
                   {/* Net Banking */}
                   {paymentMethod === 'netbanking' && (
                     <div className="space-y-3">
-                      <label className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+                      <label className="text-xs font-bold text-obsidian uppercase tracking-wider">
                         Select Your Bank
                       </label>
                       <select
                         value={selectedBank}
                         onChange={(e) => setSelectedBank(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-obsidian rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none focus:ring-1 focus:ring-obsidian"
                       >
                         {['HDFC Bank', 'State Bank of India', 'ICICI Bank', 'Axis Bank', 'Kotak Mahindra Bank', 'Punjab National Bank'].map((b) => (
                           <option key={b} value={b}>{b}</option>
@@ -878,29 +878,29 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Cash on Delivery */}
                   {paymentMethod === 'cod' && (
-                    <div className="space-y-2 text-xs text-ink-700">
-                      <p className="font-bold text-ink-900">Cash on Delivery details:</p>
+                    <div className="space-y-2 text-xs text-graphite/80">
+                      <p className="font-bold text-obsidian">Cash on Delivery details:</p>
                       <p>• A nominal COD handling fee of ₹49 has been added to your total.</p>
                       <p>• Please keep exact cash or UPI ready at the time of delivery.</p>
                     </div>
                   )}
                 </div>
 
-                <div className="pt-4 flex items-center justify-between border-t border-border">
+                <div className="pt-6 flex items-center justify-between border-t border-sandstone">
                   <button
                     onClick={() => setCurrentStep(2)}
-                    className="text-xs font-bold text-ink-700 hover:text-ink-900 flex items-center gap-1"
+                    className="text-xs font-semibold text-obsidian hover:text-gold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <ArrowLeft className="w-3.5 h-3.5 text-gold" />
                     <span>Back to Shipping</span>
                   </button>
 
                   <button
                     onClick={handleNextStep}
-                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold flex items-center gap-2"
+                    className="btn-primary px-8 py-3 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-luxury"
                   >
                     <span>Review Order</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 text-gold" />
                   </button>
                 </div>
               </div>
@@ -908,76 +908,76 @@ export const CheckoutPage: React.FC = () => {
 
             {/* STEP 4: REVIEW & PLACE ORDER */}
             {currentStep === 4 && (
-              <div className="bg-surface rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
+              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
                 <div>
-                  <h2 className="font-display text-2xl font-normal text-ink-900">
+                  <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
                     Final Review & Confirmation
                   </h2>
-                  <p className="text-xs text-ink-600 mt-1">
+                  <p className="text-xs text-graphite/70 mt-1.5">
                     Please verify your order details before final placement.
                   </p>
                 </div>
 
                 {/* Verification Cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-ink-700">
-                  <div className="p-4 rounded-2xl bg-surface-tint border border-border space-y-1">
-                    <span className="font-bold text-ink-900 uppercase tracking-wide block">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-graphite">
+                  <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-1.5">
+                    <span className="font-bold text-obsidian uppercase tracking-wider block text-[11px]">
                       Delivery Address
                     </span>
-                    <p className="font-bold text-ink-900">{addressData.fullName}</p>
+                    <p className="font-bold text-obsidian text-sm">{addressData.fullName}</p>
                     <p>{addressData.addressLine1}</p>
                     <p>{addressData.city}, {addressData.state} - {addressData.pincode}</p>
-                    <p>Phone: {addressData.phone}</p>
-                    <button onClick={() => setCurrentStep(1)} className="text-accent-700 underline pt-1 block">
+                    <p className="text-graphite/70">Phone: {addressData.phone}</p>
+                    <button onClick={() => setCurrentStep(1)} className="text-gold font-semibold underline pt-2 block hover:text-obsidian transition-colors">
                       Change address
                     </button>
                   </div>
 
-                  <div className="p-4 rounded-2xl bg-surface-tint border border-border space-y-1">
-                    <span className="font-bold text-ink-900 uppercase tracking-wide block">
+                  <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-1.5">
+                    <span className="font-bold text-obsidian uppercase tracking-wider block text-[11px]">
                       Payment & Shipping
                     </span>
                     <p><strong>Shipping:</strong> {isExpress ? 'Express Priority Air (2-3 days)' : 'Standard Surface (3-7 days)'}</p>
-                    <p><strong>Payment Method:</strong> <span className="uppercase font-bold">{paymentMethod}</span></p>
-                    <button onClick={() => setCurrentStep(3)} className="text-accent-700 underline pt-1 block">
+                    <p><strong>Payment Method:</strong> <span className="uppercase font-bold text-obsidian">{paymentMethod}</span></p>
+                    <button onClick={() => setCurrentStep(3)} className="text-gold font-semibold underline pt-2 block hover:text-obsidian transition-colors">
                       Change payment method
                     </button>
                   </div>
                 </div>
 
                 {/* Terms checkbox */}
-                <label className="flex items-start gap-2.5 text-xs text-ink-700 cursor-pointer pt-2">
+                <label className="flex items-start gap-3 text-xs text-graphite/80 cursor-pointer pt-2">
                   <input
                     type="checkbox"
                     checked={termsAccepted}
                     onChange={(e) => setTermsAccepted(e.target.checked)}
-                    className="w-4 h-4 rounded border-border text-ink-900 mt-0.5"
+                    className="w-4 h-4 rounded border-sandstone text-obsidian focus:ring-gold mt-0.5"
                   />
                   <span>
                     I accept the{' '}
-                    <Link to="/terms" target="_blank" className="underline font-bold text-ink-900">
+                    <Link to="/terms" target="_blank" className="underline font-bold text-obsidian hover:text-gold transition-colors">
                       Terms of Service
                     </Link>{' '}
                     and acknowledge that this is a simulated demo transaction with no real payment.
                   </span>
                 </label>
 
-                <div className="pt-4 flex items-center justify-between border-t border-border">
+                <div className="pt-6 flex items-center justify-between border-t border-sandstone">
                   <button
                     onClick={() => setCurrentStep(3)}
-                    className="text-xs font-bold text-ink-700 hover:text-ink-900 flex items-center gap-1"
+                    className="text-xs font-semibold text-obsidian hover:text-gold uppercase tracking-wider flex items-center gap-1.5 transition-colors"
                   >
-                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <ArrowLeft className="w-3.5 h-3.5 text-gold" />
                     <span>Back to Payment</span>
                   </button>
 
                   <button
                     onClick={handlePlaceOrder}
                     disabled={!termsAccepted}
-                    className="btn-primary px-8 py-3.5 text-sm font-bold flex items-center gap-2 shadow-soft"
+                    className="btn-primary px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-luxury disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span>Place Order • {formatPrice(breakdown.grandTotal)}</span>
-                    <CheckCircle2 className="w-4 h-4" />
+                    <CheckCircle2 className="w-4 h-4 text-gold" />
                   </button>
                 </div>
               </div>
@@ -986,29 +986,29 @@ export const CheckoutPage: React.FC = () => {
 
           {/* RIGHT: Persistent Order Summary (Desktop) */}
           <div className="hidden lg:block lg:col-span-5 lg:sticky lg:top-24 space-y-6">
-            <div className="bg-surface-tint rounded-3xl p-6 sm:p-8 border border-border shadow-sm space-y-6">
-              <h3 className="font-display text-xl font-normal text-ink-900 pb-3 border-b border-border">
+            <div className="bg-ivory rounded-3xl p-6 sm:p-8 border border-sandstone shadow-luxury space-y-6">
+              <h3 className="font-serif text-xl sm:text-2xl font-normal text-obsidian pb-4 border-b border-sandstone tracking-tight">
                 In Your Bag ({items.length})
               </h3>
 
               {/* Items List Mini */}
-              <div className="space-y-3 max-h-60 overflow-y-auto pr-1">
+              <div className="space-y-3.5 max-h-60 overflow-y-auto pr-1">
                 {items.map((item) => (
                   <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
-                    <div className="flex items-center gap-2.5">
+                    <div className="flex items-center gap-3">
                       <img
                         src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                         alt={item.product?.name}
-                        className="w-10 h-12 rounded-lg object-cover bg-white border border-border shrink-0"
+                        className="w-12 h-14 rounded-lg object-cover bg-white border border-sandstone shrink-0"
                       />
                       <div className="min-w-0">
-                        <p className="font-bold text-ink-900 line-clamp-1">{item.product?.name}</p>
-                        <p className="text-ink-600 text-[11px]">
+                        <p className="font-bold text-obsidian line-clamp-1">{item.product?.name}</p>
+                        <p className="text-graphite/70 text-[11px] mt-0.5">
                           Qty: {item.qty} • Size: {item.size} • {item.variant?.colourName}
                         </p>
                       </div>
                     </div>
-                    <span className="font-bold text-ink-900 tabular-nums shrink-0">
+                    <span className="font-bold text-obsidian tabular-nums shrink-0">
                       {formatPrice((item.product?.mrp || 0) * item.qty)}
                     </span>
                   </div>
@@ -1016,14 +1016,14 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               {/* Pricing breakdown */}
-              <div className="space-y-2 text-xs sm:text-sm text-ink-700 border-t border-border pt-4">
+              <div className="space-y-2.5 text-xs sm:text-sm text-graphite border-t border-sandstone pt-5">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="font-medium tabular-nums">{formatPrice(breakdown.subtotal)}</span>
+                  <span className="font-medium text-obsidian tabular-nums">{formatPrice(breakdown.subtotal)}</span>
                 </div>
 
                 {breakdown.discount > 0 && (
-                  <div className="flex justify-between text-status-success font-medium">
+                  <div className="flex justify-between text-gold font-medium">
                     <span>Discount ({promoCode})</span>
                     <span className="tabular-nums">-{formatPrice(breakdown.discount)}</span>
                   </div>
@@ -1031,7 +1031,7 @@ export const CheckoutPage: React.FC = () => {
 
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span className="tabular-nums">
+                  <span className="tabular-nums text-obsidian font-medium">
                     {breakdown.shipping === 0 ? 'FREE' : formatPrice(breakdown.shipping)}
                   </span>
                 </div>
@@ -1039,21 +1039,21 @@ export const CheckoutPage: React.FC = () => {
                 {breakdown.codFee > 0 && (
                   <div className="flex justify-between">
                     <span>COD Handling Fee</span>
-                    <span className="tabular-nums">{formatPrice(breakdown.codFee)}</span>
+                    <span className="tabular-nums text-obsidian">{formatPrice(breakdown.codFee)}</span>
                   </div>
                 )}
 
-                <div className="flex justify-between text-base sm:text-lg font-bold text-ink-900 pt-3 border-t border-border">
+                <div className="flex justify-between text-base sm:text-lg font-bold text-obsidian pt-4 border-t border-sandstone">
                   <span>Grand Total</span>
                   <span className="tabular-nums">{formatPrice(breakdown.grandTotal)}</span>
                 </div>
-                <p className="text-[11px] text-ink-600">All prices include applicable taxes</p>
+                <p className="text-[11px] text-graphite/60">All prices include applicable taxes</p>
               </div>
 
               {/* Security info */}
-              <div className="p-3 bg-white rounded-xl border border-border text-[11px] text-ink-600 flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-accent-700 shrink-0" />
-                <span>Demo checkout. No real payment is taken.</span>
+              <div className="p-3.5 bg-white rounded-xl border border-sandstone text-[11px] text-graphite flex items-center gap-2.5">
+                <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
+                <span>Simulated demo checkout. No actual credit card or payment is charged.</span>
               </div>
             </div>
           </div>

@@ -105,22 +105,22 @@ export const AccountOrdersPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-display text-2xl font-bold text-ink-900">Order History</h2>
-          <p className="text-xs sm:text-sm text-ink-600">
+          <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">Order History</h2>
+          <p className="text-xs sm:text-sm text-graphite/70 font-sans mt-1">
             Track, view itemized receipts, or reorder your favorite pieces.
           </p>
         </div>
 
         {orders.length > 0 && (
-          <div className="flex items-center gap-1.5 p-1 bg-surface-tint rounded-xl border border-border self-start sm:self-auto">
+          <div className="flex items-center gap-1.5 p-1 bg-ivory rounded-xl border border-sandstone self-start sm:self-auto">
             {(['all', 'active', 'delivered'] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setFilter(tab)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors ${
                   filter === tab
-                    ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
-                    : 'text-ink-600 hover:text-ink-900'
+                    ? 'bg-obsidian text-ivory shadow-sm'
+                    : 'text-graphite/70 hover:text-obsidian'
                 }`}
               >
                 {tab === 'all' ? `All (${orders.length})` : tab}
@@ -132,31 +132,31 @@ export const AccountOrdersPage: React.FC = () => {
 
       {isLoading ? (
         <div className="py-16 text-center space-y-3">
-          <div className="w-8 h-8 border-2 border-accent-700 border-t-transparent rounded-full animate-spin mx-auto" />
-          <p className="text-xs text-ink-600">Loading your orders...</p>
+          <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin mx-auto" />
+          <p className="text-xs text-graphite/70">Loading your orders...</p>
         </div>
       ) : orders.length === 0 ? (
-        <div className="bg-surface-tint rounded-3xl p-10 sm:p-14 border border-border text-center space-y-5">
-          <div className="w-16 h-16 rounded-2xl bg-white border border-border flex items-center justify-center mx-auto text-ink-600 shadow-sm">
-            <ShoppingBag className="w-8 h-8 text-accent-700" />
+        <div className="bg-ivory rounded-3xl p-10 sm:p-14 border border-sandstone text-center space-y-5 shadow-luxury">
+          <div className="w-16 h-16 rounded-2xl bg-white border border-sandstone flex items-center justify-center mx-auto text-gold shadow-sm">
+            <ShoppingBag className="w-8 h-8" />
           </div>
           <div className="max-w-md mx-auto space-y-2">
-            <h3 className="font-display text-xl font-bold text-ink-900">No orders yet</h3>
-            <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
+            <h3 className="font-serif text-2xl font-normal text-obsidian tracking-tight">No orders yet</h3>
+            <p className="text-xs sm:text-sm text-graphite/70 leading-relaxed font-sans">
               Looks like you haven&apos;t placed any orders yet. Explore our latest premium jacquard and graphic drops to get started.
             </p>
           </div>
-          <Link to="/shop" className="btn-primary px-6 py-2.5 text-xs font-bold inline-flex items-center gap-2">
+          <Link to="/shop" className="btn-primary px-7 py-3 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury">
             <span>Explore The Collection</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4 text-gold" />
           </Link>
         </div>
       ) : filteredOrders.length === 0 ? (
-        <div className="bg-surface-tint rounded-3xl p-8 border border-border text-center text-xs text-ink-600">
+        <div className="bg-ivory rounded-3xl p-8 border border-sandstone text-center text-xs text-graphite/70 font-sans">
           No {filter} orders found.
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-5">
           {filteredOrders.map((order) => {
             const statusInfo = statusConfig[order.status] || statusConfig.placed;
             const StatusIcon = statusInfo.icon;
@@ -171,28 +171,28 @@ export const AccountOrdersPage: React.FC = () => {
                 key={order.id}
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-3xl border border-border overflow-hidden hover:shadow-md transition-shadow"
+                className="bg-white rounded-3xl border border-sandstone overflow-hidden shadow-luxury hover:border-gold/50 transition-all duration-300"
               >
                 {/* Header Strip */}
-                <div className="p-4 sm:p-6 bg-surface-tint/60 border-b border-border flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex flex-wrap items-center gap-3">
+                <div className="p-5 sm:p-6 bg-ivory border-b border-sandstone flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-4">
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-ink-600 block">Order ID</span>
-                      <span className="font-mono text-xs sm:text-sm font-bold text-ink-900">
+                      <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Order ID</span>
+                      <span className="font-mono text-xs sm:text-sm font-bold text-obsidian">
                         {order.id}
                       </span>
                     </div>
-                    <span className="text-border hidden sm:inline">|</span>
+                    <span className="text-sandstone hidden sm:inline">|</span>
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-ink-600 block">Date Placed</span>
-                      <span className="text-xs sm:text-sm font-medium text-ink-900">
+                      <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Date Placed</span>
+                      <span className="text-xs sm:text-sm font-medium text-obsidian">
                         {formattedDate}
                       </span>
                     </div>
-                    <span className="text-border hidden sm:inline">|</span>
+                    <span className="text-sandstone hidden sm:inline">|</span>
                     <div>
-                      <span className="text-[10px] uppercase font-bold text-ink-600 block">Total Amount</span>
-                      <span className="text-xs sm:text-sm font-bold text-ink-900 tabular-nums">
+                      <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Total Amount</span>
+                      <span className="text-xs sm:text-sm font-bold text-obsidian tabular-nums">
                         {formatCurrency(order.grandTotal)}
                       </span>
                     </div>
@@ -200,7 +200,7 @@ export const AccountOrdersPage: React.FC = () => {
 
                   <div className="flex items-center gap-2">
                     <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${statusInfo.bg} ${statusInfo.text}`}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider border ${statusInfo.bg} ${statusInfo.text}`}
                     >
                       <span className={`w-2 h-2 rounded-full ${statusInfo.dot} animate-pulse`} />
                       <StatusIcon className="w-3.5 h-3.5" />
@@ -210,14 +210,14 @@ export const AccountOrdersPage: React.FC = () => {
                 </div>
 
                 {/* Items Preview */}
-                <div className="p-4 sm:p-6 space-y-4">
-                  <div className="divide-y divide-border/60">
+                <div className="p-5 sm:p-6 space-y-4">
+                  <div className="divide-y divide-sandstone">
                     {order.items.map((item, idx) => {
                       const image = item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg';
                       return (
-                        <div key={idx} className="py-3 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
-                          <div className="flex items-center gap-3 min-w-0">
-                            <div className="w-14 h-16 sm:w-16 sm:h-20 rounded-xl overflow-hidden bg-surface-tint border border-border flex-shrink-0">
+                        <div key={idx} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            <div className="w-14 h-16 sm:w-16 sm:h-20 rounded-xl overflow-hidden bg-ivory border border-sandstone flex-shrink-0">
                               <img
                                 src={image}
                                 alt={item.product?.name || 'Product'}
@@ -225,20 +225,20 @@ export const AccountOrdersPage: React.FC = () => {
                               />
                             </div>
                             <div className="min-w-0">
-                              <h4 className="text-xs sm:text-sm font-bold text-ink-900 truncate">
+                              <h4 className="text-xs sm:text-sm font-bold text-obsidian truncate">
                                 {item.product?.name || 'Ateevibes Tee'}
                               </h4>
-                              <p className="text-[11px] sm:text-xs text-ink-600 mt-0.5">
-                                Colour: <span className="font-semibold text-ink-900">{item.variant?.colourName || 'Standard'}</span> • Size: <span className="font-semibold text-ink-900">{item.size}</span>
+                              <p className="text-[11px] sm:text-xs text-graphite/70 mt-0.5">
+                                Colour: <span className="font-semibold text-obsidian">{item.variant?.colourName || 'Standard'}</span> • Size: <span className="font-semibold text-obsidian">{item.size}</span>
                               </p>
-                              <p className="text-[11px] sm:text-xs text-ink-600 mt-0.5">
-                                Qty: <span className="font-bold text-ink-900">{item.qty}</span>
+                              <p className="text-[11px] sm:text-xs text-graphite/70 mt-0.5">
+                                Qty: <span className="font-bold text-obsidian">{item.qty}</span>
                               </p>
                             </div>
                           </div>
 
                           <div className="text-right flex-shrink-0">
-                            <p className="text-xs sm:text-sm font-bold text-ink-900 tabular-nums">
+                            <p className="text-xs sm:text-sm font-bold text-obsidian tabular-nums">
                               {formatCurrency((item.product?.mrp || 999) * item.qty)}
                             </p>
                           </div>
@@ -248,10 +248,10 @@ export const AccountOrdersPage: React.FC = () => {
                   </div>
 
                   {/* Actions Row */}
-                  <div className="pt-4 border-t border-border flex flex-wrap items-center justify-between gap-3">
-                    <div className="text-xs text-ink-600">
+                  <div className="pt-4 border-t border-sandstone flex flex-wrap items-center justify-between gap-3">
+                    <div className="text-xs text-graphite/70">
                       <span>Delivering to: </span>
-                      <strong className="text-ink-900 font-semibold">
+                      <strong className="text-obsidian font-semibold">
                         {order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}
                       </strong>
                     </div>
@@ -259,26 +259,26 @@ export const AccountOrdersPage: React.FC = () => {
                     <div className="flex flex-wrap items-center gap-2">
                       <Link
                         to={`/track-order?id=${order.id}`}
-                        className="btn-secondary px-3.5 py-1.5 text-xs font-bold inline-flex items-center gap-1.5"
+                        className="btn-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
                       >
-                        <Truck className="w-3.5 h-3.5" />
+                        <Truck className="w-3.5 h-3.5 text-gold" />
                         <span>Track</span>
                       </Link>
 
                       <button
                         onClick={() => handleReorder(order)}
-                        className="btn-secondary px-3.5 py-1.5 text-xs font-bold inline-flex items-center gap-1.5"
+                        className="btn-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
                       >
-                        <RotateCw className="w-3.5 h-3.5" />
+                        <RotateCw className="w-3.5 h-3.5 text-gold" />
                         <span>Reorder</span>
                       </button>
 
                       <Link
                         to={`/account/orders/${order.id}`}
-                        className="btn-primary px-4 py-1.5 text-xs font-bold inline-flex items-center gap-1.5"
+                        className="btn-primary px-5 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-luxury"
                       >
                         <span>View Invoice</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
+                        <ArrowRight className="w-3.5 h-3.5 text-gold" />
                       </Link>
                     </div>
                   </div>

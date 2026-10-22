@@ -32,18 +32,19 @@ export const AnnouncementBar: React.FC = () => {
     <div
       role="region"
       aria-label="Announcements"
-      className="relative z-50 bg-gradient-to-r from-brand-green via-brand-cream to-brand-green text-ink-900 text-xs sm:text-sm font-medium py-2 px-4 shadow-sm border-b border-border/40"
+      className="relative z-50 bg-obsidian text-ivory text-xs font-medium py-2 px-4 shadow-subtle border-b border-gold/25"
     >
       <div className="max-w-7xl mx-auto flex items-center justify-center relative overflow-hidden h-5">
         <AnimatePresence mode="wait">
           <motion.p
             key={currentIndex}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="text-center tracking-wide font-medium flex items-center gap-2"
+            className="text-center tracking-[0.06em] uppercase text-[11px] sm:text-xs font-medium flex items-center gap-2"
           >
+            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
             <span>{messages[currentIndex]}</span>
           </motion.p>
         </AnimatePresence>
@@ -51,7 +52,7 @@ export const AnnouncementBar: React.FC = () => {
         <button
           onClick={handleDismiss}
           aria-label="Dismiss announcement"
-          className="absolute right-0 text-ink-700 hover:text-ink-900 transition-colors p-1 rounded-full hover:bg-black/5"
+          className="absolute right-0 text-ivory/60 hover:text-gold transition-colors p-1 rounded-full hover:bg-white/5"
         >
           <X className="w-3.5 h-3.5" />
         </button>

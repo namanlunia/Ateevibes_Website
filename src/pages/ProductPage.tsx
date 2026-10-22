@@ -285,9 +285,9 @@ export const ProductPage: React.FC = () => {
               <button
                 onClick={() => setIsLightboxOpen(true)}
                 aria-label="Expand image fullscreen"
-                className="p-2 rounded-full bg-surface-tint border border-border text-ink-700 hover:text-ink-900 transition-colors flex items-center gap-1.5 text-xs font-semibold"
+                className="p-2 rounded-full bg-white border border-sandstone text-obsidian hover:border-gold/60 transition-colors flex items-center gap-1.5 text-xs font-semibold shadow-subtle"
               >
-                <Maximize2 className="w-3.5 h-3.5" />
+                <Maximize2 className="w-3.5 h-3.5 text-gold" />
                 <span className="hidden sm:inline">Zoom</span>
               </button>
             </div>
@@ -295,7 +295,7 @@ export const ProductPage: React.FC = () => {
             {/* Main Image Frame with hover zoom */}
             <div
               onClick={() => setIsLightboxOpen(true)}
-              className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-brand-cream/25 border border-border shadow-soft group cursor-zoom-in"
+              className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white border border-sandstone shadow-luxury group cursor-zoom-in"
             >
               <motion.img
                 key={`${selectedVariant.id}-${activeImageIdx}`}
@@ -316,17 +316,17 @@ export const ProductPage: React.FC = () => {
               {/* Badges */}
               <div className="absolute top-4 right-4 flex flex-col gap-1.5 items-end">
                 {isComingSoon && (
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-ink-900 text-brand-cream uppercase tracking-wider">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-semibold bg-obsidian text-warm-ivory border border-gold/30 uppercase tracking-[0.2em]">
                     Coming Soon
                   </span>
                 )}
                 {!isComingSoon && product.badges.includes('Best Seller') && (
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-accent-700 text-white uppercase tracking-wider">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-semibold bg-obsidian text-gold border border-gold/40 uppercase tracking-[0.2em] shadow-sm">
                     Best Seller
                   </span>
                 )}
                 {!isComingSoon && product.badges.includes('New') && (
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-brand-green text-ink-900 border border-brand-green uppercase tracking-wider">
+                  <span className="px-3 py-1 rounded-full text-[10px] font-semibold bg-warm-ivory text-obsidian border border-sandstone uppercase tracking-[0.2em] shadow-sm">
                     New Drop
                   </span>
                 )}
@@ -342,8 +342,8 @@ export const ProductPage: React.FC = () => {
                     onClick={() => setActiveImageIdx(idx)}
                     className={`relative w-16 sm:w-20 aspect-[4/5] rounded-xl overflow-hidden border-2 transition-all shrink-0 ${
                       activeImageIdx === idx
-                        ? 'border-ink-900 ring-2 ring-ink-900/20 scale-105'
-                        : 'border-border/80 opacity-70 hover:opacity-100'
+                        ? 'border-obsidian ring-2 ring-gold/40 scale-105 shadow-sm'
+                        : 'border-sandstone opacity-70 hover:opacity-100'
                     }`}
                   >
                     <img
@@ -368,7 +368,7 @@ export const ProductPage: React.FC = () => {
             {/* Header info */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs text-ink-600">
-                <span className="font-bold text-accent-700 uppercase tracking-widest text-[11px]">
+                <span className="font-semibold text-gold uppercase tracking-[0.2em] text-[11px]">
                   {product.categoryName} • {product.subCategoryName}
                 </span>
 
@@ -376,7 +376,7 @@ export const ProductPage: React.FC = () => {
                   <button
                     onClick={handleShare}
                     aria-label="Share product"
-                    className="p-1.5 rounded-full hover:bg-black/5 text-ink-700 hover:text-ink-900"
+                    className="p-1.5 rounded-full hover:bg-black/5 text-ink-700 hover:text-obsidian"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
@@ -389,18 +389,18 @@ export const ProductPage: React.FC = () => {
                       });
                     }}
                     aria-label={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
-                    className="p-1.5 rounded-full hover:bg-black/5 text-ink-700 hover:text-ink-900"
+                    className="p-1.5 rounded-full hover:bg-black/5 text-ink-700 hover:text-obsidian"
                   >
                     <Heart
                       className={`w-4 h-4 ${
-                        isInWishlist ? 'fill-status-error text-status-error' : 'text-ink-900'
+                        isInWishlist ? 'fill-gold text-gold' : 'text-obsidian'
                       }`}
                     />
                   </button>
                 </div>
               </div>
 
-              <h1 className="font-display text-2xl sm:text-4xl font-normal text-ink-900 leading-tight">
+              <h1 className="font-display text-2xl sm:text-4xl font-normal text-obsidian leading-tight">
                 {product.name}
               </h1>
 
@@ -409,7 +409,7 @@ export const ProductPage: React.FC = () => {
                 {product.rating > 0 ? (
                   <a
                     href="#reviews-section"
-                    className="flex items-center gap-1.5 font-medium text-ink-700 hover:text-accent-700 transition-colors"
+                    className="flex items-center gap-1.5 font-medium text-ink-700 hover:text-gold transition-colors"
                   >
                     <div className="flex items-center gap-0.5">
                       {[1, 2, 3, 4, 5].map((s) => (
@@ -417,27 +417,27 @@ export const ProductPage: React.FC = () => {
                           key={s}
                           className={`w-3.5 h-3.5 ${
                             s <= Math.round(product.rating)
-                              ? 'fill-amber-400 text-amber-400'
-                              : 'text-border'
+                              ? 'fill-gold text-gold'
+                              : 'text-sandstone'
                           }`}
                         />
                       ))}
                     </div>
-                    <span className="font-bold">{product.rating.toFixed(1)}</span>
+                    <span className="font-bold text-obsidian">{product.rating.toFixed(1)}</span>
                     <span className="text-ink-600 underline">({product.reviewCount} reviews)</span>
                   </a>
                 ) : (
                   <span className="text-ink-600">No reviews yet</span>
                 )}
-                <span className="text-ink-600">•</span>
-                <span className="text-accent-700 font-semibold uppercase tracking-wider text-[11px]">
+                <span className="text-sandstone">•</span>
+                <span className="text-gold font-semibold uppercase tracking-[0.2em] text-[11px]">
                   {product.fabric}
                 </span>
               </div>
 
               {/* Price Row */}
               <div className="flex items-baseline gap-3 pt-1">
-                <span className="text-3xl sm:text-4xl font-bold text-ink-900 tabular-nums">
+                <span className="font-display text-3xl sm:text-4xl font-normal text-obsidian tabular-nums">
                   {formatPrice(product.mrp)}
                 </span>
                 <span className="text-xs text-ink-600 font-medium">Inclusive of all taxes</span>
@@ -449,10 +449,10 @@ export const ProductPage: React.FC = () => {
             </div>
 
             {/* Colour Selector */}
-            <div className="space-y-3 pt-2 border-t border-border/80">
+            <div className="space-y-3 pt-2 border-t border-sandstone">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-ink-900 uppercase tracking-wide">Colourway</span>
-                <span className="font-semibold text-accent-700">{selectedVariant.colourName}</span>
+                <span className="font-semibold text-obsidian uppercase tracking-wider">Colourway</span>
+                <span className="font-semibold text-gold">{selectedVariant.colourName}</span>
               </div>
 
               <div className="flex flex-wrap gap-2.5">
@@ -468,8 +468,8 @@ export const ProductPage: React.FC = () => {
                       title={v.colourName}
                       className={`relative w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
                         isSelected
-                          ? 'border-ink-900 ring-2 ring-ink-900/30 scale-110'
-                          : 'border-white hover:scale-105'
+                          ? 'border-obsidian ring-2 ring-gold ring-offset-2 scale-110 shadow-sm'
+                          : 'border-sandstone hover:scale-105 shadow-subtle'
                       }`}
                       style={
                         v.patternImage
@@ -481,7 +481,7 @@ export const ProductPage: React.FC = () => {
                         <Check
                           className={`w-4 h-4 ${
                             v.colourSlug === 'white' || v.colourSlug === 'off-white'
-                              ? 'text-black'
+                              ? 'text-obsidian'
                               : 'text-white'
                           }`}
                         />
@@ -493,10 +493,10 @@ export const ProductPage: React.FC = () => {
             </div>
 
             {/* Size Selector with Stock Rules */}
-            <div className="space-y-3 pt-2 border-t border-border/80">
+            <div className="space-y-3 pt-2 border-t border-sandstone">
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
-                  <span className="font-bold text-ink-900 uppercase tracking-wide">Select Size</span>
+                  <span className="font-semibold text-obsidian uppercase tracking-wider">Select Size</span>
                   {availableStock <= 5 && availableStock > 0 && (
                     <span className="text-status-warning font-semibold text-[11px] bg-status-warning/10 px-2 py-0.5 rounded-full">
                       Only {availableStock} left
@@ -511,7 +511,7 @@ export const ProductPage: React.FC = () => {
 
                 <button
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="text-xs font-semibold text-accent-700 hover:text-ink-900 underline flex items-center gap-1"
+                  className="text-xs font-semibold text-gold hover:text-obsidian underline flex items-center gap-1"
                 >
                   Size Guide
                 </button>
@@ -528,12 +528,12 @@ export const ProductPage: React.FC = () => {
                       key={size}
                       disabled={outOfStock}
                       onClick={() => setSelectedSize(size)}
-                      className={`py-3 rounded-2xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
+                      className={`py-3 rounded-xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
                         isSelected
-                          ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-md scale-[1.02]'
+                          ? 'bg-obsidian text-warm-ivory border-gold/40 shadow-sm scale-[1.02]'
                           : outOfStock
-                          ? 'bg-black/5 text-ink-600/40 line-through border-transparent cursor-not-allowed'
-                          : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'
+                          ? 'bg-sandstone/20 text-ink-400 line-through border-transparent cursor-not-allowed'
+                          : 'bg-white border-sandstone text-obsidian hover:border-gold/50 shadow-subtle'
                       }`}
                     >
                       <span className="text-sm">{size}</span>
@@ -552,21 +552,21 @@ export const ProductPage: React.FC = () => {
                 <>
                   <div className="flex items-center gap-3">
                     {/* Stepper */}
-                    <div className="flex items-center border border-border rounded-full bg-surface-tint p-1">
+                    <div className="flex items-center border border-sandstone rounded-full bg-white p-1 shadow-subtle">
                       <button
                         onClick={() => setQty(Math.max(1, qty - 1))}
                         disabled={qty <= 1}
-                        className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-ink-900 text-sm font-bold disabled:opacity-30"
+                        className="w-8 h-8 rounded-full hover:bg-warm-ivory flex items-center justify-center text-obsidian text-sm font-bold disabled:opacity-30"
                       >
                         -
                       </button>
-                      <span className="w-10 text-center text-sm font-bold text-ink-900 tabular-nums">
+                      <span className="w-10 text-center text-sm font-bold text-obsidian tabular-nums">
                         {qty}
                       </span>
                       <button
                         onClick={() => setQty(Math.min(availableStock, qty + 1))}
                         disabled={qty >= availableStock}
-                        className="w-8 h-8 rounded-full hover:bg-white flex items-center justify-center text-ink-900 text-sm font-bold disabled:opacity-30"
+                        className="w-8 h-8 rounded-full hover:bg-warm-ivory flex items-center justify-center text-obsidian text-sm font-bold disabled:opacity-30"
                       >
                         +
                       </button>
@@ -577,9 +577,9 @@ export const ProductPage: React.FC = () => {
                       ref={mainCtaRef}
                       onClick={handleAddToCart}
                       disabled={isOutOfStock}
-                      className="flex-1 btn-primary py-3.5 px-6 text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-soft"
+                      className="flex-1 btn-primary py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-luxury"
                     >
-                      <ShoppingBag className="w-4 h-4" />
+                      <ShoppingBag className="w-4 h-4 text-gold" />
                       <span>{isOutOfStock ? 'Sold Out' : `Add to Bag • ${formatPrice(product.mrp * qty)}`}</span>
                     </button>
                   </div>
@@ -588,9 +588,9 @@ export const ProductPage: React.FC = () => {
                   <button
                     onClick={handleBuyNow}
                     disabled={isOutOfStock}
-                    className="w-full btn-secondary py-3 text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full btn-secondary py-3 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed bg-white"
                   >
-                    <Zap className="w-4 h-4 text-accent-700 fill-accent-700" />
+                    <Zap className="w-4 h-4 text-gold fill-gold" />
                     <span>Buy It Now</span>
                   </button>
                 </>
@@ -599,15 +599,15 @@ export const ProductPage: React.FC = () => {
                 <div className="space-y-3">
                   <button
                     disabled
-                    className="w-full py-3.5 rounded-full bg-black/10 text-ink-600 font-bold text-sm cursor-not-allowed"
+                    className="w-full py-3.5 rounded-full bg-sandstone/30 text-ink-600 font-bold text-xs uppercase tracking-wider cursor-not-allowed"
                   >
                     Coming Soon — Not Yet Available
                   </button>
                   <button
                     onClick={() => setNotifyModalOpen(true)}
-                    className="w-full btn-primary py-3 text-xs font-bold flex items-center justify-center gap-2"
+                    className="w-full btn-primary py-3 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2"
                   >
-                    <Bell className="w-4 h-4" />
+                    <Bell className="w-4 h-4 text-gold" />
                     <span>Notify Me When In Stock</span>
                   </button>
                 </div>
@@ -619,15 +619,15 @@ export const ProductPage: React.FC = () => {
 
             {/* Highlights Icon Chips Row */}
             {product.highlights.length > 0 && (
-              <div className="space-y-2 pt-2 border-t border-border/80">
-                <span className="text-xs font-bold text-ink-900 uppercase tracking-wide">
+              <div className="space-y-2 pt-2 border-t border-sandstone">
+                <span className="text-xs font-semibold text-obsidian uppercase tracking-wider">
                   Product Highlights
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {product.highlights.map((h, i) => (
                     <span
                       key={i}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-tint border border-border text-xs font-medium text-ink-900"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-sandstone text-xs font-medium text-obsidian shadow-subtle"
                     >
                       {getHighlightIcon(h)}
                       <span>{h}</span>
@@ -638,16 +638,16 @@ export const ProductPage: React.FC = () => {
             )}
 
             {/* Accordions (Description, Fabric & Care, Shipping, Size & Fit) */}
-            <div className="border-t border-border/80 divide-y divide-border/60 text-xs sm:text-sm">
+            <div className="border-t border-sandstone divide-y divide-sandstone/60 text-xs sm:text-sm">
               {/* Description */}
-              <div className="py-3">
+              <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, description: !a.description }))}
-                  className="w-full flex items-center justify-between font-bold text-ink-900 uppercase tracking-wider text-xs text-left"
+                  className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
                   <span>Description & Details</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.description ? 'rotate-180' : ''
                     }`}
                   />
@@ -660,36 +660,36 @@ export const ProductPage: React.FC = () => {
               </div>
 
               {/* Fabric & Care */}
-              <div className="py-3">
+              <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, fabric: !a.fabric }))}
-                  className="w-full flex items-center justify-between font-bold text-ink-900 uppercase tracking-wider text-xs text-left"
+                  className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
                   <span>Fabric & Care</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.fabric ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
                 {accordions.fabric && (
                   <div className="mt-2 space-y-2 text-xs text-ink-600">
-                    <p><strong>Fabric Knit:</strong> {product.fabric}</p>
-                    <p><strong>Composition:</strong> to be confirmed</p>
-                    <p><strong>Wash Care:</strong> Machine wash cold with like colours. Do not bleach. Tumble dry low or dry flat in shade. Iron inside out on low heat.</p>
+                    <p><strong className="text-obsidian">Fabric Knit:</strong> {product.fabric}</p>
+                    <p><strong className="text-obsidian">Composition:</strong> to be confirmed on physical care label</p>
+                    <p><strong className="text-obsidian">Wash Care:</strong> Machine wash cold with like colours. Do not bleach. Tumble dry low or dry flat in shade. Iron inside out on low heat.</p>
                   </div>
                 )}
               </div>
 
               {/* Shipping & Returns */}
-              <div className="py-3">
+              <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, shipping: !a.shipping }))}
-                  className="w-full flex items-center justify-between font-bold text-ink-900 uppercase tracking-wider text-xs text-left"
+                  className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
                   <span>Shipping & 7-Day Returns</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.shipping ? 'rotate-180' : ''
                     }`}
                   />
@@ -705,14 +705,14 @@ export const ProductPage: React.FC = () => {
               </div>
 
               {/* Size & Fit */}
-              <div className="py-3">
+              <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, sizeFit: !a.sizeFit }))}
-                  className="w-full flex items-center justify-between font-bold text-ink-900 uppercase tracking-wider text-xs text-left"
+                  className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
                   <span>Size & Fit Notes</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
+                    className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.sizeFit ? 'rotate-180' : ''
                     }`}
                   />
@@ -723,7 +723,7 @@ export const ProductPage: React.FC = () => {
                     <p>• Models wear Size M (Chest 40"). Fits true to size.</p>
                     <button
                       onClick={() => setIsSizeGuideOpen(true)}
-                      className="text-accent-700 font-bold underline pt-1 block"
+                      className="text-gold font-semibold underline pt-1 block hover:text-obsidian"
                     >
                       Open Full Size Chart Table
                     </button>
@@ -736,13 +736,13 @@ export const ProductPage: React.FC = () => {
 
         {/* Complete the Set Cross-Sell */}
         {completeSetProducts.length > 0 && (
-          <div className="mt-20 pt-12 border-t border-border space-y-6">
+          <div className="mt-20 pt-12 border-t border-sandstone space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                   Style Coordination
                 </span>
-                <h3 className="font-display text-2xl font-bold text-ink-900">
+                <h3 className="font-display text-2xl font-normal text-obsidian">
                   Complete the Set in {selectedVariant.colourName}
                 </h3>
               </div>
@@ -757,19 +757,19 @@ export const ProductPage: React.FC = () => {
 
         {/* You May Also Like Cross-Sell */}
         {relatedProducts.length > 0 && (
-          <div className="mt-16 pt-12 border-t border-border space-y-6">
+          <div className="mt-16 pt-12 border-t border-sandstone space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
+                <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                   Recommended For You
                 </span>
-                <h3 className="font-display text-2xl font-normal text-ink-900">
+                <h3 className="font-display text-2xl font-normal text-obsidian">
                   You May Also Like
                 </h3>
               </div>
-              <Link to={`/shop/${product.category}`} className="text-xs font-bold text-accent-700 hover:text-ink-900 flex items-center gap-1">
+              <Link to={`/shop/${product.category}`} className="text-xs font-semibold tracking-wider uppercase text-obsidian hover:text-gold flex items-center gap-1 transition-colors">
                 <span>View category</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5 text-gold" />
               </Link>
             </div>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -782,8 +782,8 @@ export const ProductPage: React.FC = () => {
 
         {/* Recently Viewed Block */}
         {recentlyViewed.length > 0 && (
-          <div className="mt-16 pt-12 border-t border-border space-y-6">
-            <h3 className="font-display text-2xl font-normal text-ink-900">
+          <div className="mt-16 pt-12 border-t border-sandstone space-y-6">
+            <h3 className="font-display text-2xl font-normal text-obsidian">
               Recently Viewed
             </h3>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -795,19 +795,19 @@ export const ProductPage: React.FC = () => {
         )}
 
         {/* Reviews Section */}
-        <div id="reviews-section" className="mt-20 pt-16 border-t border-border space-y-10">
+        <div id="reviews-section" className="mt-20 pt-16 border-t border-sandstone space-y-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold">
                 Customer Voices
               </span>
-              <h3 className="font-display text-3xl font-normal text-ink-900">
+              <h3 className="font-display text-3xl font-normal text-obsidian">
                 Customer Reviews
               </h3>
             </div>
             <button
               onClick={() => setIsReviewModalOpen(true)}
-              className="btn-primary px-6 py-2.5 text-xs font-bold"
+              className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider"
             >
               Write a Review
             </button>
@@ -818,27 +818,27 @@ export const ProductPage: React.FC = () => {
               {productReviews.map((rev) => (
                 <div
                   key={rev.id}
-                  className="p-6 rounded-2xl bg-white border border-border space-y-2 shadow-sm"
+                  className="p-6 rounded-2xl bg-white border border-sandstone space-y-2 shadow-subtle"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="flex text-amber-400">
+                      <div className="flex text-gold">
                         {Array.from({ length: rev.rating }).map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
+                          <Star key={i} className="w-3.5 h-3.5 fill-gold text-gold" />
                         ))}
                       </div>
-                      <span className="font-bold text-xs text-ink-900">{rev.userName}</span>
+                      <span className="font-semibold text-xs text-obsidian">{rev.userName}</span>
                     </div>
                     <span className="text-[11px] text-ink-600">{rev.date}</span>
                   </div>
-                  {rev.title && <h4 className="font-bold text-sm text-ink-900">{rev.title}</h4>}
+                  {rev.title && <h4 className="font-semibold text-sm text-obsidian">{rev.title}</h4>}
                   <p className="text-xs sm:text-sm text-ink-700 leading-relaxed">{rev.comment}</p>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="bg-surface-tint rounded-3xl p-8 sm:p-12 border border-border text-center space-y-3">
-              <p className="font-display text-2xl font-normal text-ink-900">
+            <div className="bg-warm-ivory/60 rounded-2xl p-8 sm:p-12 border border-sandstone text-center space-y-3 shadow-subtle">
+              <p className="font-display text-2xl font-normal text-obsidian">
                 Be the First to Review This Garment
               </p>
               <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto leading-relaxed">
@@ -847,7 +847,7 @@ export const ProductPage: React.FC = () => {
               <div className="pt-2">
                 <button
                   onClick={() => setIsReviewModalOpen(true)}
-                  className="btn-primary px-6 py-2.5 text-xs font-bold inline-flex items-center gap-1.5"
+                  className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
                 >
                   <span>Write First Review</span>
                 </button>

@@ -132,15 +132,15 @@ export const FAQPage: React.FC = () => {
       <div className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-12">
         {/* Header & Search */}
         <div className="text-center space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-surface-tint border border-border text-xs font-bold text-accent-700 uppercase tracking-wider">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ivory border border-sandstone text-xs font-bold text-gold uppercase tracking-wider">
             <HelpCircle className="w-3.5 h-3.5" />
             <span>Help Center</span>
           </div>
-          <h1 className="font-display text-4xl sm:text-5xl font-normal text-ink-900 tracking-tight">
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-obsidian tracking-tight">
             Frequently Asked Questions
           </h1>
-          <p className="text-xs sm:text-base text-ink-600 max-w-lg mx-auto">
-            Everything you need to know about our products, sizing, order shipping, and seamless exchanges.
+          <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
+            Everything you need to know about our menswear drops, sizing, order fulfillment, and seamless exchanges.
           </p>
 
           {/* Search Input */}
@@ -150,9 +150,9 @@ export const FAQPage: React.FC = () => {
               placeholder="Search by keyword (e.g. shipping, wash, exchange)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-2xl text-xs sm:text-sm text-ink-900 placeholder:text-ink-400 focus:outline-none focus:border-ink-900 shadow-sm"
+              className="w-full pl-10 pr-4 py-3 bg-ivory border border-sandstone rounded-2xl text-xs sm:text-sm text-obsidian placeholder:text-graphite/50 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian shadow-sm"
             />
-            <Search className="w-4 h-4 text-ink-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-graphite/50 absolute left-3.5 top-1/2 -translate-y-1/2" />
           </div>
         </div>
 
@@ -162,10 +162,10 @@ export const FAQPage: React.FC = () => {
             <button
               key={cat.key}
               onClick={() => setSelectedCategory(cat.key)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-2xl text-xs font-bold uppercase tracking-wider whitespace-nowrap transition-all ${
                 selectedCategory === cat.key
-                  ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
-                  : 'bg-surface-tint border border-border text-ink-600 hover:text-ink-900'
+                  ? 'bg-obsidian text-ivory shadow-luxury'
+                  : 'bg-ivory border border-sandstone text-graphite/70 hover:text-obsidian hover:border-gold/50'
               }`}
             >
               {cat.label}
@@ -174,13 +174,13 @@ export const FAQPage: React.FC = () => {
         </div>
 
         {/* Accordion List */}
-        <div className="space-y-3">
+        <div className="space-y-3.5">
           {filteredFaqs.length === 0 ? (
-            <div className="bg-surface-tint rounded-3xl p-10 border border-border text-center space-y-2">
-              <p className="font-display text-lg font-normal text-ink-900">
+            <div className="bg-ivory rounded-3xl p-10 border border-sandstone text-center space-y-2 shadow-luxury">
+              <p className="font-serif text-xl font-normal text-obsidian tracking-tight">
                 No matching questions found
               </p>
-              <p className="text-xs text-ink-600">
+              <p className="text-xs text-graphite/70 font-sans">
                 Try searching for something else or contact our concierge directly.
               </p>
             </div>
@@ -190,17 +190,17 @@ export const FAQPage: React.FC = () => {
               return (
                 <div
                   key={faq.id}
-                  className="bg-white rounded-2xl border border-border overflow-hidden transition-colors"
+                  className="bg-white rounded-2xl border border-sandstone overflow-hidden shadow-luxury transition-all duration-300"
                 >
                   <button
                     onClick={() => toggleAccordion(faq.id)}
-                    className="w-full p-5 text-left flex items-center justify-between gap-4 font-bold text-xs sm:text-sm text-ink-900 hover:bg-surface-tint/50 transition-colors"
+                    className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-serif text-base sm:text-lg font-normal text-obsidian hover:bg-ivory/50 transition-colors tracking-tight"
                   >
                     <span>{faq.question}</span>
                     <motion.div
                       animate={{ rotate: isExpanded ? 180 : 0 }}
                       transition={{ duration: 0.2 }}
-                      className="flex-shrink-0 text-ink-500"
+                      className="flex-shrink-0 text-gold"
                     >
                       <ChevronDown className="w-4 h-4" />
                     </motion.div>
@@ -214,7 +214,7 @@ export const FAQPage: React.FC = () => {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25, ease: 'easeInOut' }}
                       >
-                        <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-ink-600 leading-relaxed border-t border-border/50">
+                        <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-graphite/80 leading-relaxed border-t border-sandstone font-sans">
                           {faq.answer}
                         </div>
                       </motion.div>
@@ -227,29 +227,29 @@ export const FAQPage: React.FC = () => {
         </div>
 
         {/* Bottom Contact Strip */}
-        <div className="bg-surface-tint rounded-3xl border border-border p-8 text-center space-y-4">
-          <h3 className="font-display text-xl font-normal text-ink-900">
+        <div className="bg-ivory rounded-3xl border border-sandstone p-8 sm:p-10 text-center space-y-4 shadow-luxury">
+          <h3 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
             Still have questions?
           </h3>
-          <p className="text-xs text-ink-600 max-w-md mx-auto">
-            Our concierge team is available on WhatsApp and email to assist with sizing advice or special requests.
+          <p className="text-xs sm:text-sm text-graphite/70 max-w-md mx-auto font-sans">
+            Our concierge team is available on WhatsApp and email to assist with sizing advice, custom requests, or tracking.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
               href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I have a question.')}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary px-5 py-2 text-xs font-bold inline-flex items-center gap-2"
+              className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
             >
-              <MessageCircle className="w-4 h-4" />
+              <MessageCircle className="w-4 h-4 text-gold" />
               <span>Chat on WhatsApp</span>
             </a>
             <a
               href="mailto:support@ateevibes.com"
-              className="btn-secondary px-5 py-2 text-xs font-bold inline-flex items-center gap-2 bg-white"
+              className="btn-secondary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 bg-white"
             >
-              <Mail className="w-4 h-4" />
-              <span>Email Support</span>
+              <Mail className="w-4 h-4 text-gold" />
+              <span>Email Concierge</span>
             </a>
           </div>
         </div>
