@@ -1,0 +1,66 @@
+// SAMPLE DATA: replace before launch (tracked in /TODO.md)
+// Note: Do not show a "Verified Buyer" badge on sample reviews as per spec.
+import { Review } from '../types';
+
+export const REVIEWS_DATA: Review[] = [
+  {
+    id: 'rev-1',
+    productId: 'prod-1007',
+    userName: 'Aarav M.',
+    rating: 5,
+    title: 'Outstanding fabric depth and modern fit',
+    comment: 'The China jacquard weave has a tangible dimensional texture that catches the light beautifully. Fits true to size through the chest and shoulders.',
+    date: '14 Oct 2025',
+    isSample: true,
+  },
+  {
+    id: 'rev-2',
+    productId: 'prod-1007',
+    userName: 'Karan S.',
+    rating: 5,
+    title: 'Breathable full sleeve perfection',
+    comment: 'Was worried full sleeves might feel stuffy, but the jacquard knit is remarkably breathable and comfortable throughout the day.',
+    date: '02 Oct 2025',
+    isSample: true,
+  },
+  {
+    id: 'rev-3',
+    productId: 'prod-500',
+    userName: 'Rohan P.',
+    rating: 5,
+    title: 'Super soft daily tee',
+    comment: 'The matty fabric feels substantial without being heavy. Retains its neckline shape even after several washes.',
+    date: '28 Sep 2025',
+    isSample: true,
+  },
+  {
+    id: 'rev-4',
+    productId: 'prod-501',
+    userName: 'Vikram N.',
+    rating: 5,
+    title: 'Waffle texture is top-tier',
+    comment: 'Loved the micro-waffle texture. Looks far more premium in person than standard basic tees. Ordered another color immediately.',
+    date: '21 Sep 2025',
+    isSample: true,
+  },
+  {
+    id: 'rev-5',
+    productId: 'prod-105',
+    userName: 'Aditya K.',
+    rating: 4,
+    title: 'Sharp collar and breathable knit',
+    comment: 'Great polo for smart-casual wear. Collar maintains its form and does not roll over.',
+    date: '15 Sep 2025',
+    isSample: true,
+  },
+  {
+    id: 'rev-6',
+    productId: 'prod-102',
+    userName: 'Devansh B.',
+    rating: 5,
+    title: 'Vibrant tie-dye finish',
+    comment: 'Colors are bright and rich. The fabric has an ultra soft hand feel with just the right amount of stretch.',
+    date: '05 Sep 2025',
+    isSample: true,
+  },
+];
