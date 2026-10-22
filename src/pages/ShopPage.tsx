@@ -9,9 +9,7 @@ import {
   Grid2X2,
   X,
   Search,
-  Sparkles,
   ChevronRight,
-  ArrowRight,
   RotateCcw,
 } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';

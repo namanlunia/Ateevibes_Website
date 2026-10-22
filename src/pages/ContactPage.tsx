@@ -3,13 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import { motion } from 'framer-motion';
 import {
   Mail,
-  Phone,
   MapPin,
   Clock,
   Send,
   MessageCircle,
   CheckCircle2,
-  AlertCircle,
 } from 'lucide-react';
 import { useUIStore } from '../store/uiStore';
 import { siteConfig } from '../config/site';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Eye, Plus, Star, Check } from 'lucide-react';
 import { Product, Variant, SizeType } from '../../types';
@@ -20,7 +20,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
   const [quickAddOpen, setQuickAddOpen] = useState(false);
   const [addedSize, setAddedSize] = useState<string | null>(null);
 
-  const navigate = useNavigate();
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) =>
     state.items.some((p) => p.id === product.id)

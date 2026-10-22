@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
   Trash2,
-  Heart,
   ArrowRight,
   ShoppingBag,
   Truck,
   ShieldCheck,
-  RefreshCw,
-  Tag,
   AlertCircle,
-  RotateCcw,
 } from 'lucide-react';
 import { useCartStore } from '../store/cartStore';
-import { useWishlistStore } from '../store/wishlistStore';
 import { useUIStore } from '../store/uiStore';
 import { formatPrice } from '../lib/format';
 import { PRODUCTS } from '../data/products';
 import { siteConfig } from '../config/site';
-import { commerceConfig } from '../config/commerce';
 import { ProductCard } from '../components/product/ProductCard';
 
 export const CartPage: React.FC = () => {
@@ -36,8 +29,6 @@ export const CartPage: React.FC = () => {
   const applyPromoCode = useCartStore((state) => state.applyPromoCode);
   const removePromoCode = useCartStore((state) => state.removePromoCode);
   const getBreakdown = useCartStore((state) => state.getBreakdown);
-
-  const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const addToast = useUIStore((state) => state.addToast);
 
   const [promoInput, setPromoInput] = useState('');

@@ -1,33 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
-  ArrowLeft,
   Check,
   ShieldCheck,
-  Truck,
   RefreshCw,
   Feather,
   Layers,
   Star,
   ShoppingBag,
-  Zap,
   ChevronRight,
   ChevronLeft,
-  Heart,
-  Eye,
 } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { productService } from '../services/productService';
 import { useCartStore } from '../store/cartStore';
 import { useUIStore } from '../store/uiStore';
-import { Product, Variant, SizeType } from '../types';
+import { Product, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
 import { TESTIMONIALS } from '../data/testimonials';
-import { COLOUR_PALETTE } from '../data/colours';
 import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
 
@@ -140,7 +134,6 @@ const HOME_COLOUR_SWATCHES = [
 ];
 
 export const HomePage: React.FC = () => {
-  const navigate = useNavigate();
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useUIStore((state) => state.openCart);
   const addToast = useUIStore((state) => state.addToast);

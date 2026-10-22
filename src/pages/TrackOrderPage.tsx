@@ -8,14 +8,12 @@ import {
   Package,
   CheckCircle2,
   Clock,
-  MapPin,
   AlertCircle,
   ExternalLink,
   MessageCircle,
   RotateCcw,
 } from 'lucide-react';
 import { orderService } from '../services/orderService';
-import { useOrdersStore } from '../store/ordersStore';
 import { Order, OrderStatus } from '../types';
 import { formatCurrency } from '../lib/format';
 import { siteConfig } from '../config/site';

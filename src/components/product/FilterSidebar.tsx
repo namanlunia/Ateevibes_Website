@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, X, RotateCcw, SlidersHorizontal, Check } from 'lucide-react';
+import { ChevronDown, RotateCcw, SlidersHorizontal, Check } from 'lucide-react';
 import { FilterOptions } from '../../hooks/useFilters';
 import { COLOUR_PALETTE } from '../../data/colours';
 import { SleeveType, NeckType, SizeType } from '../../types';

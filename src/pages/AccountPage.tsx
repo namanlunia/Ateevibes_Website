@@ -5,13 +5,9 @@ import { motion } from 'framer-motion';
 import {
   User,
   Package,
-  MapPin,
   Heart,
   LogOut,
   Edit2,
-  CheckCircle2,
-  Clock,
-  ShieldCheck,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useOrdersStore } from '../store/ordersStore';

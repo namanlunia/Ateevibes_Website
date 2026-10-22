@@ -1,7 +1,7 @@
 export type SleeveType = 'half' | 'full';
 export type NeckType = 'round' | 'polo';
-export type ProductStatus = 'active' | 'coming-soon';
-export type BadgeType = 'New' | 'Best Seller' | 'Coming Soon' | 'Low Stock';
+type ProductStatus = 'active' | 'coming-soon';
+type BadgeType = 'New' | 'Best Seller' | 'Coming Soon' | 'Low Stock';
 export type SizeType = 'S' | 'M' | 'L' | 'XL';
 
 export interface Variant {

@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import {
   Ruler,
   CheckCircle2,
-  HelpCircle,
   MessageCircle,
-  ArrowRight,
-  ShieldCheck,
 } from 'lucide-react';
 import { SIZE_CHART, FIT_NOTES } from '../data/sizeChart';
 import { siteConfig } from '../config/site';

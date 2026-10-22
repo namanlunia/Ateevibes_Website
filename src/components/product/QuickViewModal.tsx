@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, ShoppingBag, ArrowRight, ShieldCheck, Truck } from 'lucide-react';
+import { X, Star, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
 import { useCartStore } from '../../store/cartStore';
 import { Variant, SizeType } from '../../types';

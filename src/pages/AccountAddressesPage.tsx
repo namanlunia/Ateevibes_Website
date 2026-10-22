@@ -5,11 +5,7 @@ import {
   Plus,
   Trash2,
   Edit2,
-  CheckCircle2,
   X,
-  Star,
-  Home,
-  Building,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';

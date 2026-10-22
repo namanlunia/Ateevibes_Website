@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Eye, EyeOff, Lock, Mail, User, Phone, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, User, Phone, ArrowRight } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';
 import { siteConfig } from '../config/site';

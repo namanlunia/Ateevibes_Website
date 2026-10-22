@@ -1,8 +1,7 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Product, SleeveType, NeckType, SizeType } from '../types';
+import { SleeveType, NeckType, SizeType } from '../types';
 import { PRODUCTS } from '../data/products';
-import { COLOUR_PALETTE } from '../data/colours';
 
 export interface FilterOptions {
   category?: string;

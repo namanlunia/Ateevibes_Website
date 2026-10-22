@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft,
-  Package,
   Truck,
   CheckCircle2,
-  Clock,
   Printer,
   RotateCw,
   MapPin,
   CreditCard,
-  Download,
   AlertCircle,
   ExternalLink,
 } from 'lucide-react';
@@ -32,7 +29,6 @@ const TIMELINE_STEPS: { key: OrderStatus; title: string; desc: string }[] = [
 
 export const AccountOrderDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const getOrderById = useOrdersStore((state) => state.getOrderById);
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useUIStore((state) => state.openCart);

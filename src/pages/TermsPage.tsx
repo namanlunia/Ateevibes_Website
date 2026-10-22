@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { FileText, CheckCircle2 } from 'lucide-react';
+import { FileText } from 'lucide-react';
 import { siteConfig } from '../config/site';
 
 export const TermsPage: React.FC = () => {

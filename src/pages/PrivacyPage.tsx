@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import { ShieldCheck, Lock, Eye, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 import { siteConfig } from '../config/site';
 
 export const PrivacyPage: React.FC = () => {

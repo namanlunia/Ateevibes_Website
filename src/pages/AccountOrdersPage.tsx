@@ -4,13 +4,11 @@ import { motion } from 'framer-motion';
 import {
   Package,
   ArrowRight,
-  ExternalLink,
   RotateCw,
   Truck,
   CheckCircle2,
   Clock,
   ShoppingBag,
-  Sparkles,
 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { useOrdersStore } from '../store/ordersStore';

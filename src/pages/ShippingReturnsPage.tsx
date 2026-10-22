@@ -7,9 +7,7 @@ import {
   CheckCircle2,
   Clock,
   ShieldCheck,
-  Package,
   MessageCircle,
-  ArrowRight,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
 

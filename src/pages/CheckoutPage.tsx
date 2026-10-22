@@ -6,12 +6,10 @@ import { Helmet } from 'react-helmet-async';
 import {
   ShieldCheck,
   CreditCard,
-  Truck,
   CheckCircle2,
   AlertCircle,
   ArrowRight,
   ArrowLeft,
-  ChevronRight,
   ChevronDown,
   Lock,
   Loader2,

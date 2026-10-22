@@ -7,10 +7,6 @@ import {
   ChevronDown,
   MessageCircle,
   Mail,
-  Truck,
-  Shirt,
-  ShieldCheck,
-  RefreshCw,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
 
