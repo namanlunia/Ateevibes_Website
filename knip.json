@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@5/overview/configuration-schema.json",
+  "entry": [
+    "index.html",
+    "src/main.tsx",
+    "vite.config.ts",
+    "tailwind.config.js",
+    "postcss.config.js",
+    "src/setupTests.ts",
+    "src/__tests__/**/*.{ts,tsx}",
+    "scripts/**/*.{mjs,ts,tsx}"
+  ],
+  "project": [
+    "src/**/*.{ts,tsx}",
+    "scripts/**/*.{mjs,ts,tsx}"
+  ],
+  "ignoreDependencies": [
+    "@tailwindcss/*",
+    "autoprefixer",
+    "postcss",
+    "@types/*",
+    "@testing-library/*"
+  ]
+}
