@@ -337,23 +337,23 @@ export const HomePage: React.FC = () => {
                   }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/35 to-transparent flex flex-col justify-end p-6 sm:p-7 text-white">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/95 text-ink-900 text-[10px] font-bold uppercase tracking-wider shadow-sm w-fit mb-2">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#FAF3D0] via-[#FAF3D0]/85 to-transparent flex flex-col justify-end p-6 sm:p-7">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-white/95 text-[#20291F] border border-border/80 text-[10px] font-bold uppercase tracking-wider shadow-sm w-fit mb-2">
                     Featured Garment
                   </span>
-                  <h3 className="font-display text-2xl font-normal text-white">
-                    {heroProduct?.name || 'China Jacquard Knit'}
+                  <h3 className="font-display text-2xl font-normal text-[#20291F]">
+                    {heroProduct?.name || 'Royal Print Jacquard Full Sleeve T-Shirt'}
                   </h3>
-                  <p className="text-xs text-brand-cream/80 mt-1 line-clamp-2">
+                  <p className="text-xs text-[#51594C] mt-1 line-clamp-2">
                     {heroProduct?.description || 'Engineered architectural weave with distinctive dimensional texture.'}
                   </p>
                   <div className="flex items-center justify-between pt-4">
-                    <span className="font-display text-2xl font-normal text-white tabular-nums">
-                      {heroProduct ? formatPrice(heroProduct.mrp) : '₹999'}
+                    <span className="font-display text-2xl font-normal text-[#20291F] tabular-nums">
+                      {heroProduct ? formatPrice(heroProduct.mrp) : '₹709'}
                     </span>
                     <Link
                       to={`/product/${heroProduct?.slug || 'royal-print-jacquard-full-sleeve'}`}
-                      className="px-4 py-2 rounded-xl bg-white text-ink-900 text-xs font-bold hover:bg-brand-green transition-colors inline-flex items-center gap-1.5 shadow-sm"
+                      className="px-4 py-2 rounded-xl bg-white text-[#20291F] text-xs font-bold hover:bg-[#FAF3D0] transition-colors inline-flex items-center gap-1.5 shadow-sm border border-border/60"
                     >
                       <span>Shop This Piece</span>
                       <ArrowRight className="w-3.5 h-3.5" />
