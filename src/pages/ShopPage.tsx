@@ -117,35 +117,43 @@ export const ShopPage: React.FC = () => {
           )}
         </nav>
 
-        {/* Category Header Banner with Luxury Architectural Styling */}
-        <div className="relative rounded-2xl p-6 sm:p-10 mb-8 bg-warm-ivory/80 border border-sandstone shadow-subtle overflow-hidden">
-          <div className="relative z-10 max-w-2xl space-y-3">
-            <div className="flex items-center gap-2">
-              <span className="px-3 py-1 rounded-full bg-obsidian text-warm-ivory border border-gold/30 text-[10px] font-semibold uppercase tracking-[0.2em]">
-                Catalog Collection
+        {/* Category Header Banner with Luxury Architectural Styling - Oxblood Burgundy Editorial Panel */}
+        <div className="relative rounded-2xl p-6 sm:p-10 lg:p-12 mb-8 bg-oxblood text-warm-neutral border border-oxblood-light/40 shadow-luxury overflow-hidden">
+          {/* Subtle Decorative Architectural Watermark */}
+          <div className="absolute right-0 top-0 bottom-0 w-80 opacity-10 pointer-events-none flex items-center justify-center translate-x-12 select-none">
+            <div className="w-72 h-72 rounded-full border border-gold/40 flex items-center justify-center">
+              <div className="w-48 h-48 rounded-full border border-gold/30" />
+            </div>
+          </div>
+
+          <div className="relative z-10 max-w-3xl space-y-3">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-midnight/60 border border-gold/40 text-gold text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] backdrop-blur-sm">
+                <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                Atelier Drop • Collection Archive
               </span>
-              <span className="text-xs font-semibold text-gold">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-oxblood-dark/80 text-warm-neutral/90 border border-white/10 text-[11px] font-medium tracking-wide">
                 {filteredProducts.length} styles available
               </span>
             </div>
 
-            <h1 className="font-display text-3xl sm:text-5xl font-normal text-obsidian tracking-tight">
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-warm-neutral tracking-tight leading-[1.1] pt-1">
               {pageTitle}
             </h1>
-            <p className="text-xs sm:text-sm text-ink-700 leading-relaxed max-w-xl">
+            <p className="text-xs sm:text-sm md:text-base text-sandstone/90 leading-relaxed max-w-2xl font-light">
               {pageDescription}
             </p>
           </div>
 
           {/* Quick Sub-Category Pills for Horizontal Switching */}
           {currentCategory && currentCategory.subCategories.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-sandstone/60 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+            <div className="mt-6 pt-5 border-t border-white/15 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar relative z-10">
               <Link
                 to={`/shop/${currentCategory.slug}`}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
                   !subParam
-                    ? 'bg-obsidian text-warm-ivory border border-gold/40 shadow-sm'
-                    : 'bg-white border border-sandstone text-ink-700 hover:text-obsidian hover:border-gold/50'
+                    ? 'bg-midnight text-warm-neutral border border-gold/70 shadow-luxury'
+                    : 'bg-oxblood-dark/80 text-sandstone border border-sandstone/25 hover:border-gold hover:text-warm-neutral'
                 }`}
               >
                 All {currentCategory.name}
@@ -156,10 +164,10 @@ export const ShopPage: React.FC = () => {
                   <Link
                     key={sub.id}
                     to={`/shop/${currentCategory.slug}/${sub.slug}`}
-                    className={`px-4 py-2 rounded-xl text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
+                    className={`px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap ${
                       isActive
-                        ? 'bg-obsidian text-warm-ivory border border-gold/40 shadow-sm'
-                        : 'bg-white border border-sandstone text-ink-700 hover:text-obsidian hover:border-gold/50'
+                        ? 'bg-midnight text-warm-neutral border border-gold/70 shadow-luxury'
+                        : 'bg-oxblood-dark/80 text-sandstone border border-sandstone/25 hover:border-gold hover:text-warm-neutral'
                     }`}
                   >
                     {sub.name}
@@ -171,33 +179,36 @@ export const ShopPage: React.FC = () => {
         </div>
 
         {/* Toolbar: Result Count, In-category search, Sort & Density */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-sandstone">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 mb-6 border-b border-sandstone/80">
           {/* Left: Mobile Filter Button & In-category Search */}
           <div className="flex items-center gap-3 w-full sm:w-auto">
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden btn-secondary px-4 py-2.5 text-xs font-bold flex items-center gap-2"
+              className="lg:hidden h-10 px-4 text-xs font-semibold flex items-center gap-2 rounded-lg bg-oxblood text-warm-neutral border border-oxblood-light/50 hover:bg-oxblood-dark transition-colors shadow-sm"
+              aria-label="Open filter sidebar"
             >
               <SlidersHorizontal className="w-4 h-4 text-gold" />
               <span>Filters ({filteredProducts.length})</span>
             </button>
 
             {/* In-category search input */}
-            <div className="relative flex-1 sm:w-64">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-ink-500" />
+            <div className="relative flex-1 sm:w-72">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-ink-500 pointer-events-none" />
               <input
                 type="text"
-                placeholder="Filter current view..."
+                placeholder="Search collection..."
                 value={filters.search}
                 onChange={(e) => updateFilter(() => ({ search: e.target.value }))}
-                className="w-full pl-9 pr-7 py-2 bg-white border border-sandstone rounded-full text-xs text-obsidian placeholder:text-ink-500 focus:outline-none focus:border-gold shadow-subtle"
+                aria-label="Filter current view"
+                className="w-full h-10 pl-9 pr-8 bg-surface border border-sandstone/80 rounded-lg text-xs text-obsidian placeholder:text-ink-500 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold transition-colors shadow-subtle"
               />
               {filters.search && (
                 <button
                   onClick={() => updateFilter(() => ({ search: '' }))}
+                  aria-label="Clear search"
                   className="absolute right-2.5 top-1/2 -translate-y-1/2 text-ink-600 hover:text-obsidian"
                 >
-                  <X className="w-3 h-3" />
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>
@@ -207,11 +218,12 @@ export const ShopPage: React.FC = () => {
           <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
             {/* Sort Dropdown */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-ink-600 hidden md:inline">Sort:</span>
+              <label htmlFor="shop-sort-select" className="text-xs text-ink-600 font-medium hidden md:inline">Sort:</label>
               <select
+                id="shop-sort-select"
                 value={filters.sort}
                 onChange={(e) => updateFilter(() => ({ sort: e.target.value as any }))}
-                className="bg-white border border-sandstone text-obsidian rounded-full px-3.5 py-2 text-xs font-medium focus:outline-none focus:border-gold cursor-pointer shadow-subtle"
+                className="h-10 bg-surface border border-sandstone/80 text-obsidian rounded-lg px-3.5 text-xs font-medium focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold cursor-pointer shadow-subtle"
               >
                 <option value="newest">Newest Drops</option>
                 <option value="best-selling">Best Selling</option>
@@ -222,30 +234,33 @@ export const ShopPage: React.FC = () => {
             </div>
 
             {/* Grid Density Toggle (Desktop Only) */}
-            <div className="hidden lg:flex items-center bg-white border border-sandstone rounded-full p-1 gap-1 shadow-subtle">
+            <div className="hidden lg:flex items-center h-10 bg-surface border border-sandstone/80 rounded-lg p-1 gap-1 shadow-subtle" role="group" aria-label="Grid layout columns">
               <button
                 onClick={() => setGridColumns(2)}
-                aria-label="2 Columns"
-                className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 2 ? 'bg-obsidian text-warm-ivory' : 'text-ink-600 hover:text-obsidian'
+                aria-label="2 Columns layout"
+                aria-pressed={gridColumns === 2}
+                className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
+                  gridColumns === 2 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <Grid2X2 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setGridColumns(3)}
-                aria-label="3 Columns"
-                className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 3 ? 'bg-obsidian text-warm-ivory' : 'text-ink-600 hover:text-obsidian'
+                aria-label="3 Columns layout"
+                aria-pressed={gridColumns === 3}
+                className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
+                  gridColumns === 3 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setGridColumns(4)}
-                aria-label="4 Columns"
-                className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 4 ? 'bg-obsidian text-warm-ivory' : 'text-ink-600 hover:text-obsidian'
+                aria-label="4 Columns layout"
+                aria-pressed={gridColumns === 4}
+                className={`h-8 w-8 rounded flex items-center justify-center transition-colors ${
+                  gridColumns === 4 ? 'bg-midnight text-warm-neutral' : 'text-ink-600 hover:text-obsidian'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -262,20 +277,21 @@ export const ShopPage: React.FC = () => {
           filters.sizes.length > 0 ||
           filters.inStockOnly ||
           filters.search) && (
-          <div className="flex flex-wrap items-center gap-2 mb-6">
-            <span className="text-xs font-semibold text-ink-600 uppercase tracking-wider">Active:</span>
+          <div className="flex flex-wrap items-center gap-2 mb-6 p-3 rounded-xl bg-warm-neutral/60 border border-sandstone/60">
+            <span className="text-xs font-semibold text-ink-700 uppercase tracking-wider">Active:</span>
 
             {filters.sleeve.map((s) => (
               <span
                 key={s}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
               >
                 <span>{s === 'half' ? 'Half Sleeve' : 'Full Sleeve'}</span>
                 <button
                   onClick={() =>
                     updateFilter((prev) => ({ sleeve: prev.sleeve.filter((x) => x !== s) }))
                   }
-                  className="hover:text-gold"
+                  aria-label={`Remove filter ${s === 'half' ? 'Half Sleeve' : 'Full Sleeve'}`}
+                  className="hover:text-oxblood transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -285,14 +301,15 @@ export const ShopPage: React.FC = () => {
             {filters.neck.map((n) => (
               <span
                 key={n}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
               >
                 <span>{n === 'round' ? 'Round Neck' : 'Polo Collar'}</span>
                 <button
                   onClick={() =>
                     updateFilter((prev) => ({ neck: prev.neck.filter((x) => x !== n) }))
                   }
-                  className="hover:text-gold"
+                  aria-label={`Remove filter ${n === 'round' ? 'Round Neck' : 'Polo Collar'}`}
+                  className="hover:text-oxblood transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -302,14 +319,15 @@ export const ShopPage: React.FC = () => {
             {filters.fabric.map((f) => (
               <span
                 key={f}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
               >
                 <span>{f}</span>
                 <button
                   onClick={() =>
                     updateFilter((prev) => ({ fabric: prev.fabric.filter((x) => x !== f) }))
                   }
-                  className="hover:text-gold"
+                  aria-label={`Remove filter fabric ${f}`}
+                  className="hover:text-oxblood transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -319,14 +337,15 @@ export const ShopPage: React.FC = () => {
             {filters.sizes.map((sz) => (
               <span
                 key={sz}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
               >
                 <span>Size {sz}</span>
                 <button
                   onClick={() =>
                     updateFilter((prev) => ({ sizes: prev.sizes.filter((x) => x !== sz) }))
                   }
-                  className="hover:text-gold"
+                  aria-label={`Remove filter size ${sz}`}
+                  className="hover:text-oxblood transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -335,12 +354,13 @@ export const ShopPage: React.FC = () => {
 
             {filters.inStockOnly && (
               <span
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-surface border border-sandstone shadow-subtle text-xs font-medium text-obsidian"
               >
                 <span>In Stock Only</span>
                 <button
                   onClick={() => updateFilter(() => ({ inStockOnly: false }))}
-                  className="hover:text-gold"
+                  aria-label="Remove filter in stock only"
+                  className="hover:text-oxblood transition-colors"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -349,7 +369,7 @@ export const ShopPage: React.FC = () => {
 
             <button
               onClick={clearAllFilters}
-              className="text-xs font-semibold text-gold hover:text-obsidian ml-1 underline"
+              className="text-xs font-semibold text-oxblood hover:text-gold ml-2 underline uppercase tracking-wider transition-colors"
             >
               Clear all
             </button>
