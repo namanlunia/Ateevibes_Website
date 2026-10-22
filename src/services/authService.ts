@@ -19,8 +19,8 @@ function getStoredUsers(): StoredUserRecord[] {
 function saveStoredUsers(users: StoredUserRecord[]): void {
   try {
     localStorage.setItem(USERS_DB_KEY, JSON.stringify(users));
-  } catch (err) {
-    console.error('Failed saving users to localStorage', err);
+  } catch {
+    // ignore
   }
 }
 

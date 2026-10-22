@@ -4,7 +4,7 @@ import { CartItem, Product, Variant } from '../types';
 import { commerceConfig } from '../config/commerce';
 import { computePriceBreakdown, PriceBreakdown } from '../lib/pricing';
 
-export interface FlyAnimationData {
+interface FlyAnimationData {
   startX: number;
   startY: number;
   imageUrl: string;

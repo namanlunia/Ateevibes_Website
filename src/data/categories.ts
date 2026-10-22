@@ -1,4 +1,4 @@
-export interface SubCategory {
+interface SubCategory {
   id: string;
   slug: string;
   name: string;

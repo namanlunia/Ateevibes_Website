@@ -86,8 +86,6 @@ export const addressSchema = z.object({
   saveAddress: z.boolean().optional(),
 });
 
-export type AddressFormData = z.infer<typeof addressSchema>;
-
 /**
  * Newsletter subscription schema
  */

@@ -105,21 +105,3 @@ export interface User {
   phone?: string;
   savedAddresses: Address[];
 }
-
-export interface FilterState {
-  category?: string;
-  subCategory?: string;
-  sleeve?: SleeveType[];
-  neck?: NeckType[];
-  fabric?: string[];
-  printType?: string[];
-  colors?: string[];
-  sizes?: SizeType[];
-  priceMin?: number;
-  priceMax?: number;
-  inStockOnly?: boolean;
-  hideComingSoon?: boolean;
-  minRating?: number;
-  sort?: 'newest' | 'price-asc' | 'price-desc' | 'best-selling' | 'top-rated';
-  search?: string;
-}

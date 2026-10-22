@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { Product } from '../types';
 
-export interface ToastItem {
+interface ToastItem {
   id: string;
   type: 'success' | 'error' | 'info';
   message: string;
@@ -10,7 +10,7 @@ export interface ToastItem {
   duration?: number;
 }
 
-export type CursorMode = 'default' | 'pointer' | 'view';
+type CursorMode = 'default' | 'pointer' | 'view';
 
 interface UIState {
   isCartOpen: boolean;

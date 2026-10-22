@@ -6,8 +6,7 @@ function getStoredOrders(): Order[] {
   try {
     const raw = localStorage.getItem(ORDERS_KEY);
     return raw ? JSON.parse(raw) : [];
-  } catch (err) {
-    console.error('Failed reading orders from localStorage', err);
+  } catch {
     return [];
   }
 }
@@ -15,8 +14,8 @@ function getStoredOrders(): Order[] {
 function saveStoredOrders(orders: Order[]): void {
   try {
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
-  } catch (err) {
-    console.error('Failed saving orders to localStorage', err);
+  } catch {
+    // ignore
   }
 }
 
@@ -28,7 +27,7 @@ function saveStoredOrders(orders: Order[]): void {
  * 15 - 30 mins: out_for_delivery
  * > 30 mins: delivered
  */
-export function computeProgressiveStatus(order: Order): OrderStatus {
+function computeProgressiveStatus(order: Order): OrderStatus {
   if (order.status === 'delivered') return 'delivered';
   const created = new Date(order.createdAt).getTime();
   const elapsedMinutes = (Date.now() - created) / (1000 * 60);
