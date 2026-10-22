@@ -92,13 +92,6 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
                 >
                   <span>Best Sellers</span>
                 </Link>
-                <Link
-                  to="/collections/full-sleeve"
-                  onClick={onClose}
-                  className="flex items-center justify-between py-2.5 text-base font-medium text-ink-900 hover:text-accent-700 transition-colors"
-                >
-                  <span>Full Sleeve</span>
-                </Link>
               </div>
 
               {/* Accordion Categories */}

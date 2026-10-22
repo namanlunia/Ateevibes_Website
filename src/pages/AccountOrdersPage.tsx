@@ -121,7 +121,7 @@ export const AccountOrdersPage: React.FC = () => {
                 onClick={() => setFilter(tab)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold capitalize transition-colors ${
                   filter === tab
-                    ? 'bg-ink-900 text-cream shadow-sm'
+                    ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                     : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
@@ -215,7 +215,7 @@ export const AccountOrdersPage: React.FC = () => {
                 <div className="p-4 sm:p-6 space-y-4">
                   <div className="divide-y divide-border/60">
                     {order.items.map((item, idx) => {
-                      const image = item.variant?.images?.[0] || '/catalog/1001-main.webp';
+                      const image = item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg';
                       return (
                         <div key={idx} className="py-3 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
                           <div className="flex items-center gap-3 min-w-0">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
@@ -9,10 +9,19 @@ import { formatPrice } from '../../lib/format';
 interface MegaMenuProps {
   isOpen: boolean;
   onClose: () => void;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
-export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
-  // Feature Style 1007
+export const MegaMenu: React.FC<MegaMenuProps> = ({
+  isOpen,
+  onClose,
+  onMouseEnter,
+  onMouseLeave,
+}) => {
+  const menuContainerRef = useRef<HTMLDivElement>(null);
+
+  // Featured flagship item (China Jacquard)
   const featuredProduct = PRODUCTS.find((p) => p.pno === '1007') || PRODUCTS[0];
 
   const getSubcategoryCount = (categorySlug: string, subCategorySlug: string) => {
@@ -25,44 +34,72 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
     return PRODUCTS.filter((p) => p.category === categorySlug).length;
   };
 
+  // Close on outside click and Escape
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (e: MouseEvent | TouchEvent) => {
+      if (menuContainerRef.current && !menuContainerRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen, onClose]);
+
   return (
     <AnimatePresence>
       {isOpen && (
-        <motion.div
-          id="mega-menu"
-          role="region"
-          aria-label="Shop Mega Menu"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-          transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') onClose();
-          }}
-          className="absolute top-full left-0 w-full glass bg-white/95 backdrop-blur-2xl border-b border-border shadow-soft-hover z-40 py-8 px-6 lg:px-12"
+        <div
+          ref={menuContainerRef}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          className="absolute top-full mt-3 z-50 pointer-events-auto"
+          style={{ left: '50%', transform: 'translateX(-50%)', width: 'min(1040px, calc(100vw - 48px))' }}
         >
-          <div className="max-w-7xl mx-auto grid grid-cols-12 gap-8 items-start">
-            {/* 4 Category Columns */}
-            <div className="col-span-9 grid grid-cols-4 gap-6">
+          <motion.div
+            id="mega-menu"
+            role="region"
+            aria-label="Shop Mega Menu"
+            initial={{ opacity: 0, y: 10, scale: 0.995 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 8, scale: 0.995 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full bg-white rounded-3xl border border-border shadow-2xl p-8 overflow-hidden"
+          >
+            {/* CSS Grid: 4 equal category columns + 260px featured card */}
+            <div className="grid grid-cols-[1fr_1fr_1fr_1fr_260px] gap-6 items-start">
+              {/* 4 Category Columns */}
               {CATEGORIES.map((cat) => {
                 const totalCount = getCategoryCount(cat.slug);
                 return (
-                  <div key={cat.id} className="space-y-4">
+                  <div key={cat.id} className="space-y-3 min-w-0">
                     <Link
                       to={`/shop/${cat.slug}`}
                       onClick={onClose}
                       className="group block"
                     >
-                      <h4 className="font-display text-lg font-bold text-ink-900 group-hover:text-accent-700 transition-colors flex items-center justify-between">
-                        <span>{cat.name}</span>
-                        <span className="text-xs font-sans font-normal text-ink-600 bg-surface-tint px-2 py-0.5 rounded-full border border-border">
+                      <h4 className="font-display text-sm font-bold text-ink-900 group-hover:text-accent-700 transition-colors flex items-center justify-between gap-1">
+                        <span className="truncate">{cat.name.replace(' Tees', '')}</span>
+                        <span className="shrink-0 text-[10px] font-sans font-semibold text-ink-600 bg-surface-tint px-2 py-0.5 rounded-full border border-border">
                           {totalCount}
                         </span>
                       </h4>
-                      <p className="text-xs text-ink-600 mt-1 line-clamp-1">{cat.tagline}</p>
                     </Link>
 
-                    <ul className="space-y-2 border-t border-border/60 pt-3">
+                    <ul className="space-y-2 border-t border-border/60 pt-2.5">
                       {cat.subCategories.map((sub) => {
                         const count = getSubcategoryCount(cat.slug, sub.slug);
                         return (
@@ -70,10 +107,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                             <Link
                               to={`/shop/${cat.slug}/${sub.slug}`}
                               onClick={onClose}
-                              className="text-sm text-ink-700 hover:text-ink-900 hover:translate-x-1 transition-all duration-150 flex items-center justify-between py-1 group"
+                              className="text-xs text-ink-700 hover:text-accent-700 transition-colors flex items-start justify-between gap-2 py-0.5 group leading-snug"
                             >
-                              <span className="group-hover:font-medium">{sub.name}</span>
-                              <span className="text-xs text-ink-600/70">{count}</span>
+                              <span className="break-words font-normal group-hover:font-medium line-clamp-2">
+                                {sub.name}
+                              </span>
+                              <span className="shrink-0 text-[10px] font-semibold text-ink-600 bg-black/5 px-1.5 py-0.5 rounded-full mt-0.5">
+                                {count}
+                              </span>
                             </Link>
                           </li>
                         );
@@ -83,63 +124,60 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({ isOpen, onClose }) => {
                     <Link
                       to={`/shop/${cat.slug}`}
                       onClick={onClose}
-                      className="inline-flex items-center gap-1.5 text-xs font-bold text-accent-700 hover:text-ink-900 transition-colors pt-1"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-accent-700 hover:text-ink-900 transition-colors pt-1"
                     >
-                      <span>Explore all {cat.name}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
+                      <span>View all</span>
+                      <ArrowRight className="w-3 h-3" />
                     </Link>
                   </div>
                 );
               })}
-            </div>
 
-            {/* Featured Product Column */}
-            <div className="col-span-3 border-l border-border/80 pl-6">
-              <div className="bg-surface-tint rounded-2xl p-4 border border-border shadow-sm group">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-accent-700 mb-2">
-                  <Sparkles className="w-3.5 h-3.5 text-accent-500" />
-                  <span className="tracking-wider uppercase">Signature Style</span>
-                </div>
-
-                <Link
-                  to={`/product/${featuredProduct.slug}`}
-                  onClick={onClose}
-                  className="block relative aspect-[4/5] rounded-xl overflow-hidden bg-brand-cream/30 mb-3"
-                >
-                  <img
-                    src={featuredProduct.variants[0]?.images[0] || '/brand/placeholder.svg'}
-                    alt={featuredProduct.name}
-                    onError={(e) => {
-                      e.currentTarget.src = '/brand/placeholder.svg';
-                    }}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-2 left-2 bg-ink-900 text-brand-cream text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                    P.NO {featuredProduct.pno}
+              {/* Featured Product Column (about 260px) */}
+              <div className="w-[260px] border-l border-border/80 pl-6 space-y-3">
+                <div className="bg-surface-tint rounded-2xl p-4 border border-border group">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-accent-700 mb-2">
+                    <Sparkles className="w-3.5 h-3.5 text-accent-500" />
+                    <span className="tracking-wider uppercase text-[10px]">Featured Drop</span>
                   </div>
-                </Link>
 
-                <h5 className="font-display font-bold text-ink-900 text-sm line-clamp-1">
-                  {featuredProduct.name}
-                </h5>
-                <p className="text-xs text-ink-600 mb-2">China Jacquard Knit</p>
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-ink-900 text-sm">
-                    {formatPrice(featuredProduct.mrp)}
-                  </span>
                   <Link
                     to={`/product/${featuredProduct.slug}`}
                     onClick={onClose}
-                    className="text-xs font-medium text-accent-700 hover:text-ink-900 flex items-center gap-1"
+                    className="block relative aspect-[4/5] rounded-xl overflow-hidden bg-brand-cream/30 mb-2.5"
                   >
-                    <span>View item</span>
-                    <ArrowRight className="w-3 h-3" />
+                    <img
+                      src={featuredProduct.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
+                      alt={featuredProduct.name}
+                      onError={(e) => {
+                        e.currentTarget.src = '/brand/tshirt-silhouette.svg';
+                      }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </Link>
+
+                  <h5 className="font-display font-bold text-ink-900 text-xs leading-snug line-clamp-2 mb-1">
+                    {featuredProduct.name}
+                  </h5>
+                  <p className="text-[11px] text-ink-600 mb-2 truncate">{featuredProduct.fabric}</p>
+                  <div className="flex items-center justify-between pt-2 border-t border-border/60">
+                    <span className="font-bold text-ink-900 text-xs tabular-nums">
+                      {formatPrice(featuredProduct.mrp)}
+                    </span>
+                    <Link
+                      to={`/product/${featuredProduct.slug}`}
+                      onClick={onClose}
+                      className="text-[11px] font-bold text-accent-700 hover:text-ink-900 flex items-center gap-1"
+                    >
+                      <span>View item</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

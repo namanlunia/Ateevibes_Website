@@ -20,6 +20,12 @@ export default {
           cream: 'var(--cream)',
           white: 'var(--white)',
         },
+        cream: 'var(--cream)',
+        gold: 'var(--gold)',
+        tab: {
+          'active-bg': 'var(--tab-active-bg)',
+          'active-text': 'var(--tab-active-text)',
+        },
         ink: {
           900: 'var(--ink-900)',
           700: 'var(--ink-700)',

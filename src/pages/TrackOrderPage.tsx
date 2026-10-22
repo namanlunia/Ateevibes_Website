@@ -308,7 +308,7 @@ export const TrackOrderPage: React.FC = () => {
                               isCurrent
                                 ? 'bg-accent-700 text-cream ring-4 ring-accent-700/20 scale-110 shadow-sm'
                                 : isCompleted
-                                ? 'bg-ink-900 text-cream'
+                                ? 'bg-tab-active-bg text-tab-active-text'
                                 : 'bg-white border-2 border-border text-ink-400'
                             }`}
                           >
@@ -356,7 +356,7 @@ export const TrackOrderPage: React.FC = () => {
                     <div key={idx} className="py-3 first:pt-0 last:pb-0 flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
                         <img
-                          src={item.variant?.images?.[0] || '/catalog/1001-main.webp'}
+                          src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                           alt={item.product?.name || 'Item'}
                           className="w-14 h-16 rounded-xl object-cover bg-surface-tint border border-border"
                         />

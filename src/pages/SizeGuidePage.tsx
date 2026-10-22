@@ -56,7 +56,7 @@ export const SizeGuidePage: React.FC = () => {
                 onClick={() => setUnit('in')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   unit === 'in'
-                    ? 'bg-ink-900 text-cream shadow-sm'
+                    ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                     : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
@@ -66,7 +66,7 @@ export const SizeGuidePage: React.FC = () => {
                 onClick={() => setUnit('cm')}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   unit === 'cm'
-                    ? 'bg-ink-900 text-cream shadow-sm'
+                    ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                     : 'text-ink-600 hover:text-ink-900'
                 }`}
               >

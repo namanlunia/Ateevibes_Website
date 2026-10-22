@@ -34,7 +34,7 @@ export const QuickViewModal: React.FC = () => {
   const availableStock = selectedVariant.stockBySize?.[selectedSize] ?? 10;
   const isOutOfStock = availableStock <= 0;
 
-  const images = selectedVariant.images?.length > 0 ? selectedVariant.images : [product.catalogPoster];
+  const images = selectedVariant.images?.length > 0 ? selectedVariant.images : ['/brand/tshirt-silhouette.svg'];
   const activeImage = images[activeImageIdx] || images[0];
 
   const handleAddToCart = () => {
@@ -101,9 +101,6 @@ export const QuickViewModal: React.FC = () => {
                 alt={`${product.name} - ${selectedVariant.colourName}`}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute top-3 left-3 bg-ink-900 text-brand-cream text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                Style {product.pno}
-              </div>
             </div>
 
             {/* Thumbnail rail */}
@@ -211,7 +208,7 @@ export const QuickViewModal: React.FC = () => {
                       onClick={() => setSelectedSize(size)}
                       className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
                         isSelected
-                          ? 'bg-ink-900 text-brand-cream border-ink-900 shadow-sm'
+                          ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-sm'
                           : outOfStock
                           ? 'bg-black/5 text-ink-600/40 line-through border-transparent cursor-not-allowed'
                           : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'

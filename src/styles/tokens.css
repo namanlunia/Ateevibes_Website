@@ -3,6 +3,11 @@
   --green: #cdf0a7;
   --cream: #faf3d0;
   --white: #ffffff;
+  --gold: #e8c26a;
+
+  /* Tab & selector active states */
+  --tab-active-bg: #1c241a;
+  --tab-active-text: #ffffff;
 
   /* Neutrals and text */
   --ink-900: #1c241a;

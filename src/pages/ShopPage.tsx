@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useSearchParams } from 'react-router-dom';
+import { useParams, Link, useSearchParams, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -33,6 +33,7 @@ export const ShopPage: React.FC = () => {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
   const [isLoading, setIsLoading] = useState(false);
+  const isFirstMount = React.useRef(true);
 
   // Derive active category/collection metadata
   const currentCategory = CATEGORIES.find((c) => c.slug === catParam);
@@ -65,10 +66,14 @@ export const ShopPage: React.FC = () => {
     ? currentCollection.description
     : 'Browse our complete catalog of round-neck tees, polos, China jacquard weaves, and vibrant tie-dye prints.';
 
-  // Simulate short loading shimmer on category/filter change
+  // Short loading shimmer on filter changes (skip on first mount)
   useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
     setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 280);
+    const timer = setTimeout(() => setIsLoading(false), 200);
     return () => clearTimeout(timer);
   }, [catParam, subParam, collectionSlug, searchParams.toString()]);
 
@@ -79,6 +84,11 @@ export const ShopPage: React.FC = () => {
 
   const displayedProducts = filteredProducts.slice(0, visibleCount);
   const hasMore = visibleCount < filteredProducts.length;
+
+  // Full-sleeve section was removed; redirect to /shop
+  if (collectionSlug === 'full-sleeve') {
+    return <Navigate to="/shop" replace />;
+  }
 
   return (
     <>
@@ -136,7 +146,7 @@ export const ShopPage: React.FC = () => {
                 to={`/shop/${currentCategory.slug}`}
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                   !subParam
-                    ? 'bg-ink-900 text-brand-cream shadow-sm'
+                    ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                     : 'bg-white/80 border border-border text-ink-700 hover:text-ink-900'
                 }`}
               >
@@ -150,7 +160,7 @@ export const ShopPage: React.FC = () => {
                     to={`/shop/${currentCategory.slug}/${sub.slug}`}
                     className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                       isActive
-                        ? 'bg-ink-900 text-brand-cream shadow-sm'
+                        ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                         : 'bg-white/80 border border-border text-ink-700 hover:text-ink-900'
                     }`}
                   >
@@ -219,7 +229,7 @@ export const ShopPage: React.FC = () => {
                 onClick={() => setGridColumns(2)}
                 aria-label="2 Columns"
                 className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 2 ? 'bg-ink-900 text-brand-cream' : 'text-ink-600 hover:text-ink-900'
+                  gridColumns === 2 ? 'bg-tab-active-bg text-tab-active-text' : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
                 <Grid2X2 className="w-4 h-4" />
@@ -228,7 +238,7 @@ export const ShopPage: React.FC = () => {
                 onClick={() => setGridColumns(3)}
                 aria-label="3 Columns"
                 className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 3 ? 'bg-ink-900 text-brand-cream' : 'text-ink-600 hover:text-ink-900'
+                  gridColumns === 3 ? 'bg-tab-active-bg text-tab-active-text' : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
                 <Grid3X3 className="w-4 h-4" />
@@ -237,7 +247,7 @@ export const ShopPage: React.FC = () => {
                 onClick={() => setGridColumns(4)}
                 aria-label="4 Columns"
                 className={`p-1.5 rounded-full transition-colors ${
-                  gridColumns === 4 ? 'bg-ink-900 text-brand-cream' : 'text-ink-600 hover:text-ink-900'
+                  gridColumns === 4 ? 'bg-tab-active-bg text-tab-active-text' : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
                 <LayoutGrid className="w-4 h-4" />
@@ -382,8 +392,7 @@ export const ShopPage: React.FC = () => {
               </div>
             ) : filteredProducts.length > 0 ? (
               <>
-                <motion.div
-                  layout
+                <div
                   className={`grid grid-cols-2 ${
                     gridColumns === 2
                       ? 'lg:grid-cols-2'
@@ -392,21 +401,12 @@ export const ShopPage: React.FC = () => {
                       : 'lg:grid-cols-4'
                   } gap-3 sm:gap-6`}
                 >
-                  <AnimatePresence>
-                    {displayedProducts.map((product) => (
-                      <motion.div
-                        key={product.id}
-                        layout
-                        initial={{ opacity: 0, scale: 0.96 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.96 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <ProductCard product={product} />
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </motion.div>
+                  {displayedProducts.map((product) => (
+                    <div key={product.id}>
+                      <ProductCard product={product} />
+                    </div>
+                  ))}
+                </div>
 
                 {/* Load More Pagination */}
                 {hasMore && (

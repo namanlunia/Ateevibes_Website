@@ -33,7 +33,7 @@ export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({
         >
           <div className="flex items-center gap-3">
             <img
-              src={selectedVariant.images?.[0] || product.catalogPoster}
+              src={selectedVariant.images?.[0] || '/brand/tshirt-silhouette.svg'}
               alt={product.name}
               className="w-11 h-12 rounded-lg object-cover bg-brand-cream/30 border border-border"
             />

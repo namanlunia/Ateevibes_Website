@@ -215,7 +215,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   }}
                   className={`py-2 rounded-xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
                     isSelected
-                      ? 'bg-ink-900 text-brand-cream border-ink-900 shadow-sm'
+                      ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-sm'
                       : isDisabled
                       ? 'bg-black/5 text-ink-600/40 border-transparent cursor-not-allowed'
                       : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'

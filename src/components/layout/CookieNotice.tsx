@@ -30,8 +30,8 @@ export const CookieNotice: React.FC = () => {
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
         className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-auto sm:max-w-md z-40 p-4 rounded-2xl glass-tint bg-white/95 border border-border shadow-soft-hover"
       >
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-ink-700">
-          <p className="leading-relaxed">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-700">
+          <p className="leading-relaxed flex-1 text-center sm:text-left">
             We use cookies to personalize your shopping vibes and optimize site speed.{' '}
             <Link to="/privacy" className="underline font-medium text-ink-900 hover:text-accent-700">
               Privacy Policy
@@ -39,7 +39,7 @@ export const CookieNotice: React.FC = () => {
           </p>
           <button
             onClick={handleAccept}
-            className="btn-primary px-4 py-1.5 text-xs font-semibold whitespace-nowrap self-end sm:self-center"
+            className="btn-primary inline-flex items-center justify-center text-center px-6 py-3 min-w-[96px] text-xs font-bold leading-none rounded-full w-full sm:w-auto shrink-0 shadow-sm"
           >
             Got it
           </button>

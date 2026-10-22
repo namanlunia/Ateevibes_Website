@@ -100,7 +100,15 @@ export function useFilters(categoryOverride?: string, subCategoryOverride?: stri
       // Category / Subcategory overrides
       if (filters.category && product.category !== filters.category) return false;
       if (filters.subCategory && product.subCategory !== filters.subCategory) return false;
-      if (tagOverride && !product.tags.includes(tagOverride)) return false;
+      if (tagOverride) {
+        if (tagOverride === 'new-arrival') {
+          if (!product.tags.includes('new-arrival') && !product.badges.includes('New')) return false;
+        } else if (tagOverride === 'best-seller') {
+          if (!product.tags.includes('best-seller') && !product.badges.includes('Best Seller')) return false;
+        } else if (!product.tags.includes(tagOverride)) {
+          return false;
+        }
+      }
 
       // Sleeve
       if (filters.sleeve.length > 0 && !filters.sleeve.includes(product.sleeve)) return false;
@@ -180,7 +188,15 @@ export function useFilters(categoryOverride?: string, subCategoryOverride?: stri
     const baseList = PRODUCTS.filter((p) => {
       if (filters.category && p.category !== filters.category) return false;
       if (filters.subCategory && p.subCategory !== filters.subCategory) return false;
-      if (tagOverride && !p.tags.includes(tagOverride)) return false;
+      if (tagOverride) {
+        if (tagOverride === 'new-arrival') {
+          if (!p.tags.includes('new-arrival') && !p.badges.includes('New')) return false;
+        } else if (tagOverride === 'best-seller') {
+          if (!p.tags.includes('best-seller') && !p.badges.includes('Best Seller')) return false;
+        } else if (!p.tags.includes(tagOverride)) {
+          return false;
+        }
+      }
       return true;
     });
 

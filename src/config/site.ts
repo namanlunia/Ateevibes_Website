@@ -30,6 +30,6 @@ export const siteConfig = {
   announcements: [
     'Free shipping on all orders over ₹1,499',
     'New drops weekly — Feel the Vibes',
-    'Style. Comfort. Quality. 100% Proudly Made in India',
+    'Style. Comfort. Quality. Same Print, Different Vibes',
   ],
 };

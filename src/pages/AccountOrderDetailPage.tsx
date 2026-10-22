@@ -195,7 +195,7 @@ export const AccountOrderDetailPage: React.FC = () => {
                         isCurrent
                           ? 'bg-accent-700 text-cream ring-4 ring-accent-700/20 scale-110 shadow-sm'
                           : isPassed
-                          ? 'bg-ink-900 text-cream'
+                          ? 'bg-tab-active-bg text-tab-active-text'
                           : 'bg-white border-2 border-border text-ink-400'
                       }`}
                     >
@@ -297,7 +297,7 @@ export const AccountOrderDetailPage: React.FC = () => {
                 {order.items.map((item, idx) => {
                   const mrp = item.product?.mrp || 999;
                   const lineTotal = mrp * item.qty;
-                  const image = item.variant?.images?.[0] || '/catalog/1001-main.webp';
+                  const image = item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg';
 
                   return (
                     <tr key={idx} className="align-middle">
@@ -311,7 +311,7 @@ export const AccountOrderDetailPage: React.FC = () => {
                           <div>
                             <p className="font-bold text-ink-900">{item.product?.name || 'Ateevibes Tee'}</p>
                             <p className="text-[11px] text-ink-600">
-                              Colour: {item.variant?.colourName || 'Standard'} • PNO: {item.product?.pno || '1001'}
+                              Colour: {item.variant?.colourName || 'Standard'}
                             </p>
                           </div>
                         </div>

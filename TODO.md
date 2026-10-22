@@ -56,6 +56,13 @@ The following 6 styles have their MRP marked as `PLACEHOLDER` in the catalog spe
 
 ---
 
-## 8. Assumptions Log
-1. **Catalog Images & Logo**: Since raw image files were not pre-loaded in `/public/catalog/` or `/public/brand/`, high-fidelity branded SVG/Canvas/WebP placeholders were created and processed with `sharp` via `scripts/generate-placeholders.mjs` and `scripts/crop-catalog.mjs`.
+## 8. Unconfirmed Claims & Copy Placeholders
+- [ ] **Origin Claims ("100% Proudly Made in India" & "Designed in India")**: Removed from UI copy, announcement bar, and marketing materials per spec until confirmed by brand owner.
+- [ ] **About Page Copy**: The invented founding story has been replaced with neutral, editable copy about the brand's catalog range, weaves, and the "Same Print, Different Vibes" philosophy. Mark as placeholder for final client review.
+- [ ] **Brand Logo**: The official black & gold bolt-"A" logo has been rendered into `/public/brand/logo.png` and `/public/brand/logo.svg` and is in active use across navbar, footer, preloader, and page curtain.
+
+---
+
+## 9. Assumptions Log
+1. **Catalog Images & Logo**: All 151 catalog images and variants exist in `/public/products/` and `/public/catalog/` as real WebP and JPG files, with branded T-shirt silhouette SVG fallback for missing variants.
 2. **Checkout Flow**: Fully mocked with realistic 1.5–2s payment gateway simulator. Card and UPI payments do not persist sensitive financial details. Test card simulation allows verifying failed payment recovery.

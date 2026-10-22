@@ -71,7 +71,7 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose 
               <button
                 onClick={() => setUnit('in')}
                 className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  unit === 'in' ? 'bg-ink-900 text-brand-cream' : 'text-ink-600 hover:text-ink-900'
+                  unit === 'in' ? 'bg-tab-active-bg text-tab-active-text' : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
                 Inches (in)
@@ -79,7 +79,7 @@ export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose 
               <button
                 onClick={() => setUnit('cm')}
                 className={`px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                  unit === 'cm' ? 'bg-ink-900 text-brand-cream' : 'text-ink-600 hover:text-ink-900'
+                  unit === 'cm' ? 'bg-tab-active-bg text-tab-active-text' : 'text-ink-600 hover:text-ink-900'
                 }`}
               >
                 Centimeters (cm)

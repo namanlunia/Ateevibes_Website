@@ -1,4 +1,4 @@
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS, OLD_SLUG_MAP } from '../data/products';
 import { Product } from '../types';
 
 export const productService = {
@@ -10,7 +10,8 @@ export const productService = {
 
   async getBySlug(slug: string): Promise<Product | null> {
     await new Promise((r) => setTimeout(r, 30));
-    const found = PRODUCTS.find((p) => p.slug === slug);
+    const targetSlug = OLD_SLUG_MAP[slug] || slug;
+    const found = PRODUCTS.find((p) => p.slug === targetSlug || p.slug === slug);
     return found ? { ...found } : null;
   },
 

@@ -12,7 +12,7 @@ interface SearchOverlayProps {
   onClose: () => void;
 }
 
-const POPULAR_SEARCHES = ['China Jacquard', 'Full Sleeve', 'Waffle', '1007', 'Tai Dai', 'Matty Polo'];
+const POPULAR_SEARCHES = ['China Jacquard', 'Waffle', 'Tai Dai', 'Matty Polo'];
 const RECENT_KEY = 'atv:v1:recent_searches';
 
 export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
@@ -62,27 +62,22 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
     navigate(`/shop?search=${encodeURIComponent(term)}`);
   };
 
-  // Grouped suggestions
+  // Grouped suggestions (Silent lookup for pno allowed, but never displayed)
   const cleanQ = query.trim().toLowerCase();
-  let matchedStyleCodes: Product[] = [];
   let matchedProducts: Product[] = [];
   let matchedCategories: Category[] = [];
 
   if (cleanQ.length > 0) {
-    // 1. Style Codes
-    matchedStyleCodes = PRODUCTS.filter(
-      (p) => p.pno.toLowerCase().includes(cleanQ) || `p.${p.pno}`.toLowerCase().includes(cleanQ)
-    ).slice(0, 3);
-
-    // 2. Products
+    // 1. Products (includes silent lookup for style number)
     matchedProducts = PRODUCTS.filter(
       (p) =>
         p.name.toLowerCase().includes(cleanQ) ||
         p.fabric.toLowerCase().includes(cleanQ) ||
+        p.pno.toLowerCase() === cleanQ ||
         p.highlights.some((h) => h.toLowerCase().includes(cleanQ))
-    ).slice(0, 5);
+    ).slice(0, 6);
 
-    // 3. Categories
+    // 2. Categories
     matchedCategories = CATEGORIES.filter(
       (c) =>
         c.name.toLowerCase().includes(cleanQ) ||
@@ -90,8 +85,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
     ).slice(0, 3);
   }
 
-  const hasResults =
-    matchedStyleCodes.length > 0 || matchedProducts.length > 0 || matchedCategories.length > 0;
+  const hasResults = matchedProducts.length > 0 || matchedCategories.length > 0;
 
   return (
     <AnimatePresence>
@@ -123,25 +117,28 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
             </button>
           </div>
 
-          {/* Search Input Box */}
+          {/* Search Input Box: Flex Pill Container, ~64px desktop / 56px mobile */}
           <div className="max-w-4xl w-full mx-auto my-8">
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-ink-600" />
-              <input
-                ref={inputRef}
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search by style code (e.g. 1007), fabric, or name..."
-                className="w-full pl-14 pr-28 py-4 sm:py-5 bg-surface-tint border-2 border-border focus:border-ink-900 rounded-full text-base sm:text-xl font-medium placeholder:text-ink-600/60 focus:outline-none transition-all shadow-soft"
-              />
-              <button
-                type="submit"
-                className="absolute right-3 top-1/2 -translate-y-1/2 btn-primary px-5 py-2.5 text-xs sm:text-sm font-semibold flex items-center gap-1.5"
-              >
-                <span>Search</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
+            <form onSubmit={handleSearchSubmit}>
+              <div className="relative flex items-center h-14 sm:h-16 rounded-full bg-surface-tint border-2 border-border focus-within:border-ink-900 shadow-soft transition-all p-1.5 sm:p-2">
+                <Search className="w-[22px] h-[22px] text-ink-600 shrink-0 ml-4 sm:ml-5" />
+                <input
+                  ref={inputRef}
+                  type="search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search by name or fabric (e.g. jacquard, waffle)"
+                  className="flex-1 min-w-0 bg-transparent pl-3 sm:pl-4 pr-3 text-sm sm:text-lg font-medium text-ink-900 placeholder:text-ink-600/60 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  aria-label="Submit search"
+                  className="btn-primary h-11 sm:h-12 px-4 sm:px-6 rounded-full text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 shrink-0 mr-1"
+                >
+                  <span className="hidden sm:inline">Search</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </form>
           </div>
 
@@ -203,43 +200,6 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
               </div>
             ) : hasResults ? (
               <div className="space-y-8 py-4">
-                {/* Style Codes */}
-                {matchedStyleCodes.length > 0 && (
-                  <div>
-                    <p className="text-xs font-bold text-accent-700 uppercase tracking-wider mb-3">
-                      Matching Style Codes
-                    </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                      {matchedStyleCodes.map((p) => (
-                        <div
-                          key={p.id}
-                          onClick={() => {
-                            saveRecentSearch(p.pno);
-                            onClose();
-                            navigate(`/product/${p.slug}`);
-                          }}
-                          className="flex items-center gap-3 p-3 rounded-2xl bg-surface-tint border border-border hover:border-ink-900 cursor-pointer transition-all group"
-                        >
-                          <img
-                            src={p.variants[0]?.images[0] || '/brand/logo.png'}
-                            alt={p.name}
-                            className="w-12 h-14 object-cover rounded-lg bg-brand-cream/30"
-                          />
-                          <div>
-                            <span className="text-[10px] font-bold bg-ink-900 text-brand-cream px-2 py-0.5 rounded-full">
-                              P.NO {p.pno}
-                            </span>
-                            <p className="font-medium text-ink-900 text-sm line-clamp-1 group-hover:text-accent-700 mt-1">
-                              {p.name}
-                            </p>
-                            <p className="text-xs font-bold text-ink-700">{formatPrice(p.mrp)}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {/* Matching Categories */}
                 {matchedCategories.length > 0 && (
                   <div>
@@ -283,7 +243,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                         >
                           <div className="flex items-center gap-4">
                             <img
-                              src={p.variants[0]?.images[0] || '/brand/logo.png'}
+                              src={p.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
                               alt={p.name}
                               className="w-12 h-14 object-cover rounded-lg bg-brand-cream/30"
                             />
@@ -292,7 +252,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                                 {p.name}
                               </p>
                               <p className="text-xs text-ink-600">
-                                Style {p.pno} • {p.fabric} • {p.sleeve === 'full' ? 'Full Sleeve' : 'Half Sleeve'}
+                                {p.categoryName} • {p.fabric}
                               </p>
                             </div>
                           </div>
@@ -307,14 +267,14 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                 )}
               </div>
             ) : (
-              /* Empty Search state as specified in Section 10 */
+              /* Empty Search state */
               <div className="text-center py-16 space-y-4">
                 <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream/80 flex items-center justify-center text-ink-900">
                   <Search className="w-8 h-8 text-ink-700" />
                 </div>
                 <h4 className="font-display text-xl font-bold text-ink-900">No vibes found</h4>
                 <p className="text-sm text-ink-600 max-w-sm mx-auto">
-                  No vibes found for that. Try another keyword, fabric type, or style code (e.g. "1007").
+                  No vibes found for that. Try another keyword, fabric type, or category (e.g. &ldquo;jacquard&rdquo;).
                 </p>
               </div>
             )}

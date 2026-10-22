@@ -106,11 +106,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/collections/full-sleeve</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://ateevibes.com/collections/new-arrivals</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -171,82 +166,82 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-matty-round-neck-500</loc>
+    <loc>https://ateevibes.com/product/premium-matty-round-neck</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/2-way-round-neck-107</loc>
+    <loc>https://ateevibes.com/product/two-way-round-neck</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/imported-tencil-round-neck-600</loc>
+    <loc>https://ateevibes.com/product/imported-tencil-round-neck</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-waffle-round-neck-501</loc>
+    <loc>https://ateevibes.com/product/premium-waffle-round-neck</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-matty-polo-1400</loc>
+    <loc>https://ateevibes.com/product/premium-matty-polo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/jacquard-half-sleeve-polo-105</loc>
+    <loc>https://ateevibes.com/product/jacquard-half-sleeve-polo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/waffle-polo-1401</loc>
+    <loc>https://ateevibes.com/product/waffle-polo</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-printed-collar-stripe-gradient-1700-a</loc>
+    <loc>https://ateevibes.com/product/premium-printed-collar-stripe-gradient</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-printed-collar-abstract-1700-b</loc>
+    <loc>https://ateevibes.com/product/premium-printed-collar-abstract</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/jacquard-half-sleeve-711</loc>
+    <loc>https://ateevibes.com/product/jacquard-half-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/jacquard-full-sleeve-1005</loc>
+    <loc>https://ateevibes.com/product/jacquard-full-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/royal-print-jacquard-half-sleeve-701</loc>
+    <loc>https://ateevibes.com/product/royal-print-jacquard-half-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/royal-print-jacquard-full-sleeve-1007</loc>
+    <loc>https://ateevibes.com/product/royal-print-jacquard-full-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/tai-dai-print-half-sleeve-102</loc>
+    <loc>https://ateevibes.com/product/tai-dai-print-half-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/tai-dai-print-full-sleeve-1002</loc>
+    <loc>https://ateevibes.com/product/tai-dai-print-full-sleeve</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ateevibes.com/product/premium-printed-round-neck-800</loc>
+    <loc>https://ateevibes.com/product/premium-printed-round-neck</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>

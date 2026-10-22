@@ -20,7 +20,9 @@ export const Navbar: React.FC = () => {
   const wishlistItemsCount = useWishlistStore((state) => state.items.length);
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
 
-  const { openCart, openMobileMenu, openSearch } = useUIStore();
+  const openCart = useUIStore((state) => state.openCart);
+  const openMobileMenu = useUIStore((state) => state.openMobileMenu);
+  const openSearch = useUIStore((state) => state.openSearch);
 
   // Scroll direction and shrink handler
   useEffect(() => {
@@ -67,7 +69,7 @@ export const Navbar: React.FC = () => {
     if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current);
     megaMenuTimeout.current = setTimeout(() => {
       setIsMegaMenuOpen(false);
-    }, 200);
+    }, 150);
   };
 
   const handleMegaMenuFocus = () => {
@@ -86,7 +88,7 @@ export const Navbar: React.FC = () => {
       initial={{ y: 0 }}
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      className={`sticky top-0 z-40 w-full relative transition-all duration-300 ${
+      className={`sticky top-0 z-50 w-full relative transition-all duration-300 ${
         isScrolled ? 'glass py-2.5 shadow-soft' : 'bg-surface/85 backdrop-blur-md py-4'
       }`}
     >
@@ -115,7 +117,7 @@ export const Navbar: React.FC = () => {
         {/* Center: Desktop Navigation Links */}
         <nav
           aria-label="Main navigation"
-          className="hidden lg:flex items-center gap-1 font-medium text-sm text-ink-700"
+          className="hidden lg:flex items-center gap-1.5 xl:gap-2.5 font-medium text-sm text-ink-700"
         >
           {/* Shop with Mega Menu Trigger */}
           <div
@@ -131,7 +133,7 @@ export const Navbar: React.FC = () => {
               to="/shop"
               aria-haspopup="true"
               aria-expanded={isMegaMenuOpen}
-              className={`px-3.5 py-2 rounded-full flex items-center gap-1 hover:text-ink-900 hover:bg-black/5 transition-colors ${
+              className={`px-4 py-2 rounded-full flex items-center gap-1 hover:text-ink-900 hover:bg-black/5 transition-colors ${
                 location.pathname.startsWith('/shop') ? 'text-ink-900 font-semibold' : ''
               }`}
             >
@@ -143,12 +145,17 @@ export const Navbar: React.FC = () => {
               />
             </Link>
 
-            <MegaMenu isOpen={isMegaMenuOpen} onClose={() => setIsMegaMenuOpen(false)} />
+            <MegaMenu
+              isOpen={isMegaMenuOpen}
+              onClose={() => setIsMegaMenuOpen(false)}
+              onMouseEnter={handleMegaMenuEnter}
+              onMouseLeave={handleMegaMenuLeave}
+            />
           </div>
 
           <Link
             to="/collections/new-arrivals"
-            className={`px-3.5 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
+            className={`px-4 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
               location.pathname === '/collections/new-arrivals' ? 'text-ink-900 font-semibold' : ''
             }`}
           >
@@ -157,7 +164,7 @@ export const Navbar: React.FC = () => {
 
           <Link
             to="/collections/best-sellers"
-            className={`px-3.5 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
+            className={`px-4 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
               location.pathname === '/collections/best-sellers' ? 'text-ink-900 font-semibold' : ''
             }`}
           >
@@ -165,17 +172,8 @@ export const Navbar: React.FC = () => {
           </Link>
 
           <Link
-            to="/collections/full-sleeve"
-            className={`px-3.5 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
-              location.pathname === '/collections/full-sleeve' ? 'text-ink-900 font-semibold' : ''
-            }`}
-          >
-            Full Sleeve
-          </Link>
-
-          <Link
             to="/about"
-            className={`px-3.5 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
+            className={`px-4 py-2 rounded-full hover:text-ink-900 hover:bg-black/5 transition-colors ${
               location.pathname === '/about' ? 'text-ink-900 font-semibold' : ''
             }`}
           >

@@ -20,7 +20,7 @@ export const ShippingReturnsPage: React.FC = () => {
         <title>{`Shipping & Returns Policy | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Read our shipping guidelines, free delivery threshold above ₹1,499, and hassle-free 7-day doorstep size exchange policy."
+          content="Read our shipping guidelines, free delivery threshold above ₹1,499, and hassle-free 7-day exchange and return policy."
         />
       </Helmet>
 
@@ -54,11 +54,11 @@ export const ShippingReturnsPage: React.FC = () => {
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <RotateCcw className="w-6 h-6 text-accent-700" />
             <h4 className="font-display text-sm font-bold text-ink-900">7-Day Exchanges</h4>
-            <p className="text-xs text-ink-600">Free doorstep pickup if you need a different size.</p>
+            <p className="text-xs text-ink-600">Convenient return window if you need a different size.</p>
           </div>
           <div className="p-5 rounded-3xl bg-surface-tint border border-border space-y-2">
             <ShieldCheck className="w-6 h-6 text-accent-700" />
-            <h4 className="font-display text-sm font-bold text-ink-900">Tamper Sealed</h4>
+            <h4 className="font-display text-sm font-bold text-ink-900">Quality Assured</h4>
             <p className="text-xs text-ink-600">Secure mailer packing with quality verification checks.</p>
           </div>
         </div>
@@ -123,13 +123,13 @@ export const ShippingReturnsPage: React.FC = () => {
               <h2 className="font-display text-xl sm:text-2xl font-bold text-ink-900">
                 7-Day Hassle-Free Size Exchanges
               </h2>
-              <p className="text-xs text-ink-600">Doorstep reverse pickup with zero extra courier fees</p>
+              <p className="text-xs text-ink-600">Reverse courier pickup with zero extra fees</p>
             </div>
           </div>
 
           <div className="space-y-4 text-xs sm:text-sm text-ink-700 leading-relaxed">
             <p>
-              We want your t-shirt to fit and drape exactly the way you envision. If the size you ordered isn&apos;t quite right, we offer an easy 7-day doorstep size exchange.
+              We want your t-shirt to fit and drape exactly the way you envision. If the size you ordered isn&apos;t quite right, we offer an easy 7-day size exchange.
             </p>
 
             <div className="p-4 rounded-2xl bg-surface-tint border border-border space-y-2">
@@ -141,7 +141,7 @@ export const ShippingReturnsPage: React.FC = () => {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-status-success flex-shrink-0" />
-                  <span>All brand tags, wash labels, and original tamper packaging must be intact.</span>
+                  <span>All brand tags, wash labels, and original packaging must be intact.</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-3.5 h-3.5 text-status-success flex-shrink-0" />
@@ -160,8 +160,8 @@ export const ShippingReturnsPage: React.FC = () => {
                 </div>
                 <div className="p-4 rounded-xl border border-border bg-surface-tint/60 space-y-1">
                   <span className="text-accent-700 font-extrabold text-xs block">STEP 2</span>
-                  <p className="font-bold text-ink-900 text-xs">Doorstep Pickup</p>
-                  <p className="text-[11px] text-ink-600">Our courier will arrive at your address to collect the original item.</p>
+                  <p className="font-bold text-ink-900 text-xs">Courier Pickup</p>
+                  <p className="text-[11px] text-ink-600">Our courier partner will arrive at your address to collect the original item.</p>
                 </div>
                 <div className="p-4 rounded-xl border border-border bg-surface-tint/60 space-y-1">
                   <span className="text-accent-700 font-extrabold text-xs block">STEP 3</span>

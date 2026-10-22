@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -26,7 +26,7 @@ import {
   Droplets,
   ArrowRight,
 } from 'lucide-react';
-import { PRODUCTS } from '../data/products';
+import { PRODUCTS, OLD_SLUG_MAP } from '../data/products';
 import { REVIEWS_DATA } from '../data/reviews';
 import { Product, Variant, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
@@ -49,13 +49,12 @@ export const ProductPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
 
-  const product = PRODUCTS.find((p) => p.slug === slug);
+  const product = PRODUCTS.find((p) => p.slug === (slug && OLD_SLUG_MAP[slug] ? OLD_SLUG_MAP[slug] : slug));
 
   const [selectedVariant, setSelectedVariant] = useState<Variant | null>(() => product?.variants[0] || null);
   const [selectedSize, setSelectedSize] = useState<SizeType | string>(() => product?.sizes[0] || 'M');
   const [qty, setQty] = useState(1);
   const [activeImageIdx, setActiveImageIdx] = useState(0);
-  const [activeTab, setActiveTab] = useState<'photos' | 'catalog'>('photos');
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
@@ -83,11 +82,17 @@ export const ProductPage: React.FC = () => {
   const openCart = useUIStore((state) => state.openCart);
   const addToast = useUIStore((state) => state.addToast);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
-  const isInWishlist = useWishlistStore((state) => (product ? state.isInWishlist(product.id) : false));
-  const addRecentlyViewed = useRecentlyViewedStore((state) => state.addProduct);
-  const recentlyViewed = useRecentlyViewedStore((state) =>
-    state.items.filter((p) => p.id !== product?.id).slice(0, 4)
+  const isInWishlist = useWishlistStore((state) =>
+    Boolean(product && state.items.some((p) => p.id === product.id))
   );
+  const addRecentlyViewed = useRecentlyViewedStore((state) => state.addProduct);
+  const allRecentlyViewed = useRecentlyViewedStore((state) => state.items);
+  const recentlyViewed = React.useMemo(
+    () => (product ? allRecentlyViewed.filter((p) => p.id !== product.id).slice(0, 4) : []),
+    [allRecentlyViewed, product?.id]
+  );
+
+  const lastTrackedProductIdRef = useRef<string | null>(null);
 
   // Initialize product state & recently viewed
   useEffect(() => {
@@ -96,8 +101,11 @@ export const ProductPage: React.FC = () => {
       setSelectedSize(product.sizes[0] || 'M');
       setQty(1);
       setActiveImageIdx(0);
-      setActiveTab('photos');
-      addRecentlyViewed(product);
+
+      if (lastTrackedProductIdRef.current !== product.id) {
+        lastTrackedProductIdRef.current = product.id;
+        addRecentlyViewed(product);
+      }
 
       productService.getRelated(product.id, 4).then(setRelatedProducts);
       if (product.variants[0]?.colourName) {
@@ -106,7 +114,7 @@ export const ProductPage: React.FC = () => {
           .then(setCompleteSetProducts);
       }
     }
-  }, [product, slug]);
+  }, [product?.id, slug]);
 
   // Observer for sticky mobile CTA bar
   useEffect(() => {
@@ -124,6 +132,11 @@ export const ProductPage: React.FC = () => {
     return () => observer.disconnect();
   }, [product]);
 
+  // Redirect legacy slugs with style numbers to clean new slugs
+  if (slug && OLD_SLUG_MAP[slug]) {
+    return <Navigate to={`/product/${OLD_SLUG_MAP[slug]}`} replace />;
+  }
+
   if (!product || !selectedVariant) {
     return <NotFoundPage />;
   }
@@ -132,13 +145,11 @@ export const ProductPage: React.FC = () => {
   const availableStock = selectedVariant.stockBySize?.[selectedSize] ?? 10;
   const isOutOfStock = availableStock <= 0;
 
-  // Active gallery photos
+  // Active gallery photos (never render catalog posters with style numbers printed)
   const currentPhotos =
-    activeTab === 'catalog'
-      ? [product.catalogPoster]
-      : selectedVariant.images?.length > 0
+    selectedVariant.images?.length > 0
       ? selectedVariant.images
-      : [product.catalogPoster];
+      : ['/brand/tshirt-silhouette.svg'];
 
   const activeMainImage = currentPhotos[activeImageIdx] || currentPhotos[0];
 
@@ -227,18 +238,18 @@ export const ProductPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>{`${product.name} (Style ${product.pno}) | ${siteConfig.name}`}</title>
+        <title>{`${product.name} | ${siteConfig.name}`}</title>
         <meta name="description" content={product.description} />
         <link rel="canonical" href={`${siteConfig.url}/product/${product.slug}`} />
         <meta property="og:type" content="product" />
         <meta property="og:url" content={`${siteConfig.url}/product/${product.slug}`} />
-        <meta property="og:title" content={`${product.name} (Style ${product.pno}) | ${siteConfig.name}`} />
+        <meta property="og:title" content={`${product.name} | ${siteConfig.name}`} />
         <meta property="og:description" content={product.description} />
-        <meta property="og:image" content={selectedVariant.images[0] || product.catalogPoster} />
+        <meta property="og:image" content={selectedVariant.images[0] || '/brand/tshirt-silhouette.svg'} />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${product.name} | ${siteConfig.name}`} />
         <meta name="twitter:description" content={product.description} />
-        <meta name="twitter:image" content={selectedVariant.images[0] || product.catalogPoster} />
+        <meta name="twitter:image" content={selectedVariant.images[0] || '/brand/tshirt-silhouette.svg'} />
         <script type="application/ld+json">
           {JSON.stringify(generateProductJsonLd(product))}
         </script>
@@ -262,38 +273,8 @@ export const ProductPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-start">
           {/* LEFT: Image Gallery (Sticky Desktop) */}
           <div className="lg:col-span-7 space-y-4 lg:sticky lg:top-24">
-            {/* Gallery Mode Tabs */}
-            <div className="flex items-center justify-between pb-1">
-              <div className="flex items-center gap-2 bg-surface-tint border border-border p-1 rounded-full">
-                <button
-                  onClick={() => {
-                    setActiveTab('photos');
-                    setActiveImageIdx(0);
-                  }}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    activeTab === 'photos'
-                      ? 'bg-ink-900 text-brand-cream shadow-sm'
-                      : 'text-ink-700 hover:text-ink-900'
-                  }`}
-                >
-                  Photos
-                </button>
-                <button
-                  onClick={() => {
-                    setActiveTab('catalog');
-                    setActiveImageIdx(0);
-                  }}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
-                    activeTab === 'catalog'
-                      ? 'bg-ink-900 text-brand-cream shadow-sm'
-                      : 'text-ink-700 hover:text-ink-900'
-                  }`}
-                >
-                  Catalog Poster View
-                </button>
-              </div>
-
-              {/* Lightbox trigger */}
+            {/* Gallery Top Bar (Zoom trigger) */}
+            <div className="flex items-center justify-end pb-1">
               <button
                 onClick={() => setIsLightboxOpen(true)}
                 aria-label="Expand image fullscreen"
@@ -310,22 +291,17 @@ export const ProductPage: React.FC = () => {
               className="relative aspect-[4/5] rounded-3xl overflow-hidden bg-brand-cream/25 border border-border shadow-soft group cursor-zoom-in"
             >
               <motion.img
-                key={`${selectedVariant.id}-${activeImageIdx}-${activeTab}`}
+                key={`${selectedVariant.id}-${activeImageIdx}`}
                 src={activeMainImage}
                 alt={`${product.name} view`}
                 onError={(e) => {
-                  e.currentTarget.src = '/brand/placeholder.svg';
+                  e.currentTarget.src = '/brand/tshirt-silhouette.svg';
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-
-              {/* Style Code Tag */}
-              <div className="absolute top-4 left-4 bg-ink-900/90 backdrop-blur-md text-brand-cream text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider">
-                Style P.NO {product.pno}
-              </div>
 
               {/* Badges */}
               <div className="absolute top-4 right-4 flex flex-col gap-1.5 items-end">
@@ -442,7 +418,7 @@ export const ProductPage: React.FC = () => {
                 )}
                 <span className="text-ink-600">•</span>
                 <span className="text-accent-700 font-semibold uppercase tracking-wider text-[11px]">
-                  P.NO {product.pno}
+                  {product.fabric}
                 </span>
               </div>
 
@@ -541,7 +517,7 @@ export const ProductPage: React.FC = () => {
                       onClick={() => setSelectedSize(size)}
                       className={`py-3 rounded-2xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
                         isSelected
-                          ? 'bg-ink-900 text-brand-cream border-ink-900 shadow-md scale-[1.02]'
+                          ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-md scale-[1.02]'
                           : outOfStock
                           ? 'bg-black/5 text-ink-600/40 line-through border-transparent cursor-not-allowed'
                           : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'
@@ -915,7 +891,7 @@ export const ProductPage: React.FC = () => {
           initialIndex={activeImageIdx}
           isOpen={isLightboxOpen}
           onClose={() => setIsLightboxOpen(false)}
-          title={`${product.name} (P.NO ${product.pno})`}
+          title={product.name}
         />
         <ReviewModal
           isOpen={isReviewModalOpen}
@@ -954,7 +930,7 @@ export const ProductPage: React.FC = () => {
                   </button>
                 </div>
                 <p className="text-xs text-ink-600 leading-relaxed">
-                  Style {product.pno} ({product.name}) is currently in development. Enter your email and we'll alert you the moment the drop is live.
+                  {product.name} is currently in development. Enter your email and we'll alert you the moment the drop is live.
                 </p>
 
                 {notifySuccess ? (
@@ -963,18 +939,23 @@ export const ProductPage: React.FC = () => {
                     <span>Notification registered!</span>
                   </div>
                 ) : (
-                  <form onSubmit={handleNotifySubmit} className="space-y-3">
-                    <input
-                      type="email"
-                      required
-                      value={notifyEmail}
-                      onChange={(e) => setNotifyEmail(e.target.value)}
-                      placeholder="Enter your email address"
-                      className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
-                    />
-                    <button type="submit" className="w-full btn-primary py-2.5 text-xs font-bold">
-                      Notify Me
-                    </button>
+                  <form onSubmit={handleNotifySubmit} className="pt-1">
+                    <div className="flex items-center w-full bg-surface-tint border border-border focus-within:border-ink-900 rounded-full p-1.5 shadow-sm transition-colors">
+                      <input
+                        type="email"
+                        required
+                        value={notifyEmail}
+                        onChange={(e) => setNotifyEmail(e.target.value)}
+                        placeholder="Enter your email address"
+                        className="flex-1 min-w-0 bg-transparent pl-4 pr-3 py-2 text-xs sm:text-sm text-ink-900 placeholder:text-ink-600/60 focus:outline-none"
+                      />
+                      <button
+                        type="submit"
+                        className="btn-primary shrink-0 px-4 py-2 text-xs font-bold rounded-full whitespace-nowrap"
+                      >
+                        Notify Me
+                      </button>
+                    </div>
                   </form>
                 )}
               </motion.div>

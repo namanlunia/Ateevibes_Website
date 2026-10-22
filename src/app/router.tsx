@@ -1,7 +1,9 @@
 import React, { lazy, Suspense } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { Layout } from '../components/layout/Layout';
 import { PageFallback } from '../components/ui/PageFallback';
+import { RouteErrorElement } from '../components/ui/RouteErrorElement';
+import { ErrorBoundary } from '../components/ui/ErrorBoundary';
 
 // Route-level code splitting
 const HomePage = lazy(() => import('../pages/HomePage').then((m) => ({ default: m.HomePage })));
@@ -28,20 +30,24 @@ const TermsPage = lazy(() => import('../pages/TermsPage').then((m) => ({ default
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
 
 const withSuspense = (Component: React.ComponentType) => (
-  <Suspense fallback={<PageFallback />}>
-    <Component />
-  </Suspense>
+  <ErrorBoundary>
+    <Suspense fallback={<PageFallback />}>
+      <Component />
+    </Suspense>
+  </ErrorBoundary>
 );
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <RouteErrorElement />,
     children: [
       { index: true, element: withSuspense(HomePage) },
       { path: 'shop', element: withSuspense(ShopPage) },
       { path: 'shop/:category', element: withSuspense(ShopPage) },
       { path: 'shop/:category/:sub', element: withSuspense(ShopPage) },
+      { path: 'collections/full-sleeve', element: <Navigate to="/shop" replace /> },
       { path: 'collections/:collectionSlug', element: withSuspense(ShopPage) },
       { path: 'product/:slug', element: withSuspense(ProductPage) },
       { path: 'search', element: withSuspense(ShopPage) },

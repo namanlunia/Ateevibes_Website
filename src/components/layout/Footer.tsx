@@ -53,9 +53,9 @@ export const Footer: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Value Assurance Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 pb-12 border-b border-border/80">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-12 border-b border-border/80">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-brand-green/50 text-ink-900">
+            <div className="p-2.5 rounded-full bg-brand-green/50 text-ink-900 shrink-0">
               <Truck className="w-5 h-5" />
             </div>
             <div>
@@ -65,7 +65,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-brand-cream text-ink-900">
+            <div className="p-2.5 rounded-full bg-brand-cream text-ink-900 shrink-0">
               <RefreshCw className="w-5 h-5" />
             </div>
             <div>
@@ -75,7 +75,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-brand-green/50 text-ink-900">
+            <div className="p-2.5 rounded-full bg-brand-green/50 text-ink-900 shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-full bg-brand-cream text-ink-900">
+            <div className="p-2.5 rounded-full bg-brand-cream text-ink-900 shrink-0">
               <CreditCard className="w-5 h-5" />
             </div>
             <div>
@@ -95,10 +95,10 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Main Footer Links & Newsletter */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 py-14">
+        {/* Main Footer Links & Newsletter: 4-Column Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr] gap-8 lg:gap-10 items-start py-14">
           {/* Brand Col */}
-          <div className="md:col-span-4 space-y-4">
+          <div className="space-y-4">
             <Link to="/" className="inline-block">
               <img src="/brand/logo.png" alt="Ateevibes" className="h-9 w-auto" />
             </Link>
@@ -158,8 +158,8 @@ export const Footer: React.FC = () => {
             </div>
           </div>
 
-          {/* Navigation Links Columns */}
-          <div className="md:col-span-2 space-y-3">
+          {/* Shop Column */}
+          <div className="space-y-3">
             <p className="text-xs font-bold text-ink-900 uppercase tracking-wider">Shop</p>
             <ul className="space-y-2 text-xs sm:text-sm text-ink-700">
               <li><Link to="/shop" className="hover:text-ink-900 transition-colors">All T-Shirts</Link></li>
@@ -167,11 +167,11 @@ export const Footer: React.FC = () => {
               <li><Link to="/shop/polo-collar" className="hover:text-ink-900 transition-colors">Polo & Collar</Link></li>
               <li><Link to="/shop/jacquard" className="hover:text-ink-900 transition-colors">Jacquard Knits</Link></li>
               <li><Link to="/shop/printed" className="hover:text-ink-900 transition-colors">Printed & Tai Dai</Link></li>
-              <li><Link to="/collections/full-sleeve" className="hover:text-ink-900 transition-colors">Full Sleeve</Link></li>
             </ul>
           </div>
 
-          <div className="md:col-span-2 space-y-3">
+          {/* Help Column */}
+          <div className="space-y-3">
             <p className="text-xs font-bold text-ink-900 uppercase tracking-wider">Help</p>
             <ul className="space-y-2 text-xs sm:text-sm text-ink-700">
               <li><Link to="/track-order" className="hover:text-ink-900 transition-colors">Track Order</Link></li>
@@ -182,7 +182,8 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div className="md:col-span-4 space-y-3">
+          {/* Newsletter Column */}
+          <div className="space-y-3">
             <p className="text-xs font-bold text-ink-900 uppercase tracking-wider">Stay in the Loop</p>
             <p className="text-xs text-ink-600">
               Subscribe for weekly style drops, fabric stories, and exclusive insider promo codes.
@@ -195,25 +196,25 @@ export const Footer: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
-                <div className="relative">
+                <div className="relative flex items-center bg-white border border-border focus-within:border-ink-900 rounded-full p-1.5 transition-colors shadow-sm">
                   <input
                     type="email"
                     {...register('email')}
                     placeholder="Enter your email"
-                    className="w-full px-4 py-3 bg-white border border-border focus:border-ink-900 rounded-full text-xs sm:text-sm text-ink-900 placeholder:text-ink-600/60 focus:outline-none transition-colors"
+                    className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2 text-xs sm:text-sm text-ink-900 placeholder:text-ink-600/60 focus:outline-none"
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
                     aria-label="Subscribe"
-                    className="absolute right-1.5 top-1/2 -translate-y-1/2 btn-primary px-4 py-2 text-xs font-bold flex items-center gap-1"
+                    className="btn-primary px-5 py-2 text-xs font-bold flex items-center justify-center gap-1.5 rounded-full shrink-0"
                   >
                     <span>Join</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
                 {errors.email && (
-                  <p className="text-[11px] text-status-error font-medium pl-3">
+                  <p className="text-[11px] text-status-error font-medium pl-4">
                     {errors.email.message}
                   </p>
                 )}

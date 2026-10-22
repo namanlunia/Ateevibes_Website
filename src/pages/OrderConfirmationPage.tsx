@@ -146,14 +146,14 @@ export const OrderConfirmationPage: React.FC = () => {
               <div key={item.id} className="py-3 flex items-center justify-between gap-4 text-xs">
                 <div className="flex items-center gap-3">
                   <img
-                    src={item.variant?.images?.[0] || item.product?.catalogPoster}
+                    src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                     alt={item.product?.name}
                     className="w-12 h-14 object-cover rounded-xl border border-border"
                   />
                   <div>
                     <p className="font-bold text-ink-900">{item.product?.name}</p>
                     <p className="text-ink-600">
-                      Style {item.product?.pno} • {item.variant?.colourName} • Size {item.size} • Qty {item.qty}
+                      {item.variant?.colourName} • Size {item.size} • Qty {item.qty}
                     </p>
                   </div>
                 </div>

@@ -5,7 +5,7 @@ export const PRODUCTS: Product[] = [
   // 1. P.NO 500
   {
     id: 'prod-500',
-    slug: 'premium-matty-round-neck-500',
+    slug: 'premium-matty-round-neck',
     pno: '500',
     name: 'Premium Matty T-Shirt',
     category: 'round-neck',
@@ -36,7 +36,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/500/black.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/black.jpg'],
         stockBySize: { S: 12, M: 8, L: 4, XL: 2 },
       },
       {
@@ -44,7 +44,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/500/white.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/white.jpg'],
         stockBySize: { S: 15, M: 10, L: 6, XL: 0 },
       },
       {
@@ -52,7 +52,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Pastel Green',
         colourSlug: 'pastel-green',
         hex: COLOUR_PALETTE['pastel-green'].hex,
-        images: ['/products/500/pastel-green.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/pastel-green.jpg'],
         stockBySize: { S: 8, M: 3, L: 5, XL: 4 },
       },
       {
@@ -60,7 +60,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Lavender',
         colourSlug: 'lavender',
         hex: COLOUR_PALETTE.lavender.hex,
-        images: ['/products/500/lavender.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/lavender.jpg'],
         stockBySize: { S: 6, M: 12, L: 2, XL: 1 },
       },
       {
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Jalapeno Red',
         colourSlug: 'jalapeno-red',
         hex: COLOUR_PALETTE['jalapeno-red'].hex,
-        images: ['/products/500/jalapeno-red.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/jalapeno-red.jpg'],
         stockBySize: { S: 4, M: 9, L: 7, XL: 3 },
       },
       {
@@ -76,7 +76,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Leather Brown',
         colourSlug: 'leather-brown',
         hex: COLOUR_PALETTE['leather-brown'].hex,
-        images: ['/products/500/leather-brown.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/leather-brown.jpg'],
         stockBySize: { S: 5, M: 6, L: 8, XL: 4 },
       },
       {
@@ -84,7 +84,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Turquoise',
         colourSlug: 'turquoise',
         hex: COLOUR_PALETTE.turquoise.hex,
-        images: ['/products/500/turquoise.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/turquoise.jpg'],
         stockBySize: { S: 7, M: 8, L: 4, XL: 2 },
       },
       {
@@ -92,7 +92,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Navy',
         colourSlug: 'navy',
         hex: COLOUR_PALETTE.navy.hex,
-        images: ['/products/500/navy.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/navy.jpg'],
         stockBySize: { S: 14, M: 16, L: 9, XL: 5 },
       },
       {
@@ -100,7 +100,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Blue',
         colourSlug: 'blue',
         hex: COLOUR_PALETTE.blue.hex,
-        images: ['/products/500/blue.jpg', '/catalog/pno-500.jpg'],
+        images: ['/products/500/blue.jpg'],
         stockBySize: { S: 6, M: 5, L: 3, XL: 2 },
       },
     ],
@@ -109,7 +109,7 @@ export const PRODUCTS: Product[] = [
   // 2. P.NO 107
   {
     id: 'prod-107',
-    slug: '2-way-round-neck-107',
+    slug: 'two-way-round-neck',
     pno: '107',
     name: '2-Way Round Neck T-Shirt',
     category: 'round-neck',
@@ -140,7 +140,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/107/black.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/black.jpg'],
         stockBySize: { S: 10, M: 12, L: 8, XL: 4 },
       },
       {
@@ -148,7 +148,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Bottle Green',
         colourSlug: 'bottle-green',
         hex: COLOUR_PALETTE['bottle-green'].hex,
-        images: ['/products/107/bottle-green.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/bottle-green.jpg'],
         stockBySize: { S: 8, M: 6, L: 4, XL: 1 },
       },
       {
@@ -156,7 +156,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Wine',
         colourSlug: 'wine',
         hex: COLOUR_PALETTE.wine.hex,
-        images: ['/products/107/wine.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/wine.jpg'],
         stockBySize: { S: 5, M: 7, L: 5, XL: 3 },
       },
       {
@@ -164,7 +164,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Rust',
         colourSlug: 'rust',
         hex: COLOUR_PALETTE.rust.hex,
-        images: ['/products/107/rust.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/rust.jpg'],
         stockBySize: { S: 6, M: 4, L: 2, XL: 2 },
       },
       {
@@ -172,7 +172,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Off-White',
         colourSlug: 'off-white',
         hex: COLOUR_PALETTE['off-white'].hex,
-        images: ['/products/107/off-white.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/off-white.jpg'],
         stockBySize: { S: 9, M: 11, L: 7, XL: 3 },
       },
       {
@@ -180,7 +180,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Grey',
         colourSlug: 'grey',
         hex: COLOUR_PALETTE.grey.hex,
-        images: ['/products/107/grey.jpg', '/catalog/pno-107.jpg'],
+        images: ['/products/107/grey.jpg'],
         stockBySize: { S: 4, M: 8, L: 3, XL: 0 },
       },
     ],
@@ -189,7 +189,7 @@ export const PRODUCTS: Product[] = [
   // 3. P.NO 600
   {
     id: 'prod-600',
-    slug: 'imported-tencil-round-neck-600',
+    slug: 'imported-tencil-round-neck',
     pno: '600',
     name: 'Imported Tencil Round Neck T-Shirt',
     category: 'round-neck',
@@ -220,7 +220,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/600/black.jpg', '/catalog/pno-600.jpg'],
+        images: ['/products/600/black.jpg'],
         stockBySize: { M: 10, L: 6, XL: 3 },
       },
       {
@@ -228,7 +228,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Bottle Green',
         colourSlug: 'bottle-green',
         hex: COLOUR_PALETTE['bottle-green'].hex,
-        images: ['/products/600/bottle-green.jpg', '/catalog/pno-600.jpg'],
+        images: ['/products/600/bottle-green.jpg'],
         stockBySize: { M: 8, L: 4, XL: 2 },
       },
       {
@@ -236,7 +236,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Rust',
         colourSlug: 'rust',
         hex: COLOUR_PALETTE.rust.hex,
-        images: ['/products/600/rust.jpg', '/catalog/pno-600.jpg'],
+        images: ['/products/600/rust.jpg'],
         stockBySize: { M: 6, L: 5, XL: 2 },
       },
       {
@@ -244,7 +244,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Off-White',
         colourSlug: 'off-white',
         hex: COLOUR_PALETTE['off-white'].hex,
-        images: ['/products/600/off-white.jpg', '/catalog/pno-600.jpg'],
+        images: ['/products/600/off-white.jpg'],
         stockBySize: { M: 9, L: 8, XL: 4 },
       },
       {
@@ -252,7 +252,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Grey',
         colourSlug: 'grey',
         hex: COLOUR_PALETTE.grey.hex,
-        images: ['/products/600/grey.jpg', '/catalog/pno-600.jpg'],
+        images: ['/products/600/grey.jpg'],
         stockBySize: { M: 5, L: 3, XL: 1 },
       },
     ],
@@ -261,7 +261,7 @@ export const PRODUCTS: Product[] = [
   // 4. P.NO 501
   {
     id: 'prod-501',
-    slug: 'premium-waffle-round-neck-501',
+    slug: 'premium-waffle-round-neck',
     pno: '501',
     name: 'Premium Waffle Round Neck T-Shirt',
     category: 'round-neck',
@@ -291,7 +291,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/501/black.jpg', '/catalog/pno-501.jpg'],
+        images: ['/products/501/black.jpg'],
         stockBySize: { M: 14, L: 12, XL: 5 },
       },
       {
@@ -299,7 +299,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Beige',
         colourSlug: 'beige',
         hex: COLOUR_PALETTE.beige.hex,
-        images: ['/products/501/beige.jpg', '/catalog/pno-501.jpg'],
+        images: ['/products/501/beige.jpg'],
         stockBySize: { M: 11, L: 9, XL: 4 },
       },
       {
@@ -307,7 +307,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Brown',
         colourSlug: 'brown',
         hex: COLOUR_PALETTE.brown.hex,
-        images: ['/products/501/brown.jpg', '/catalog/pno-501.jpg'],
+        images: ['/products/501/brown.jpg'],
         stockBySize: { M: 7, L: 5, XL: 2 },
       },
       {
@@ -315,7 +315,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Aqua',
         colourSlug: 'aqua',
         hex: COLOUR_PALETTE.aqua.hex,
-        images: ['/products/501/aqua.jpg', '/catalog/pno-501.jpg'],
+        images: ['/products/501/aqua.jpg'],
         stockBySize: { M: 6, L: 4, XL: 3 },
       },
       {
@@ -323,7 +323,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/501/white.jpg', '/catalog/pno-501.jpg'],
+        images: ['/products/501/white.jpg'],
         stockBySize: { M: 15, L: 10, XL: 6 },
       },
     ],
@@ -332,7 +332,7 @@ export const PRODUCTS: Product[] = [
   // 5. P.NO 1400
   {
     id: 'prod-1400',
-    slug: 'premium-matty-polo-1400',
+    slug: 'premium-matty-polo',
     pno: '1400',
     name: 'Premium Matty Polo T-Shirt',
     category: 'polo-collar',
@@ -362,7 +362,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/1400/white.jpg', '/catalog/pno-1400.jpg'],
+        images: ['/products/1400/white.jpg'],
         stockBySize: { M: 12, L: 8, XL: 4 },
       },
       {
@@ -370,7 +370,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Navy',
         colourSlug: 'navy',
         hex: COLOUR_PALETTE.navy.hex,
-        images: ['/products/1400/navy.jpg', '/catalog/pno-1400.jpg'],
+        images: ['/products/1400/navy.jpg'],
         stockBySize: { M: 15, L: 11, XL: 5 },
       },
       {
@@ -378,7 +378,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Jalapeno Red',
         colourSlug: 'jalapeno-red',
         hex: COLOUR_PALETTE['jalapeno-red'].hex,
-        images: ['/products/1400/jalapeno-red.jpg', '/catalog/pno-1400.jpg'],
+        images: ['/products/1400/jalapeno-red.jpg'],
         stockBySize: { M: 7, L: 5, XL: 2 },
       },
       {
@@ -386,7 +386,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Leather Brown',
         colourSlug: 'leather-brown',
         hex: COLOUR_PALETTE['leather-brown'].hex,
-        images: ['/products/1400/leather-brown.jpg', '/catalog/pno-1400.jpg'],
+        images: ['/products/1400/leather-brown.jpg'],
         stockBySize: { M: 6, L: 4, XL: 3 },
       },
       {
@@ -394,7 +394,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/1400/black.jpg', '/catalog/pno-1400.jpg'],
+        images: ['/products/1400/black.jpg'],
         stockBySize: { M: 14, L: 10, XL: 4 },
       },
     ],
@@ -403,7 +403,7 @@ export const PRODUCTS: Product[] = [
   // 6. P.NO 105
   {
     id: 'prod-105',
-    slug: 'jacquard-half-sleeve-polo-105',
+    slug: 'jacquard-half-sleeve-polo',
     pno: '105',
     name: 'Jacquard Half Sleeve Polo T-Shirt',
     category: 'polo-collar',
@@ -433,7 +433,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/105/black.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/black.jpg'],
         stockBySize: { S: 10, M: 8, L: 6, XL: 3 },
       },
       {
@@ -441,7 +441,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Mint Green',
         colourSlug: 'mint-green',
         hex: COLOUR_PALETTE['mint-green'].hex,
-        images: ['/products/105/mint-green.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/mint-green.jpg'],
         stockBySize: { S: 6, M: 4, L: 3, XL: 1 },
       },
       {
@@ -449,7 +449,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Rust',
         colourSlug: 'rust',
         hex: COLOUR_PALETTE.rust.hex,
-        images: ['/products/105/rust.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/rust.jpg'],
         stockBySize: { S: 8, M: 6, L: 5, XL: 2 },
       },
       {
@@ -457,7 +457,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Charcoal',
         colourSlug: 'charcoal',
         hex: COLOUR_PALETTE.charcoal.hex,
-        images: ['/products/105/charcoal.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/charcoal.jpg'],
         stockBySize: { S: 9, M: 11, L: 7, XL: 4 },
       },
       {
@@ -465,7 +465,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Lemon',
         colourSlug: 'lemon',
         hex: COLOUR_PALETTE.lemon.hex,
-        images: ['/products/105/lemon.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/lemon.jpg'],
         stockBySize: { S: 5, M: 5, L: 2, XL: 1 },
       },
       {
@@ -473,7 +473,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/105/white.jpg', '/catalog/pno-105.jpg'],
+        images: ['/products/105/white.jpg'],
         stockBySize: { S: 12, M: 14, L: 8, XL: 5 },
       },
     ],
@@ -482,7 +482,7 @@ export const PRODUCTS: Product[] = [
   // 7. P.NO 1401 (COMING SOON)
   {
     id: 'prod-1401',
-    slug: 'waffle-polo-1401',
+    slug: 'waffle-polo',
     pno: '1401',
     name: 'Waffle Polo T-Shirt',
     category: 'polo-collar',
@@ -512,7 +512,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Colours TBD',
         colourSlug: 'coming-soon',
         hex: '#D9C7A5',
-        images: ['/products/1401/coming-soon.jpg', '/catalog/pno-1401.jpg'],
+        images: ['/products/1401/coming-soon.jpg'],
         stockBySize: { M: 0, L: 0, XL: 0 },
       },
     ],
@@ -521,7 +521,7 @@ export const PRODUCTS: Product[] = [
   // 8. P.NO 1700-A
   {
     id: 'prod-1700-a',
-    slug: 'premium-printed-collar-stripe-gradient-1700-a',
+    slug: 'premium-printed-collar-stripe-gradient',
     pno: '1700',
     name: 'Premium Printed Collar T-Shirt, Stripe Gradient',
     category: 'polo-collar',
@@ -552,7 +552,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'rose-pink',
         hex: COLOUR_PALETTE['rose-pink'].hex,
         patternImage: '/products/1700-A/swatch-rose-pink.jpg',
-        images: ['/products/1700-A/rose-pink.jpg', '/catalog/pno-1700-stripes.jpg'],
+        images: ['/products/1700-A/rose-pink.jpg'],
         stockBySize: { M: 8, L: 6, XL: 3 },
       },
       {
@@ -561,7 +561,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'sky-blue',
         hex: COLOUR_PALETTE['sky-blue'].hex,
         patternImage: '/products/1700-A/swatch-sky-blue.jpg',
-        images: ['/products/1700-A/sky-blue.jpg', '/catalog/pno-1700-stripes.jpg'],
+        images: ['/products/1700-A/sky-blue.jpg'],
         stockBySize: { M: 10, L: 7, XL: 2 },
       },
       {
@@ -570,7 +570,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'lilac-grey',
         hex: COLOUR_PALETTE['lilac-grey'].hex,
         patternImage: '/products/1700-A/swatch-lilac-grey.jpg',
-        images: ['/products/1700-A/lilac-grey.jpg', '/catalog/pno-1700-stripes.jpg'],
+        images: ['/products/1700-A/lilac-grey.jpg'],
         stockBySize: { M: 5, L: 3, XL: 1 },
       },
       {
@@ -579,7 +579,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'sand-beige',
         hex: COLOUR_PALETTE['sand-beige'].hex,
         patternImage: '/products/1700-A/swatch-sand-beige.jpg',
-        images: ['/products/1700-A/sand-beige.jpg', '/catalog/pno-1700-stripes.jpg'],
+        images: ['/products/1700-A/sand-beige.jpg'],
         stockBySize: { M: 9, L: 6, XL: 4 },
       },
       {
@@ -588,7 +588,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'sage-green',
         hex: COLOUR_PALETTE['sage-green'].hex,
         patternImage: '/products/1700-A/swatch-sage-green.jpg',
-        images: ['/products/1700-A/sage-green.jpg', '/catalog/pno-1700-stripes.jpg'],
+        images: ['/products/1700-A/sage-green.jpg'],
         stockBySize: { M: 7, L: 8, XL: 3 },
       },
     ],
@@ -597,7 +597,7 @@ export const PRODUCTS: Product[] = [
   // 9. P.NO 1700-B
   {
     id: 'prod-1700-b',
-    slug: 'premium-printed-collar-abstract-1700-b',
+    slug: 'premium-printed-collar-abstract',
     pno: '1700',
     name: 'Premium Printed Collar T-Shirt, Abstract',
     category: 'polo-collar',
@@ -628,7 +628,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-01',
         hex: '#A8C4A2',
         patternImage: '/products/1700-B/swatch-design-01.jpg',
-        images: ['/products/1700-B/design-01.jpg', '/catalog/pno-1700-abstract.jpg'],
+        images: ['/products/1700-B/design-01.jpg'],
         stockBySize: { M: 7, L: 5, XL: 2 },
       },
       {
@@ -637,7 +637,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-02',
         hex: '#7DB6E3',
         patternImage: '/products/1700-B/swatch-design-02.jpg',
-        images: ['/products/1700-B/design-02.jpg', '/catalog/pno-1700-abstract.jpg'],
+        images: ['/products/1700-B/design-02.jpg'],
         stockBySize: { M: 8, L: 6, XL: 3 },
       },
       {
@@ -646,7 +646,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-03',
         hex: '#D890A8',
         patternImage: '/products/1700-B/swatch-design-03.jpg',
-        images: ['/products/1700-B/design-03.jpg', '/catalog/pno-1700-abstract.jpg'],
+        images: ['/products/1700-B/design-03.jpg'],
         stockBySize: { M: 6, L: 4, XL: 1 },
       },
       {
@@ -655,7 +655,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-04',
         hex: '#D2B48C',
         patternImage: '/products/1700-B/swatch-design-04.jpg',
-        images: ['/products/1700-B/design-04.jpg', '/catalog/pno-1700-abstract.jpg'],
+        images: ['/products/1700-B/design-04.jpg'],
         stockBySize: { M: 5, L: 7, XL: 2 },
       },
       {
@@ -664,7 +664,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-05',
         hex: '#8FD1B0',
         patternImage: '/products/1700-B/swatch-design-05.jpg',
-        images: ['/products/1700-B/design-05.jpg', '/catalog/pno-1700-abstract.jpg'],
+        images: ['/products/1700-B/design-05.jpg'],
         stockBySize: { M: 9, L: 5, XL: 3 },
       },
     ],
@@ -673,7 +673,7 @@ export const PRODUCTS: Product[] = [
   // 10. P.NO 711
   {
     id: 'prod-711',
-    slug: 'jacquard-half-sleeve-711',
+    slug: 'jacquard-half-sleeve',
     pno: '711',
     name: 'Jacquard Half Sleeve T-Shirt',
     category: 'jacquard',
@@ -703,7 +703,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/711/black.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/black.jpg'],
         stockBySize: { S: 9, M: 7, L: 5, XL: 2 },
       },
       {
@@ -711,7 +711,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Mint Green',
         colourSlug: 'mint-green',
         hex: COLOUR_PALETTE['mint-green'].hex,
-        images: ['/products/711/mint-green.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/mint-green.jpg'],
         stockBySize: { S: 5, M: 4, L: 2, XL: 1 },
       },
       {
@@ -719,7 +719,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Rust',
         colourSlug: 'rust',
         hex: COLOUR_PALETTE.rust.hex,
-        images: ['/products/711/rust.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/rust.jpg'],
         stockBySize: { S: 7, M: 6, L: 4, XL: 3 },
       },
       {
@@ -727,7 +727,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Charcoal',
         colourSlug: 'charcoal',
         hex: COLOUR_PALETTE.charcoal.hex,
-        images: ['/products/711/charcoal.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/charcoal.jpg'],
         stockBySize: { S: 11, M: 9, L: 6, XL: 3 },
       },
       {
@@ -735,7 +735,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Lemon',
         colourSlug: 'lemon',
         hex: COLOUR_PALETTE.lemon.hex,
-        images: ['/products/711/lemon.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/lemon.jpg'],
         stockBySize: { S: 4, M: 5, L: 2, XL: 1 },
       },
       {
@@ -743,7 +743,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/711/white.jpg', '/catalog/pno-711.jpg'],
+        images: ['/products/711/white.jpg'],
         stockBySize: { S: 10, M: 12, L: 8, XL: 4 },
       },
     ],
@@ -752,7 +752,7 @@ export const PRODUCTS: Product[] = [
   // 11. P.NO 1005
   {
     id: 'prod-1005',
-    slug: 'jacquard-full-sleeve-1005',
+    slug: 'jacquard-full-sleeve',
     pno: '1005',
     name: 'Jacquard Full Sleeve T-Shirt',
     category: 'jacquard',
@@ -783,7 +783,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Rust',
         colourSlug: 'rust',
         hex: COLOUR_PALETTE.rust.hex,
-        images: ['/products/1005/rust.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/rust.jpg'],
         stockBySize: { S: 8, M: 7, L: 4, XL: 2 },
       },
       {
@@ -791,7 +791,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Mint Green',
         colourSlug: 'mint-green',
         hex: COLOUR_PALETTE['mint-green'].hex,
-        images: ['/products/1005/mint-green.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/mint-green.jpg'],
         stockBySize: { S: 6, M: 5, L: 3, XL: 1 },
       },
       {
@@ -799,7 +799,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Black',
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
-        images: ['/products/1005/black.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/black.jpg'],
         stockBySize: { S: 14, M: 12, L: 8, XL: 4 },
       },
       {
@@ -807,7 +807,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Charcoal',
         colourSlug: 'charcoal',
         hex: COLOUR_PALETTE.charcoal.hex,
-        images: ['/products/1005/charcoal.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/charcoal.jpg'],
         stockBySize: { S: 10, M: 8, L: 6, XL: 3 },
       },
       {
@@ -815,7 +815,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'Lemon',
         colourSlug: 'lemon',
         hex: COLOUR_PALETTE.lemon.hex,
-        images: ['/products/1005/lemon.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/lemon.jpg'],
         stockBySize: { S: 5, M: 4, L: 2, XL: 1 },
       },
       {
@@ -823,7 +823,7 @@ export const PRODUCTS: Product[] = [
         colourName: 'White',
         colourSlug: 'white',
         hex: COLOUR_PALETTE.white.hex,
-        images: ['/products/1005/white.jpg', '/catalog/pno-1005.jpg'],
+        images: ['/products/1005/white.jpg'],
         stockBySize: { S: 12, M: 11, L: 7, XL: 4 },
       },
     ],
@@ -832,7 +832,7 @@ export const PRODUCTS: Product[] = [
   // 12. P.NO 701
   {
     id: 'prod-701',
-    slug: 'royal-print-jacquard-half-sleeve-701',
+    slug: 'royal-print-jacquard-half-sleeve',
     pno: '701',
     name: 'Royal Print Jacquard Half Sleeve T-Shirt',
     category: 'jacquard',
@@ -863,7 +863,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'green',
         hex: COLOUR_PALETTE.green.hex,
         patternImage: '/products/701/swatch-green.jpg',
-        images: ['/products/701/green.jpg', '/catalog/pno-701.jpg'],
+        images: ['/products/701/green.jpg'],
         stockBySize: { M: 10, L: 8, XL: 3 },
       },
       {
@@ -872,7 +872,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
         patternImage: '/products/701/swatch-black.jpg',
-        images: ['/products/701/black.jpg', '/catalog/pno-701.jpg'],
+        images: ['/products/701/black.jpg'],
         stockBySize: { M: 15, L: 11, XL: 5 },
       },
       {
@@ -881,7 +881,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'lavender',
         hex: COLOUR_PALETTE.lavender.hex,
         patternImage: '/products/701/swatch-lavender.jpg',
-        images: ['/products/701/lavender.jpg', '/catalog/pno-701.jpg'],
+        images: ['/products/701/lavender.jpg'],
         stockBySize: { M: 6, L: 4, XL: 2 },
       },
       {
@@ -890,7 +890,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'grey',
         hex: COLOUR_PALETTE['d-grey'].hex,
         patternImage: '/products/701/swatch-grey.jpg',
-        images: ['/products/701/grey.jpg', '/catalog/pno-701.jpg'],
+        images: ['/products/701/grey.jpg'],
         stockBySize: { M: 7, L: 5, XL: 2 },
       },
       {
@@ -899,7 +899,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'chocolate',
         hex: COLOUR_PALETTE.chocolate.hex,
         patternImage: '/products/701/swatch-chocolate.jpg',
-        images: ['/products/701/chocolate.jpg', '/catalog/pno-701.jpg'],
+        images: ['/products/701/chocolate.jpg'],
         stockBySize: { M: 8, L: 6, XL: 3 },
       },
     ],
@@ -908,7 +908,7 @@ export const PRODUCTS: Product[] = [
   // 13. P.NO 1007
   {
     id: 'prod-1007',
-    slug: 'royal-print-jacquard-full-sleeve-1007',
+    slug: 'royal-print-jacquard-full-sleeve',
     pno: '1007',
     name: 'Royal Print Jacquard Full Sleeve T-Shirt',
     category: 'jacquard',
@@ -939,7 +939,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'green',
         hex: COLOUR_PALETTE.green.hex,
         patternImage: '/products/1007/swatch-green.jpg',
-        images: ['/products/1007/green.jpg', '/catalog/pno-1007.jpg'],
+        images: ['/products/1007/green.jpg'],
         stockBySize: { M: 18, L: 14, XL: 6 },
       },
       {
@@ -948,7 +948,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'black',
         hex: COLOUR_PALETTE.black.hex,
         patternImage: '/products/1007/swatch-black.jpg',
-        images: ['/products/1007/black.jpg', '/catalog/pno-1007.jpg'],
+        images: ['/products/1007/black.jpg'],
         stockBySize: { M: 22, L: 16, XL: 8 },
       },
       {
@@ -957,7 +957,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'lavender',
         hex: COLOUR_PALETTE.lavender.hex,
         patternImage: '/products/1007/swatch-lavender.jpg',
-        images: ['/products/1007/lavender.jpg', '/catalog/pno-1007.jpg'],
+        images: ['/products/1007/lavender.jpg'],
         stockBySize: { M: 8, L: 5, XL: 2 },
       },
       {
@@ -966,7 +966,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'grey',
         hex: COLOUR_PALETTE['d-grey'].hex,
         patternImage: '/products/1007/swatch-grey.jpg',
-        images: ['/products/1007/grey.jpg', '/catalog/pno-1007.jpg'],
+        images: ['/products/1007/grey.jpg'],
         stockBySize: { M: 10, L: 7, XL: 3 },
       },
       {
@@ -975,7 +975,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'chocolate',
         hex: COLOUR_PALETTE.chocolate.hex,
         patternImage: '/products/1007/swatch-chocolate.jpg',
-        images: ['/products/1007/chocolate.jpg', '/catalog/pno-1007.jpg'],
+        images: ['/products/1007/chocolate.jpg'],
         stockBySize: { M: 9, L: 6, XL: 3 },
       },
     ],
@@ -984,7 +984,7 @@ export const PRODUCTS: Product[] = [
   // 14. P.NO 102
   {
     id: 'prod-102',
-    slug: 'tai-dai-print-half-sleeve-102',
+    slug: 'tai-dai-print-half-sleeve',
     pno: '102',
     name: 'Tai Dai Print T-Shirt',
     category: 'printed',
@@ -1016,7 +1016,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'r-gold',
         hex: COLOUR_PALETTE['r-gold'].hex,
         patternImage: '/products/102/swatch-r-gold.jpg',
-        images: ['/products/102/r-gold.jpg', '/catalog/pno-102.jpg'],
+        images: ['/products/102/r-gold.jpg'],
         stockBySize: { M: 12, L: 10, XL: 4 },
       },
       {
@@ -1025,7 +1025,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'lavender',
         hex: COLOUR_PALETTE.lavender.hex,
         patternImage: '/products/102/swatch-lavender.jpg',
-        images: ['/products/102/lavender.jpg', '/catalog/pno-102.jpg'],
+        images: ['/products/102/lavender.jpg'],
         stockBySize: { M: 8, L: 6, XL: 2 },
       },
       {
@@ -1034,7 +1034,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'd-grey',
         hex: COLOUR_PALETTE['d-grey'].hex,
         patternImage: '/products/102/swatch-d-grey.jpg',
-        images: ['/products/102/d-grey.jpg', '/catalog/pno-102.jpg'],
+        images: ['/products/102/d-grey.jpg'],
         stockBySize: { M: 11, L: 8, XL: 3 },
       },
       {
@@ -1043,7 +1043,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'pista',
         hex: COLOUR_PALETTE.pista.hex,
         patternImage: '/products/102/swatch-pista.jpg',
-        images: ['/products/102/pista.jpg', '/catalog/pno-102.jpg'],
+        images: ['/products/102/pista.jpg'],
         stockBySize: { M: 7, L: 5, XL: 2 },
       },
       {
@@ -1052,7 +1052,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'choco',
         hex: COLOUR_PALETTE.choco.hex,
         patternImage: '/products/102/swatch-choco.jpg',
-        images: ['/products/102/choco.jpg', '/catalog/pno-102.jpg'],
+        images: ['/products/102/choco.jpg'],
         stockBySize: { M: 9, L: 7, XL: 3 },
       },
     ],
@@ -1061,7 +1061,7 @@ export const PRODUCTS: Product[] = [
   // 15. P.NO 1002
   {
     id: 'prod-1002',
-    slug: 'tai-dai-print-full-sleeve-1002',
+    slug: 'tai-dai-print-full-sleeve',
     pno: '1002',
     name: 'Tai Dai Print Full Sleeve T-Shirt',
     category: 'printed',
@@ -1093,7 +1093,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'r-gold',
         hex: COLOUR_PALETTE['r-gold'].hex,
         patternImage: '/products/1002/swatch-r-gold.jpg',
-        images: ['/products/1002/r-gold.jpg', '/catalog/pno-1002.jpg'],
+        images: ['/products/1002/r-gold.jpg'],
         stockBySize: { M: 9, L: 7, XL: 3 },
       },
       {
@@ -1102,7 +1102,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'lavender',
         hex: COLOUR_PALETTE.lavender.hex,
         patternImage: '/products/1002/swatch-lavender.jpg',
-        images: ['/products/1002/lavender.jpg', '/catalog/pno-1002.jpg'],
+        images: ['/products/1002/lavender.jpg'],
         stockBySize: { M: 6, L: 4, XL: 1 },
       },
       {
@@ -1111,7 +1111,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'd-grey',
         hex: COLOUR_PALETTE['d-grey'].hex,
         patternImage: '/products/1002/swatch-d-grey.jpg',
-        images: ['/products/1002/d-grey.jpg', '/catalog/pno-1002.jpg'],
+        images: ['/products/1002/d-grey.jpg'],
         stockBySize: { M: 10, L: 8, XL: 4 },
       },
       {
@@ -1120,7 +1120,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'pista',
         hex: COLOUR_PALETTE.pista.hex,
         patternImage: '/products/1002/swatch-pista.jpg',
-        images: ['/products/1002/pista.jpg', '/catalog/pno-1002.jpg'],
+        images: ['/products/1002/pista.jpg'],
         stockBySize: { M: 8, L: 5, XL: 2 },
       },
       {
@@ -1129,7 +1129,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'choco',
         hex: COLOUR_PALETTE.choco.hex,
         patternImage: '/products/1002/swatch-choco.jpg',
-        images: ['/products/1002/choco.jpg', '/catalog/pno-1002.jpg'],
+        images: ['/products/1002/choco.jpg'],
         stockBySize: { M: 7, L: 6, XL: 3 },
       },
     ],
@@ -1138,7 +1138,7 @@ export const PRODUCTS: Product[] = [
   // 16. P.NO 800
   {
     id: 'prod-800',
-    slug: 'premium-printed-round-neck-800',
+    slug: 'premium-printed-round-neck',
     pno: '800',
     name: 'Premium Printed Round Neck T-Shirt',
     category: 'printed',
@@ -1169,7 +1169,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-01',
         hex: '#1B2A4A',
         patternImage: '/products/800/swatch-design-01.jpg',
-        images: ['/products/800/design-01.jpg', '/catalog/pno-800.jpg'],
+        images: ['/products/800/design-01.jpg'],
         stockBySize: { M: 8, L: 6, XL: 3 },
       },
       {
@@ -1178,7 +1178,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-02',
         hex: '#1F4D3A',
         patternImage: '/products/800/swatch-design-02.jpg',
-        images: ['/products/800/design-02.jpg', '/catalog/pno-800.jpg'],
+        images: ['/products/800/design-02.jpg'],
         stockBySize: { M: 9, L: 7, XL: 2 },
       },
       {
@@ -1187,7 +1187,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-03',
         hex: '#4C79C6',
         patternImage: '/products/800/swatch-design-03.jpg',
-        images: ['/products/800/design-03.jpg', '/catalog/pno-800.jpg'],
+        images: ['/products/800/design-03.jpg'],
         stockBySize: { M: 6, L: 4, XL: 2 },
       },
       {
@@ -1196,7 +1196,7 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-04',
         hex: '#8D8D92',
         patternImage: '/products/800/swatch-design-04.jpg',
-        images: ['/products/800/design-04.jpg', '/catalog/pno-800.jpg'],
+        images: ['/products/800/design-04.jpg'],
         stockBySize: { M: 11, L: 8, XL: 4 },
       },
       {
@@ -1205,9 +1205,29 @@ export const PRODUCTS: Product[] = [
         colourSlug: 'design-05',
         hex: '#2F3338',
         patternImage: '/products/800/swatch-design-05.jpg',
-        images: ['/products/800/design-05.jpg', '/catalog/pno-800.jpg'],
+        images: ['/products/800/design-05.jpg'],
         stockBySize: { M: 7, L: 5, XL: 1 },
       },
     ],
   },
 ];
+
+export const OLD_SLUG_MAP: Record<string, string> = {
+  'premium-matty-round-neck-500': 'premium-matty-round-neck',
+  '2-way-round-neck-107': 'two-way-round-neck',
+  'imported-tencil-round-neck-600': 'imported-tencil-round-neck',
+  'premium-waffle-round-neck-501': 'premium-waffle-round-neck',
+  'premium-matty-polo-1400': 'premium-matty-polo',
+  'jacquard-half-sleeve-polo-105': 'jacquard-half-sleeve-polo',
+  'waffle-polo-1401': 'waffle-polo',
+  'premium-printed-collar-stripe-gradient-1700-a': 'premium-printed-collar-stripe-gradient',
+  'premium-printed-collar-abstract-1700-b': 'premium-printed-collar-abstract',
+  'jacquard-half-sleeve-711': 'jacquard-half-sleeve',
+  'jacquard-full-sleeve-1005': 'jacquard-full-sleeve',
+  'royal-print-jacquard-half-sleeve-701': 'royal-print-jacquard-half-sleeve',
+  'royal-print-jacquard-full-sleeve-1007': 'royal-print-jacquard-full-sleeve',
+  'tai-dai-print-half-sleeve-102': 'tai-dai-print-half-sleeve',
+  'tai-dai-print-full-sleeve-1002': 'tai-dai-print-full-sleeve',
+  'premium-printed-round-neck-800': 'premium-printed-round-neck',
+  'style-1007-china-jacquard-full-sleeve-round-neck': 'royal-print-jacquard-full-sleeve',
+};

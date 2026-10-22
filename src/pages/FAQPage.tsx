@@ -69,14 +69,14 @@ const FAQ_LIST: FAQItem[] = [
     category: 'fabrics',
     question: 'Will these t-shirts shrink after machine washing?',
     answer:
-      'All our fabrics undergo a rigorous pre-shrunk wash treatment during finishing to minimize post-laundry shrinkage. When washed according to label guidelines (cold wash, low heat or air drying), shrinkage is virtually undetectable.',
+      'All our fabrics are engineered with durable shape retention knits to maintain their structure and fit. When washed according to label guidelines (cold wash, gentle cycle, dry in shade), shape and drape are reliably preserved.',
   },
   {
     id: 'f-8',
     category: 'returns',
     question: 'What is your exchange and return policy?',
     answer:
-      'We offer an effortless 7-Day Doorstep Size Exchange. If your t-shirt does not fit perfectly, initiate an exchange request and our courier partner will collect the item directly from your address. The item must be unused, unwashed, and with tags attached.',
+      'We offer a hassle-free 7-Day Exchange & Return window. If your t-shirt does not fit perfectly, initiate an exchange request and our courier partner will collect the item directly from your address. The item must be unused, unwashed, and with tags attached.',
   },
   {
     id: 'f-9',
@@ -168,7 +168,7 @@ export const FAQPage: React.FC = () => {
               onClick={() => setSelectedCategory(cat.key)}
               className={`px-4 py-2 rounded-2xl text-xs font-bold whitespace-nowrap transition-all ${
                 selectedCategory === cat.key
-                  ? 'bg-ink-900 text-cream shadow-sm'
+                  ? 'bg-tab-active-bg text-tab-active-text shadow-sm'
                   : 'bg-surface-tint border border-border text-ink-600 hover:text-ink-900'
               }`}
             >

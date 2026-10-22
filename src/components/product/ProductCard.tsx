@@ -22,16 +22,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
   const navigate = useNavigate();
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
-  const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const isInWishlist = useWishlistStore((state) =>
+    state.items.some((p) => p.id === product.id)
+  );
   const addItem = useCartStore((state) => state.addItem);
-  const { openCart, openQuickView, addToast, setCursorMode, resetCursor } = useUIStore();
+  const openCart = useUIStore((state) => state.openCart);
+  const openQuickView = useUIStore((state) => state.openQuickView);
+  const addToast = useUIStore((state) => state.addToast);
+  const setCursorMode = useUIStore((state) => state.setCursorMode);
+  const resetCursor = useUIStore((state) => state.resetCursor);
 
   const activeVariant = hoveredVariant || selectedVariant;
   const isComingSoon = product.status === 'coming-soon';
 
   // Images: main image and alternate/second image for hover swap
-  const mainImage = activeVariant.images?.[0] || product.variants[0]?.images?.[0] || product.catalogPoster;
-  const secondImage = activeVariant.images?.[1] || product.catalogPoster;
+  const mainImage = activeVariant.images?.[0] || product.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg';
+  const secondImage = activeVariant.images?.[1] || mainImage;
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -88,18 +94,18 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
   return (
     <div
       className={`product-card-container group relative flex flex-col bg-surface rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-soft-hover ${className}`}
-      onMouseEnter={() => {
-        setIsHovered(true);
-        setCursorMode('view', 'VIEW');
-      }}
+      onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
         setHoveredVariant(null);
-        resetCursor();
       }}
     >
       {/* 4:5 Aspect Ratio Image Canvas */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-brand-cream/25 rounded-2xl">
+      <div
+        className="relative aspect-[4/5] w-full overflow-hidden bg-brand-cream/25 rounded-2xl"
+        onMouseEnter={() => setCursorMode('view', 'VIEW')}
+        onMouseLeave={() => resetCursor()}
+      >
         <Link to={`/product/${product.slug}`} className="block w-full h-full">
           {/* Main Photo with smooth crossfade and zoom */}
           <img
@@ -262,10 +268,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
       {/* Card Body Details */}
       <div className="pt-3.5 pb-2 px-1 flex flex-col flex-1 justify-between space-y-2">
-        {/* Style Code & Rating */}
+        {/* Category & Rating */}
         <div className="flex items-center justify-between text-xs text-ink-600">
-          <span className="font-semibold text-accent-700 tracking-wider text-[11px] uppercase">
-            Style Code: P.NO {product.pno}
+          <span className="font-semibold text-accent-700 tracking-wider text-[11px] uppercase truncate">
+            {product.categoryName}
           </span>
           {product.rating > 0 && (
             <div className="flex items-center gap-1 font-medium text-[11px] text-ink-700">

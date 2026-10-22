@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { motion } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -9,8 +8,6 @@ import {
   Feather,
   ShieldCheck,
   Check,
-  Award,
-  HeartHandshake,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
 
@@ -21,7 +18,7 @@ export const AboutPage: React.FC = () => {
         <title>{`About Us • Feel The Vibes | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Learn about Ateevibes - crafted for modern Indian men with architectural China jacquard weaves, waffle textures, and fair-price luxury."
+          content="Learn about Ateevibes — premium quality t-shirts engineered with dimensional knits, all-day comfort, and our signature Same Print, Different Vibes concept."
         />
       </Helmet>
 
@@ -34,11 +31,11 @@ export const AboutPage: React.FC = () => {
           </div>
 
           <h1 className="font-display text-4xl sm:text-6xl font-black text-ink-900 tracking-tight leading-tight">
-            Tired of Flat Cotton. Built for Tactile Vibes.
+            Knitted for Texture. Built for Comfort.
           </h1>
 
           <p className="text-base sm:text-lg text-ink-700 leading-relaxed font-normal">
-            Ateevibes was founded on a simple observation: men’s daily t-shirts had become boring, flat, and disposable. We set out to engineer rich knit architectures that make every day feel like a statement.
+            Ateevibes brings together modern fit, durable craftsmanship, and premium quality knits. From textured China jacquards to soft waffle weaves, our collection is engineered for effortless all-day comfort.
           </p>
         </div>
 
@@ -46,24 +43,25 @@ export const AboutPage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-6 rounded-3xl overflow-hidden aspect-[4/5] bg-surface-tint border border-border shadow-md">
             <img
-              src="/catalog/1007-main.webp"
-              alt="Ateevibes Craftsmanship"
+              src="/catalog/about-craft.jpg"
+              alt="Ateevibes Knitwear Craftsmanship"
               className="w-full h-full object-cover"
+              loading="lazy"
             />
           </div>
 
           <div className="md:col-span-6 space-y-6">
             <span className="text-xs font-bold uppercase tracking-widest text-accent-700">
-              Our Creative Foundation
+              Our Core Concept
             </span>
             <h2 className="font-display text-3xl font-black text-ink-900">
               Same Print, Different Vibes.
             </h2>
             <p className="text-xs sm:text-sm text-ink-700 leading-relaxed">
-              We believe great design shouldn’t be locked into a single shade. Our signature &ldquo;Same Print, Different Vibes&rdquo; philosophy starts with intricately engineered China jacquard or artistic dye prints, then explores how that exact geometric weave transforms across distinct tones.
+              We believe great design shouldn’t be locked into a single mood. Our signature &ldquo;Same Print, Different Vibes&rdquo; philosophy explores how an intricately engineered knit pattern or graphic motif transforms across distinct, curated color palettes.
             </p>
             <p className="text-xs sm:text-sm text-ink-700 leading-relaxed">
-              Whether you dress in understated sage tones or bold royal golds, the architecture of the garment stays crisp, structured, and unmistakably distinct.
+              Whether you choose subtle muted neutrals or vibrant statement colorways, each garment delivers a perfect fit with bright and long-lasting prints that maintain their vibrancy wear after wear.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4">
@@ -77,7 +75,7 @@ export const AboutPage: React.FC = () => {
               </div>
               <div className="p-4 rounded-2xl bg-surface-tint border border-border flex-1 min-w-[140px]">
                 <span className="font-display text-2xl font-black text-ink-900 block">100%</span>
-                <span className="text-xs text-ink-600">Pre-Shrunk Washed</span>
+                <span className="text-xs text-ink-600">Shape Retention</span>
               </div>
             </div>
           </div>
@@ -87,10 +85,10 @@ export const AboutPage: React.FC = () => {
         <div className="space-y-8">
           <div className="text-center space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
-              Guiding Principles
+              Design Philosophy
             </span>
             <h2 className="font-display text-3xl sm:text-4xl font-black text-ink-900">
-              What Sets Ateevibes Apart
+              What Defines Our Garments
             </h2>
           </div>
 
@@ -99,9 +97,9 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <Layers className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Architectural Knits</h3>
+              <h3 className="font-display text-xl font-bold text-ink-900">Breathable Knits</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
-                We craft dimensional textures—including 3D China jacquards, waffle honeycombs, and pique matty—that look premium and resist body clinging.
+                We craft dimensional textures—including China jacquards, waffle honeycombs, and pique matty—that are lightweight, breathable, and moisture friendly.
               </p>
             </div>
 
@@ -109,9 +107,9 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <Feather className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Tailored Indian Fit</h3>
+              <h3 className="font-display text-xl font-bold text-ink-900">Modern Fit</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
-                Patterned specifically for Indian body shapes: clean shoulder taper, flattering bicep fit, and balanced hem length that never looks sloppy untucked.
+                Designed for contemporary silhouettes: balanced shoulder structure, clean drape, and a trendy look that offers all-day comfort.
               </p>
             </div>
 
@@ -119,9 +117,9 @@ export const AboutPage: React.FC = () => {
               <div className="w-12 h-12 rounded-2xl bg-white border border-border flex items-center justify-center text-accent-700 shadow-sm">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="font-display text-xl font-bold text-ink-900">Radical Honesty</h3>
+              <h3 className="font-display text-xl font-bold text-ink-900">Premium Quality</h3>
               <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
-                No fake certification badges or inflated marketing claims. We deliver honest craftsmanship directly to your doorstep at fair direct-to-consumer prices.
+                Soft and comfortable fabric blends engineered for durability and reliable shape retention throughout everyday rotation.
               </p>
             </div>
           </div>
@@ -131,21 +129,21 @@ export const AboutPage: React.FC = () => {
         <div className="bg-white rounded-3xl border border-border p-8 sm:p-12 shadow-sm space-y-6">
           <div className="space-y-1">
             <span className="text-xs font-bold uppercase tracking-wider text-accent-700">
-              The Atelier Standard
+              Garment Standards
             </span>
             <h3 className="font-display text-2xl font-bold text-ink-900">
-              Every Ateevibes Garment Includes:
+              Engineered For Everyday Wear:
             </h3>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
             {[
-              'Pre-shrunk fabric wash to minimize post-laundry shrinkage',
-              'Reinforced rib collar bands that maintain shape wash after wash',
-              'Double-needle lockstitch on sleeves and bottom hem',
-              'Skin-friendly dyes resistant to color fading in Indian sunshine',
-              'Lightweight breathable recovery yarns for hot & humid days',
-              'Individual tamper-evident, sealed parcel packaging',
+              'Soft and comfortable fabric blends for daily wear',
+              'Shape retention construction that maintains its modern fit',
+              'Breathable, lightweight knitwear for active comfort',
+              'Skin friendly materials with smooth touch feel',
+              'Bright and long-lasting print and dye quality',
+              'Stretchable fabric for ease of movement and flexibility',
             ].map((item, idx) => (
               <div key={idx} className="flex items-start gap-3">
                 <div className="w-5 h-5 rounded-full bg-brand-green/40 flex items-center justify-center flex-shrink-0 mt-0.5">

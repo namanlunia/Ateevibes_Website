@@ -14,7 +14,11 @@ export const useRecentlyViewedStore = create<RecentlyViewedState>()(
       items: [],
 
       addProduct: (product) => {
-        const filtered = get().items.filter((p) => p.id !== product.id);
+        const current = get().items;
+        if (current.length > 0 && current[0].id === product.id) {
+          return;
+        }
+        const filtered = current.filter((p) => p.id !== product.id);
         const updated = [product, ...filtered].slice(0, 8); // Keep up to 8
         set({ items: updated });
       },

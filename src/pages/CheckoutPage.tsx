@@ -72,7 +72,7 @@ export const CheckoutPage: React.FC = () => {
       addressLine2: '',
       landmark: '',
       city: '',
-      state: 'Gujarat',
+      state: '',
       pincode: '',
       isDefault: false,
     };
@@ -289,12 +289,16 @@ export const CheckoutPage: React.FC = () => {
       <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Top Header */}
         <div className="flex items-center justify-between pb-6 border-b border-border mb-8">
-          <Link to="/" className="inline-block">
-            <img src="/brand/logo.png" alt="Ateevibes" className="h-8 w-auto" />
+          <Link
+            to="/cart"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-ink-700 hover:text-ink-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Return to bag</span>
           </Link>
           <div className="flex items-center gap-1.5 text-xs text-ink-600 font-semibold bg-surface-tint border border-border px-3 py-1.5 rounded-full">
             <Lock className="w-3.5 h-3.5 text-accent-700" />
-            <span>256-Bit SSL Demo Checkout</span>
+            <span>Demo checkout. No real payment is taken.</span>
           </div>
         </div>
 
@@ -318,7 +322,7 @@ export const CheckoutPage: React.FC = () => {
                       isPassed
                         ? 'bg-status-success text-white'
                         : isCurrent
-                        ? 'bg-ink-900 text-brand-cream ring-4 ring-brand-green/40 shadow-sm'
+                        ? 'bg-tab-active-bg text-tab-active-text ring-4 ring-brand-green/40 shadow-sm'
                         : 'bg-surface border-2 border-border text-ink-600'
                     }`}
                   >
@@ -362,7 +366,7 @@ export const CheckoutPage: React.FC = () => {
                 <div key={i.id} className="flex items-center justify-between text-xs">
                   <div className="flex items-center gap-2">
                     <img
-                      src={i.variant?.images?.[0] || i.product?.catalogPoster}
+                      src={i.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                       alt={i.product?.name}
                       className="w-8 h-10 object-cover rounded"
                     />
@@ -552,6 +556,7 @@ export const CheckoutPage: React.FC = () => {
                       onChange={(e) => setAddressData({ ...addressData, state: e.target.value })}
                       className="w-full px-4 py-2.5 bg-surface-tint border border-border focus:border-ink-900 rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none"
                     >
+                      <option value="">Select state</option>
                       {INDIAN_STATES.map((st) => (
                         <option key={st} value={st}>
                           {st}
@@ -994,7 +999,7 @@ export const CheckoutPage: React.FC = () => {
                   <div key={item.id} className="flex items-center justify-between gap-3 text-xs">
                     <div className="flex items-center gap-2.5">
                       <img
-                        src={item.variant?.images?.[0] || item.product?.catalogPoster}
+                        src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                         alt={item.product?.name}
                         className="w-10 h-12 rounded-lg object-cover bg-white border border-border shrink-0"
                       />
@@ -1050,7 +1055,7 @@ export const CheckoutPage: React.FC = () => {
               {/* Security info */}
               <div className="p-3 bg-white rounded-xl border border-border text-[11px] text-ink-600 flex items-center gap-2">
                 <ShieldCheck className="w-4 h-4 text-accent-700 shrink-0" />
-                <span>Protected by end-to-end 256-bit encryption</span>
+                <span>Demo checkout. No real payment is taken.</span>
               </div>
             </div>
           </div>

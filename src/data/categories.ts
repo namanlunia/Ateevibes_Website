@@ -75,13 +75,6 @@ export const CATEGORIES: Category[] = [
 
 export const QUICK_COLLECTIONS = [
   {
-    slug: 'full-sleeve',
-    name: 'Full Sleeve Collection',
-    tagline: 'Year-round layering & structured fits',
-    description: 'Explore our full-sleeve lineup in China jacquard, tai-dai prints, and textured knits.',
-    filterTag: 'full-sleeve',
-  },
-  {
     slug: 'new-arrivals',
     name: 'New Arrivals',
     tagline: 'Fresh drops straight from the atelier',

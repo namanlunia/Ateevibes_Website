@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import { Heart, ShoppingBag, Trash2, Share2, ArrowRight } from 'lucide-react';
+import { PRODUCTS } from '../data/products';
 import { useWishlistStore } from '../store/wishlistStore';
 import { useCartStore } from '../store/cartStore';
 import { useUIStore } from '../store/uiStore';
@@ -10,9 +11,15 @@ import { formatPrice } from '../lib/format';
 import { siteConfig } from '../config/site';
 
 export const WishlistPage: React.FC = () => {
-  const items = useWishlistStore((state) => state.items);
+  const rawItems = useWishlistStore((state) => state.items);
   const removeItem = useWishlistStore((state) => state.removeItem);
   const clearWishlist = useWishlistStore((state) => state.clearWishlist);
+
+  // Always resolve latest product data by id to ensure updated slugs and details
+  const items = React.useMemo(
+    () => rawItems.map((item) => PRODUCTS.find((p) => p.id === item.id) || item),
+    [rawItems]
+  );
 
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useUIStore((state) => state.openCart);
@@ -120,7 +127,7 @@ export const WishlistPage: React.FC = () => {
                   <div className="relative aspect-[4/5] bg-brand-cream/25 overflow-hidden">
                     <Link to={`/product/${product.slug}`} className="block w-full h-full">
                       <img
-                        src={product.variants[0]?.images?.[0] || product.catalogPoster}
+                        src={product.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
@@ -134,10 +141,6 @@ export const WishlistPage: React.FC = () => {
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
-
-                    <div className="absolute top-3 left-3 bg-ink-900 text-brand-cream text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
-                      P.NO {product.pno}
-                    </div>
                   </div>
 
                   <div className="p-4 space-y-3 flex flex-col flex-1 justify-between">

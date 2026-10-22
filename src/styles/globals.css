@@ -83,6 +83,10 @@
 
 /* Primary Button Slide Hover Effect */
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   position: relative;
   overflow: hidden;
   background-color: var(--ink-900);
@@ -123,6 +127,10 @@
 
 /* Secondary Button */
 .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   position: relative;
   overflow: hidden;
   border: 1.5px solid var(--ink-900);
@@ -204,14 +212,14 @@
 }
 
 .cursor-ring.cursor-view {
-  width: 72px;
-  height: 72px;
-  background-color: rgba(28, 36, 26, 0.88);
-  border-color: transparent;
+  width: 48px;
+  height: 48px;
+  background-color: rgba(28, 36, 26, 0.92);
+  border-color: rgba(255, 255, 255, 0.2);
   color: var(--cream);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 

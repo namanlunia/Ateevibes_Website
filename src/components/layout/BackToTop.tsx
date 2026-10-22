@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp } from 'lucide-react';
 
 export const BackToTop: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -21,6 +23,11 @@ export const BackToTop: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Hide on checkout
+  if (location.pathname.startsWith('/checkout')) {
+    return null;
+  }
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -40,7 +47,7 @@ export const BackToTop: React.FC = () => {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           transition={{ duration: 0.25 }}
-          className="fixed bottom-6 right-6 z-40 p-3 rounded-full bg-white glass shadow-soft-hover border border-border text-ink-900 hover:border-ink-900 group transition-all"
+          className="fixed bottom-6 right-4 sm:right-6 z-40 p-3 rounded-full bg-white glass shadow-soft-hover border border-border text-ink-900 hover:border-ink-900 group transition-all"
         >
           {/* Progress Ring */}
           <svg className="w-10 h-10 -rotate-90 pointer-events-none" viewBox="0 0 44 44">

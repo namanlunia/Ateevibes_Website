@@ -28,10 +28,11 @@ import { Product, Variant, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
 import { TESTIMONIALS } from '../data/testimonials';
 import { COLOUR_PALETTE } from '../data/colours';
+import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
 
 // Fabric Story data (Approved catalog claims only)
-const FABRIC_STORIES = [
+export const FABRIC_STORIES = [
   {
     id: 'jacquard',
     name: 'Textured Jacquard',
@@ -40,7 +41,7 @@ const FABRIC_STORIES = [
       'Engineered on advanced jacquard looms, this dimensional knit creates subtle geometric relief that elevates any everyday rotation. Holds its crisp structure all day while allowing maximum airflow.',
     image: '/catalog/1007-main.webp',
     details: ['3D textured relief', 'Zero-cling drape', 'Shape retention collar', 'All-day breathability'],
-    recommendedStyle: 'Style 1007 • China Jacquard',
+    recommendedStyle: 'China Jacquard Knit',
     slug: 'jacquard',
   },
   {
@@ -48,10 +49,10 @@ const FABRIC_STORIES = [
     name: 'Silk-Touch Tencil',
     tagline: 'Ultra-Fluid Drape',
     description:
-      'Engineered with premium tencil yarns for a cool-to-touch hand feel and luxurious drape. Naturally manages moisture for peak comfort in humid Indian climates.',
-    image: '/products/503/black.jpg',
-    details: ['Cool-to-touch finish', 'Natural thermo-regulation', 'Fluid body contour', 'Gentle on sensitive skin'],
-    recommendedStyle: 'Style 503 • Tencil Round Neck',
+      'Engineered with premium tencil yarns for a cool-to-touch hand feel and luxurious drape. Naturally manages moisture for peak comfort.',
+    image: '/products/600/black.jpg',
+    details: ['Cool-to-touch finish', 'Natural thermo-regulation', 'Fluid body contour', 'Gentle on skin'],
+    recommendedStyle: 'Silk-Touch Tencil Round Neck',
     slug: 'round-neck',
   },
   {
@@ -61,8 +62,8 @@ const FABRIC_STORIES = [
     description:
       'Micro-air pockets woven directly into the waffle structure create superior thermal regulation and a tactile aesthetic that looks incredible styled solo or layered.',
     image: '/products/501/black.jpg',
-    details: ['Honeycomb air channels', 'Substantial texture', 'Engineered anti-sag hem', 'Pre-shrunk wash'],
-    recommendedStyle: 'Style 501 • Waffle Round Neck',
+    details: ['Honeycomb air channels', 'Substantial texture', 'Engineered anti-sag hem', 'Shape retention'],
+    recommendedStyle: 'Heavy Waffle Round Neck',
     slug: 'round-neck',
   },
   {
@@ -73,7 +74,7 @@ const FABRIC_STORIES = [
       'Our reinforced matty knit is woven for resilience and sharp lines. The firm honeycomb pique keeps collars crisp and holds vibrant hues wash after wash.',
     image: '/products/1400/white.jpg',
     details: ['Reinforced collar band', 'Tennis pique weave', 'Colorfast dyes', 'Built for daily versatility'],
-    recommendedStyle: 'Style 1400 • Matty Polo',
+    recommendedStyle: 'Matty Polo',
     slug: 'polo-collar',
   },
   {
@@ -83,8 +84,8 @@ const FABRIC_STORIES = [
     description:
       'Each garment is individually cloud-washed to ensure distinct character while maintaining matching core print geometry. Soft, vibrant, and made for individualists.',
     image: '/catalog/102-main.webp',
-    details: ['Cloud-washed softness', 'Unique gradient intensity', 'Reactive colorfast pigments', 'Double-needle hem'],
-    recommendedStyle: 'Style 102 • Tai Dai Full Sleeve',
+    details: ['Cloud-washed softness', 'Unique gradient intensity', 'Reactive colorfast pigments', 'Precision hem'],
+    recommendedStyle: 'Artisan Tai Dai Knit',
     slug: 'printed',
   },
   {
@@ -93,9 +94,9 @@ const FABRIC_STORIES = [
     tagline: 'Fluid Mobility',
     description:
       'Blended with targeted mechanical stretch to flex naturally with upper-body movement. Returns to shape instantly without bagging or collar deformation.',
-    image: '/products/502/black.jpg',
+    image: '/products/107/black.jpg',
     details: ['2-way mechanical recovery', 'Unrestricted shoulder motion', 'Crease-resistant finish', 'Ultra-lightweight'],
-    recommendedStyle: 'Style 502 • 2-Way Round Neck',
+    recommendedStyle: '2-Way Lycra Round Neck',
     slug: 'round-neck',
   },
 ];
@@ -109,8 +110,8 @@ const VALUE_PROPS = [
   },
   {
     icon: Feather,
-    title: 'Indian Body Contour',
-    description: 'Custom armhole depth, chest taper, and sleeve lengths measured specifically for modern Indian men.',
+    title: 'Modern Fit Contour',
+    description: 'Contemporary fit crafted with armhole depth, chest taper, and sleeve lengths for all-day comfort.',
   },
   {
     icon: ShieldCheck,
@@ -120,7 +121,7 @@ const VALUE_PROPS = [
   {
     icon: RefreshCw,
     title: '7-Day Easy Exchange',
-    description: 'Free doorstep size swaps and dedicated WhatsApp support so you never worry about finding your fit.',
+    description: 'Hassle-free size exchanges and dedicated WhatsApp support so you never worry about finding your fit.',
   },
 ];
 
@@ -219,6 +220,26 @@ export const HomePage: React.FC = () => {
 
   const activeFabric = FABRIC_STORIES.find((f) => f.id === activeFabricId) || FABRIC_STORIES[0];
 
+  const handleFabricTabKeyDown = (e: React.KeyboardEvent, index: number) => {
+    let targetIndex = -1;
+    if (e.key === 'ArrowRight') {
+      targetIndex = (index + 1) % FABRIC_STORIES.length;
+    } else if (e.key === 'ArrowLeft') {
+      targetIndex = (index - 1 + FABRIC_STORIES.length) % FABRIC_STORIES.length;
+    } else if (e.key === 'Home') {
+      targetIndex = 0;
+    } else if (e.key === 'End') {
+      targetIndex = FABRIC_STORIES.length - 1;
+    }
+
+    if (targetIndex !== -1) {
+      e.preventDefault();
+      const nextFabric = FABRIC_STORIES[targetIndex];
+      setActiveFabricId(nextFabric.id);
+      document.getElementById(`fabric-tab-${nextFabric.id}`)?.focus();
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -258,7 +279,7 @@ export const HomePage: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-ink-700 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                Engineered China jacquards, waffle weaves, and fluid tencil knitwear. Designed in India for contemporary men who demand tactile distinction and effortless comfort.
+                Engineered China jacquards, waffle weaves, and fluid tencil knitwear for contemporary men who demand tactile distinction and all-day comfort.
               </p>
 
               {/* CTAs */}
@@ -284,7 +305,7 @@ export const HomePage: React.FC = () => {
               <div className="pt-6 border-t border-border/60 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-ink-700 font-medium">
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
-                  <span>100% Breathable Knits</span>
+                  <span>Breathable fabric</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
@@ -292,7 +313,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-status-success" />
-                  <span>Doorstep Size Swaps</span>
+                  <span>7-Day Easy Returns</span>
                 </div>
               </div>
             </div>
@@ -306,18 +327,18 @@ export const HomePage: React.FC = () => {
                 className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl border-4 border-white group"
               >
                 <img
-                  src={heroProduct?.variants[0]?.images[0] || '/catalog/1007-main.webp'}
+                  src={heroProduct?.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
                   alt="Ateevibes Signature China Jacquard"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent flex flex-col justify-end p-6 sm:p-8 text-cream">
-                  <span className="text-[11px] font-bold uppercase tracking-widest text-brand-green">
-                    Featured Drop • Style 1007
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/40 to-transparent flex flex-col justify-end p-6 sm:p-8 text-brand-cream">
+                  <span className="inline-block px-2.5 py-1 rounded-full bg-white text-ink-900 text-[10px] font-extrabold uppercase tracking-widest shadow-sm w-fit mb-2">
+                    FEATURED DROP
                   </span>
-                  <h3 className="font-display text-2xl font-bold mt-1 text-white">
+                  <h3 className="font-display text-2xl font-bold text-white">
                     China Jacquard Knit
                   </h3>
-                  <p className="text-xs text-cream/80 mt-1">
+                  <p className="text-xs text-brand-cream/80 mt-1 line-clamp-2">
                     Structured 3D geometry in 6 mood-defining colorways.
                   </p>
                   <div className="flex items-center justify-between pt-4">
@@ -325,29 +346,13 @@ export const HomePage: React.FC = () => {
                       {heroProduct ? formatPrice(heroProduct.mrp) : '₹999'}
                     </span>
                     <Link
-                      to="/product/style-1007-china-jacquard-full-sleeve-round-neck"
-                      className="px-4 py-2 rounded-xl bg-white text-ink-900 text-xs font-bold hover:bg-brand-green transition-colors inline-flex items-center gap-1.5"
+                      to="/product/royal-print-jacquard-full-sleeve"
+                      className="px-4 py-2 rounded-xl bg-white text-ink-900 text-xs font-bold hover:bg-brand-green transition-colors inline-flex items-center gap-1.5 shadow-sm"
                     >
-                      <span>Shop Style 1007</span>
+                      <span>Shop Featured Drop</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </div>
-                </div>
-              </motion.div>
-
-              {/* Floating Highlight Card */}
-              <motion.div
-                initial={{ opacity: 0, x: -20, y: 20 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.6 }}
-                className="hidden sm:flex absolute -bottom-6 -left-6 bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-border shadow-xl items-center gap-3.5 max-w-[240px]"
-              >
-                <div className="w-10 h-10 rounded-xl bg-brand-green/30 text-ink-900 flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-5 h-5 text-accent-700" />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-ink-900">Pre-Shrunk Washed</p>
-                  <p className="text-[11px] text-ink-600">Zero shape distortion after repeated home washes.</p>
                 </div>
               </motion.div>
             </div>
@@ -357,7 +362,7 @@ export const HomePage: React.FC = () => {
         {/* ======================================================== */}
         {/* 2. INFINITE MARQUEE STRIP: Seamless Loop with Hover Pause */}
         {/* ======================================================== */}
-        <section className="relative py-4 bg-ink-900 text-cream overflow-hidden border-y border-border">
+        <section className="relative py-4 bg-ink-900 text-brand-cream overflow-hidden border-y border-border">
           <div className="flex space-x-8 animate-marquee hover:[animation-play-state:paused] whitespace-nowrap text-xs sm:text-sm font-bold tracking-widest uppercase">
             {[...Array(4)].map((_, i) => (
               <div key={i} className="flex items-center space-x-8">
@@ -369,13 +374,13 @@ export const HomePage: React.FC = () => {
                 <span className="text-accent-500">•</span>
                 <span>PIQUE MATTY POLOS</span>
                 <span className="text-accent-500">•</span>
-                <span>ORGANIC TAI DAI</span>
+                <span>VIBRANT TAI DAI</span>
                 <span className="text-accent-500">•</span>
-                <span>2-WAY PERFORMANCE STRETCH</span>
+                <span>2-WAY STRETCH</span>
                 <span className="text-accent-500">•</span>
                 <span>SAME PRINT, DIFFERENT VIBES</span>
                 <span className="text-accent-500">•</span>
-                <span>100% PRE-SHRUNK</span>
+                <span>SHAPE RETENTION</span>
                 <span className="text-accent-500">•</span>
               </div>
             ))}
@@ -404,28 +409,28 @@ export const HomePage: React.FC = () => {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5">
-            {/* Tile 1: Round Neck (Large) */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {/* Tile 1: Round Neck */}
             <Link
               to="/shop/round-neck"
-              className="lg:col-span-7 group relative rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-auto sm:h-96 border border-border shadow-sm block"
+              className="group relative rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-border shadow-sm block"
             >
               <img
                 src="/products/500/pastel-green.jpg"
                 alt="Round Neck T-shirts"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/20 to-transparent flex flex-col justify-end p-6 sm:p-8 text-cream">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-brand-green">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-green">
                   The Daily Foundation
                 </span>
-                <h3 className="font-display text-2xl sm:text-3xl font-bold text-white mt-1">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
                   Round Neck Essentials
                 </h3>
-                <p className="text-xs sm:text-sm text-cream/80 max-w-sm mt-1">
+                <p className="text-xs text-cream/80 line-clamp-2 mt-1 hidden sm:block">
                   Matty, waffle, and tencil fabrics tailored for lightweight all-day comfort.
                 </p>
-                <div className="pt-3">
+                <div className="pt-2 sm:pt-3">
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
                     <span>Explore Round Necks</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -434,27 +439,27 @@ export const HomePage: React.FC = () => {
               </div>
             </Link>
 
-            {/* Tile 2: Polo & Collar (Medium) */}
+            {/* Tile 2: Polo & Collar */}
             <Link
               to="/shop/polo-collar"
-              className="lg:col-span-5 group relative rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-auto sm:h-96 border border-border shadow-sm block"
+              className="group relative rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-border shadow-sm block"
             >
               <img
                 src="/products/1400/white.jpg"
                 alt="Polo & Collar T-shirts"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-ink-900/20 to-transparent flex flex-col justify-end p-6 sm:p-8 text-cream">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-brand-green">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-green">
                   Smart Casual
                 </span>
-                <h3 className="font-display text-2xl font-bold text-white mt-1">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
                   Polo & Collar Knits
                 </h3>
-                <p className="text-xs sm:text-sm text-cream/80 max-w-xs mt-1">
+                <p className="text-xs text-cream/80 line-clamp-2 mt-1 hidden sm:block">
                   Structured collars, ribbed accents, and pique matty weaves.
                 </p>
-                <div className="pt-3">
+                <div className="pt-2 sm:pt-3">
                   <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
                     <span>Explore Polos</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -466,72 +471,58 @@ export const HomePage: React.FC = () => {
             {/* Tile 3: Jacquard Knits */}
             <Link
               to="/shop/jacquard"
-              className="lg:col-span-4 group relative rounded-3xl overflow-hidden aspect-[4/3] border border-border shadow-sm block"
+              className="group relative rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-border shadow-sm block"
             >
               <img
                 src="/products/1007/green.jpg"
                 alt="Jacquard Knits"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-6 text-cream">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-green">
                   Architectural Weaves
                 </span>
-                <h3 className="font-display text-xl font-bold text-white mt-1">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
                   Jacquard Drops
                 </h3>
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-white mt-2 group-hover:translate-x-1 transition-transform">
-                  <span>Shop Jacquards</span>
-                  <ArrowRight className="w-3 h-3" />
-                </span>
+                <p className="text-xs text-cream/80 line-clamp-2 mt-1 hidden sm:block">
+                  Engineered 3D geometries and rich tactile knit structures.
+                </p>
+                <div className="pt-2 sm:pt-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
+                    <span>Shop Jacquards</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
               </div>
             </Link>
 
             {/* Tile 4: Printed & Tai Dai */}
             <Link
               to="/shop/printed"
-              className="lg:col-span-4 group relative rounded-3xl overflow-hidden aspect-[4/3] border border-border shadow-sm block"
+              className="group relative rounded-3xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-border shadow-sm block"
             >
               <img
                 src="/products/102/r-gold.jpg"
                 alt="Signature Printed Tees"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-6 text-cream">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
+              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-brand-green">
                   Artistic Washes
                 </span>
-                <h3 className="font-display text-xl font-bold text-white mt-1">
+                <h3 className="font-display text-xl sm:text-2xl font-bold text-white mt-1">
                   Printed & Tai Dai
                 </h3>
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-white mt-2 group-hover:translate-x-1 transition-transform">
-                  <span>Shop Printed</span>
-                  <ArrowRight className="w-3 h-3" />
-                </span>
-              </div>
-            </Link>
-
-            {/* Tile 5: Full Sleeve Drops */}
-            <Link
-              to="/collections/full-sleeve"
-              className="lg:col-span-4 group relative rounded-3xl overflow-hidden aspect-[4/3] border border-border shadow-sm block"
-            >
-              <img
-                src="/catalog/1001-main.webp"
-                alt="Full Sleeve Layering"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-6 text-cream">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-brand-green">
-                  Cool Season Layering
-                </span>
-                <h3 className="font-display text-xl font-bold text-white mt-1">
-                  Full Sleeve Series
-                </h3>
-                <span className="inline-flex items-center gap-1 text-xs font-bold text-white mt-2 group-hover:translate-x-1 transition-transform">
-                  <span>Shop Full Sleeve</span>
-                  <ArrowRight className="w-3 h-3" />
-                </span>
+                <p className="text-xs text-cream/80 line-clamp-2 mt-1 hidden sm:block">
+                  Subtle botanical gradients and statement artistic dye patterns.
+                </p>
+                <div className="pt-2 sm:pt-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-bold text-white group-hover:translate-x-1 transition-transform">
+                    <span>Shop Printed</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </span>
+                </div>
               </div>
             </Link>
           </div>
@@ -596,7 +587,7 @@ export const HomePage: React.FC = () => {
                   <AnimatePresence mode="wait">
                     <motion.img
                       key={activeMorphVariant.id}
-                      src={activeMorphVariant.images[0] || morphProduct.catalogPoster}
+                      src={activeMorphVariant.images[0] || '/brand/tshirt-silhouette.svg'}
                       alt={`${morphProduct.name} in ${activeMorphVariant.colourName}`}
                       initial={{ opacity: 0, scale: 0.96 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -687,11 +678,12 @@ export const HomePage: React.FC = () => {
                       <button
                         key={s}
                         onClick={() => setMorphSize(s)}
-                        className={`w-12 h-10 rounded-xl text-xs font-bold border transition-all ${
+                        className={cn(
+                          'w-12 h-10 rounded-xl text-xs font-bold border transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-700 focus-visible:ring-offset-2',
                           morphSize === s
-                            ? 'bg-ink-900 text-cream border-ink-900 shadow-sm'
+                            ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-sm'
                             : 'bg-white border-border text-ink-900 hover:border-ink-900'
-                        }`}
+                        )}
                       >
                         {s}
                       </button>
@@ -746,24 +738,44 @@ export const HomePage: React.FC = () => {
           </div>
 
           {/* Fabric Tabs */}
-          <div className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {FABRIC_STORIES.map((fabric) => (
-              <button
-                key={fabric.id}
-                onClick={() => setActiveFabricId(fabric.id)}
-                className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-all ${
-                  activeFabricId === fabric.id
-                    ? 'bg-ink-900 text-cream shadow-sm scale-105'
-                    : 'bg-surface-tint border border-border text-ink-600 hover:text-ink-900'
-                }`}
-              >
-                {fabric.name}
-              </button>
-            ))}
+          <div
+            role="tablist"
+            aria-label="Fabric Stories"
+            className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-2 no-scrollbar"
+          >
+            {FABRIC_STORIES.map((fabric, idx) => {
+              const isSelected = activeFabricId === fabric.id;
+              return (
+                <button
+                  key={fabric.id}
+                  id={`fabric-tab-${fabric.id}`}
+                  role="tab"
+                  aria-selected={isSelected}
+                  aria-controls={`fabric-panel-${fabric.id}`}
+                  tabIndex={isSelected ? 0 : -1}
+                  onClick={() => setActiveFabricId(fabric.id)}
+                  onKeyDown={(e) => handleFabricTabKeyDown(e, idx)}
+                  className={cn(
+                    'px-4 py-2 rounded-2xl text-xs sm:text-sm font-bold whitespace-nowrap transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-700 focus-visible:ring-offset-2',
+                    isSelected
+                      ? 'bg-tab-active-bg text-tab-active-text border border-tab-active-bg shadow-sm hover:bg-tab-active-bg hover:text-tab-active-text'
+                      : 'bg-surface-tint border border-border text-ink-700 hover:bg-brand-cream/60 hover:text-ink-900'
+                  )}
+                >
+                  {fabric.name}
+                </button>
+              );
+            })}
           </div>
 
           {/* Active Fabric Display Card */}
-          <div className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div
+            id={`fabric-panel-${activeFabric.id}`}
+            role="tabpanel"
+            aria-labelledby={`fabric-tab-${activeFabric.id}`}
+            tabIndex={0}
+            className="bg-white rounded-3xl border border-border p-6 sm:p-10 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-700"
+          >
             <div className="lg:col-span-5 aspect-[4/3] sm:aspect-square rounded-2xl overflow-hidden bg-surface-tint border border-border">
               <img
                 src={activeFabric.image}
@@ -888,24 +900,29 @@ export const HomePage: React.FC = () => {
         {/* 9. EDITORIAL LOOKBOOK BANNER */}
         {/* ======================================================== */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-3xl overflow-hidden bg-ink-900 text-cream p-8 sm:p-14 lg:p-16 min-h-[420px] flex items-center">
-            {/* Background Graphic Pattern */}
-            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+          <div className="relative rounded-3xl overflow-hidden min-h-[460px] flex items-center border border-border shadow-lg">
+            {/* Background Catalog Image with Dark Gradient Overlay */}
+            <img
+              src="/products/1007/green.jpg"
+              alt="Ateevibes Editorial Lookbook"
+              className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/40" />
 
-            <div className="relative z-10 max-w-xl space-y-5">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cream/10 border border-cream/20 text-xs font-bold uppercase tracking-widest text-brand-green">
+            <div className="relative z-10 max-w-xl p-8 sm:p-14 lg:p-16 space-y-5 text-brand-cream">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-green/20 border border-brand-green/30 text-xs font-bold uppercase tracking-widest text-brand-green">
                 Editorial Lookbook
               </span>
               <h2 className="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
                 Designed for Distinction. Built for Movement.
               </h2>
-              <p className="text-xs sm:text-sm text-cream/80 leading-relaxed">
-                From morning airport commutes to late-night rooftop hangs, Ateevibes t-shirts bridge structural elegance and zero-fuss comfort.
+              <p className="text-xs sm:text-sm text-brand-cream/80 leading-relaxed max-w-md">
+                From morning airport commutes to late-night rooftop hangs, Ateevibes t-shirts bridge structural elegance and all-day comfort.
               </p>
               <div className="pt-2 flex flex-wrap items-center gap-3">
                 <Link
                   to="/shop"
-                  className="px-6 py-3 rounded-xl bg-white text-ink-900 text-xs sm:text-sm font-bold inline-flex items-center gap-2 hover:bg-brand-green transition-colors"
+                  className="px-6 py-3 rounded-xl bg-white text-ink-900 text-xs sm:text-sm font-bold inline-flex items-center gap-2 hover:bg-brand-green transition-colors shadow-soft"
                 >
                   <span>Explore The Full Drop</span>
                   <ArrowRight className="w-4 h-4" />
@@ -1008,7 +1025,7 @@ export const HomePage: React.FC = () => {
                 Join The Ateevibes Club
               </h3>
               <p className="text-xs sm:text-sm text-ink-600 max-w-md mx-auto">
-                Get ₹150 off your first order (code: <strong className="font-mono text-ink-900">WELCOME15</strong>) plus private access to limited batch drops.
+                Get 15% off your first order with code <strong className="font-mono text-ink-900">WELCOME15</strong> plus private access to limited batch drops.
               </p>
             </div>
 
@@ -1018,21 +1035,23 @@ export const HomePage: React.FC = () => {
                 <span>You&apos;re on the VIP list! Use code WELCOME15 at checkout.</span>
               </div>
             ) : (
-              <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your email address"
-                  value={newsletterEmail}
-                  onChange={(e) => setNewsletterEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 bg-surface-tint border border-border rounded-xl text-xs sm:text-sm text-ink-900 focus:outline-none focus:border-ink-900"
-                />
-                <button
-                  type="submit"
-                  className="btn-primary px-6 py-3 text-xs sm:text-sm font-bold whitespace-nowrap"
-                >
-                  Join VIP Club
-                </button>
+              <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto">
+                <div className="relative flex items-center rounded-full bg-surface-tint border border-border focus-within:border-ink-900 transition-colors p-1.5 shadow-sm">
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email address"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    className="flex-1 min-w-0 bg-transparent pl-5 pr-3 py-2.5 text-xs sm:text-sm text-ink-900 placeholder:text-ink-500 focus:outline-none"
+                  />
+                  <button
+                    type="submit"
+                    className="btn-primary px-6 py-2.5 text-xs sm:text-sm font-bold whitespace-nowrap rounded-full shrink-0"
+                  >
+                    Join VIP Club
+                  </button>
+                </div>
               </form>
             )}
           </div>

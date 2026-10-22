@@ -187,7 +187,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                       >
                         {/* Thumbnail */}
                         <img
-                          src={item.variant?.images?.[0] || item.product?.catalogPoster || '/brand/logo.png'}
+                          src={item.variant?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                           alt={item.product?.name || 'T-shirt'}
                           className="w-16 h-20 rounded-xl object-cover bg-white border border-border shrink-0"
                         />
@@ -202,7 +202,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                             {item.product?.name}
                           </Link>
                           <p className="text-[11px] text-ink-600">
-                            Style {item.product?.pno} • {item.variant?.colourName} • Size {item.size}
+                            {item.variant?.colourName} • Size {item.size}
                           </p>
 
                           {/* Stepper & Line Price */}
@@ -268,7 +268,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                             className="p-2 rounded-xl bg-white border border-border hover:border-ink-900 flex items-center gap-2 group transition-colors"
                           >
                             <img
-                              src={rec.variants[0]?.images?.[0] || rec.catalogPoster}
+                              src={rec.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
                               alt={rec.name}
                               className="w-10 h-12 object-cover rounded-md"
                             />
@@ -292,20 +292,18 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               <div className="p-5 border-t border-border bg-surface-tint space-y-4">
                 {/* Promo Code Input */}
                 <form onSubmit={handleApplyPromo} className="space-y-1">
-                  <div className="flex gap-2">
-                    <div className="relative flex-1">
-                      <Tag className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-ink-600" />
-                      <input
-                        type="text"
-                        value={promoInput}
-                        onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
-                        placeholder="Promo (e.g. ATEE10)"
-                        className="w-full pl-8 pr-3 py-1.5 bg-white border border-border focus:border-ink-900 rounded-xl text-xs font-semibold text-ink-900 uppercase placeholder:normal-case focus:outline-none"
-                      />
-                    </div>
+                  <div className="flex items-center w-full bg-white border border-border focus-within:border-ink-900 rounded-full p-1 shadow-sm transition-colors">
+                    <Tag className="w-3.5 h-3.5 text-ink-600 ml-3 shrink-0" />
+                    <input
+                      type="text"
+                      value={promoInput}
+                      onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                      placeholder="Promo (e.g. ATEE10)"
+                      className="flex-1 min-w-0 bg-transparent pl-2 pr-2 py-1.5 text-xs font-semibold text-ink-900 uppercase placeholder:normal-case focus:outline-none"
+                    />
                     <button
                       type="submit"
-                      className="btn-secondary px-3.5 py-1.5 text-xs font-bold"
+                      className="btn-secondary shrink-0 px-3.5 py-1.5 text-xs font-bold rounded-full"
                     >
                       Apply
                     </button>

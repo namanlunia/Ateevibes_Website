@@ -9,7 +9,7 @@ import { CartItem, Product, Variant } from '../../types';
 describe('Pricing and Commerce Logic', () => {
   const dummyProduct: Product = {
     id: 'prod-1007',
-    slug: 'royal-print-jacquard-full-sleeve-1007',
+    slug: 'royal-print-jacquard-full-sleeve',
     pno: '1007',
     name: 'Royal Print Jacquard Full Sleeve T-Shirt',
     category: 'jacquard',

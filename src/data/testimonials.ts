@@ -11,10 +11,10 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: 't-1',
-    quote: 'The China Jacquard tee (Style 1007) is unlike any standard t-shirt in my wardrobe. The texture is rich, structured, and yet completely breathable.',
+    quote: 'The China Jacquard tee is unlike any standard t-shirt in my wardrobe. The texture is rich, structured, and yet completely breathable.',
     author: 'Siddharth M.',
     city: 'Mumbai',
-    favouriteStyle: 'Style 1007 • China Jacquard',
+    favouriteStyle: 'China Jacquard Knit',
     rating: 5,
   },
   {
@@ -22,7 +22,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: 'Same print, different vibes is genuinely true. I bought the Tai Dai in R.Gold and Choco, and both feel like distinct personal statements with unreal softness.',
     author: 'Kabir V.',
     city: 'Bengaluru',
-    favouriteStyle: 'Style 102 • Tai Dai',
+    favouriteStyle: 'Artisan Tai Dai Knit',
     rating: 5,
   },
   {
@@ -30,7 +30,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: 'The waffle texture holds its shape through full workdays and travel. Unbeatable all-day comfort and modern drape.',
     author: 'Arjun N.',
     city: 'New Delhi',
-    favouriteStyle: 'Style 501 • Waffle Round Neck',
+    favouriteStyle: 'Waffle Round Neck',
     rating: 5,
   },
   {
@@ -38,7 +38,7 @@ export const TESTIMONIALS: Testimonial[] = [
     quote: 'Finding polos that do not lose collar rigidity after washing used to be difficult until Ateevibes. Premium matty fabric that stays crisp.',
     author: 'Manish T.',
     city: 'Pune',
-    favouriteStyle: 'Style 1400 • Matty Polo',
+    favouriteStyle: 'Matty Polo',
     rating: 5,
   },
 ];
