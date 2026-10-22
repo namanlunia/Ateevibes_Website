@@ -21,6 +21,7 @@ import { useCartStore } from '../store/cartStore';
 import { useUIStore } from '../store/uiStore';
 import { Product, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { TESTIMONIALS } from '../data/testimonials';
 import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
@@ -321,7 +322,13 @@ export const HomePage: React.FC = () => {
               >
                 <img
                   src={heroProduct?.variants[0]?.images[0] || '/brand/tshirt-silhouette.svg'}
+                  srcSet={getProductSrcSet(heroProduct?.variants[0]?.images[0])}
+                  sizes={PRODUCT_IMAGE_SIZES}
                   alt="Ateevibes Signature China Jacquard"
+                  onError={(e) => {
+                    e.currentTarget.srcset = '';
+                    e.currentTarget.src = '/brand/tshirt-silhouette.svg';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-900/90 via-ink-900/40 to-transparent flex flex-col justify-end p-6 sm:p-8 text-brand-cream">
@@ -410,7 +417,13 @@ export const HomePage: React.FC = () => {
             >
               <img
                 src="/products/500/pastel-green.jpg"
+                srcSet={getProductSrcSet('/products/500/pastel-green.jpg')}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt="Round Neck T-shirts"
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
@@ -439,7 +452,13 @@ export const HomePage: React.FC = () => {
             >
               <img
                 src="/products/1400/white.jpg"
+                srcSet={getProductSrcSet('/products/1400/white.jpg')}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt="Polo & Collar T-shirts"
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
@@ -468,7 +487,13 @@ export const HomePage: React.FC = () => {
             >
               <img
                 src="/products/1007/green.jpg"
+                srcSet={getProductSrcSet('/products/1007/green.jpg')}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt="Jacquard Knits"
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
@@ -497,7 +522,13 @@ export const HomePage: React.FC = () => {
             >
               <img
                 src="/products/102/r-gold.jpg"
+                srcSet={getProductSrcSet('/products/102/r-gold.jpg')}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt="Signature Printed Tees"
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink-900/85 via-ink-900/30 to-transparent flex flex-col justify-end p-5 sm:p-6 text-cream">
@@ -772,7 +803,13 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-5 aspect-[4/3] sm:aspect-square rounded-2xl overflow-hidden bg-surface-tint border border-border">
               <img
                 src={activeFabric.image}
+                srcSet={getProductSrcSet(activeFabric.image)}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt={activeFabric.name}
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -897,7 +934,13 @@ export const HomePage: React.FC = () => {
             {/* Background Catalog Image with Dark Gradient Overlay */}
             <img
               src="/products/1007/green.jpg"
+              srcSet={getProductSrcSet('/products/1007/green.jpg')}
+              sizes={PRODUCT_IMAGE_SIZES}
               alt="Ateevibes Editorial Lookbook"
+              onError={(e) => {
+                e.currentTarget.srcset = '';
+                e.currentTarget.src = '/brand/placeholder.svg';
+              }}
               className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-ink-900 via-ink-900/85 to-ink-900/40" />

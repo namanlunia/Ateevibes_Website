@@ -59,6 +59,22 @@ for (const file of filesToCheck) {
         console.error(`[ERROR] Missing or case-mismatched image in ${file}: "${img}"`);
         hasError = true;
       }
+
+      // If it's a product image (not swatch or already suffixed), check responsive webp siblings
+      const match = img.match(/^(\/products\/[^/]+)\/([^/]+)\.(jpg|jpeg|png|webp)$/i);
+      if (match) {
+        const [, dir, name] = match;
+        if (!name.startsWith('swatch-') && !/-(480|800|1200)$/.test(name)) {
+          for (const size of ['480', '800', '1200']) {
+            const variantPath = `${dir}/${name}-${size}.webp`;
+            totalChecked++;
+            if (!fileExistsCaseSensitive(variantPath)) {
+              console.error(`[ERROR] Missing responsive variant in ${file}: "${variantPath}"`);
+              hasError = true;
+            }
+          }
+        }
+      }
     }
   }
 }

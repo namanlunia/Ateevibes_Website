@@ -8,6 +8,7 @@ import { useWishlistStore } from '../store/wishlistStore';
 import { useCartStore } from '../store/cartStore';
 import { useUIStore } from '../store/uiStore';
 import { formatPrice } from '../lib/format';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { siteConfig } from '../config/site';
 
 export const WishlistPage: React.FC = () => {
@@ -128,7 +129,13 @@ export const WishlistPage: React.FC = () => {
                     <Link to={`/product/${product.slug}`} className="block w-full h-full">
                       <img
                         src={product.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
+                        srcSet={getProductSrcSet(product.variants[0]?.images?.[0])}
+                        sizes={PRODUCT_IMAGE_SIZES}
                         alt={product.name}
+                        onError={(e) => {
+                          e.currentTarget.srcset = '';
+                          e.currentTarget.src = '/brand/placeholder.svg';
+                        }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     </Link>

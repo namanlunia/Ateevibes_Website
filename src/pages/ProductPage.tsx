@@ -26,6 +26,7 @@ import { PRODUCTS, OLD_SLUG_MAP } from '../data/products';
 import { REVIEWS_DATA } from '../data/reviews';
 import { Product, Variant, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { generateProductJsonLd } from '../lib/seo';
 import { useCartStore } from '../store/cartStore';
 import { useWishlistStore } from '../store/wishlistStore';
@@ -289,8 +290,11 @@ export const ProductPage: React.FC = () => {
               <motion.img
                 key={`${selectedVariant.id}-${activeImageIdx}`}
                 src={activeMainImage}
+                srcSet={getProductSrcSet(activeMainImage)}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt={`${product.name} view`}
                 onError={(e) => {
+                  e.currentTarget.srcset = '';
                   e.currentTarget.src = '/brand/tshirt-silhouette.svg';
                 }}
                 initial={{ opacity: 0 }}
@@ -334,8 +338,11 @@ export const ProductPage: React.FC = () => {
                   >
                     <img
                       src={img}
+                      srcSet={getProductSrcSet(img)}
+                      sizes="80px"
                       alt="thumbnail"
                       onError={(e) => {
+                        e.currentTarget.srcset = '';
                         e.currentTarget.src = '/brand/placeholder.svg';
                       }}
                       className="w-full h-full object-cover"

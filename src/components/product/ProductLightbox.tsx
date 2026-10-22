@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 
 interface ProductLightboxProps {
   images: string[];
@@ -111,7 +112,13 @@ export const ProductLightbox: React.FC<ProductLightboxProps> = ({
           <motion.img
             key={currentIndex}
             src={images[currentIndex]}
+            srcSet={getProductSrcSet(images[currentIndex])}
+            sizes={PRODUCT_IMAGE_SIZES}
             alt={title}
+            onError={(e) => {
+              e.currentTarget.srcset = '';
+              e.currentTarget.src = '/brand/placeholder.svg';
+            }}
             style={{ transform: `scale(${zoomLevel})` }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Eye, Plus, Star, Check } from 'lucide-react';
 import { Product, Variant, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useCartStore } from '../../store/cartStore';
 import { useUIStore } from '../../store/uiStore';
@@ -109,9 +110,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
           {/* Main Photo with smooth crossfade and zoom */}
           <img
             src={mainImage}
+            srcSet={getProductSrcSet(mainImage)}
+            sizes={PRODUCT_IMAGE_SIZES}
             alt={`${product.name} - ${activeVariant.colourName}`}
             loading="lazy"
             onError={(e) => {
+              e.currentTarget.srcset = '';
               e.currentTarget.src = '/brand/placeholder.svg';
             }}
             className={`w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${
@@ -123,9 +127,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
           {secondImage && (
             <img
               src={secondImage}
+              srcSet={getProductSrcSet(secondImage)}
+              sizes={PRODUCT_IMAGE_SIZES}
               alt={`${product.name} alternate view`}
               loading="lazy"
               onError={(e) => {
+                e.currentTarget.srcset = '';
                 e.currentTarget.src = '/brand/placeholder.svg';
               }}
               className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105 ${

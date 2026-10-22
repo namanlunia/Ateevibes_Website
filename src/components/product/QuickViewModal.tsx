@@ -6,6 +6,7 @@ import { useUIStore } from '../../store/uiStore';
 import { useCartStore } from '../../store/cartStore';
 import { Variant, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
+import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 
 export const QuickViewModal: React.FC = () => {
   const product = useUIStore((state) => state.quickViewProduct);
@@ -98,7 +99,13 @@ export const QuickViewModal: React.FC = () => {
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-white border border-border shadow-sm">
               <img
                 src={activeImage}
+                srcSet={getProductSrcSet(activeImage)}
+                sizes={PRODUCT_IMAGE_SIZES}
                 alt={`${product.name} - ${selectedVariant.colourName}`}
+                onError={(e) => {
+                  e.currentTarget.srcset = '';
+                  e.currentTarget.src = '/brand/placeholder.svg';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -114,7 +121,17 @@ export const QuickViewModal: React.FC = () => {
                       activeImageIdx === idx ? 'border-ink-900 scale-105' : 'border-border/80 opacity-70'
                     }`}
                   >
-                    <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      srcSet={getProductSrcSet(img)}
+                      sizes="64px"
+                      alt="thumbnail"
+                      onError={(e) => {
+                        e.currentTarget.srcset = '';
+                        e.currentTarget.src = '/brand/placeholder.svg';
+                      }}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
