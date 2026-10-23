@@ -1,4 +1,4 @@
-import { Product, Variant, SizeType, SleeveType, NeckType, BadgeType } from "../types";
+import { Product, Variant, SizeType, SleeveType, NeckType } from "../types";
 
 export function normalizeServerProduct(raw: unknown): Product | null {
   if (!raw || typeof raw !== "object") {
@@ -25,7 +25,7 @@ export function normalizeServerProduct(raw: unknown): Product | null {
   const mrp = typeof p.mrp === "number" ? p.mrp : Number(p.mrp) || 999;
   const priceConfirmed = typeof p.priceConfirmed === "boolean" ? p.priceConfirmed : true;
   const status = p.status === "coming-soon" ? "coming-soon" : "active";
-  const badges = Array.isArray(p.badges) ? (p.badges as BadgeType[]) : [];
+  const badges = Array.isArray(p.badges) ? (p.badges as Product["badges"]) : [];
   const highlights = Array.isArray(p.highlights) ? (p.highlights as string[]) : [];
   const description = typeof p.description === "string" ? p.description : "";
   const rating = typeof p.rating === "number" ? p.rating : Number(p.rating) || 4.8;

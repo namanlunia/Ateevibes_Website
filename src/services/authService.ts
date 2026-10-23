@@ -77,7 +77,7 @@ export const authService = {
       }
     } catch (error: any) {
       if (error instanceof ApiError && error.status >= 400 && error.status < 500) {
-        throw new Error(error.message || "Invalid email or password. Please check your credentials.");
+        throw new Error(error.message || "Invalid email or password. Please check your credentials.", { cause: error });
       }
       // Backend offline or timeout -> proceed to local offline fallback
     }
@@ -131,7 +131,7 @@ export const authService = {
       }
     } catch (error: any) {
       if (error instanceof ApiError && error.status >= 400 && error.status < 500) {
-        throw new Error(error.message || "Registration failed. An account with this email may already exist.");
+        throw new Error(error.message || "Registration failed. An account with this email may already exist.", { cause: error });
       }
       // Fallback to local storage on offline/timeout
     }

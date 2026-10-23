@@ -1,4 +1,6 @@
-// SYNC SOURCE: packages/shared/src/contract.ts — keep identical
+// MIRROR of packages/shared/src/contract.ts (backend is canonical).
+// Storefront subset — the full payload DTOs (CheckoutItemPayload, ShippingAddressPayload,
+// CreateOrderPayload, QuoteRequestPayload) are authoritative in the backend shared package.
 
 export const API_ROUTES = {
   auth: {
@@ -52,11 +54,11 @@ export const PROMO_CODES: Record<string, PromoCodeDefinition> = {
   },
 } as const;
 
-export const FREE_SHIPPING_THRESHOLD = 1499;
-export const STANDARD_SHIPPING_FEE = 79;
-export const EXPRESS_SURCHARGE = 99;
-export const COD_FEE = 49;
-export const MAX_QTY_PER_LINE = 10;
+const FREE_SHIPPING_THRESHOLD = 1499;
+const STANDARD_SHIPPING_FEE = 79;
+const EXPRESS_SURCHARGE = 99;
+const COD_FEE = 49;
+const MAX_QTY_PER_LINE = 10;
 
 export const SHOPPING_MODEL = {
   FREE_SHIPPING_THRESHOLD,
@@ -99,39 +101,4 @@ export function computeShippingAndTotals(input: ComputeTotalsInput): ComputeTota
     grandTotal,
     amountToFreeShipping,
   };
-}
-
-export interface CheckoutItemPayload {
-  productId: string;
-  variantId: string;
-  size: "S" | "M" | "L" | "XL" | string;
-  quantity: number;
-}
-
-export interface ShippingAddressPayload {
-  fullName: string;
-  phone: string;
-  email: string;
-  addressLine1: string;
-  addressLine2?: string;
-  landmark?: string;
-  city: string;
-  state: string;
-  pincode: string;
-}
-
-export interface CreateOrderPayload {
-  items: CheckoutItemPayload[];
-  shippingAddress: ShippingAddressPayload;
-  paymentMethod: "upi" | "card" | "netbanking" | "cod";
-  promoCode?: string;
-  isCod?: boolean;
-  isExpress?: boolean;
-}
-
-export interface QuoteRequestPayload {
-  items: CheckoutItemPayload[];
-  promoCode?: string;
-  isCod?: boolean;
-  isExpress?: boolean;
 }
