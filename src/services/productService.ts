@@ -1,14 +1,20 @@
-import { PRODUCTS, OLD_SLUG_MAP } from '../data/products';
-import { Product } from '../types';
-import { api } from './apiClient';
+import { PRODUCTS, OLD_SLUG_MAP } from "../data/products";
+import { CATEGORIES, Category } from "../data/categories";
+import { Product } from "../types";
+import { api } from "./apiClient";
+import { API_ROUTES } from "../config/contract";
+import { normalizeServerProduct } from "./productMapper";
 
 export const productService = {
   async getAll(): Promise<Product[]> {
     try {
-      const res = await api.get<{ items?: Product[] } | Product[]>('/products');
-      if (Array.isArray(res) && res.length > 0) return res;
-      if (res && Array.isArray((res as any).items) && (res as any).items.length > 0) {
-        return (res as any).items;
+      const res = await api.get<{ items?: unknown[] } | unknown[]>(API_ROUTES.products.base);
+      const rawList = Array.isArray(res) ? res : res?.items;
+      if (Array.isArray(rawList) && rawList.length > 0) {
+        const normalized = rawList
+          .map(normalizeServerProduct)
+          .filter((p): p is Product => p !== null);
+        if (normalized.length > 0) return normalized;
       }
     } catch {
       // Graceful fallback to local catalog
@@ -20,8 +26,9 @@ export const productService = {
   async getBySlug(slug: string): Promise<Product | null> {
     const targetSlug = OLD_SLUG_MAP[slug] || slug;
     try {
-      const liveProduct = await api.get<Product>(`/products/${targetSlug}`);
-      if (liveProduct && liveProduct.id) return liveProduct;
+      const liveProduct = await api.get<unknown>(API_ROUTES.products.bySlug(targetSlug));
+      const normalized = normalizeServerProduct(liveProduct);
+      if (normalized) return normalized;
     } catch {
       // Fallback
     }
@@ -31,9 +38,47 @@ export const productService = {
   },
 
   async getByPno(pno: string): Promise<Product | null> {
-    const all = await this.getAll();
-    const found = all.find((p) => p.pno === pno);
+    try {
+      const liveProduct = await api.get<unknown>(API_ROUTES.products.byPno(pno));
+      const normalized = normalizeServerProduct(liveProduct);
+      if (normalized) return normalized;
+    } catch {
+      // Fallback to static catalog
+    }
+    await new Promise((r) => setTimeout(r, 30));
+    const found = PRODUCTS.find((p) => p.pno === pno);
     return found ? { ...found } : null;
+  },
+
+  async getCategories(): Promise<Category[]> {
+    try {
+      const serverCategories = await api.get<any[]>('/categories');
+      if (Array.isArray(serverCategories) && serverCategories.length > 0) {
+        return serverCategories.map((sc) => {
+          const fallback = CATEGORIES.find((c) => c.slug === sc.slug || c.id === sc.id);
+          return {
+            id: sc.id || fallback?.id || `cat-${sc.slug}`,
+            slug: sc.slug,
+            name: sc.name,
+            tagline: sc.tagline || fallback?.tagline || '',
+            description: sc.description || fallback?.description || '',
+            image: sc.image || fallback?.image || '/brand/tshirt-silhouette.svg',
+            subCategories: Array.isArray(sc.subCategories)
+              ? sc.subCategories.map((sub: any) => ({
+                  id: sub.id,
+                  slug: sub.slug,
+                  name: sub.name,
+                  description: sub.description || '',
+                }))
+              : fallback?.subCategories || [],
+          };
+        });
+      }
+    } catch {
+      // Graceful fallback to static categories
+    }
+    await new Promise((r) => setTimeout(r, 20));
+    return [...CATEGORIES];
   },
 
   async getByCategory(categorySlug: string, subCategorySlug?: string): Promise<Product[]> {
@@ -53,20 +98,54 @@ export const productService = {
   },
 
   async getBestSellers(limit = 8): Promise<Product[]> {
+    try {
+      const res = await api.get<unknown[]>(API_ROUTES.products.bestsellers);
+      if (Array.isArray(res) && res.length > 0) {
+        const normalized = res
+          .map(normalizeServerProduct)
+          .filter((p): p is Product => p !== null);
+        if (normalized.length > 0) return normalized.slice(0, limit);
+      }
+    } catch {
+      // Fallback
+    }
     const all = await this.getAll();
     return all
-      .filter((p) => p.status === 'active' && (p.badges.includes('Best Seller') || p.popularity >= 85))
+      .filter((p) => p.status === "active" && (p.badges.includes("Best Seller") || p.popularity >= 85))
       .slice(0, limit);
   },
 
   async getNewArrivals(limit = 8): Promise<Product[]> {
+    try {
+      const res = await api.get<unknown[]>(API_ROUTES.products.newArrivals);
+      if (Array.isArray(res) && res.length > 0) {
+        const normalized = res
+          .map(normalizeServerProduct)
+          .filter((p): p is Product => p !== null);
+        if (normalized.length > 0) return normalized.slice(0, limit);
+      }
+    } catch {
+      // Fallback
+    }
     const all = await this.getAll();
     return all
-      .filter((p) => p.badges.includes('New') || p.createdAt.startsWith('2025-10'))
+      .filter((p) => p.badges.includes("New") || p.createdAt.startsWith("2025-10"))
       .slice(0, limit);
   },
 
   async getRelated(productId: string, limit = 4): Promise<Product[]> {
+    try {
+      const liveRelated = await api.get<unknown[]>(API_ROUTES.products.related(productId));
+      if (Array.isArray(liveRelated) && liveRelated.length > 0) {
+        const normalized = liveRelated
+          .map(normalizeServerProduct)
+          .filter((p): p is Product => p !== null);
+        if (normalized.length > 0) return normalized.slice(0, limit);
+      }
+    } catch {
+      // Fallback to static catalog
+    }
+    await new Promise((r) => setTimeout(r, 40));
     const all = await this.getAll();
     const target = all.find((p) => p.id === productId);
     if (!target) return all.slice(0, limit);
@@ -81,11 +160,12 @@ export const productService = {
     const target = all.find((p) => p.id === productId);
     if (!target) return [];
 
-    // Find items in other categories sharing the same colour
-    return all.filter((p) => {
-      if (p.id === productId || p.category === target.category) return false;
-      return p.variants.some((v) => v.colourName.toLowerCase() === colourName.toLowerCase());
-    }).slice(0, limit);
+    return all
+      .filter((p) => {
+        if (p.id === productId || p.category === target.category) return false;
+        return p.variants.some((v) => v.colourName.toLowerCase() === colourName.toLowerCase());
+      })
+      .slice(0, limit);
   },
 
   decrementStock(items: { productId: string; variantId: string; size: string; qty: number }[]): void {

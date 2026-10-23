@@ -7,7 +7,7 @@ interface OrdersState {
   currentOrder: Order | null;
   isLoading: boolean;
   addOrder: (order: Order) => Promise<Order>;
-  fetchUserOrders: (email: string) => Promise<Order[]>;
+  fetchUserOrders: () => Promise<Order[]>;
   getOrderById: (orderId: string) => Promise<Order | null>;
   trackOrder: (orderId: string, phoneOrEmail: string) => Promise<Order | null>;
 }
@@ -32,10 +32,10 @@ export const useOrdersStore = create<OrdersState>((set) => ({
     }
   },
 
-  fetchUserOrders: async (email) => {
+  fetchUserOrders: async () => {
     set({ isLoading: true });
     try {
-      const userOrders = await orderService.getAllByUser(email);
+      const userOrders = await orderService.getAllByUser();
       set({ orders: userOrders, isLoading: false });
       return userOrders;
     } finally {

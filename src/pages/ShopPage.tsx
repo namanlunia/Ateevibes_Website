@@ -16,7 +16,8 @@ import { ProductCard } from '../components/product/ProductCard';
 import { FilterSidebar } from '../components/product/FilterSidebar';
 import { QuickViewModal } from '../components/product/QuickViewModal';
 import { useFilters } from '../hooks/useFilters';
-import { CATEGORIES, QUICK_COLLECTIONS } from '../data/categories';
+import { CATEGORIES, QUICK_COLLECTIONS, Category } from '../data/categories';
+import { productService } from '../services/productService';
 import { siteConfig } from '../config/site';
 
 export const ShopPage: React.FC = () => {
@@ -33,8 +34,16 @@ export const ShopPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isFirstMount = React.useRef(true);
 
+  const [categories, setCategories] = useState<Category[]>(CATEGORIES);
+
+  useEffect(() => {
+    productService.getCategories().then((cats) => {
+      if (cats && cats.length > 0) setCategories(cats);
+    }).catch(() => {});
+  }, []);
+
   // Derive active category/collection metadata
-  const currentCategory = CATEGORIES.find((c) => c.slug === catParam);
+  const currentCategory = categories.find((c) => c.slug === catParam);
   const currentSub = currentCategory?.subCategories.find((s) => s.slug === subParam);
   const currentCollection = QUICK_COLLECTIONS.find((c) => c.slug === collectionSlug);
 

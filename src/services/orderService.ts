@@ -1,7 +1,9 @@
-import { Order, OrderStatus } from '../types';
-import { api } from './apiClient';
+import { Order, OrderStatus } from "../types";
+import { api } from "./apiClient";
+import { API_ROUTES } from "../config/contract";
+import { normalizeServerOrder } from "./orderMapper";
 
-const ORDERS_KEY = 'atv:v1:orders';
+const ORDERS_KEY = "atv:v1:orders";
 
 function getStoredOrders(): Order[] {
   try {
@@ -20,39 +22,24 @@ function saveStoredOrders(orders: Order[]): void {
   }
 }
 
-/**
- * Dynamically compute demo timeline status based on time passed since placement
- * 0 - 2 mins: placed
- * 2 - 5 mins: packed
- * 5 - 15 mins: shipped
- * 15 - 30 mins: out_for_delivery
- * > 30 mins: delivered
- */
 function computeProgressiveStatus(order: Order): OrderStatus {
-  if (order.status === 'delivered') return 'delivered';
+  if (order.status === "delivered") return "delivered";
   const created = new Date(order.createdAt).getTime();
   const elapsedMinutes = (Date.now() - created) / (1000 * 60);
 
-  if (elapsedMinutes < 2) return 'placed';
-  if (elapsedMinutes < 5) return 'packed';
-  if (elapsedMinutes < 15) return 'shipped';
-  if (elapsedMinutes < 30) return 'out_for_delivery';
-  return 'delivered';
+  if (elapsedMinutes < 2) return "placed";
+  if (elapsedMinutes < 5) return "packed";
+  if (elapsedMinutes < 15) return "shipped";
+  if (elapsedMinutes < 30) return "out_for_delivery";
+  return "delivered";
 }
 
 export const orderService = {
   async create(order: Order): Promise<Order> {
-    // Save to local storage cache immediately
+    // Pure local cache writer (offline demo path)
     const orders = getStoredOrders();
     orders.unshift(order);
     saveStoredOrders(orders);
-
-    // Sync with backend API if available
-    try {
-      await api.post('/orders', order);
-    } catch {
-      // Backend may be offline or in standalone demo mode; local cache preserved
-    }
 
     await new Promise((r) => setTimeout(r, 60));
     return order;
@@ -60,10 +47,12 @@ export const orderService = {
 
   async getById(id: string): Promise<Order | null> {
     const cleanId = id.trim();
-    // Try backend API first
     try {
-      const liveOrder = await api.get<Order>(`/orders/${cleanId}`);
-      if (liveOrder && liveOrder.id) return liveOrder;
+      const liveOrder = await api.get<unknown>(API_ROUTES.orders.byId(cleanId));
+      if (liveOrder) {
+        const normalized = normalizeServerOrder(liveOrder);
+        if (normalized.id) return normalized;
+      }
     } catch {
       // Fallback to local storage
     }
@@ -82,16 +71,18 @@ export const orderService = {
     const cleanId = orderId.trim();
     const cleanContact = phoneOrEmail.trim();
 
-    // Try live backend tracking lookup
     try {
       const query = new URLSearchParams({
         orderId: cleanId,
-        phoneOrEmail: cleanContact,
+        contact: cleanContact,
       }).toString();
-      const liveOrder = await api.get<Order>(`/orders/lookup?${query}`);
-      if (liveOrder && liveOrder.id) return liveOrder;
+      const liveOrder = await api.get<unknown>(`${API_ROUTES.orders.lookup}?${query}`);
+      if (liveOrder) {
+        const normalized = normalizeServerOrder(liveOrder);
+        if (normalized.id) return normalized;
+      }
     } catch {
-      // Fallback to local storage lookup
+      // Fallback to local storage
     }
 
     await new Promise((r) => setTimeout(r, 60));
@@ -102,7 +93,7 @@ export const orderService = {
     const order = orders.find((o) => {
       const matchId = o.id.toLowerCase() === lowerId;
       const matchEmail = o.shippingAddress?.email?.toLowerCase() === lowerContact;
-      const matchPhone = o.shippingAddress?.phone?.replace(/\D/g, '') === lowerContact.replace(/\D/g, '');
+      const matchPhone = o.shippingAddress?.phone?.replace(/\D/g, "") === lowerContact.replace(/\D/g, "");
       return matchId && (matchEmail || matchPhone);
     });
 
@@ -113,19 +104,30 @@ export const orderService = {
     };
   },
 
-  async getAllByUser(email: string): Promise<Order[]> {
-    const cleanEmail = email.trim().toLowerCase();
+  async getAllByUser(): Promise<Order[]> {
     try {
-      const liveOrders = await api.get<Order[]>(`/orders/my-orders?email=${encodeURIComponent(cleanEmail)}`);
-      if (Array.isArray(liveOrders) && liveOrders.length > 0) return liveOrders;
+      const liveOrders = await api.get<unknown[]>(API_ROUTES.orders.myOrders);
+      if (Array.isArray(liveOrders) && liveOrders.length > 0) {
+        return liveOrders.map((o) => normalizeServerOrder(o));
+      }
     } catch {
       // Fallback to local storage
     }
 
     await new Promise((r) => setTimeout(r, 50));
     const orders = getStoredOrders();
+    let currentEmail = "";
+    try {
+      const rawUser = localStorage.getItem("atv:v1:auth_user");
+      if (rawUser) {
+        currentEmail = JSON.parse(rawUser).email?.toLowerCase() || "";
+      }
+    } catch {
+      // ignore
+    }
+
     return orders
-      .filter((o) => o.shippingAddress?.email?.toLowerCase() === cleanEmail)
+      .filter((o) => !currentEmail || o.shippingAddress?.email?.toLowerCase() === currentEmail)
       .map((o) => ({
         ...o,
         status: computeProgressiveStatus(o),

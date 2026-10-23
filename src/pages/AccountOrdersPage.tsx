@@ -68,7 +68,7 @@ export const AccountOrdersPage: React.FC = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetchUserOrders(user.email);
+      fetchUserOrders();
     }
   }, [user?.email, fetchUserOrders]);
 

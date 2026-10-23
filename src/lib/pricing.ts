@@ -1,5 +1,6 @@
 import { commerceConfig } from '../config/commerce';
 import { CartItem } from '../types';
+import { computeShippingAndTotals } from '../config/contract';
 
 export interface PromoValidationResult {
   valid: boolean;
@@ -24,7 +25,7 @@ export interface PriceBreakdown {
 export function calculateSubtotal(items: CartItem[]): number {
   return items.reduce((sum, item) => {
     const itemPrice = item.product?.mrp || 0;
-    return sum + (itemPrice * item.qty);
+    return sum + itemPrice * item.qty;
   }, 0);
 }
 
@@ -34,7 +35,7 @@ export function calculateSubtotal(items: CartItem[]): number {
 export function validatePromoCode(
   rawCode: string,
   subtotal: number,
-  hasPreviousOrders: boolean = false
+  hasPreviousOrders = false
 ): PromoValidationResult {
   const code = rawCode.trim().toUpperCase();
   if (!code) {
@@ -64,7 +65,7 @@ export function validatePromoCode(
 }
 
 /**
- * Compute full price breakdown for checkout and cart
+ * Compute full price breakdown for checkout and cart using canonical computation
  */
 export function computePriceBreakdown({
   items,
@@ -90,31 +91,32 @@ export function computePriceBreakdown({
     }
   }
 
-  const netSubtotal = Math.max(0, subtotal - discount);
-
-  // Free shipping check
-  let shipping = 0;
-  if (items.length > 0) {
-    if (isExpressShipping) {
-      shipping = commerceConfig.EXPRESS_SHIPPING_FEE;
-    } else if (netSubtotal >= commerceConfig.FREE_SHIPPING_THRESHOLD) {
-      shipping = 0;
-    } else {
-      shipping = commerceConfig.SHIPPING_FLAT;
-    }
+  if (items.length === 0) {
+    return {
+      subtotal: 0,
+      discount: 0,
+      shipping: 0,
+      codFee: 0,
+      grandTotal: 0,
+      isFreeShipping: commerceConfig.FREE_SHIPPING_THRESHOLD,
+      promoResult,
+    };
   }
 
-  const codFee = isCod && items.length > 0 ? commerceConfig.COD_FEE : 0;
-  const grandTotal = netSubtotal + shipping + codFee;
-  const amountToFreeShipping = Math.max(0, commerceConfig.FREE_SHIPPING_THRESHOLD - netSubtotal);
+  const totals = computeShippingAndTotals({
+    subtotal,
+    discount,
+    isCod,
+    isExpress: isExpressShipping,
+  });
 
   return {
     subtotal,
     discount,
-    shipping,
-    codFee,
-    grandTotal,
-    isFreeShipping: amountToFreeShipping,
+    shipping: totals.shipping,
+    codFee: totals.codFee,
+    grandTotal: totals.grandTotal,
+    isFreeShipping: totals.amountToFreeShipping,
     promoResult,
   };
 }

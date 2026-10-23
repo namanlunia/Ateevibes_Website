@@ -1,8 +1,9 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
-import { CATEGORIES } from '../../data/categories';
+import { CATEGORIES, Category } from '../../data/categories';
+import { productService } from '../../services/productService';
 import { PRODUCTS } from '../../data/products';
 import { formatPrice } from '../../lib/format';
 
@@ -20,6 +21,13 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
   onMouseLeave,
 }) => {
   const menuContainerRef = useRef<HTMLDivElement>(null);
+  const [categories, setCategories] = useState<Category[]>(CATEGORIES);
+
+  useEffect(() => {
+    productService.getCategories().then((cats) => {
+      if (cats && cats.length > 0) setCategories(cats);
+    }).catch(() => {});
+  }, []);
 
   // Featured flagship item (China Jacquard)
   const featuredProduct = PRODUCTS.find((p) => p.pno === '1007') || PRODUCTS[0];
@@ -82,7 +90,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
             {/* CSS Grid: 4 equal category columns + 260px featured card */}
             <div className="grid grid-cols-[1fr_1fr_1fr_1fr_260px] gap-6 items-start">
               {/* 4 Category Columns */}
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const totalCount = getCategoryCount(cat.slug);
                 return (
                   <div key={cat.id} className="space-y-3 min-w-0">

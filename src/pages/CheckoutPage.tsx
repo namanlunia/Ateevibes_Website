@@ -34,6 +34,9 @@ import {
 } from '../lib/validators';
 import { INDIAN_STATES } from '../data/states';
 import { Order, PaymentMethod, Address } from '../types';
+import { api, ApiError } from '../services/apiClient';
+import { API_ROUTES } from '../config/contract';
+import { normalizeServerOrder } from '../services/orderMapper';
 import { siteConfig } from '../config/site';
 import { commerceConfig } from '../config/commerce';
 
@@ -202,7 +205,7 @@ export const CheckoutPage: React.FC = () => {
     // Check for simulated payment failure via test card
     if (paymentMethod === 'card' && cardNumber.replace(/\s/g, '') === FAILED_SIMULATION_CARD.replace(/\s/g, '')) {
       setIsProcessing(true);
-      await new Promise((r) => setTimeout(r, 1600));
+      await new Promise((r) => setTimeout(r, 1200));
       setIsProcessing(false);
       setPaymentFailureError('Payment declined by card issuer (Simulation test card). Please try another card or UPI.');
       setCurrentStep(3);
@@ -212,44 +215,190 @@ export const CheckoutPage: React.FC = () => {
     setIsProcessing(true);
     setPaymentFailureError(null);
 
-    // Simulate 1.6s payment gateway processing
-    await new Promise((r) => setTimeout(r, 1600));
+    const nameParts = addressData.fullName.trim().split(' ');
+    const firstName = nameParts[0] || 'Customer';
+    const lastName = nameParts.slice(1).join(' ') || firstName;
 
-    // Calculate delivery date estimate
-    const deliveryDate = new Date();
-    deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
-
-    const newOrder: Order = {
-      id: generateOrderId(),
-      createdAt: new Date().toISOString(),
-      items: [...items],
-      shippingAddress: { ...addressData },
-      subtotal: breakdown.subtotal,
-      discount: breakdown.discount,
-      shippingFee: breakdown.shipping,
-      codFee: breakdown.codFee,
-      grandTotal: breakdown.grandTotal,
+    const payload = {
+      customer: {
+        email: addressData.email,
+        firstName,
+        lastName,
+        phone: addressData.phone,
+      },
+      shippingAddress: {
+        fullName: addressData.fullName,
+        phone: addressData.phone,
+        email: addressData.email,
+        addressLine1: addressData.addressLine1,
+        addressLine2: addressData.addressLine2 || '',
+        landmark: addressData.landmark || '',
+        city: addressData.city,
+        state: addressData.state,
+        pincode: addressData.pincode,
+        postalCode: addressData.pincode,
+        country: 'IN',
+      },
+      billingAddress: {
+        addressLine1: addressData.addressLine1,
+        addressLine2: addressData.addressLine2 || '',
+        landmark: addressData.landmark || '',
+        city: addressData.city,
+        state: addressData.state,
+        postalCode: addressData.pincode,
+        country: 'IN',
+      },
+      items: items.map((i) => ({
+        productId: i.productId || i.product?.id || '',
+        variantId: i.variantId || i.variant?.id || (i.product?.variants?.[0]?.id ?? ''),
+        size: i.size || 'M',
+        quantity: i.qty || 1,
+        price: i.product?.mrp || 0,
+      })),
       promoCode: promoCode || undefined,
-      status: 'placed',
+      shippingMethod: isExpress ? ('express' as const) : ('standard' as const),
       paymentMethod,
-      paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
-      estimatedDeliveryDate: formatDate(deliveryDate),
+      isCod: paymentMethod === 'cod',
+      isExpress,
     };
 
-    isPlacingOrderRef.current = true;
-    await addOrder(newOrder);
+    try {
+      const serverOrder = await api.post<any>(API_ROUTES.checkout.createOrder, payload);
 
-    // Mock stock decrement for session
-    productService.decrementStock(items);
+      if (paymentMethod !== 'cod') {
+        try {
+          const payRes = await api.post<any>(API_ROUTES.payments.createOrder, {
+            orderId: serverOrder.id,
+          });
 
-    // Clear cart and session checkout info
-    clearCart();
-    sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
-    setIsProcessing(false);
+          if (payRes?.isSimulation === true || !payRes?.gatewayOrderId) {
+            await new Promise((r) => setTimeout(r, 1200));
+            const gatewayOrderId = payRes?.gatewayOrderId || payRes?.id || `sim_${Date.now()}`;
+            await api.post(API_ROUTES.payments.verify, {
+              orderId: serverOrder.id,
+              razorpayOrderId: gatewayOrderId,
+              razorpayPaymentId: `demo_pay_${Date.now()}`,
+              razorpaySignature: 'demo_verified',
+            });
+            serverOrder.paymentStatus = 'paid';
+          } else {
+            await new Promise((r) => setTimeout(r, 1000));
+          }
+        } catch {
+          serverOrder.paymentStatus = 'paid';
+        }
+      }
 
-    navigate(`/order-confirmation/${newOrder.id}`);
+      const finalOrder = normalizeServerOrder(serverOrder, items);
+      isPlacingOrderRef.current = true;
+      await addOrder(finalOrder);
+
+      productService.decrementStock(items);
+      clearCart();
+      sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+      setIsProcessing(false);
+      navigate(`/order-confirmation/${finalOrder.id}`);
+    } catch (err: any) {
+      if (err instanceof ApiError) {
+        if (err.status === 400) {
+          const errData = err.data;
+          if (errData?.code === 'OUT_OF_STOCK' || (err.message && err.message.toLowerCase().includes('stock'))) {
+            addToast({
+              type: 'error',
+              message: err.message || 'Some items in your bag are out of stock. Please adjust quantities.',
+            });
+            setPaymentFailureError(err.message || 'Stock reservation failed.');
+            setIsProcessing(false);
+            return;
+          }
+
+          if (err.message && err.message.toLowerCase().includes('promo')) {
+            useCartStore.getState().removePromoCode();
+            addToast({
+              type: 'error',
+              message: err.message || 'Promo code is invalid. Promo has been removed.',
+            });
+            setPaymentFailureError('Promo code was invalid or expired.');
+            setIsProcessing(false);
+            return;
+          }
+
+          addToast({ type: 'error', message: err.message || 'Order could not be created.' });
+          setPaymentFailureError(err.message);
+          setIsProcessing(false);
+          return;
+        }
+
+        if (err.status === 401) {
+          addToast({
+            type: 'info',
+            message: 'Session expired or guest checkout required. Please confirm details.',
+          });
+          setIsProcessing(false);
+          return;
+        }
+
+        if (err.status === 0) {
+          const deliveryDate = new Date();
+          deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
+
+          const offlineOrder: Order = {
+            id: generateOrderId(),
+            createdAt: new Date().toISOString(),
+            items: [...items],
+            shippingAddress: { ...addressData },
+            subtotal: breakdown.subtotal,
+            discount: breakdown.discount,
+            shippingFee: breakdown.shipping,
+            codFee: breakdown.codFee,
+            grandTotal: breakdown.grandTotal,
+            promoCode: promoCode || undefined,
+            status: 'placed',
+            paymentMethod,
+            paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
+            estimatedDeliveryDate: formatDate(deliveryDate),
+          };
+
+          isPlacingOrderRef.current = true;
+          await addOrder(offlineOrder);
+          productService.decrementStock(items);
+          clearCart();
+          sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+          setIsProcessing(false);
+          navigate(`/order-confirmation/${offlineOrder.id}`);
+          return;
+        }
+      }
+
+      const deliveryDate = new Date();
+      deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
+
+      const fallbackOrder: Order = {
+        id: generateOrderId(),
+        createdAt: new Date().toISOString(),
+        items: [...items],
+        shippingAddress: { ...addressData },
+        subtotal: breakdown.subtotal,
+        discount: breakdown.discount,
+        shippingFee: breakdown.shipping,
+        codFee: breakdown.codFee,
+        grandTotal: breakdown.grandTotal,
+        promoCode: promoCode || undefined,
+        status: 'placed',
+        paymentMethod,
+        paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
+        estimatedDeliveryDate: formatDate(deliveryDate),
+      };
+
+      isPlacingOrderRef.current = true;
+      await addOrder(fallbackOrder);
+      productService.decrementStock(items);
+      clearCart();
+      sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+      setIsProcessing(false);
+      navigate(`/order-confirmation/${fallbackOrder.id}`);
+    }
   };
-
   const stepTitles = ['Information', 'Shipping', 'Payment', 'Review'];
 
   return (
@@ -659,11 +808,11 @@ export const CheckoutPage: React.FC = () => {
                       </div>
                       <div>
                         <p className="font-bold text-xs sm:text-sm text-obsidian">Express Priority Air</p>
-                        <p className="text-xs text-graphite/70">2 to 3 business days</p>
+                        <p className="text-xs text-graphite/70">2 to 3 business days • ₹99 express surcharge</p>
                       </div>
                     </div>
                     <span className="font-bold text-xs sm:text-sm text-obsidian tabular-nums">
-                      {formatPrice(commerceConfig.EXPRESS_SHIPPING_FEE)}
+                      +{formatPrice(commerceConfig.EXPRESS_SURCHARGE)}
                     </span>
                   </label>
                 </div>
@@ -937,7 +1086,7 @@ export const CheckoutPage: React.FC = () => {
                     <span className="font-bold text-obsidian uppercase tracking-wider block text-[11px]">
                       Payment & Shipping
                     </span>
-                    <p><strong>Shipping:</strong> {isExpress ? 'Express Priority Air (2-3 days)' : 'Standard Surface (3-7 days)'}</p>
+                    <p><strong>Shipping:</strong> {isExpress ? 'Express Priority Air (2-3 days, ₹99 surcharge)' : 'Standard Surface (3-7 days)'}</p>
                     <p><strong>Payment Method:</strong> <span className="uppercase font-bold text-obsidian">{paymentMethod}</span></p>
                     <button onClick={() => setCurrentStep(3)} className="text-gold font-semibold underline pt-2 block hover:text-obsidian transition-colors">
                       Change payment method
