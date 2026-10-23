@@ -300,7 +300,7 @@ export const CheckoutPage: React.FC = () => {
       navigate(`/order-confirmation/${finalOrder.id}`);
     } catch (err: any) {
       if (err instanceof ApiError) {
-        if (err.status === 400) {
+        if (err.status === 400 || err.status === 409) {
           const errData = err.data;
           if (errData?.code === 'OUT_OF_STOCK' || (err.message && err.message.toLowerCase().includes('stock'))) {
             addToast({
@@ -370,33 +370,11 @@ export const CheckoutPage: React.FC = () => {
         }
       }
 
-      const deliveryDate = new Date();
-      deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
-
-      const fallbackOrder: Order = {
-        id: generateOrderId(),
-        createdAt: new Date().toISOString(),
-        items: [...items],
-        shippingAddress: { ...addressData },
-        subtotal: breakdown.subtotal,
-        discount: breakdown.discount,
-        shippingFee: breakdown.shipping,
-        codFee: breakdown.codFee,
-        grandTotal: breakdown.grandTotal,
-        promoCode: promoCode || undefined,
-        status: 'placed',
-        paymentMethod,
-        paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
-        estimatedDeliveryDate: formatDate(deliveryDate),
-      };
-
-      isPlacingOrderRef.current = true;
-      await addOrder(fallbackOrder);
-      productService.decrementStock(items);
-      clearCart();
-      sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+      // Unhandled server rejection (e.g. 404/500). Never fabricate a success here:
+      // surface the failure and keep the cart intact so the customer can retry.
+      addToast({ type: 'error', message: err?.message || 'Could not place your order. Please try again.' });
+      setPaymentFailureError(err?.message || 'Order submission failed. Please try again.');
       setIsProcessing(false);
-      navigate(`/order-confirmation/${fallbackOrder.id}`);
     }
   };
   const stepTitles = ['Information', 'Shipping', 'Payment', 'Review'];
