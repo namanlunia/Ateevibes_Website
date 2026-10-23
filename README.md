@@ -151,27 +151,59 @@ Before production launch:
 
 ---
 
-## 6. Production Integration Guide (Backend & Razorpay)
+## 6. Production Integration Guide
 
-The application features an isolated service layer (`src/services/`):
+### Backend Connection (`VITE_API_BASE_URL`)
+The storefront communicates with REPO-B (NestJS 10 API) via `src/services/apiClient.ts`:
+- Environment variable: `VITE_API_BASE_URL` (default: `http://localhost:3000/api/v1`).
+- Auth tokens are stored in `atv:v1:auth_token` and `atv:v1:refresh_token` with transparent single-flight refresh on 401 via `POST /auth/refresh`.
+- If the backend is unreachable (status 0), the storefront gracefully falls back to local storage and static catalog mode so offline browsing and demo ordering remain unbroken.
 
-1. **`productService.ts`**: Replace localStorage/mock arrays with calls to your headless CMS, Medusa, Shopify Storefront API, or custom Node/Python backend.
-2. **`orderService.ts`**: Connect to your database or ERP for real order creation and live carrier AWB webhooks.
-3. **`authService.ts`**: Swap with NextAuth, Supabase, Firebase, or JWT authentication.
-4. **Razorpay Standard Checkout**:
-   In `src/pages/CheckoutPage.tsx`, replace the simulated payment delay with the Razorpay script:
+### Demo Seed Credentials
+- **Storefront Customer**: `naman@ateevibes.com` / `Customer@123456`
+- **Operations Admin**: `admin@ateevibes.com` / `Admin@123456`
+
+### Razorpay Simulation vs Real Gateway Mode
+The backend (`apps/api`) implements a simulation-first gateway pattern:
+1. When `RAZORPAY_KEY_ID` is empty or set to `rzp_test_placeholder`, `POST /payments/create-order` returns `{ isSimulation: true, gatewayOrderId: "order_sim_...", amount, currency: "INR" }`.
+2. The storefront presents simulated transaction processing and submits verification via `POST /payments/verify` with `{ orderId, razorpayOrderId, razorpayPaymentId: "demo_pay_...", razorpaySignature: "demo_verified" }`.
+3. The backend verifies the signature, settles the payment record, and transitions the order to `paid`.
+
+### Switching to Official Razorpay Checkout.js Modal
+To enable live or test Razorpay popup checkout in production:
+1. Set real keys in backend `apps/api/.env`: `RAZORPAY_KEY_ID=rzp_live_...` and `RAZORPAY_KEY_SECRET=...`.
+2. Add the official Razorpay script tag to `index.html`:
+   ```html
+   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+   ```
+3. In `src/pages/CheckoutPage.tsx`, when `payRes.isSimulation === false`, instantiate `new (window as any).Razorpay(options)`:
    ```javascript
    const options = {
-     key: process.env.VITE_RAZORPAY_KEY_ID,
-     amount: breakdown.grandTotal * 100, // Amount in paise
-     currency: 'INR',
+     key: payRes.keyId,
+     amount: payRes.amount,
+     currency: payRes.currency || 'INR',
      name: 'Ateevibes',
-     description: `Order ${orderId}`,
-     handler: function (response) {
-       // verify signature on backend and navigate to order-confirmation
+     description: `Order ${serverOrder.id}`,
+     order_id: payRes.gatewayOrderId,
+     prefill: {
+       name: addressData.fullName,
+       email: addressData.email,
+       contact: addressData.phone,
+     },
+     handler: async function (response) {
+       await api.post('/payments/verify', {
+         orderId: serverOrder.id,
+         razorpayOrderId: response.razorpay_order_id,
+         razorpayPaymentId: response.razorpay_payment_id,
+         razorpaySignature: response.razorpay_signature,
+       });
+       navigate(`/order-confirmation/${serverOrder.id}`);
+     },
+     modal: {
+       ondismiss: () => setIsProcessing(false),
      },
    };
-   const rzp = new window.Razorpay(options);
+   const rzp = new (window as any).Razorpay(options);
    rzp.open();
    ```
 
