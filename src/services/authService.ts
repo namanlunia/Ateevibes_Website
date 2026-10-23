@@ -1,6 +1,9 @@
 import { Address, User } from '../types';
 
+import { api } from './apiClient';
+
 const AUTH_USER_KEY = 'atv:v1:auth_user';
+const AUTH_TOKEN_KEY = 'atv:v1:auth_token';
 const USERS_DB_KEY = 'atv:v1:users_db';
 
 interface StoredUserRecord extends User {
@@ -51,8 +54,28 @@ export const authService = {
   },
 
   async login(email: string, password: string): Promise<User> {
-    await new Promise((r) => setTimeout(r, 80));
     const cleanEmail = email.trim().toLowerCase();
+
+    // Attempt live API authentication first
+    try {
+      const res = await api.post('/auth/login', { email: cleanEmail, password });
+      if (res && res.accessToken && res.user) {
+        localStorage.setItem(AUTH_TOKEN_KEY, res.accessToken);
+        const userObj: User = {
+          id: res.user.id,
+          name: res.user.name,
+          email: res.user.email,
+          phone: res.user.phone,
+          savedAddresses: res.user.addresses || [],
+        };
+        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(userObj));
+        return userObj;
+      }
+    } catch {
+      // Backend offline or user not in remote DB; proceed to local fallback
+    }
+
+    await new Promise((r) => setTimeout(r, 80));
     const users = getStoredUsers();
     const existing = users.find((u) => u.email.toLowerCase() === cleanEmail);
 
@@ -74,8 +97,33 @@ export const authService = {
   },
 
   async signup(name: string, email: string, password: string, phone?: string): Promise<User> {
-    await new Promise((r) => setTimeout(r, 80));
     const cleanEmail = email.trim().toLowerCase();
+
+    // Attempt live API registration first
+    try {
+      const res = await api.post('/auth/register', {
+        name: name.trim(),
+        email: cleanEmail,
+        password,
+        phone: phone?.trim(),
+      });
+      if (res && res.accessToken && res.user) {
+        localStorage.setItem(AUTH_TOKEN_KEY, res.accessToken);
+        const userObj: User = {
+          id: res.user.id,
+          name: res.user.name,
+          email: res.user.email,
+          phone: res.user.phone,
+          savedAddresses: [],
+        };
+        localStorage.setItem(AUTH_USER_KEY, JSON.stringify(userObj));
+        return userObj;
+      }
+    } catch {
+      // Fallback to local storage
+    }
+
+    await new Promise((r) => setTimeout(r, 80));
     const users = getStoredUsers();
 
     if (users.some((u) => u.email.toLowerCase() === cleanEmail)) {
@@ -162,5 +210,6 @@ export const authService = {
 
   logout(): void {
     localStorage.removeItem(AUTH_USER_KEY);
+    localStorage.removeItem(AUTH_TOKEN_KEY);
   },
 };

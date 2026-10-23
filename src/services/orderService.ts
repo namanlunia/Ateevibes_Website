@@ -1,4 +1,5 @@
 import { Order, OrderStatus } from '../types';
+import { api } from './apiClient';
 
 const ORDERS_KEY = 'atv:v1:orders';
 
@@ -41,17 +42,35 @@ function computeProgressiveStatus(order: Order): OrderStatus {
 
 export const orderService = {
   async create(order: Order): Promise<Order> {
-    await new Promise((r) => setTimeout(r, 60));
+    // Save to local storage cache immediately
     const orders = getStoredOrders();
     orders.unshift(order);
     saveStoredOrders(orders);
+
+    // Sync with backend API if available
+    try {
+      await api.post('/orders', order);
+    } catch {
+      // Backend may be offline or in standalone demo mode; local cache preserved
+    }
+
+    await new Promise((r) => setTimeout(r, 60));
     return order;
   },
 
   async getById(id: string): Promise<Order | null> {
+    const cleanId = id.trim();
+    // Try backend API first
+    try {
+      const liveOrder = await api.get<Order>(`/orders/${cleanId}`);
+      if (liveOrder && liveOrder.id) return liveOrder;
+    } catch {
+      // Fallback to local storage
+    }
+
     await new Promise((r) => setTimeout(r, 40));
     const orders = getStoredOrders();
-    const order = orders.find((o) => o.id.toLowerCase() === id.trim().toLowerCase());
+    const order = orders.find((o) => o.id.toLowerCase() === cleanId.toLowerCase());
     if (!order) return null;
     return {
       ...order,
@@ -60,15 +79,30 @@ export const orderService = {
   },
 
   async lookup(orderId: string, phoneOrEmail: string): Promise<Order | null> {
+    const cleanId = orderId.trim();
+    const cleanContact = phoneOrEmail.trim();
+
+    // Try live backend tracking lookup
+    try {
+      const query = new URLSearchParams({
+        orderId: cleanId,
+        phoneOrEmail: cleanContact,
+      }).toString();
+      const liveOrder = await api.get<Order>(`/orders/lookup?${query}`);
+      if (liveOrder && liveOrder.id) return liveOrder;
+    } catch {
+      // Fallback to local storage lookup
+    }
+
     await new Promise((r) => setTimeout(r, 60));
     const orders = getStoredOrders();
-    const cleanId = orderId.trim().toLowerCase();
-    const cleanContact = phoneOrEmail.trim().toLowerCase();
+    const lowerId = cleanId.toLowerCase();
+    const lowerContact = cleanContact.toLowerCase();
 
     const order = orders.find((o) => {
-      const matchId = o.id.toLowerCase() === cleanId;
-      const matchEmail = o.shippingAddress.email.toLowerCase() === cleanContact;
-      const matchPhone = o.shippingAddress.phone.replace(/\D/g, '') === cleanContact.replace(/\D/g, '');
+      const matchId = o.id.toLowerCase() === lowerId;
+      const matchEmail = o.shippingAddress?.email?.toLowerCase() === lowerContact;
+      const matchPhone = o.shippingAddress?.phone?.replace(/\D/g, '') === lowerContact.replace(/\D/g, '');
       return matchId && (matchEmail || matchPhone);
     });
 
@@ -80,11 +114,18 @@ export const orderService = {
   },
 
   async getAllByUser(email: string): Promise<Order[]> {
+    const cleanEmail = email.trim().toLowerCase();
+    try {
+      const liveOrders = await api.get<Order[]>(`/orders/my-orders?email=${encodeURIComponent(cleanEmail)}`);
+      if (Array.isArray(liveOrders) && liveOrders.length > 0) return liveOrders;
+    } catch {
+      // Fallback to local storage
+    }
+
     await new Promise((r) => setTimeout(r, 50));
     const orders = getStoredOrders();
-    const cleanEmail = email.trim().toLowerCase();
     return orders
-      .filter((o) => o.shippingAddress.email.toLowerCase() === cleanEmail)
+      .filter((o) => o.shippingAddress?.email?.toLowerCase() === cleanEmail)
       .map((o) => ({
         ...o,
         status: computeProgressiveStatus(o),
