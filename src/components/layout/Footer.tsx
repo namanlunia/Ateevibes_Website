@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
             </div>
             <div>
               <p className="text-xs sm:text-sm font-bold text-ivory">Atelier Direct</p>
-              <p className="text-[11px] text-ivory/60">Crafted in Surat, Gujarat</p>
+              <p className="text-[11px] text-ivory/60">Crafted in Mumbai, Maharashtra</p>
             </div>
           </div>
 

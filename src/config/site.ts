@@ -14,7 +14,7 @@ export const siteConfig = {
     phone: '+91 98765 43210', // PLACEHOLDER
     whatsapp: '+91 98765 43210', // PLACEHOLDER
     whatsappMessage: 'Hi Ateevibes team! I would like to know more about your collection.',
-    address: '104, Textile Fashion Hub, Ring Road, Surat, Gujarat 395002, India', // PLACEHOLDER
+    address: 'Mumbai, Maharashtra 400001, India', // PLACEHOLDER
     businessHours: 'Mon - Sat: 10:00 AM - 7:00 PM IST',
   },
   legal: {

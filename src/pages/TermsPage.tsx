@@ -46,7 +46,7 @@ export const TermsPage: React.FC = () => {
           <section className="space-y-2">
             <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">3. Orders & Cancellation</h2>
             <p>
-              We reserve the right to refuse or cancel any order for reasons including non-serviceable PIN codes, stock unavailability, or suspected fraudulent activity. You may cancel your order at any time before it has been dispatched from our Surat hub by contacting support.
+              We reserve the right to refuse or cancel any order for reasons including non-serviceable PIN codes, stock unavailability, or suspected fraudulent activity. You may cancel your order at any time before it has been dispatched from our Mumbai hub by contacting support.
             </p>
           </section>
 
@@ -67,7 +67,7 @@ export const TermsPage: React.FC = () => {
           <section className="space-y-2">
             <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">6. Governing Law & Jurisdiction</h2>
             <p>
-              These Terms and any separate agreements shall be governed by and construed in accordance with the laws of the Republic of India. Any disputes arising hereunder shall be subject to the exclusive jurisdiction of the courts in Surat, Gujarat, India.
+              These Terms and any separate agreements shall be governed by and construed in accordance with the laws of the Republic of India. Any disputes arising hereunder shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra, India.
             </p>
           </section>
         </div>

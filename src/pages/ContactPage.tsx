@@ -163,7 +163,7 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-serif text-base font-normal text-obsidian">Fulfillment & Design Hub</h4>
-                  <p className="text-xs font-medium text-graphite font-sans">Surat, Gujarat - 395002, India</p>
+                  <p className="text-xs font-medium text-graphite font-sans">Mumbai, Maharashtra - 400001, India</p>
                 </div>
               </div>
               <p className="text-[11px] text-graphite/60 pl-13 font-sans">

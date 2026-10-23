@@ -297,7 +297,7 @@ export const HomePage: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-sandstone/90 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans font-normal">
-                Engineered China jacquards, tactile waffle weaves, and fluid knitwear tailored for contemporary distinction. Directly from our Surat manufacturing atelier.
+                Engineered China jacquards, tactile waffle weaves, and fluid knitwear tailored for contemporary distinction. Directly from our Mumbai manufacturing atelier.
               </p>
 
               {/* CTAs */}
@@ -331,7 +331,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-gold" />
-                  <span>Direct from Surat Atelier</span>
+                  <span>Direct from Mumbai Atelier</span>
                 </div>
               </div>
             </div>

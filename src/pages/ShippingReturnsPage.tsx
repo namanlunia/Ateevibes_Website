@@ -33,7 +33,7 @@ export const ShippingReturnsPage: React.FC = () => {
             Shipping & Order Policy
           </h1>
           <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
-            Every Ateevibes garment is engineered, inspected, and dispatched directly from our Surat atelier. Review our delivery timelines and customer support guidelines below.
+            Every Ateevibes garment is engineered, inspected, and dispatched directly from our Mumbai atelier. Review our delivery timelines and customer support guidelines below.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export const ShippingReturnsPage: React.FC = () => {
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
                 Domestic Shipping Policy
               </h2>
-              <p className="text-xs text-graphite/70 font-sans mt-0.5">Fulfillment directly from our Surat, Gujarat atelier</p>
+              <p className="text-xs text-graphite/70 font-sans mt-0.5">Fulfillment directly from our Mumbai, Maharashtra atelier</p>
             </div>
           </div>
 
@@ -139,7 +139,7 @@ export const ShippingReturnsPage: React.FC = () => {
             <div className="space-y-2">
               <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Atelier Quality Guarantee</h3>
               <p>
-                Before any t-shirt leaves our Surat workshop, it undergoes thorough quality verification:
+                Before any t-shirt leaves our Mumbai workshop, it undergoes thorough quality verification:
               </p>
               <ul className="space-y-2 text-xs text-graphite/80 pt-1">
                 <li className="flex items-center gap-2.5">

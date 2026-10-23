@@ -23,7 +23,7 @@ const FAQ_LIST: FAQItem[] = [
     category: 'shipping',
     question: 'How long does delivery take across India?',
     answer:
-      'We dispatch all orders within 24–48 business hours from our Surat dispatch hub. Metro deliveries (Mumbai, Delhi NCR, Bengaluru, Hyderabad, Chennai) typically arrive in 2–4 business days. Other regional cities and PIN codes take 3–5 business days via Express Air courier partners.',
+      'We dispatch all orders within 24–48 business hours from our Mumbai dispatch hub. Metro deliveries (Mumbai, Delhi NCR, Bengaluru, Hyderabad, Chennai) typically arrive in 2–4 business days. Other regional cities and PIN codes take 3–5 business days via Express Air courier partners.',
   },
   {
     id: 'f-2',

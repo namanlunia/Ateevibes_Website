@@ -661,7 +661,7 @@ export const CheckoutPage: React.FC = () => {
                       type="text"
                       value={addressData.city}
                       onChange={(e) => setAddressData({ ...addressData, city: e.target.value })}
-                      placeholder="e.g. Surat"
+                      placeholder="e.g. Mumbai"
                       className="w-full px-4 py-2.5 bg-white border border-sandstone focus:border-gold rounded-xl text-xs sm:text-sm text-obsidian focus:outline-none shadow-subtle"
                     />
                     {addressErrors.city && (
