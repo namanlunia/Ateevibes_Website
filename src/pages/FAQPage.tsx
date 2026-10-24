@@ -70,9 +70,9 @@ const FAQ_LIST: FAQItem[] = [
   {
     id: 'f-8',
     category: 'returns',
-    question: 'Does Ateevibes offer a 7-day return policy?',
+    question: 'What is the return and exchange policy?',
     answer:
-      'No. Ateevibes does not offer an automatic 7-day return or exchange policy. Because each garment is produced in limited fabric runs, sales are considered final once delivered. In the rare event of transit damage or shipping errors, our concierge resolves it directly when notified within 48 hours of delivery.',
+      'All sales are final once delivered. Because each garment is produced in specialized limited fabric runs, Ateevibes does not accept standard returns or exchanges. In the rare event of transit damage or dispatch error reported within 48 hours of delivery, our concierge resolves it directly with a prompt replacement.',
   },
   {
     id: 'f-9',

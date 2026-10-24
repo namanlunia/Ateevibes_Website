@@ -132,7 +132,7 @@ export const ShippingReturnsPage: React.FC = () => {
                 <span>Notice Regarding Returns</span>
               </div>
               <p className="text-xs text-graphite/80 leading-relaxed">
-                Ateevibes does not offer an automatic 7-day return or exchange policy. Because each garment is produced in specialized limited fabric runs and tailored with dimensional knits, sales are considered final once delivered and inspected, unless an item has arrived with transit damage or an incorrect variant was dispatched.
+                All sales are final once delivered. Because each garment is produced in specialized limited fabric runs and tailored with dimensional knits, Ateevibes does not accept standard returns or exchanges, unless an item has arrived with transit damage reported within 48 hours or an incorrect variant was dispatched.
               </p>
             </div>
 

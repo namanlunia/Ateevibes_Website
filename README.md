@@ -134,7 +134,7 @@ Commercial rules reside in `src/config/commerce.ts` and `src/lib/pricing.ts`:
 - **Flat Shipping Fee**: Set `FLAT_SHIPPING_FEE: 79`.
 - **COD Fee**: Set `COD_FEE: 49`.
 - **Promo Codes**: Add or adjust discount rules in `calculatePricing()` in `src/lib/pricing.ts`:
-  - `WELCOME15`: ₹150 off first purchase.
+  - `WELCOME15`: 15% discount on first purchase for new members.
   - `ATEE10`: 10% discount on cart subtotal.
 
 ### Updating Brand Contacts & Links

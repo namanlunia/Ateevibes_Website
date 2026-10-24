@@ -1,0 +1,105 @@
+{
+  "SHOPPING_MODEL": {
+    "FREE_SHIPPING_THRESHOLD": 1499,
+    "STANDARD_SHIPPING_FEE": 79,
+    "EXPRESS_SURCHARGE": 99,
+    "COD_FEE": 49,
+    "MAX_QTY_PER_LINE": 10,
+    "RESERVATION_MINUTES": 15
+  },
+  "PROMO_CODES": {
+    "ATEE10": {
+      "name": "ATEE10",
+      "pct": 10,
+      "requiresFirstOrder": false,
+      "description": "10% off entire order"
+    },
+    "WELCOME15": {
+      "name": "WELCOME15",
+      "pct": 15,
+      "requiresFirstOrder": true,
+      "description": "15% off first order for new members"
+    }
+  },
+  "API_ROUTE_PATTERNS": {
+    "customerLogin": "/auth/customer/login",
+    "customerSignup": "/auth/customer/signup",
+    "refresh": "/auth/refresh",
+    "me": "/auth/me",
+    "productsBase": "/products",
+    "productsBySlug": "/products/:slug",
+    "productsByPno": "/products/pno/:pno",
+    "productsRelated": "/products/:id/related",
+    "bestsellers": "/products/curated/bestsellers",
+    "newArrivals": "/products/curated/new-arrivals",
+    "checkoutQuote": "/checkout/quote",
+    "checkoutCreateOrder": "/checkout/create-order",
+    "paymentsCreateOrder": "/payments/create-order",
+    "paymentsVerify": "/payments/verify",
+    "ordersLookup": "/orders/lookup",
+    "ordersMyOrders": "/orders/my-orders",
+    "ordersById": "/orders/:id"
+  },
+  "sampleComputeOutputs": [
+    {
+      "input": {
+        "subtotal": 1000,
+        "discount": 0,
+        "isCod": false,
+        "isExpress": false
+      },
+      "expected": {
+        "netSubtotal": 1000,
+        "shipping": 79,
+        "codFee": 0,
+        "grandTotal": 1079,
+        "amountToFreeShipping": 499
+      }
+    },
+    {
+      "input": {
+        "subtotal": 1500,
+        "discount": 0,
+        "isCod": false,
+        "isExpress": false
+      },
+      "expected": {
+        "netSubtotal": 1500,
+        "shipping": 0,
+        "codFee": 0,
+        "grandTotal": 1500,
+        "amountToFreeShipping": 0
+      }
+    },
+    {
+      "input": {
+        "subtotal": 2000,
+        "discount": 200,
+        "isCod": true,
+        "isExpress": true
+      },
+      "expected": {
+        "netSubtotal": 1800,
+        "shipping": 99,
+        "codFee": 49,
+        "grandTotal": 1948,
+        "amountToFreeShipping": 0
+      }
+    },
+    {
+      "input": {
+        "subtotal": 1000,
+        "discount": 0,
+        "isCod": false,
+        "isExpress": true
+      },
+      "expected": {
+        "netSubtotal": 1000,
+        "shipping": 178,
+        "codFee": 0,
+        "grandTotal": 1178,
+        "amountToFreeShipping": 499
+      }
+    }
+  ]
+}
