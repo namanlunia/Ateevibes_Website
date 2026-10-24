@@ -139,7 +139,7 @@ async function apiRequest<T = any>(
 }
 
 export const api = {
-  get: <T = any>(endpoint: string) => apiRequest<T>(endpoint, { method: "GET" }),
+  get: <T = any>(endpoint: string, options?: RequestInit) => apiRequest<T>(endpoint, { method: "GET", ...options }),
   post: <T = any>(endpoint: string, body?: any) =>
     apiRequest<T>(endpoint, {
       method: "POST",

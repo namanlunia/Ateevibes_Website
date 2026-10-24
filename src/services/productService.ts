@@ -9,7 +9,7 @@ import { useUIStore } from "../store/uiStore";
 export const productService = {
   async getAll(): Promise<Product[]> {
     try {
-      const res = await api.get<{ items?: unknown[] } | unknown[]>(API_ROUTES.products.base);
+      const res = await api.get<{ items?: unknown[] } | unknown[]>(`${API_ROUTES.products.base}?limit=100`);
       const rawList = Array.isArray(res) ? res : res?.items;
       if (Array.isArray(rawList) && rawList.length > 0) {
         const normalized = rawList

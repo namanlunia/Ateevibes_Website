@@ -54,12 +54,12 @@ export const PROMO_CODES: Record<string, PromoCodeDefinition> = {
   },
 } as const;
 
-export const FREE_SHIPPING_THRESHOLD = 1499;
-export const STANDARD_SHIPPING_FEE = 79;
-export const EXPRESS_SURCHARGE = 99;
-export const COD_FEE = 49;
-export const MAX_QTY_PER_LINE = 10;
-export const RESERVATION_MINUTES = 15;
+const FREE_SHIPPING_THRESHOLD = 1499;
+const STANDARD_SHIPPING_FEE = 79;
+const EXPRESS_SURCHARGE = 99;
+const COD_FEE = 49;
+const MAX_QTY_PER_LINE = 10;
+const RESERVATION_MINUTES = 15;
 
 export const SHOPPING_MODEL = {
   FREE_SHIPPING_THRESHOLD,

@@ -46,7 +46,7 @@ describe('Frontend Contract Snapshot Drift Protection', () => {
       snapshot.API_ROUTE_PATTERNS.customerLogin,
     );
     expect(API_ROUTES.auth.customerSignup).toBe(
-      snapshot.API_ROUTE_PATTERATE_PATTERNS?.customerSignup || snapshot.API_ROUTE_PATTERNS.customerSignup,
+      snapshot.API_ROUTE_PATTERNS.customerSignup,
     );
     expect(API_ROUTES.auth.refresh).toBe(snapshot.API_ROUTE_PATTERNS.refresh);
     expect(API_ROUTES.auth.me).toBe(snapshot.API_ROUTE_PATTERNS.me);

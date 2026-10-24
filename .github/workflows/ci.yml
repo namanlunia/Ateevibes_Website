@@ -1,0 +1,38 @@
+name: Storefront CI
+
+on:
+  push:
+    branches: [main, master, fix/*, feat/*]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint (Oxlint & ESLint)
+        run: npm run lint
+
+      - name: Dead Code Analysis (Knip)
+        run: npm run deadcode
+
+      - name: Run Automated Tests
+        run: npm run test
+
+      - name: Production Build
+        run: npm run build

@@ -12,7 +12,7 @@ describe('Production Offline Safety & No Fake Orders', () => {
   beforeEach(() => {
     localStorage.clear();
     sessionStorage.clear();
-    useCartStore.setState({ items: [], promoCode: null, promoDiscount: 0 });
+    useCartStore.setState({ items: [], promoCode: '' });
     useOrdersStore.setState({ orders: [], currentOrder: null });
     useUIStore.setState({ isOfflineCatalog: false });
     vi.restoreAllMocks();
