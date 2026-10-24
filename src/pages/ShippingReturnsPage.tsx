@@ -27,13 +27,13 @@ export const ShippingReturnsPage: React.FC = () => {
         <div className="text-center space-y-3.5">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ivory border border-sandstone text-xs font-bold text-gold uppercase tracking-wider">
             <Truck className="w-3.5 h-3.5" />
-            <span>Atelier Fulfillment & Orders</span>
+            <span>Ateevibes Fulfillment & Orders</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-obsidian tracking-tight">
             Shipping & Order Policy
           </h1>
           <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
-            Every Ateevibes garment is engineered, inspected, and dispatched directly from our Mumbai atelier. Review our delivery timelines and customer support guidelines below.
+            Every Ateevibes garment is engineered, inspected, and dispatched directly from the Ateevibes Mumbai production hub. Review our delivery timelines and customer support guidelines below.
           </p>
         </div>
 
@@ -71,7 +71,7 @@ export const ShippingReturnsPage: React.FC = () => {
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
                 Domestic Shipping Policy
               </h2>
-              <p className="text-xs text-graphite/70 font-sans mt-0.5">Fulfillment directly from our Mumbai, Maharashtra atelier</p>
+              <p className="text-xs text-graphite/70 font-sans mt-0.5">Fulfillment directly from Ateevibes, Mumbai, Maharashtra</p>
             </div>
           </div>
 
@@ -137,7 +137,7 @@ export const ShippingReturnsPage: React.FC = () => {
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Atelier Quality Guarantee</h3>
+              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Ateevibes Quality Guarantee</h3>
               <p>
                 Before any t-shirt leaves our Mumbai workshop, it undergoes thorough quality verification:
               </p>
@@ -175,7 +175,7 @@ export const ShippingReturnsPage: React.FC = () => {
                 </div>
                 <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
                   <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 3</span>
-                  <p className="font-bold text-obsidian text-xs">Prompt Atelier Resolution</p>
+                  <p className="font-bold text-obsidian text-xs">Prompt Ateevibes Resolution</p>
                   <p className="text-[11px] text-graphite/70">Once verified by our quality control manager, a replacement piece is immediately dispatched.</p>
                 </div>
               </div>

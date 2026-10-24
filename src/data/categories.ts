@@ -77,7 +77,7 @@ export const QUICK_COLLECTIONS = [
   {
     slug: 'new-arrivals',
     name: 'New Arrivals',
-    tagline: 'Fresh drops straight from the atelier',
+    tagline: 'Fresh drops straight from Ateevibes',
     description: 'Discover the latest additions to the Ateevibes rotation.',
     filterTag: 'new-arrival',
   },

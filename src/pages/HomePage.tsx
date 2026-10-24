@@ -113,7 +113,7 @@ const VALUE_PROPS = [
   {
     icon: ShieldCheck,
     title: 'Fair-Price Luxury',
-    description: 'Direct-from-atelier pricing with zero showroom middleman markups. Pure fabric value in every rupee.',
+    description: 'Direct-from-Ateevibes pricing with zero showroom middleman markups. Pure fabric value in every rupee.',
     accent: 'midnight',
     bgClass: 'bg-midnight text-ivory border-sandstone/30',
   },
@@ -286,7 +286,7 @@ export const HomePage: React.FC = () => {
               >
                 <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
                 <span className="uppercase tracking-[0.18em] text-[11px] font-bold text-gold">
-                  Ateevibes Menswear • Fall/Winter Atelier
+                  Ateevibes Menswear • Fall/Winter Collection
                 </span>
               </motion.div>
 
@@ -297,7 +297,7 @@ export const HomePage: React.FC = () => {
               </h1>
 
               <p className="text-base sm:text-lg text-sandstone/90 max-w-lg mx-auto lg:mx-0 leading-relaxed font-sans font-normal">
-                Engineered China jacquards, tactile waffle weaves, and fluid knitwear tailored for contemporary distinction. Directly from our Mumbai manufacturing atelier.
+                Engineered China jacquards, tactile waffle weaves, and fluid knitwear tailored for contemporary distinction. Directly from the Ateevibes Mumbai manufacturing hub.
               </p>
 
               {/* CTAs */}
@@ -319,7 +319,7 @@ export const HomePage: React.FC = () => {
                 </a>
               </div>
 
-              {/* Verified Atelier Highlights (No false return claims) */}
+              {/* Verified Ateevibes Highlights (No false return claims) */}
               <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs text-sandstone/80 font-sans">
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-gold" />
@@ -331,7 +331,7 @@ export const HomePage: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-1.5">
                   <Check className="w-4 h-4 text-gold" />
-                  <span>Direct from Mumbai Atelier</span>
+                  <span>Direct from Ateevibes Mumbai</span>
                 </div>
               </div>
             </div>
@@ -584,7 +584,7 @@ export const HomePage: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.18em] text-gold block mb-1">
-                  Atelier Drop • Fresh Arrivals
+                  Ateevibes Drop • Fresh Arrivals
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-normal text-ivory tracking-tight">
                   New Season Releases

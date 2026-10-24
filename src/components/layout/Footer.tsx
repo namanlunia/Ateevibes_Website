@@ -67,7 +67,7 @@ export const Footer: React.FC = () => {
               <CheckCircle2 className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs sm:text-sm font-bold text-ivory">Atelier Direct</p>
+              <p className="text-xs sm:text-sm font-bold text-ivory">Ateevibes Direct</p>
               <p className="text-[11px] text-ivory/60">Crafted in Mumbai, Maharashtra</p>
             </div>
           </div>

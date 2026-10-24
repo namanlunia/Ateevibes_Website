@@ -697,7 +697,7 @@ export const ProductPage: React.FC = () => {
                 {accordions.shipping && (
                   <div className="mt-2 space-y-1.5 text-xs text-ink-600">
                     <p>• Free standard delivery on all orders over ₹1,499 (otherwise flat ₹79).</p>
-                    <p>• Dispatched within 24 to 48 hours directly from our Mumbai atelier.</p>
+                    <p>• Dispatched within 24 to 48 hours directly from the Ateevibes Mumbai hub.</p>
                     <p>• Estimated delivery time: 3 to 5 business days via Express Air courier networks.</p>
                     <p>• Cash on Delivery (COD) available across 25,000+ PIN codes with flat ₹49 fee.</p>
                     <p>• Multi-point quality inspection conducted prior to shipping.</p>

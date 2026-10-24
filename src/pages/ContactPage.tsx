@@ -70,7 +70,7 @@ export const ContactPage: React.FC = () => {
         <title>{`Contact Us • Customer Care | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Get in touch with the Ateevibes concierge team for order help, sizing guidance, and atelier product questions."
+          content="Get in touch with the Ateevibes concierge team for order help, sizing guidance, and product questions."
         />
       </Helmet>
 
@@ -155,7 +155,7 @@ export const ContactPage: React.FC = () => {
               </p>
             </div>
 
-            {/* Atelier & Hub */}
+            {/* Ateevibes Hub */}
             <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2 shadow-luxury">
               <div className="flex items-center gap-3.5">
                 <div className="w-10 h-10 rounded-xl bg-white border border-sandstone flex items-center justify-center text-gold shadow-sm">
@@ -167,7 +167,7 @@ export const ContactPage: React.FC = () => {
                 </div>
               </div>
               <p className="text-[11px] text-graphite/60 pl-13 font-sans">
-                Direct-from-atelier fulfillment with zero retail middlemen.
+                Direct-from-Ateevibes fulfillment with zero retail middlemen.
               </p>
             </div>
           </div>

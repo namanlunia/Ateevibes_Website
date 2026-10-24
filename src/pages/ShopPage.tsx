@@ -139,7 +139,7 @@ export const ShopPage: React.FC = () => {
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-deepBlack border border-gold/40 text-gold text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]">
                 <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                Atelier Drop • Collection Archive
+                Ateevibes Drop • Collection Archive
               </span>
               <span className="inline-flex items-center px-3 py-1 rounded-full bg-deepBlack/80 text-ivory/80 border border-sandstone/20 text-[11px] font-medium tracking-wide">
                 {filteredProducts.length} styles available
