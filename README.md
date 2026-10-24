@@ -157,11 +157,11 @@ Before production launch:
 The storefront communicates with REPO-B (NestJS 10 API) via `src/services/apiClient.ts`:
 - Environment variable: `VITE_API_BASE_URL` (default: `http://localhost:3000/api/v1`).
 - Auth tokens are stored in `atv:v1:auth_token` and `atv:v1:refresh_token` with transparent single-flight refresh on 401 via `POST /auth/refresh`.
-- If the backend is unreachable (status 0), the storefront gracefully falls back to local storage and static catalog mode so offline browsing and demo ordering remain unbroken.
+- If the backend is unreachable (status 0), the storefront falls back to offline catalog browsing with a visible notice, while checkout placement is safely halted to prevent phantom orders.
 
-### Demo Seed Credentials
-- **Storefront Customer**: `naman@ateevibes.com` / `Customer@123456`
-- **Operations Admin**: `admin@ateevibes.com` / `Admin@123456`
+### Access & User Accounts
+- **Storefront Customer**: Register via `/signup` or login with customer credentials.
+- **Operations Admin**: Access the Admin Command Center using provisioned `ADMIN_EMAIL` and `ADMIN_PASSWORD` credentials.
 
 ### Razorpay Simulation vs Real Gateway Mode
 The backend (`apps/api`) implements a simulation-first gateway pattern:
