@@ -93,30 +93,32 @@ export const ContactPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* Left: Contact Information & Cards */}
           <div className="lg:col-span-5 space-y-4">
-            {/* WhatsApp Card */}
-            <a
-              href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I would like some assistance.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-6 rounded-3xl bg-ivory border border-sandstone hover:border-gold/60 transition-all duration-300 block group shadow-luxury"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white border border-sandstone text-gold flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
-                  <MessageCircle className="w-6 h-6" />
+            {/* WhatsApp Card - Only shown when verified */}
+            {!siteConfig.contact.whatsappIsPlaceholder && (
+              <a
+                href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(siteConfig.contact.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-6 rounded-3xl bg-ivory border border-sandstone hover:border-gold/60 transition-all duration-300 block group shadow-luxury"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-2xl bg-white border border-sandstone text-gold flex items-center justify-center flex-shrink-0 group-hover:scale-105 transition-transform shadow-sm">
+                    <MessageCircle className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3 className="font-serif text-lg font-normal text-obsidian tracking-tight">
+                      Instant WhatsApp Concierge
+                    </h3>
+                    <p className="text-xs text-graphite/70 mt-0.5 font-sans">
+                      Fastest responses for sizing guidance and active order tracking.
+                    </p>
+                    <span className="text-xs font-semibold text-gold uppercase tracking-wider inline-block mt-2">
+                      Chat with Concierge →
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-serif text-lg font-normal text-obsidian tracking-tight">
-                    Instant WhatsApp Concierge
-                  </h3>
-                  <p className="text-xs text-graphite/70 mt-0.5 font-sans">
-                    Fastest responses for sizing guidance and active order tracking.
-                  </p>
-                  <span className="text-xs font-semibold text-gold uppercase tracking-wider inline-block mt-2">
-                    Chat with Concierge →
-                  </span>
-                </div>
-              </div>
-            </a>
+              </a>
+            )}
 
             {/* Email Support */}
             <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2 shadow-luxury">
@@ -163,7 +165,7 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <div>
                   <h4 className="font-serif text-base font-normal text-obsidian">Fulfillment & Design Hub</h4>
-                  <p className="text-xs font-medium text-graphite font-sans">Mumbai, Maharashtra - 400001, India</p>
+                  <p className="text-xs font-medium text-graphite font-sans">Mumbai, Maharashtra, India</p>
                 </div>
               </div>
               <p className="text-[11px] text-graphite/60 pl-13 font-sans">

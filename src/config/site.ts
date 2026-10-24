@@ -10,16 +10,23 @@ export const siteConfig = {
   url: import.meta.env.VITE_SITE_URL || 'https://ateevibes.com',
   ogImage: '/brand/logo.png',
   contact: {
-    email: 'support@ateevibes.com', // PLACEHOLDER
-    phone: '+91 98765 43210', // PLACEHOLDER
-    whatsapp: '+91 98765 43210', // PLACEHOLDER
+    email: 'support@ateevibes.com',
+    emailIsPlaceholder: false, // Confirmed support email
+    phone: '+91 98765 43210',
+    phoneIsPlaceholder: true, // Hidden from customer UI until confirmed
+    whatsapp: '+91 98765 43210',
+    whatsappIsPlaceholder: true, // Floating button and contact cards hidden until confirmed
     whatsappMessage: 'Hi Ateevibes team! I would like to know more about your collection.',
-    address: 'Mumbai, Maharashtra 400001, India', // PLACEHOLDER
+    address: 'Mumbai, Maharashtra 400001, India',
+    addressIsPlaceholder: true, // Specific address hidden from customers until verified
     businessHours: 'Mon - Sat: 10:00 AM - 7:00 PM IST',
+    businessHoursIsPlaceholder: false,
   },
   legal: {
-    companyName: 'Ateevibes Apparels LLP', // PLACEHOLDER
-    cinOrGstin: '24AAACA0000A1Z5', // PLACEHOLDER
+    companyName: 'Ateevibes Apparels LLP',
+    companyNameIsPlaceholder: true,
+    cinOrGstin: '24AAACA0000A1Z5',
+    cinOrGstinIsPlaceholder: true, // Omitted from customer UI, invoices & legal pages until verified (state code 27 for Maharashtra)
   },
   socials: {
     instagram: 'https://instagram.com/ateevibes',

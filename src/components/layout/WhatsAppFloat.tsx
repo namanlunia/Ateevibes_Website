@@ -6,8 +6,8 @@ import { siteConfig } from '../../config/site';
 export const WhatsAppFloat: React.FC = () => {
   const location = useLocation();
 
-  // Hide on checkout to prevent covering payment/order action buttons
-  if (location.pathname.startsWith('/checkout')) {
+  // Hide when WhatsApp number is placeholder or during checkout flow
+  if (siteConfig.contact.whatsappIsPlaceholder || location.pathname.startsWith('/checkout')) {
     return null;
   }
 

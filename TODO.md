@@ -22,22 +22,23 @@ The following 6 styles have their MRP marked as `PLACEHOLDER` in the catalog spe
 ---
 
 ## 3. Business & Contact Details (in `src/config/site.ts`)
-- [ ] **Support Email**: `support@ateevibes.com` (PLACEHOLDER)
-- [ ] **Support Phone**: `+91 98765 43210` (PLACEHOLDER)
-- [ ] **WhatsApp Number**: `+91 98765 43210` (PLACEHOLDER)
-- [ ] **Physical Address**: `Mumbai, Maharashtra 400001, India` (PLACEHOLDER)
-- [ ] **Legal Entity**: `Ateevibes Apparels LLP` (PLACEHOLDER)
-- [ ] **GSTIN / CIN**: `27AAACA0000A1Z5` (PLACEHOLDER)
+The following items are marked with `isPlaceholder: true` flags and are **hidden from customer-facing UI** until confirmed by the brand owner:
+- [ ] **Support Phone**: `+91 98765 43210` (`phoneIsPlaceholder: true`) — Omitted from SEO telephone schema and customer contact lines.
+- [ ] **WhatsApp Number**: `+91 98765 43210` (`whatsappIsPlaceholder: true`) — The floating WhatsApp button and the Contact Page WhatsApp card are currently hidden.
+- [ ] **Physical Postal Address**: `Mumbai, Maharashtra 400001, India` (`addressIsPlaceholder: true`) — Specific street and postal details are hidden; generic regional note shown.
+- [ ] **Legal Entity**: `Ateevibes Apparels LLP` (`companyNameIsPlaceholder: true`) — Needs official registered business name confirmation.
+- [ ] **GSTIN / CIN**: `24AAACA0000A1Z5` (`cinOrGstinIsPlaceholder: true`) — Omitted from footer, invoices, and legal pages. Note: State code `24` belongs to Gujarat; Maharashtra entity must use state code `27`.
+- [x] **Support Email**: `support@ateevibes.com` (`emailIsPlaceholder: false`) — Confirmed active support email and primary customer contact channel.
 
 ---
 
 ## 4. Commerce & Operational Constants (in `src/config/commerce.ts`)
-- [ ] **Free Shipping Threshold**: ₹1,499
-- [ ] **Flat Shipping Fee**: ₹79 (PLACEHOLDER)
-- [ ] **Express Shipping Fee**: ₹149 (PLACEHOLDER)
-- [ ] **Cash on Delivery (COD) Fee**: ₹49 (PLACEHOLDER)
-- [ ] **Delivery Timelines**: Standard 3 to 7 business days, Express 2 to 3 business days (PLACEHOLDER)
-- [ ] **Return Window**: 7 days (PLACEHOLDER)
+- [x] **Free Shipping Threshold**: ₹1,499 (authoritative contract)
+- [x] **Standard Shipping Fee**: ₹79 (authoritative contract)
+- [x] **Express Surcharge**: ₹99 (authoritative contract)
+- [x] **Cash on Delivery (COD) Fee**: ₹49 (authoritative contract)
+- [x] **Reservation Window**: 15 minutes (authoritative contract)
+- [x] **Return Policy**: Final sale unless transit damage is reported within 48 hours (synchronized with backend policy; 7-day return claims removed)
 
 ---
 
