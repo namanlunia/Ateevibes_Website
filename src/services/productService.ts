@@ -4,6 +4,7 @@ import { Product } from "../types";
 import { api } from "./apiClient";
 import { API_ROUTES } from "../config/contract";
 import { normalizeServerProduct } from "./productMapper";
+import { useUIStore } from "../store/uiStore";
 
 export const productService = {
   async getAll(): Promise<Product[]> {
@@ -14,10 +15,13 @@ export const productService = {
         const normalized = rawList
           .map(normalizeServerProduct)
           .filter((p): p is Product => p !== null);
-        if (normalized.length > 0) return normalized;
+        if (normalized.length > 0) {
+          useUIStore.getState().setOfflineCatalog(false);
+          return normalized;
+        }
       }
     } catch {
-      // Graceful fallback to local catalog
+      useUIStore.getState().setOfflineCatalog(true);
     }
     await new Promise((r) => setTimeout(r, 40));
     return [...PRODUCTS];
@@ -28,9 +32,12 @@ export const productService = {
     try {
       const liveProduct = await api.get<unknown>(API_ROUTES.products.bySlug(targetSlug));
       const normalized = normalizeServerProduct(liveProduct);
-      if (normalized) return normalized;
+      if (normalized) {
+        useUIStore.getState().setOfflineCatalog(false);
+        return normalized;
+      }
     } catch {
-      // Fallback
+      useUIStore.getState().setOfflineCatalog(true);
     }
     await new Promise((r) => setTimeout(r, 30));
     const found = PRODUCTS.find((p) => p.slug === targetSlug || p.slug === slug);
@@ -166,6 +173,10 @@ export const productService = {
         return p.variants.some((v) => v.colourName.toLowerCase() === colourName.toLowerCase());
       })
       .slice(0, limit);
+  },
+
+  isUsingOfflineData(): boolean {
+    return useUIStore.getState().isOfflineCatalog;
   },
 
   decrementStock(items: { productId: string; variantId: string; size: string; qty: number }[]): void {

@@ -21,6 +21,7 @@ interface UIState {
   cursorText: string;
   toasts: ToastItem[];
   preloaderFinished: boolean;
+  isOfflineCatalog: boolean;
 
   // Actions
   openCart: () => void;
@@ -43,6 +44,7 @@ interface UIState {
   removeToast: (id: string) => void;
 
   setPreloaderFinished: (finished: boolean) => void;
+  setOfflineCatalog: (isOffline: boolean) => void;
 }
 
 export const useUIStore = create<UIState>((set) => ({
@@ -54,6 +56,7 @@ export const useUIStore = create<UIState>((set) => ({
   cursorText: '',
   toasts: [],
   preloaderFinished: typeof window !== 'undefined' ? Boolean(sessionStorage.getItem('atv:preloader_done')) : false,
+  isOfflineCatalog: false,
 
   openCart: () => set({ isCartOpen: true }),
   closeCart: () => set({ isCartOpen: false }),
@@ -102,4 +105,6 @@ export const useUIStore = create<UIState>((set) => ({
     }
     set({ preloaderFinished: finished });
   },
+
+  setOfflineCatalog: (isOffline: boolean) => set({ isOfflineCatalog: isOffline }),
 }));

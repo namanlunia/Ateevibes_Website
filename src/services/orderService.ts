@@ -4,8 +4,10 @@ import { API_ROUTES } from "../config/contract";
 import { normalizeServerOrder } from "./orderMapper";
 
 const ORDERS_KEY = "atv:v1:orders";
+const allowMockFallback = Boolean(import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_FALLBACK === "true");
 
 function getStoredOrders(): Order[] {
+  if (!allowMockFallback) return [];
   try {
     const raw = localStorage.getItem(ORDERS_KEY);
     return raw ? JSON.parse(raw) : [];
@@ -15,6 +17,7 @@ function getStoredOrders(): Order[] {
 }
 
 function saveStoredOrders(orders: Order[]): void {
+  if (!allowMockFallback) return;
   try {
     localStorage.setItem(ORDERS_KEY, JSON.stringify(orders));
   } catch {
@@ -35,8 +38,23 @@ function computeProgressiveStatus(order: Order): OrderStatus {
 }
 
 export const orderService = {
+  saveOrderToken(orderId: string, token: string): void {
+    if (typeof sessionStorage !== "undefined" && orderId && token) {
+      sessionStorage.setItem(`atv:order_token:${orderId}`, token);
+    }
+  },
+
+  getOrderToken(orderId: string): string | null {
+    if (typeof sessionStorage !== "undefined" && orderId) {
+      return sessionStorage.getItem(`atv:order_token:${orderId}`);
+    }
+    return null;
+  },
+
   async create(order: Order): Promise<Order> {
-    // Pure local cache writer (offline demo path)
+    if (!allowMockFallback) {
+      throw new Error("Offline order creation is disabled in production.");
+    }
     const orders = getStoredOrders();
     orders.unshift(order);
     saveStoredOrders(orders);
@@ -45,17 +63,26 @@ export const orderService = {
     return order;
   },
 
-  async getById(id: string): Promise<Order | null> {
+  async getById(id: string, orderToken?: string): Promise<Order | null> {
     const cleanId = id.trim();
+    const token = orderToken || (typeof sessionStorage !== "undefined" ? sessionStorage.getItem(`atv:order_token:${cleanId}`) : null);
+
     try {
-      const liveOrder = await api.get<unknown>(API_ROUTES.orders.byId(cleanId));
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["X-Order-Token"] = token;
+      }
+      const liveOrder = await api.get<unknown>(API_ROUTES.orders.byId(cleanId), { headers });
       if (liveOrder) {
         const normalized = normalizeServerOrder(liveOrder);
         if (normalized.id) return normalized;
       }
     } catch {
-      // Fallback to local storage
+      // In production, failure to reach live backend must never return local mock orders
+      if (!allowMockFallback) return null;
     }
+
+    if (!allowMockFallback) return null;
 
     await new Promise((r) => setTimeout(r, 40));
     const orders = getStoredOrders();
@@ -82,8 +109,10 @@ export const orderService = {
         if (normalized.id) return normalized;
       }
     } catch {
-      // Fallback to local storage
+      if (!allowMockFallback) return null;
     }
+
+    if (!allowMockFallback) return null;
 
     await new Promise((r) => setTimeout(r, 60));
     const orders = getStoredOrders();
@@ -111,8 +140,10 @@ export const orderService = {
         return liveOrders.map((o) => normalizeServerOrder(o));
       }
     } catch {
-      // Fallback to local storage
+      if (!allowMockFallback) return [];
     }
+
+    if (!allowMockFallback) return [];
 
     await new Promise((r) => setTimeout(r, 50));
     const orders = getStoredOrders();

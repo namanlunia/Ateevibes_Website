@@ -1,3 +1,4 @@
+import { orderService } from "../services/orderService";
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { productService } from '../services/productService';
@@ -96,6 +97,8 @@ export const CheckoutPage: React.FC = () => {
   // Processing & Simulation State
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentFailureError, setPaymentFailureError] = useState<string | null>(null);
+  const [networkUnreachableError, setNetworkUnreachableError] = useState<string | null>(null);
+  const isOfflineCatalog = useUIStore((state) => state.isOfflineCatalog);
   const [termsAccepted, setTermsAccepted] = useState(true);
   const isPlacingOrderRef = useRef(false);
 
@@ -214,6 +217,7 @@ export const CheckoutPage: React.FC = () => {
 
     setIsProcessing(true);
     setPaymentFailureError(null);
+    setNetworkUnreachableError(null);
 
     const nameParts = addressData.fullName.trim().split(' ');
     const firstName = nameParts[0] || 'Customer';
@@ -290,6 +294,9 @@ export const CheckoutPage: React.FC = () => {
       }
 
       const finalOrder = normalizeServerOrder(serverOrder, items);
+      if ((serverOrder as any)?.orderToken) {
+        orderService.saveOrderToken(finalOrder.id, (serverOrder as any).orderToken);
+      }
       isPlacingOrderRef.current = true;
       await addOrder(finalOrder);
 
@@ -339,33 +346,40 @@ export const CheckoutPage: React.FC = () => {
         }
 
         if (err.status === 0) {
-          const deliveryDate = new Date();
-          deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
+          if (import.meta.env.DEV && import.meta.env.VITE_ENABLE_MOCK_FALLBACK === 'true') {
+            const deliveryDate = new Date();
+            deliveryDate.setDate(deliveryDate.getDate() + (isExpress ? 3 : 5));
 
-          const offlineOrder: Order = {
-            id: generateOrderId(),
-            createdAt: new Date().toISOString(),
-            items: [...items],
-            shippingAddress: { ...addressData },
-            subtotal: breakdown.subtotal,
-            discount: breakdown.discount,
-            shippingFee: breakdown.shipping,
-            codFee: breakdown.codFee,
-            grandTotal: breakdown.grandTotal,
-            promoCode: promoCode || undefined,
-            status: 'placed',
-            paymentMethod,
-            paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
-            estimatedDeliveryDate: formatDate(deliveryDate),
-          };
+            const offlineOrder: Order = {
+              id: generateOrderId(),
+              createdAt: new Date().toISOString(),
+              items: [...items],
+              shippingAddress: { ...addressData },
+              subtotal: breakdown.subtotal,
+              discount: breakdown.discount,
+              shippingFee: breakdown.shipping,
+              codFee: breakdown.codFee,
+              grandTotal: breakdown.grandTotal,
+              promoCode: promoCode || undefined,
+              status: 'placed',
+              paymentMethod,
+              paymentStatus: paymentMethod === 'cod' ? 'pending' : 'paid',
+              estimatedDeliveryDate: formatDate(deliveryDate),
+            };
 
-          isPlacingOrderRef.current = true;
-          await addOrder(offlineOrder);
-          productService.decrementStock(items);
-          clearCart();
-          sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+            isPlacingOrderRef.current = true;
+            await addOrder(offlineOrder);
+            productService.decrementStock(items);
+            clearCart();
+            sessionStorage.removeItem(CHECKOUT_SESSION_KEY);
+            setIsProcessing(false);
+            navigate(`/order-confirmation/${offlineOrder.id}`);
+            return;
+          }
+
+          // In production: NEVER fabricate a local order or clear the bag.
           setIsProcessing(false);
-          navigate(`/order-confirmation/${offlineOrder.id}`);
+          setNetworkUnreachableError("We couldn't reach our checkout service. Your bag is saved. Please try again in a moment.");
           return;
         }
       }
@@ -1089,6 +1103,40 @@ export const CheckoutPage: React.FC = () => {
                   </span>
                 </label>
 
+                {isOfflineCatalog && (
+                  <div
+                    role="alert"
+                    data-testid="offline-catalog-warning"
+                    className="p-3 mt-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs font-medium text-center"
+                  >
+                    Showing offline catalogue. Prices and stock may be out of date. Ordering is currently disabled until live connection is restored.
+                  </div>
+                )}
+
+                {networkUnreachableError && (
+                  <div
+                    role="alert"
+                    data-testid="checkout-network-error"
+                    className="p-4 mt-4 rounded-xl border border-rose-500/30 bg-rose-500/10 text-rose-800 dark:text-rose-200 text-xs sm:text-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                  >
+                    <div className="flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                      <span>{networkUnreachableError}</span>
+                    </div>
+                    <button
+                      type="button"
+                      data-testid="checkout-retry-btn"
+                      onClick={() => {
+                        setNetworkUnreachableError(null);
+                        handlePlaceOrder();
+                      }}
+                      className="px-4 py-1.5 rounded-lg bg-rose-600 text-white text-xs font-semibold hover:bg-rose-700 transition-colors whitespace-nowrap self-end sm:self-auto"
+                    >
+                      Retry
+                    </button>
+                  </div>
+                )}
+
                 <div className="pt-6 flex items-center justify-between border-t border-sandstone">
                   <button
                     onClick={() => setCurrentStep(3)}
@@ -1100,7 +1148,7 @@ export const CheckoutPage: React.FC = () => {
 
                   <button
                     onClick={handlePlaceOrder}
-                    disabled={!termsAccepted}
+                    disabled={!termsAccepted || isProcessing || isOfflineCatalog}
                     className="btn-primary px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center gap-2 shadow-luxury disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span>Place Order • {formatPrice(breakdown.grandTotal)}</span>
