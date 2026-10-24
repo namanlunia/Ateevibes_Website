@@ -80,7 +80,7 @@
 ### 10. Catalog Claims & Placeholders Integrity
 - **Honest Claims**: No invented fiber GSM numbers or fake eco-certifications. "Composition: to be confirmed" displayed where lab data is pending.
 - **Sample Reviews Tagged**: All simulated reviews and testimonials tagged with `// SAMPLE DATA: replace before launch` and omit "Verified Buyer" badges.
-- **TODO Tracker**: All business facts (Surat address, GSTIN, WhatsApp link, unconfirmed prices) comprehensively documented in `/TODO.md`.
+- **TODO Tracker**: All business facts (Mumbai address, GSTIN, WhatsApp link, unconfirmed prices) comprehensively documented in `/TODO.md`.
 
 ---
 

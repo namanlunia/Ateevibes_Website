@@ -237,7 +237,7 @@ This manual verification checklist is prepared for the site owner to test and re
 - [ ] **Contact Page (`/contact`)**:
   - [ ] Form with Zod validation (name, email, phone, subject, message).
   - [ ] Mock submit shows success confirmation.
-  - [ ] Support details from config (email, phone, WhatsApp, Surat address).
+  - [ ] Support details from config (email, phone, WhatsApp, Mumbai address).
 - [ ] **FAQ Page (`/faq`)**:
   - [ ] Search input filters accordion items.
   - [ ] Categorized into Orders, Shipping, Returns, Products & Care, Payments.

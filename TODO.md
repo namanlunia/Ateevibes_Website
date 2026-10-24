@@ -25,9 +25,9 @@ The following 6 styles have their MRP marked as `PLACEHOLDER` in the catalog spe
 - [ ] **Support Email**: `support@ateevibes.com` (PLACEHOLDER)
 - [ ] **Support Phone**: `+91 98765 43210` (PLACEHOLDER)
 - [ ] **WhatsApp Number**: `+91 98765 43210` (PLACEHOLDER)
-- [ ] **Physical Address**: `104, Textile Fashion Hub, Ring Road, Surat, Gujarat 395002, India` (PLACEHOLDER)
+- [ ] **Physical Address**: `Mumbai, Maharashtra 400001, India` (PLACEHOLDER)
 - [ ] **Legal Entity**: `Ateevibes Apparels LLP` (PLACEHOLDER)
-- [ ] **GSTIN / CIN**: `24AAACA0000A1Z5` (PLACEHOLDER)
+- [ ] **GSTIN / CIN**: `27AAACA0000A1Z5` (PLACEHOLDER)
 
 ---
 

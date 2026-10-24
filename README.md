@@ -138,7 +138,7 @@ Commercial rules reside in `src/config/commerce.ts` and `src/lib/pricing.ts`:
   - `ATEE10`: 10% discount on cart subtotal.
 
 ### Updating Brand Contacts & Links
-All social links, WhatsApp concierge number, support emails, and Surat dispatch facility addresses are centralized in `src/config/site.ts`.
+All social links, WhatsApp concierge number, support emails, and the Mumbai manufacturing hub address are centralized in `src/config/site.ts`.
 
 ### Replacing Sample Reviews & Testimonials
 All customer reviews and testimonials are stored as sample data:
