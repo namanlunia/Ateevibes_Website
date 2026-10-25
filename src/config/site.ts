@@ -1,3 +1,10 @@
+export interface SocialLink {
+  name: string;
+  url: string;
+  isPlaceholder: boolean;
+  ariaLabel: string;
+}
+
 // PLACEHOLDER: Business details to be confirmed before launch (tracked in /TODO.md)
 export const siteConfig = {
   name: 'Ateevibes',
@@ -29,10 +36,30 @@ export const siteConfig = {
     cinOrGstinIsPlaceholder: true, // Omitted from customer UI, invoices & legal pages until verified (state code 27 for Maharashtra)
   },
   socials: {
-    instagram: 'https://instagram.com/ateevibes',
-    facebook: 'https://facebook.com/ateevibes',
-    twitter: 'https://twitter.com/ateevibes',
-    youtube: 'https://youtube.com/@ateevibes',
+    facebook: {
+      name: 'Facebook',
+      url: 'https://www.facebook.com/profile.php?id=61579257735135',
+      isPlaceholder: false,
+      ariaLabel: 'Ateevibes on Facebook (opens in a new tab)',
+    },
+    x: {
+      name: 'X',
+      url: 'https://x.com/Adsarmataji_ind',
+      isPlaceholder: false,
+      ariaLabel: 'Ateevibes on X (opens in a new tab)',
+    },
+    instagram: {
+      name: 'Instagram',
+      url: 'https://instagram.com/ateevibes',
+      isPlaceholder: true,
+      ariaLabel: 'Ateevibes on Instagram (opens in a new tab)',
+    },
+    youtube: {
+      name: 'YouTube',
+      url: 'https://youtube.com/@ateevibes',
+      isPlaceholder: true,
+      ariaLabel: 'Ateevibes on YouTube (opens in a new tab)',
+    },
   },
   announcements: [
     'Free shipping on all orders over ₹1,499',
@@ -40,3 +67,11 @@ export const siteConfig = {
     'Style. Comfort. Quality. Same Print, Different Vibes',
   ],
 };
+
+export type SocialKey = keyof typeof siteConfig.socials;
+
+export const activeSocials: Array<{ key: SocialKey } & SocialLink> = (
+  Object.entries(siteConfig.socials) as [SocialKey, SocialLink][]
+)
+  .filter(([, config]) => !config.isPlaceholder)
+  .map(([key, config]) => ({ key, ...config }));

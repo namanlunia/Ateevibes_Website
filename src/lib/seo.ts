@@ -1,4 +1,4 @@
-import { siteConfig } from '../config/site';
+import { siteConfig, activeSocials } from '../config/site';
 import { Product } from '../types';
 
 export interface SEOProps {
@@ -53,12 +53,7 @@ export function generateOrganizationJsonLd() {
     name: siteConfig.name,
     url: siteConfig.url,
     logo: `${siteConfig.url}/brand/logo.png`,
-    sameAs: [
-      siteConfig.socials.instagram,
-      siteConfig.socials.facebook,
-      siteConfig.socials.twitter,
-      siteConfig.socials.youtube,
-    ],
+    sameAs: activeSocials.map((s) => s.url),
     contactPoint: {
       '@type': 'ContactPoint',
       ...(siteConfig.contact.phoneIsPlaceholder ? {} : { telephone: siteConfig.contact.phone }),

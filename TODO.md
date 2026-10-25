@@ -29,6 +29,10 @@ The following items are marked with `isPlaceholder: true` flags and are **hidden
 - [ ] **Legal Entity**: `Ateevibes Apparels LLP` (`companyNameIsPlaceholder: true`) — Needs official registered business name confirmation.
 - [ ] **GSTIN / CIN**: `24AAACA0000A1Z5` (`cinOrGstinIsPlaceholder: true`) — Omitted from footer, invoices, and legal pages. Note: State code `24` belongs to Gujarat; Maharashtra entity must use state code `27`.
 - [x] **Support Email**: `support@ateevibes.com` (`emailIsPlaceholder: false`) — Confirmed active support email and primary customer contact channel.
+- [ ] **Instagram Handle**: Current placeholder `https://instagram.com/ateevibes` (`isPlaceholder: true`) — Hidden from footer/social UI until active brand handle is provided.
+- [ ] **YouTube Channel**: Current placeholder `https://youtube.com/@ateevibes` (`isPlaceholder: true`) — Hidden from footer/social UI until official channel is created.
+- [x] **Facebook Page**: `https://www.facebook.com/profile.php?id=61579257735135` (`isPlaceholder: false`) — Confirmed active page rendered in footer.
+- [x] **X Profile**: `https://x.com/Adsarmataji_ind` (`isPlaceholder: false`) — Confirmed active account rendered in footer.
 
 ---
 
