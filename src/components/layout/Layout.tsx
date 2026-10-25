@@ -37,7 +37,6 @@ export const Layout: React.FC = () => {
   const closeSearch = useUIStore((state) => state.closeSearch);
   const isCartOpen = useUIStore((state) => state.isCartOpen);
   const closeCart = useUIStore((state) => state.closeCart);
-  const isOfflineCatalog = useUIStore((state) => state.isOfflineCatalog);
 
   const [hasOpenedMobileMenu, setHasOpenedMobileMenu] = useState(isMobileMenuOpen);
   const [hasOpenedSearch, setHasOpenedSearch] = useState(isSearchOpen);
@@ -180,20 +179,6 @@ export const Layout: React.FC = () => {
       {/* Headers */}
       <AnnouncementBar />
       <Navbar />
-
-      {/* Offline Catalogue Notice */}
-      {isOfflineCatalog && (
-        <div
-          role="alert"
-          data-testid="offline-catalog-notice"
-          className="bg-amber-600 text-white text-xs sm:text-sm font-medium py-2 px-4 text-center sticky top-0 z-[60] shadow-md flex items-center justify-center gap-2"
-        >
-          <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-          </svg>
-          <span>Showing offline catalogue. Prices and stock may be out of date.</span>
-        </div>
-      )}
 
       {/* Mobile Drawer & Search Overlay */}
       {hasOpenedMobileMenu && (
