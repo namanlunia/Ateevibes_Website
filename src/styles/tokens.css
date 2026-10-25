@@ -59,6 +59,16 @@
   --tab-active-bg: #111111;
   --tab-active-text: #f5f1e8;
 
+  /* Size Chip & Selector Tokens (Protected design tokens for Vitest) */
+  --chip-active-bg: #111111;
+  --chip-active-text: #c9a45c;
+  --chip-active-border: #c9a45c;
+  --chip-active-stock: rgba(201, 164, 92, 0.8);
+  --chip-inactive-bg: #ffffff;
+  --chip-inactive-text: #111111;
+  --chip-inactive-border: #d8d2c7;
+  --chip-inactive-stock: #77736b;
+
   /* Accents */
   --accent-500: #c9a45c;
   --accent-700: #a9833b;

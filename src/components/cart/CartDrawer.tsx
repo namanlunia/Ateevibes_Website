@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Trash2, Heart, ArrowRight, ShoppingBag, Truck, Tag, Sparkles } from 'lucide-react';
+import { X, Trash2, Heart, ArrowRight, ShoppingBag, Truck, Tag } from 'lucide-react';
 import { useCartStore } from '../../store/cartStore';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useUIStore } from '../../store/uiStore';
 import { formatPrice } from '../../lib/format';
-import { PRODUCTS } from '../../data/products';
 import { commerceConfig } from '../../config/commerce';
+import { RecommendedStyles } from './RecommendedStyles';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -80,9 +80,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     Math.round(((breakdown.subtotal - breakdown.discount) / commerceConfig.FREE_SHIPPING_THRESHOLD) * 100)
   );
 
-  // Recommendations: products not in cart
-  const cartProductIds = items.map((i) => i.productId);
-  const addOnSuggestions = PRODUCTS.filter((p) => p.status === 'active' && !cartProductIds.includes(p.id)).slice(0, 2);
+
 
   return (
     <AnimatePresence>
@@ -252,37 +250,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     ))}
                   </AnimatePresence>
 
-                  {/* Add-on recommendations */}
-                  {addOnSuggestions.length > 0 && (
-                    <div className="pt-4 border-t border-sandstone space-y-2">
-                      <p className="text-[11px] font-semibold text-gold uppercase tracking-[0.2em] flex items-center gap-1">
-                        <Sparkles className="w-3.5 h-3.5 text-gold" />
-                        <span>Recommended Add-Ons</span>
-                      </p>
-                      <div className="grid grid-cols-2 gap-2">
-                        {addOnSuggestions.map((rec) => (
-                          <Link
-                            key={rec.id}
-                            to={`/product/${rec.slug}`}
-                            onClick={onClose}
-                            className="p-2 rounded-xl bg-white border border-sandstone hover:border-gold/60 flex items-center gap-2 group transition-colors shadow-subtle"
-                          >
-                            <img
-                              src={rec.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
-                              alt={rec.name}
-                              className="w-10 h-12 object-cover rounded-lg border border-sandstone"
-                            />
-                            <div className="min-w-0">
-                              <p className="text-[11px] font-semibold text-obsidian line-clamp-1 group-hover:text-gold transition-colors">
-                                {rec.name}
-                              </p>
-                              <p className="text-[10px] text-ink-600">{formatPrice(rec.mrp)}</p>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                  {/* Express Add-on recommended styles */}
+                  <RecommendedStyles onNavigate={onClose} />
                 </div>
               )}
             </div>

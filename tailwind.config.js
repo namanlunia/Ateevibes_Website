@@ -77,6 +77,16 @@ export default {
           'active-bg': 'var(--tab-active-bg)',
           'active-text': 'var(--tab-active-text)',
         },
+        chip: {
+          'active-bg': 'var(--chip-active-bg)',
+          'active-text': 'var(--chip-active-text)',
+          'active-border': 'var(--chip-active-border)',
+          'active-stock': 'var(--chip-active-stock)',
+          'inactive-bg': 'var(--chip-inactive-bg)',
+          'inactive-text': 'var(--chip-inactive-text)',
+          'inactive-border': 'var(--chip-inactive-border)',
+          'inactive-stock': 'var(--chip-inactive-stock)',
+        },
         ink: {
           900: 'var(--ink-900)',
           700: 'var(--ink-700)',
