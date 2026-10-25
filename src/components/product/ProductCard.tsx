@@ -29,8 +29,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
   const openCart = useUIStore((state) => state.openCart);
   const openQuickView = useUIStore((state) => state.openQuickView);
   const addToast = useUIStore((state) => state.addToast);
-  const setCursorMode = useUIStore((state) => state.setCursorMode);
-  const resetCursor = useUIStore((state) => state.resetCursor);
 
   const activeVariant = hoveredVariant || selectedVariant;
   const isComingSoon = product.status === 'coming-soon';
@@ -101,11 +99,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
       }}
     >
       {/* 4:5 Aspect Ratio Image Canvas */}
-      <div
-        className="relative aspect-[4/5] w-full overflow-hidden bg-ivory rounded-t-xl"
-        onMouseEnter={() => setCursorMode('view', 'VIEW')}
-        onMouseLeave={() => resetCursor()}
-      >
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-ivory rounded-t-xl">
         <Link to={`/product/${product.slug}`} className="block w-full h-full">
           {/* Main Photo with smooth crossfade and zoom */}
           <img

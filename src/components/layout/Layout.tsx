@@ -22,9 +22,6 @@ const SearchOverlay = React.lazy(() =>
 const CookieNotice = React.lazy(() =>
   import('./CookieNotice').then((m) => ({ default: m.CookieNotice }))
 );
-const CustomCursor = React.lazy(() =>
-  import('../motion/CustomCursor').then((m) => ({ default: m.CustomCursor }))
-);
 const CartDrawer = React.lazy(() =>
   import('../cart/CartDrawer').then((m) => ({ default: m.CartDrawer }))
 );
@@ -40,7 +37,6 @@ export const Layout: React.FC = () => {
   const [hasOpenedMobileMenu, setHasOpenedMobileMenu] = useState(isMobileMenuOpen);
   const [hasOpenedSearch, setHasOpenedSearch] = useState(isSearchOpen);
   const [hasOpenedCart, setHasOpenedCart] = useState(isCartOpen);
-  const [hasMovedMouse, setHasMovedMouse] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
 
   useEffect(() => {
@@ -54,18 +50,6 @@ export const Layout: React.FC = () => {
   useEffect(() => {
     if (isCartOpen) setHasOpenedCart(true);
   }, [isCartOpen]);
-
-  useEffect(() => {
-    const onMove = () => {
-      setHasMovedMouse(true);
-    };
-    window.addEventListener('mousemove', onMove, { passive: true, once: true });
-    window.addEventListener('pointermove', onMove, { passive: true, once: true });
-    return () => {
-      window.removeEventListener('mousemove', onMove);
-      window.removeEventListener('pointermove', onMove);
-    };
-  }, []);
 
   useEffect(() => {
     try {
@@ -166,11 +150,6 @@ export const Layout: React.FC = () => {
 
       {/* Global Overlays & Motion */}
       <Preloader />
-      {hasMovedMouse && (
-        <Suspense fallback={null}>
-          <CustomCursor />
-        </Suspense>
-      )}
       <ScrollProgressBar />
 
       {/* Headers */}

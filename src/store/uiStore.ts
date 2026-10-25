@@ -10,15 +10,11 @@ interface ToastItem {
   duration?: number;
 }
 
-type CursorMode = 'default' | 'pointer' | 'view';
-
 interface UIState {
   isCartOpen: boolean;
   isMobileMenuOpen: boolean;
   isSearchOpen: boolean;
   quickViewProduct: Product | null;
-  cursorMode: CursorMode;
-  cursorText: string;
   toasts: ToastItem[];
   preloaderFinished: boolean;
   isOfflineCatalog: boolean;
@@ -37,9 +33,6 @@ interface UIState {
   openQuickView: (product: Product) => void;
   closeQuickView: () => void;
 
-  setCursorMode: (mode: CursorMode, text?: string) => void;
-  resetCursor: () => void;
-
   addToast: (toast: Omit<ToastItem, 'id'>) => string;
   removeToast: (id: string) => void;
 
@@ -52,8 +45,6 @@ export const useUIStore = create<UIState>((set) => ({
   isMobileMenuOpen: false,
   isSearchOpen: false,
   quickViewProduct: null,
-  cursorMode: 'default',
-  cursorText: '',
   toasts: [],
   preloaderFinished: typeof window !== 'undefined' ? Boolean(sessionStorage.getItem('atv:preloader_done')) : false,
   isOfflineCatalog: false,
@@ -70,9 +61,6 @@ export const useUIStore = create<UIState>((set) => ({
 
   openQuickView: (product) => set({ quickViewProduct: product }),
   closeQuickView: () => set({ quickViewProduct: null }),
-
-  setCursorMode: (mode, text = '') => set({ cursorMode: mode, cursorText: text }),
-  resetCursor: () => set({ cursorMode: 'default', cursorText: '' }),
 
   addToast: (toast) => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;

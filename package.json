@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "deadcode": "knip",
-    "check": "tsc --noEmit && eslint . && knip && node scripts/check-no-style-codes.mjs && vitest run",
+    "check": "tsc --noEmit && eslint . && knip && node scripts/check-no-style-codes.mjs && node scripts/check-forbidden-patterns.mjs && vitest run",
     "prebuild": "npm run check",
     "build": "node scripts/check-images.mjs && tsc -b && vite build",
     "test": "vitest run",
