@@ -48,22 +48,14 @@ async function runCrop() {
     const cropWidth = Math.round(width * 0.64);
     const cropHeight = Math.round(height * 0.58);
 
-    // Caption overlay patch: neutral overlay covering legacy caption/watermark band area
-    const captionOverlay = Buffer.from(`
-      <svg width="${cropWidth}" height="${cropHeight}">
-        <rect x="0" y="${cropHeight - 32}" width="${cropWidth}" height="32" fill="#F7F5EE" fill-opacity="0.0" />
-      </svg>
-    `);
-
     for (let i = 0; i < style.colours.length; i++) {
       const colourSlug = style.colours[i];
       const baseOut = path.join(outPnoDir, `${colourSlug}.jpg`);
 
-      // 1. Crop main image with caption overlay patch
+      // 1. Crop main image
       try {
         await sharp(posterPath)
           .extract({ left: cropLeft, top: cropTop, width: cropWidth, height: cropHeight })
-          .composite([{ input: captionOverlay, top: 0, left: 0 }])
           .jpeg({ quality: 90 })
           .toFile(baseOut);
 
