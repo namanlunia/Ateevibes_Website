@@ -517,7 +517,7 @@ export const ProductPage: React.FC = () => {
                 </button>
               </div>
 
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-2" role="radiogroup" aria-label="Select size">
                 {product.sizes.map((size) => {
                   const stock = selectedVariant.stockBySize?.[size] ?? 10;
                   const outOfStock = stock <= 0;
@@ -526,18 +526,25 @@ export const ProductPage: React.FC = () => {
                   return (
                     <button
                       key={size}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      aria-label={`Size ${size}${outOfStock ? ' - Sold out' : ` - ${stock} in stock`}`}
                       disabled={outOfStock}
                       onClick={() => setSelectedSize(size)}
-                      className={`py-3 rounded-xl text-xs font-bold border transition-all flex flex-col items-center justify-center ${
+                      className={`relative py-3 rounded-xl text-xs font-bold flex flex-col items-center justify-center transition-[background-color,color,border-color] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                         isSelected
-                          ? 'bg-obsidian text-warm-ivory border-gold/40 shadow-sm scale-[1.02]'
+                          ? 'bg-chip-active-bg text-chip-active-text border-[1.5px] border-chip-active-border shadow-sm'
                           : outOfStock
-                          ? 'bg-sandstone/20 text-ink-400 line-through border-transparent cursor-not-allowed'
-                          : 'bg-white border-sandstone text-obsidian hover:border-gold/50 shadow-subtle'
+                          ? 'bg-sandstone/20 text-ink-400 line-through border border-transparent cursor-not-allowed opacity-60'
+                          : 'bg-chip-inactive-bg text-chip-inactive-text border border-chip-inactive-border hover:border-gold/50 shadow-subtle'
                       }`}
                     >
-                      <span className="text-sm">{size}</span>
-                      <span className="text-[10px] font-normal opacity-70">
+                      {isSelected && (
+                        <Check className="absolute top-1.5 right-1.5 w-3 h-3 text-gold" strokeWidth={2.5} />
+                      )}
+                      <span className={`text-sm ${isSelected ? 'text-chip-active-text' : outOfStock ? 'text-ink-400' : 'text-chip-inactive-text'}`}>{size}</span>
+                      <span className={`text-[10px] font-normal ${isSelected ? 'text-chip-active-stock' : outOfStock ? 'text-ink-400' : 'text-chip-inactive-stock'}`}>
                         {outOfStock ? 'Sold out' : `${stock} in stock`}
                       </span>
                     </button>

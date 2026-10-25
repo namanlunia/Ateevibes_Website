@@ -97,11 +97,12 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.4fr] gap-8 lg:gap-10 items-start py-14">
           {/* Brand Col */}
           <div className="space-y-4">
-            <Link to="/" className="inline-block">
-              <img src="/brand/logo.png" alt="Ateevibes" className="h-9 w-auto" />
+            <Link to="/" className="inline-flex items-center gap-2.5 group" aria-label="Ateevibes Home">
+              <img src="/brand/emblem.svg" alt="" className="h-9 w-9 object-contain" />
+              <span className="font-display text-2xl font-bold tracking-widest text-gold">ATEEVIBES</span>
             </Link>
-            <p className="text-sm font-normal text-gold italic font-display tracking-wide">
-              "Feel the Vibes"
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold font-sans">
+              Feel the Vibes
             </p>
             <p className="text-xs text-ivory/70 leading-relaxed max-w-sm font-sans">
               Same Print, Different Vibes. Crafting contemporary men's t-shirts in China jacquard, waffle knits, ultra-soft matty, and vivid tie-dye.

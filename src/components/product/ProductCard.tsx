@@ -207,14 +207,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
                   return (
                     <button
                       key={size}
+                      type="button"
+                      aria-label={`Quick add size ${size}${isOutOfStock ? ' - Sold out' : ''}`}
                       disabled={isOutOfStock}
                       onClick={(e) => handleQuickAddSize(e, size)}
-                      className={`min-w-[32px] h-7 px-2 text-xs font-bold rounded transition-[color,background-color,border-color,transform] ${
+                      className={`min-w-[32px] h-7 px-2 text-xs font-bold rounded transition-[color,background-color,border-color,transform] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                         isJustAdded
                           ? 'bg-status-success text-white'
                           : isOutOfStock
-                          ? 'bg-black/5 text-ink-600/40 line-through cursor-not-allowed'
-                          : 'bg-ivory border border-sandstone text-obsidian hover:bg-obsidian hover:text-ivory hover:border-obsidian active:scale-90'
+                          ? 'bg-sandstone/20 text-ink-400 line-through cursor-not-allowed opacity-60'
+                          : 'bg-chip-inactive-bg border border-chip-inactive-border text-chip-inactive-text hover:bg-chip-active-bg hover:text-chip-active-text hover:border-chip-active-border active:scale-90'
                       }`}
                     >
                       {isJustAdded ? <Check className="w-3.5 h-3.5 mx-auto" /> : size}

@@ -104,10 +104,10 @@ export const Preloader: React.FC = () => {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="mt-6 text-center"
           >
-            <h2 className="font-display text-2xl font-normal tracking-widest text-brand-cream">
+            <h2 className="font-display text-2xl font-normal tracking-widest text-gold">
               ATEEVIBES
             </h2>
-            <p className="text-[10px] font-sans font-semibold tracking-[0.25em] text-brand-green/80 uppercase mt-1">
+            <p className="text-[10px] font-sans font-semibold tracking-[0.25em] text-gold uppercase mt-1">
               Feel the Vibes
             </p>
           </motion.div>

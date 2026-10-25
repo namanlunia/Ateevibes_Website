@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Star, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Star, ShoppingBag, ArrowRight, Check } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
 import { useCartStore } from '../../store/cartStore';
 import { Variant, SizeType } from '../../types';
@@ -212,7 +212,7 @@ export const QuickViewModal: React.FC = () => {
                 )}
               </div>
 
-              <div className="flex gap-2">
+              <div className="flex gap-2" role="radiogroup" aria-label="Select size">
                 {product.sizes.map((size) => {
                   const stock = selectedVariant.stockBySize?.[size] ?? 10;
                   const outOfStock = stock <= 0;
@@ -221,17 +221,24 @@ export const QuickViewModal: React.FC = () => {
                   return (
                     <button
                       key={size}
+                      type="button"
+                      role="radio"
+                      aria-checked={isSelected}
+                      aria-label={`Size ${size}${outOfStock ? ' - Sold out' : ''}`}
                       disabled={outOfStock}
                       onClick={() => setSelectedSize(size)}
-                      className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
+                      className={`relative flex-1 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center transition-[background-color,color,border-color] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                         isSelected
-                          ? 'bg-tab-active-bg text-tab-active-text border-tab-active-bg shadow-sm'
+                          ? 'bg-chip-active-bg text-chip-active-text border-[1.5px] border-chip-active-border shadow-sm'
                           : outOfStock
-                          ? 'bg-black/5 text-ink-600/40 line-through border-transparent cursor-not-allowed'
-                          : 'bg-surface-tint border-border text-ink-900 hover:border-ink-900'
+                          ? 'bg-sandstone/20 text-ink-400 line-through border border-transparent cursor-not-allowed opacity-60'
+                          : 'bg-chip-inactive-bg text-chip-inactive-text border border-chip-inactive-border hover:border-gold/50 shadow-subtle'
                       }`}
                     >
-                      {size}
+                      {isSelected && (
+                        <Check className="absolute top-1 right-1 w-2.5 h-2.5 text-gold" strokeWidth={2.5} />
+                      )}
+                      <span className={isSelected ? 'text-chip-active-text' : outOfStock ? 'text-ink-400' : 'text-chip-inactive-text'}>{size}</span>
                     </button>
                   );
                 })}
