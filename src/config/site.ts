@@ -50,14 +50,14 @@ export const siteConfig = {
     },
     instagram: {
       name: 'Instagram',
-      url: 'https://instagram.com/ateevibes',
-      isPlaceholder: true,
+      url: 'https://www.instagram.com/ateevibes/',
+      isPlaceholder: false,
       ariaLabel: 'Ateevibes on Instagram (opens in a new tab)',
     },
     youtube: {
       name: 'YouTube',
-      url: 'https://youtube.com/@ateevibes',
-      isPlaceholder: true,
+      url: 'https://www.youtube.com/@Ateevibes',
+      isPlaceholder: false,
       ariaLabel: 'Ateevibes on YouTube (opens in a new tab)',
     },
   },
