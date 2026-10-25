@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { SleeveType, NeckType, SizeType } from '../types';
 import { PRODUCTS } from '../data/products';
+import { fuzzyScore, styleCodeScore } from '../lib/fuzzy';
 
 export interface FilterOptions {
   category?: string;
@@ -154,14 +155,16 @@ export function useFilters(categoryOverride?: string, subCategoryOverride?: stri
       // Min rating
       if (filters.minRating > 0 && product.rating < filters.minRating) return false;
 
-      // Search keyword or style code
+      // Search keyword or style code (fuzzy: tolerates typos and style-code slips)
       if (filters.search) {
-        const q = filters.search.toLowerCase().trim();
-        const matchName = product.name.toLowerCase().includes(q);
-        const matchPno = product.pno.toLowerCase().includes(q);
-        const matchFabric = product.fabric.toLowerCase().includes(q);
-        const matchHighlights = product.highlights.some((h) => h.toLowerCase().includes(q));
-        if (!matchName && !matchPno && !matchFabric && !matchHighlights) return false;
+        const q = filters.search.trim();
+        const best = Math.max(
+          fuzzyScore(q, product.name),
+          fuzzyScore(q, product.fabric),
+          styleCodeScore(q, product.pno),
+          Math.max(0, ...product.highlights.map((h) => fuzzyScore(q, h))),
+        );
+        if (best === 0) return false;
       }
 
       return true;

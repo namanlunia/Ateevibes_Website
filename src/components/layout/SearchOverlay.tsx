@@ -6,6 +6,7 @@ import { PRODUCTS } from '../../data/products';
 import { CATEGORIES, Category } from '../../data/categories';
 import { Product } from '../../types';
 import { formatPrice } from '../../lib/format';
+import { fuzzyScore, styleCodeScore, buildSuggestion } from '../../lib/fuzzy';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -14,6 +15,10 @@ interface SearchOverlayProps {
 
 const POPULAR_SEARCHES = ['China Jacquard', 'Waffle', 'Tai Dai', 'Matty Polo'];
 const RECENT_KEY = 'atv:v1:recent_searches';
+const SUGGESTION_POOL = [
+  ...PRODUCTS.flatMap((p) => [p.name, p.fabric, ...p.highlights]),
+  ...CATEGORIES.flatMap((c) => [c.name, ...c.subCategories.map((s) => s.name)]),
+];
 
 export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
@@ -63,29 +68,42 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
   };
 
   // Grouped suggestions (Silent lookup for pno allowed, but never displayed)
-  const cleanQ = query.trim().toLowerCase();
+  const cleanQ = query.trim();
   let matchedProducts: Product[] = [];
   let matchedCategories: Category[] = [];
 
   if (cleanQ.length > 0) {
-    // 1. Products (includes silent lookup for style number)
-    matchedProducts = PRODUCTS.filter(
-      (p) =>
-        p.name.toLowerCase().includes(cleanQ) ||
-        p.fabric.toLowerCase().includes(cleanQ) ||
-        p.pno.toLowerCase() === cleanQ ||
-        p.highlights.some((h) => h.toLowerCase().includes(cleanQ))
-    ).slice(0, 6);
+    // 1. Products (includes silent lookup for style number), ranked by match strength
+    matchedProducts = PRODUCTS.map((product) => ({
+      product,
+      score: Math.max(
+        fuzzyScore(cleanQ, product.name),
+        fuzzyScore(cleanQ, product.fabric),
+        styleCodeScore(cleanQ, product.pno),
+        Math.max(0, ...product.highlights.map((h) => fuzzyScore(cleanQ, h))),
+      ),
+    }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 6)
+      .map((entry) => entry.product);
 
-    // 2. Categories
-    matchedCategories = CATEGORIES.filter(
-      (c) =>
-        c.name.toLowerCase().includes(cleanQ) ||
-        c.subCategories.some((s) => s.name.toLowerCase().includes(cleanQ))
-    ).slice(0, 3);
+    // 2. Categories, ranked by match strength
+    matchedCategories = CATEGORIES.map((category) => ({
+      category,
+      score: Math.max(
+        fuzzyScore(cleanQ, category.name),
+        Math.max(0, ...category.subCategories.map((s) => fuzzyScore(cleanQ, s.name))),
+      ),
+    }))
+      .filter((entry) => entry.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+      .map((entry) => entry.category);
   }
 
   const hasResults = matchedProducts.length > 0 || matchedCategories.length > 0;
+  const suggestion = cleanQ.length > 0 && !hasResults ? buildSuggestion(cleanQ, SUGGESTION_POOL) : undefined;
 
   return (
     <AnimatePresence>
@@ -276,6 +294,15 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
                 <p className="text-sm text-ink-600 max-w-sm mx-auto">
                   No vibes found for that. Try another keyword, fabric type, or category (e.g. &ldquo;jacquard&rdquo;).
                 </p>
+                {suggestion && (
+                  <button
+                    type="button"
+                    onClick={() => setQuery(suggestion)}
+                    className="text-sm font-medium text-ink-900 underline underline-offset-4 hover:text-accent-700 transition-colors"
+                  >
+                    Did you mean &ldquo;{suggestion}&rdquo;?
+                  </button>
+                )}
               </div>
             )}
           </div>
