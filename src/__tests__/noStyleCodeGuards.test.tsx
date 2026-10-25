@@ -11,6 +11,9 @@ import { SearchOverlay } from '../components/layout/SearchOverlay';
 import { MegaMenu } from '../components/layout/MegaMenu';
 import { Footer } from '../components/layout/Footer';
 import { CookieNotice } from '../components/layout/CookieNotice';
+import { CartDrawer } from '../components/cart/CartDrawer';
+import { QuickViewModal } from '../components/product/QuickViewModal';
+import { useUIStore } from '../store/uiStore';
 import { useCartStore } from '../store/cartStore';
 import { PRODUCTS } from '../data/products';
 
@@ -157,5 +160,27 @@ describe('Style Code and P.NO Removal Guards (Section 6 & 7)', () => {
     expect(button?.className).toContain('py-3');
     expect(button?.className).toContain('min-w-[96px]');
     expect(button?.className).toContain('leading-none');
+  });
+  it('asserts CartDrawer with RecommendedStyles express-add section contains no P.NO or style code leakage', () => {
+    useCartStore.getState().addItem({
+      product: PRODUCTS[0],
+      variant: PRODUCTS[0].variants[0],
+      size: 'M',
+      qty: 1,
+    });
+
+    const { container } = renderWithProviders(<CartDrawer isOpen={true} onClose={() => {}} />);
+    const text = container.textContent || '';
+    expect(text).not.toMatch(NO_PNO_REGEX);
+    expect(text).not.toMatch(NO_STYLE_CODE_REGEX);
+  });
+
+  it('asserts QuickViewModal contains no P.NO or style code leakage', () => {
+    useUIStore.getState().openQuickView(PRODUCTS[0]);
+
+    const { container } = renderWithProviders(<QuickViewModal />);
+    const text = container.textContent || '';
+    expect(text).not.toMatch(NO_PNO_REGEX);
+    expect(text).not.toMatch(NO_STYLE_CODE_REGEX);
   });
 });

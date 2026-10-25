@@ -145,7 +145,7 @@ function generateTShirtSvg(options) {
     <!-- Upper Brand Badge / Style Watermark -->
     <g transform="translate(60, 60)" opacity="0.6">
       <text font-family="'Playfair Display', Georgia, serif" font-size="20" font-weight="900" fill="#1C241A" letter-spacing="3">ATEEVIBES</text>
-      <text y="22" font-family="'DM Sans', system-ui, sans-serif" font-size="10" font-weight="700" fill="#AA7C11" letter-spacing="2">P.NO ${pno} • ${fabricName.toUpperCase()}</text>
+      <text y="22" font-family="'DM Sans', system-ui, sans-serif" font-size="10" font-weight="700" fill="#AA7C11" letter-spacing="2">${fabricName.toUpperCase()}</text>
     </g>
 
     <!-- MAIN GARMENT SILHOUETTE -->
@@ -285,7 +285,7 @@ async function run() {
     neck: 'round',
     sleeve: 'half',
     fabricName: 'Architectural Knitwear',
-    pno: 'ATEEVIBES',
+    fabricName: 'Architectural Knitwear',
   });
   fs.writeFileSync(path.join(brandDir, 'tshirt-silhouette.svg'), genericSvg);
   fs.writeFileSync(path.join(brandDir, 'placeholder.svg'), genericSvg);

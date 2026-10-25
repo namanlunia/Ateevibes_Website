@@ -38,7 +38,7 @@
     <!-- Upper Brand Badge / Style Watermark -->
     <g transform="translate(60, 60)" opacity="0.6">
       <text font-family="'Playfair Display', Georgia, serif" font-size="20" font-weight="900" fill="#1C241A" letter-spacing="3">ATEEVIBES</text>
-      <text y="22" font-family="'DM Sans', system-ui, sans-serif" font-size="10" font-weight="700" fill="#AA7C11" letter-spacing="2">P.NO ATEEVIBES • ARCHITECTURAL KNITWEAR</text>
+      <text y="22" font-family="'DM Sans', system-ui, sans-serif" font-size="10" font-weight="700" fill="#AA7C11" letter-spacing="2">ARCHITECTURAL KNITWEAR</text>
     </g>
 
     <!-- MAIN GARMENT SILHOUETTE -->
