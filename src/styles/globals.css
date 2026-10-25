@@ -289,3 +289,36 @@
 }
 
 
+
+/* Carousel exact per-view and gap variables */
+.carousel-container {
+  --per-view: 1;
+  --gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .carousel-container {
+    --per-view: 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-container {
+    --per-view: 3;
+  }
+}
+
+@media (min-width: 1280px) {
+  .carousel-container {
+    --per-view: 4;
+  }
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
+  column-gap: var(--gap);
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0;
+}

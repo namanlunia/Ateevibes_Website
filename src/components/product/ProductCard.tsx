@@ -93,7 +93,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
   return (
     <div
-      className={`product-card-container group relative flex flex-col bg-white rounded-xl border border-sandstone overflow-hidden transition-all duration-300 hover:border-gold/60 hover:shadow-soft-hover ${className}`}
+      className={`product-card-container group relative flex flex-col h-full bg-white rounded-xl border border-sandstone overflow-hidden transition-all duration-300 hover:border-gold/60 hover:shadow-soft-hover ${className}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -141,6 +141,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
             />
           )}
         </Link>
+
+        {/* Mask inside watermark */}
+        <div aria-hidden="true" className="pointer-events-none absolute top-0 left-0 w-44 h-12 bg-gradient-to-r from-[#FCFCFA] via-[#FCFCFA] to-transparent z-[5]" />
 
         {/* Top-Left Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
@@ -290,7 +293,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
         {/* Product Name */}
         <Link to={`/product/${product.slug}`} className="block group-hover:text-gold transition-colors">
-          <h3 className="font-sans font-medium text-sm sm:text-base text-obsidian line-clamp-2 leading-snug">
+          <h3 className="font-sans font-medium text-sm sm:text-base text-obsidian line-clamp-2 leading-snug min-h-[2.5rem] sm:min-h-[2.75rem]">
             {product.name}
           </h3>
         </Link>

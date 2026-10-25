@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -23,6 +23,7 @@ import { formatPrice } from '../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
+import { getPerView, getPageCount, getPageScrollLeft, getCurrentPage } from '../lib/carouselHelper';
 
 // Fabric Story data (Approved catalog claims only)
 export const FABRIC_STORIES = [
@@ -217,12 +218,90 @@ export const HomePage: React.FC = () => {
     openCart();
   };
 
-  // Carousel manual controls
-  const handleScrollCarousel = (direction: 'left' | 'right') => {
+  // Carousel pagination & responsive layout state
+  const [carouselPage, setCarouselPage] = useState(0);
+  const [perView, setPerView] = useState(() => (typeof window !== 'undefined' ? getPerView(window.innerWidth) : 4));
+
+  const carouselPageCount = getPageCount(newArrivals.length, perView);
+
+  const scrollToPage = useCallback((targetPage: number) => {
     if (!carouselRef.current) return;
-    const scrollAmount = direction === 'left' ? -320 : 320;
-    carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    const container = carouselRef.current;
+    const gap = 24; // 1.5rem
+    const cardWidth = (container.clientWidth - (perView - 1) * gap) / perView;
+    const clampedPage = Math.max(0, Math.min(targetPage, carouselPageCount - 1));
+    const targetScrollLeft = getPageScrollLeft(clampedPage, cardWidth, gap, perView);
+    container.scrollTo({ left: targetScrollLeft, behavior: 'smooth' });
+    setCarouselPage(clampedPage);
+  }, [carouselPageCount, perView]);
+
+  const handleScrollCarousel = (direction: 'left' | 'right') => {
+    if (direction === 'left') {
+      scrollToPage(carouselPage - 1);
+    } else {
+      scrollToPage(carouselPage + 1);
+    }
   };
+
+  const handleCarouselScroll = useCallback(() => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const gap = 24;
+    const cardWidth = (container.clientWidth - (perView - 1) * gap) / perView;
+    const detectedPage = getCurrentPage(container.scrollLeft, cardWidth, gap, perView, newArrivals.length);
+    setCarouselPage(detectedPage);
+  }, [perView, newArrivals.length]);
+
+  const handleCarouselKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      scrollToPage(carouselPage - 1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      scrollToPage(carouselPage + 1);
+    }
+  };
+
+  useEffect(() => {
+    let currentPv = perView;
+    const handleResize = () => {
+      if (typeof window === 'undefined') return;
+      const newPv = getPerView(window.innerWidth);
+      if (newPv !== currentPv) {
+        if (carouselRef.current) {
+          const container = carouselRef.current;
+          const gap = 24;
+          const prevCardWidth = (container.clientWidth - (currentPv - 1) * gap) / currentPv;
+          const firstVisibleCardIndex = Math.round(container.scrollLeft / (prevCardWidth + gap));
+
+          setPerView(newPv);
+          currentPv = newPv;
+
+          const newPage = Math.floor(firstVisibleCardIndex / newPv);
+          setCarouselPage(newPage);
+
+          requestAnimationFrame(() => {
+            if (!carouselRef.current) return;
+            const newCardWidth = (carouselRef.current.clientWidth - (newPv - 1) * gap) / newPv;
+            const newScrollLeft = firstVisibleCardIndex * (newCardWidth + gap);
+            carouselRef.current.scrollTo({ left: newScrollLeft, behavior: 'auto' });
+          });
+        } else {
+          setPerView(newPv);
+          currentPv = newPv;
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    if (typeof document !== 'undefined' && 'fonts' in document) {
+      document.fonts.ready.then(handleResize).catch(() => {});
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [perView]);
 
   // Handle Newsletter Submit
   const handleNewsletterSubmit = (e: React.FormEvent) => {
@@ -577,7 +656,7 @@ export const HomePage: React.FC = () => {
         </section>
 
         {/* ======================================================== */}
-        {/* 4. NEW ARRIVALS: Matte Black Showcase */}
+        {/* 4. NEW SEASON RELEASES: Dark Luxury Scroller */}
         {/* ======================================================== */}
         <section className="py-20 sm:py-28 bg-midnight text-ivory border-y border-sandstone/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -591,36 +670,97 @@ export const HomePage: React.FC = () => {
                 </h2>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleScrollCarousel('left')}
-                  className="p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory hover:border-gold hover:text-gold transition-colors shadow-subtle"
-                  aria-label="Previous items"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={() => handleScrollCarousel('right')}
-                  className="p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory hover:border-gold hover:text-gold transition-colors shadow-subtle"
-                  aria-label="Next items"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+              {carouselPageCount > 1 && (
+                <div className="flex items-center gap-3">
+                  {/* Page progress indicator */}
+                  <div
+                    role="progressbar"
+                    aria-valuenow={carouselPage + 1}
+                    aria-valuemin={1}
+                    aria-valuemax={carouselPageCount}
+                    aria-label={`Page ${carouselPage + 1} of ${carouselPageCount}`}
+                    className="hidden sm:block w-24 h-1 bg-sandstone/20 rounded-full overflow-hidden"
+                  >
+                    <div
+                      className="h-full bg-gold transition-all duration-300 rounded-full"
+                      style={{ width: `${((carouselPage + 1) / carouselPageCount) * 100}%` }}
+                    />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleScrollCarousel('left')}
+                      disabled={carouselPage <= 0}
+                      aria-disabled={carouselPage <= 0}
+                      className={cn(
+                        'p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory transition-colors shadow-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                        carouselPage <= 0
+                          ? 'opacity-30 cursor-not-allowed'
+                          : 'hover:border-gold hover:text-gold'
+                      )}
+                      aria-label="Previous items"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleScrollCarousel('right')}
+                      disabled={carouselPage >= carouselPageCount - 1}
+                      aria-disabled={carouselPage >= carouselPageCount - 1}
+                      className={cn(
+                        'p-3 rounded-full border border-sandstone/30 bg-deepBlack text-ivory transition-colors shadow-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold',
+                        carouselPage >= carouselPageCount - 1
+                          ? 'opacity-30 cursor-not-allowed'
+                          : 'hover:border-gold hover:text-gold'
+                      )}
+                      aria-label="Next items"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <div
-              ref={carouselRef}
-              className="flex gap-6 overflow-x-auto pb-4 pt-1 no-scrollbar scroll-smooth snap-x snap-mandatory"
-            >
-              {newArrivals.map((product) => (
-                <div
-                  key={product.id}
-                  className="w-[270px] sm:w-[300px] flex-shrink-0 snap-start bg-white rounded-3xl p-3 border border-sandstone shadow-luxury"
-                >
-                  <ProductCard product={product} />
+            <div className="carousel-container w-full">
+              <div
+                ref={carouselRef}
+                tabIndex={0}
+                role="region"
+                aria-label="New Season Releases carousel"
+                onKeyDown={handleCarouselKeyDown}
+                onScroll={handleCarouselScroll}
+                className="carousel-track w-full overflow-x-auto py-4 no-scrollbar scroll-smooth focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold/30 rounded-2xl"
+                style={{ scrollPadding: '0px' }}
+              >
+                {newArrivals.map((product) => (
+                  <div
+                    key={product.id}
+                    className="snap-start h-full bg-white rounded-3xl p-3 border border-sandstone shadow-luxury flex flex-col"
+                  >
+                    <ProductCard product={product} />
+                  </div>
+                ))}
+              </div>
+
+              {carouselPageCount > 1 && (
+                <div className="sm:hidden flex justify-center pt-2">
+                  <div
+                    role="progressbar"
+                    aria-valuenow={carouselPage + 1}
+                    aria-valuemin={1}
+                    aria-valuemax={carouselPageCount}
+                    aria-label={`Page ${carouselPage + 1} of ${carouselPageCount}`}
+                    className="w-20 h-1 bg-sandstone/20 rounded-full overflow-hidden"
+                  >
+                    <div
+                      className="h-full bg-gold transition-all duration-300 rounded-full"
+                      style={{ width: `${((carouselPage + 1) / carouselPageCount) * 100}%` }}
+                    />
+                  </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </section>
