@@ -11,6 +11,8 @@ import {
   Search,
   ChevronRight,
   RotateCcw,
+  Sparkles,
+  ArrowRight,
 } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { FilterSidebar } from '../components/product/FilterSidebar';
@@ -19,6 +21,7 @@ import { useFilters } from '../hooks/useFilters';
 import { CATEGORIES, QUICK_COLLECTIONS, Category } from '../data/categories';
 import { productService } from '../services/productService';
 import { siteConfig } from '../config/site';
+import { PRODUCTS } from '../data/products';
 
 export const ShopPage: React.FC = () => {
   const { category: catParam, sub: subParam, collectionSlug } = useParams<{
@@ -153,6 +156,28 @@ export const ShopPage: React.FC = () => {
               {pageDescription}
             </p>
           </div>
+
+          {/* Quick Category Pills on Main /shop */}
+          {!currentCategory && !currentCollection && (
+            <div className="mt-6 pt-5 border-t border-sandstone/20 flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar relative z-10">
+              <span className="px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap bg-gold text-midnight border border-gold shadow-sm">
+                All Styles
+              </span>
+              {categories.map((cat) => {
+                const count = PRODUCTS.filter((p) => p.category === cat.slug).length;
+                return (
+                  <Link
+                    key={cat.id}
+                    to={`/shop/${cat.slug}`}
+                    className="px-4 py-2 rounded-lg text-xs font-semibold tracking-wide transition-all whitespace-nowrap bg-deepBlack/90 text-ivory/80 border border-sandstone/25 hover:border-gold hover:text-ivory inline-flex items-center gap-1.5"
+                  >
+                    <span>{cat.name}</span>
+                    <span className="text-[10px] text-sandstone/70">({count})</span>
+                  </Link>
+                );
+              })}
+            </div>
+          )}
 
           {/* Quick Sub-Category Pills for Horizontal Switching */}
           {currentCategory && currentCategory.subCategories.length > 0 && (
@@ -452,6 +477,27 @@ export const ShopPage: React.FC = () => {
                   </div>
                 )}
               </>
+            ) : (catParam === "kids" || currentCategory?.slug === "kids") ? (
+              /* Kids empty state */
+              <div className="text-center py-20 bg-surface-tint rounded-3xl border border-border p-8 max-w-md mx-auto space-y-4">
+                <div className="w-16 h-16 mx-auto rounded-full bg-brand-cream flex items-center justify-center text-ink-900">
+                  <Sparkles className="w-8 h-8 text-gold" />
+                </div>
+                <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2.5 py-1 rounded-full border border-gold/30">
+                  Dropping Soon
+                </span>
+                <h3 className="font-display text-2xl font-normal text-ink-900">Kids styles — dropping soon</h3>
+                <p className="text-xs sm:text-sm text-ink-600 leading-relaxed">
+                  We are crafting mini vibes with the same premium comfort and enduring softness. Stay tuned for our inaugural kids collection drop.
+                </p>
+                <Link
+                  to="/shop"
+                  className="btn-primary px-6 py-2.5 text-xs font-bold inline-flex items-center gap-2"
+                >
+                  <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Explore All Styles</span>
+                </Link>
+              </div>
             ) : (
               /* Empty state as per Section 6.3 & 10 */
               <div className="text-center py-20 bg-surface-tint rounded-3xl border border-border p-8 max-w-md mx-auto space-y-4">

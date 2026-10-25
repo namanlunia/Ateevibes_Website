@@ -109,17 +109,26 @@ describe('Route Smoke Tests (All Routes & Error Guards)', () => {
 
   // 3. Category & Subcategory Routes
   CATEGORIES.forEach((cat) => {
-    it(`renders category /shop/${cat.slug} with products`, () => {
+    const isKids = cat.slug === "kids";
+    it(`renders category /shop/${cat.slug} ${isKids ? "empty state" : "with products"}`, () => {
       const { container } = renderRoute(`/shop/${cat.slug}`);
       assertNoErrorsOrCrash(container);
-      expect(container.querySelectorAll('.product-card-container').length).toBeGreaterThan(0);
+      if (isKids) {
+        expect(container.textContent).toContain("Kids styles — dropping soon");
+      } else {
+        expect(container.querySelectorAll(".product-card-container").length).toBeGreaterThan(0);
+      }
     });
 
     cat.subCategories.forEach((sub) => {
-      it(`renders subcategory /shop/${cat.slug}/${sub.slug} with products`, () => {
+      it(`renders subcategory /shop/${cat.slug}/${sub.slug} ${isKids ? "empty state" : "with products"}`, () => {
         const { container } = renderRoute(`/shop/${cat.slug}/${sub.slug}`);
         assertNoErrorsOrCrash(container);
-        expect(container.querySelectorAll('.product-card-container').length).toBeGreaterThan(0);
+        if (isKids) {
+          expect(container.textContent).toContain("Kids styles — dropping soon");
+        } else {
+          expect(container.querySelectorAll(".product-card-container").length).toBeGreaterThan(0);
+        }
       });
     });
   });

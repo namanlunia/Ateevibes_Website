@@ -71,6 +71,18 @@ export const CATEGORIES: Category[] = [
       { id: 'sub-premium-printed', slug: 'premium-printed-round-neck', name: 'Premium Printed Round Neck', description: 'Bold brushstrokes and modern graphic textures.' },
     ],
   },
+  {
+    id: "cat-kids",
+    slug: "kids",
+    name: "Kids",
+    tagline: "Mini vibes, same comfort",
+    description: "Playful designs crafted with the same premium softness and comfort for the little ones.",
+    image: "/products/500/pastel-green.jpg",
+    subCategories: [
+      { id: "sub-kids-tees", slug: "kids-tees", name: "Kids Tees", description: "Everyday comfort tees designed for active little ones." },
+      { id: "sub-kids-print", slug: "kids-print", name: "Kids Printed", description: "Vibrant prints and playful designs on soft, durable fabrics." },
+    ],
+  },
 ];
 
 export const QUICK_COLLECTIONS = [

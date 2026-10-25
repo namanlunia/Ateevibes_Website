@@ -13,8 +13,6 @@ import {
   ShoppingBag,
   ChevronRight,
   ChevronLeft,
-  Play,
-  Pause,
 } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { productService } from '../services/productService';
@@ -166,7 +164,6 @@ export const HomePage: React.FC = () => {
   const [isFocusedInside, setIsFocusedInside] = useState(false);
   const [isDocumentHidden, setIsDocumentHidden] = useState(false);
   const [isCardIntersecting, setIsCardIntersecting] = useState(true);
-  const [isUserManualPaused, setIsUserManualPaused] = useState(false);
 
   const {
     index: activeSlideIndex,
@@ -183,13 +180,12 @@ export const HomePage: React.FC = () => {
 
   useEffect(() => {
     const shouldPause =
-      isUserManualPaused ||
       isPointerOver ||
       isFocusedInside ||
       isDocumentHidden ||
       !isCardIntersecting;
     setRotationPaused(shouldPause);
-  }, [isUserManualPaused, isPointerOver, isFocusedInside, isDocumentHidden, isCardIntersecting, setRotationPaused]);
+  }, [isPointerOver, isFocusedInside, isDocumentHidden, isCardIntersecting, setRotationPaused]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -597,23 +593,9 @@ export const HomePage: React.FC = () => {
                           FEATURED SILHOUETTE
                         </span>
 
-                        <div className="flex items-center gap-2">
-                          <span className="text-[11px] font-mono font-semibold text-sandstone/90 tabular-nums px-2.5 py-1 rounded-full bg-midnight/80 border border-sandstone/30">
-                            {activeSlideIndex + 1} / {featuredSlides.length}
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => setIsUserManualPaused(!isUserManualPaused)}
-                            aria-label={isUserManualPaused ? 'Play auto-rotation' : 'Pause auto-rotation'}
-                            className="p-1.5 rounded-full bg-midnight/80 border border-sandstone/30 text-sandstone hover:text-gold hover:border-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
-                          >
-                            {isUserManualPaused ? (
-                              <Play className="w-3.5 h-3.5 fill-current" />
-                            ) : (
-                              <Pause className="w-3.5 h-3.5 fill-current" />
-                            )}
-                          </button>
-                        </div>
+                        <span className="text-[11px] font-mono font-semibold text-sandstone/90 tabular-nums px-2.5 py-1 rounded-full bg-midnight/80 border border-sandstone/30">
+                          {activeSlideIndex + 1} / {featuredSlides.length}
+                        </span>
                       </div>
 
                       {/* Center: Garment Image Canvas with AnimatePresence */}
@@ -820,7 +802,7 @@ export const HomePage: React.FC = () => {
               </Link>
             </div>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
               {/* Tile 1: Round Neck */}
               <Link
                 to="/shop/round-neck"
@@ -951,6 +933,41 @@ export const HomePage: React.FC = () => {
                   </h3>
                   <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
                     Subtle botanical gradients and statement artistic dye patterns.
+                  </p>
+                  <div className="pt-2 sm:pt-3">
+                    <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-gold" />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              {/* Tile 5: Kids Styles */}
+              <Link
+                to="/shop/kids"
+                className="group relative rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[4/5] border border-sandstone shadow-luxury hover:border-gold transition-all block"
+              >
+                <img
+                  src="/products/500/pastel-green.jpg"
+                  srcSet={getProductSrcSet("/products/500/pastel-green.jpg")}
+                  sizes={PRODUCT_IMAGE_SIZES}
+                  alt="Kids styles — dropping soon"
+                  onError={(e) => {
+                    e.currentTarget.srcset = "";
+                    e.currentTarget.src = "/brand/placeholder.svg";
+                  }}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/50 to-transparent flex flex-col justify-end p-5 sm:p-6 text-warm-neutral">
+                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-gold">
+                    DROPPING SOON
+                  </span>
+                  <h3 className="font-serif text-xl sm:text-2xl font-normal text-white mt-1">
+                    Kids Collection
+                  </h3>
+                  <p className="text-xs text-sandstone/80 line-clamp-2 mt-1 hidden sm:block font-sans">
+                    Mini vibes crafted with the same enduring softness and comfort.
                   </p>
                   <div className="pt-2 sm:pt-3">
                     <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-white group-hover:text-gold group-hover:translate-x-1 transition-all">
@@ -1462,7 +1479,7 @@ export const HomePage: React.FC = () => {
                 The Ateevibes Standard
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-normal text-obsidian tracking-tight">
-                Why Men Choose Ateevibes
+                Why People Choose Ateevibes
               </h2>
             </div>
 

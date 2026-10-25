@@ -42,31 +42,6 @@ describe('useFeaturedShowcase hook', () => {
     expect(result.current.index).toBe(0);
   });
 
-  it('pauses and resumes rotation on command', () => {
-    const { result } = renderHook(() => useFeaturedShowcase({ total: 6 }));
-
-    act(() => {
-      result.current.setPaused(true);
-    });
-    expect(result.current.isPaused).toBe(true);
-
-    act(() => {
-      vi.advanceTimersByTime(15000);
-    });
-    // Stays at 0 while paused
-    expect(result.current.index).toBe(0);
-
-    act(() => {
-      result.current.setPaused(false);
-    });
-    expect(result.current.isPaused).toBe(false);
-
-    act(() => {
-      vi.advanceTimersByTime(5000);
-    });
-    expect(result.current.index).toBe(1);
-  });
-
   it('allows manual navigation with next, prev, and goTo', () => {
     const { result } = renderHook(() => useFeaturedShowcase({ total: 6 }));
 

@@ -105,7 +105,14 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
                         onClick={() => toggleCategory(cat.slug)}
                         className="w-full flex items-center justify-between py-2.5 text-base font-medium text-ink-900 text-left"
                       >
-                        <span>{cat.name}</span>
+                        <span className="flex items-center gap-2">
+                          <span>{cat.name}</span>
+                          {cat.slug === "kids" && (
+                            <span className="text-[10px] font-bold bg-gold/15 text-gold border border-gold/30 px-2 py-0.5 rounded-full">
+                              Dropping Soon
+                            </span>
+                          )}
+                        </span>
                         <ChevronDown
                           className={`w-4 h-4 text-ink-600 transition-transform duration-200 ${
                             isExpanded ? 'rotate-180' : ''

@@ -17,7 +17,7 @@ const POPULAR_SEARCHES = ['China Jacquard', 'Waffle', 'Tai Dai', 'Matty Polo'];
 const RECENT_KEY = 'atv:v1:recent_searches';
 const SUGGESTION_POOL = [
   ...PRODUCTS.flatMap((p) => [p.name, p.fabric, ...p.highlights]),
-  ...CATEGORIES.flatMap((c) => [c.name, ...c.subCategories.map((s) => s.name)]),
+  ...CATEGORIES.filter((c) => PRODUCTS.some((p) => p.category === c.slug)).flatMap((c) => [c.name, ...c.subCategories.map((s) => s.name)]),
 ];
 
 export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose }) => {

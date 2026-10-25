@@ -75,7 +75,7 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           className="absolute top-full mt-3 z-50 pointer-events-auto"
-          style={{ left: '50%', transform: 'translateX(-50%)', width: 'min(1040px, calc(100vw - 48px))' }}
+          style={{ left: "50%", transform: "translateX(-50%)", width: "min(1200px, calc(100vw - 48px))" }}
         >
           <motion.div
             id="mega-menu"
@@ -85,13 +85,14 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.995 }}
             transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full bg-white rounded-2xl border border-sandstone shadow-luxury p-8 overflow-hidden"
+            className="w-full bg-white rounded-2xl border border-sandstone shadow-luxury p-6 xl:p-8 overflow-hidden"
           >
-            {/* CSS Grid: 4 equal category columns + 260px featured card */}
-            <div className="grid grid-cols-[1fr_1fr_1fr_1fr_260px] gap-6 items-start">
-              {/* 4 Category Columns */}
+            {/* CSS Grid: 5 category columns + 260px featured card */}
+            <div className="grid grid-cols-[repeat(5,minmax(0,1fr))_240px] xl:grid-cols-[repeat(5,minmax(0,1fr))_260px] gap-4 xl:gap-5 items-start">
+              {/* 5 Category Columns */}
               {categories.map((cat) => {
                 const totalCount = getCategoryCount(cat.slug);
+                const isKids = cat.slug === "kids";
                 return (
                   <div key={cat.id} className="space-y-3 min-w-0">
                     <Link
@@ -100,10 +101,16 @@ export const MegaMenu: React.FC<MegaMenuProps> = ({
                       className="group block"
                     >
                       <h4 className="font-display text-base font-normal text-obsidian group-hover:text-gold transition-colors flex items-center justify-between gap-1">
-                        <span className="truncate">{cat.name.replace(' Tees', '')}</span>
-                        <span className="shrink-0 text-[10px] font-sans font-semibold text-ink-600 bg-ivory px-2 py-0.5 rounded-full border border-sandstone">
-                          {totalCount}
-                        </span>
+                        <span className="truncate">{cat.name.replace(" Tees", "")}</span>
+                        {isKids ? (
+                          <span className="shrink-0 text-[9px] font-sans font-bold text-gold bg-gold/10 px-1.5 py-0.5 rounded-full border border-gold/30">
+                            Dropping Soon
+                          </span>
+                        ) : (
+                          <span className="shrink-0 text-[10px] font-sans font-semibold text-ink-600 bg-ivory px-2 py-0.5 rounded-full border border-sandstone">
+                            {totalCount}
+                          </span>
+                        )}
                       </h4>
                     </Link>
 
