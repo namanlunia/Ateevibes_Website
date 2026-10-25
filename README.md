@@ -10,7 +10,7 @@
 Ateevibes is a mobile-first, high-performance e-commerce platform built for an Indian apparel label specializing in architectural knits, China jacquards, waffle textures, and tie-dye drops.
 
 ### Key Highlights
-- **Curated Aesthetics**: Light-theme-only visual luxury with Playfair Display & DM Sans typography, fluid micro-interactions, liquid SVG preloader, and an iconic 3-panel brand curtain transition (`PageCurtain.tsx`).
+- **Curated Aesthetics**: Light-theme-only visual luxury with Playfair Display & DM Sans typography, fluid micro-interactions, liquid SVG preloader, and seamless page transitions (`PageTransition.tsx`).
 - **Catalog Precision**: 16 exact product catalog representations, variant swatches with background tint morphs, dual-thumb price filter, facet counts, and URL query param synchronization (`?category=&sleeve=&neck=&fabric=&color=&size=&price=&sort=`).
 - **Interactive "Same Print, Different Vibes" Engine**: Live colorway morphing with ambient background tint matching the active variant.
 - **Full Commerce Lifecycle**: Fly-to-cart bezier trajectory animation, slide-over cart drawer with free shipping progress bar (₹1,499 threshold), promo code discounts (`ATEE10`, `WELCOME15`), 4-step checkout wizard, Luhn card check, simulated UPI/Card payment flow, order confirmation confetti, invoice printing, and real-time progressive milestone tracking (`ATV-YYMMDD-####`).
@@ -43,7 +43,7 @@ ateevibes/
 │   ├── components/
 │   │   ├── cart/            # CartDrawer, FlyToCart
 │   │   ├── layout/          # Navbar, MegaMenu, MobileDrawer, AnnouncementBar, Footer, Layout
-│   │   ├── motion/          # PageCurtain, CustomCursor, ScrollProgressBar, Preloader
+│   │   ├── motion/          # Preloader, FlyToCart, ScrollProgressBar
 │   │   ├── product/         # ProductCard, QuickViewModal, FilterSidebar, SizeGuideModal, ReviewModal
 │   │   └── ui/              # ErrorBoundary, Toast notifications, BackToTop
 │   ├── config/              # site.ts (branding & contacts), commerce.ts (shipping & fees)

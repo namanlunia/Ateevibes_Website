@@ -1,14 +1,13 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { Outlet, useLocation, useNavigationType } from 'react-router-dom';
+import { useLocation, useNavigationType } from 'react-router-dom';
 import Lenis from 'lenis';
 import { AnnouncementBar } from './AnnouncementBar';
 import { Navbar } from './Navbar';
-import { Footer } from './Footer';
 import { BackToTop } from './BackToTop';
 import { WhatsAppFloat } from './WhatsAppFloat';
 import { ScrollProgressBar } from './ScrollProgressBar';
 import { Preloader } from '../motion/Preloader';
-import { PageCurtain } from '../motion/PageCurtain';
+import { PageTransition } from './PageTransition';
 import { ToastContainer } from '../ui/ToastContainer';
 import { FlyToCart } from '../motion/FlyToCart';
 import { useUIStore } from '../../store/uiStore';
@@ -110,7 +109,7 @@ export const Layout: React.FC = () => {
     };
   }, [location.key, location.pathname]);
 
-  // Restore scroll position on POP (back/forward), or scroll to top on PUSH
+  // Restore scroll position on POP (back/forward) — PUSH/REPLACE handled in onExitComplete
   useEffect(() => {
     if (navigationType === 'POP') {
       try {
@@ -120,13 +119,11 @@ export const Layout: React.FC = () => {
           setTimeout(() => {
             window.scrollTo({ top: savedY, left: 0, behavior: 'instant' });
           }, 60);
-          return;
         }
       } catch {
         // fallback
       }
     }
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [location.pathname, location.key, navigationType]);
 
   // Lenis smooth scroll initialization (respecting reduced motion)
@@ -192,15 +189,8 @@ export const Layout: React.FC = () => {
         </Suspense>
       )}
 
-      {/* Main Content Area Wrapped with Curtain Transitions */}
-      <main id="main-content" className="flex-1 flex flex-col focus:outline-none">
-        <PageCurtain>
-          <Outlet />
-        </PageCurtain>
-      </main>
-
-      {/* Footer */}
-      <Footer />
+      {/* Page Content & Footer wrapped with Soft Page Transition */}
+      <PageTransition />
 
       {/* Utility Floaters */}
       <BackToTop />
