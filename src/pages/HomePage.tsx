@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   Sparkles,
   ArrowRight,
@@ -13,6 +13,8 @@ import {
   ShoppingBag,
   ChevronRight,
   ChevronLeft,
+  Play,
+  Pause,
 } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
 import { productService } from '../services/productService';
@@ -23,6 +25,9 @@ import { formatPrice } from '../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { cn } from '../lib/utils';
 import { siteConfig } from '../config/site';
+import { PRODUCTS } from '../data/products';
+import { resolveFeaturedSlides } from '../data/featuredShowcase';
+import { useFeaturedShowcase } from '../hooks/useFeaturedShowcase';
 import { getPerView, getPageCount, getPageScrollLeft, getCurrentPage } from '../lib/carouselHelper';
 
 // Fabric Story data (Approved catalog claims only)
@@ -147,7 +152,107 @@ export const HomePage: React.FC = () => {
   const addToast = useUIStore((state) => state.addToast);
 
   // Products state
-  const [heroProduct, setHeroProduct] = useState<Product | null>(null);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const shouldReduceMotion = useReducedMotion() ?? false;
+
+  const featuredSlides = useMemo(() => {
+    const list = allProducts.length > 0 ? allProducts : PRODUCTS;
+    return resolveFeaturedSlides(list);
+  }, [allProducts]);
+
+  // Featured Showcase Rotation State
+  const featuredCardRef = useRef<HTMLDivElement>(null);
+  const [isPointerOver, setIsPointerOver] = useState(false);
+  const [isFocusedInside, setIsFocusedInside] = useState(false);
+  const [isDocumentHidden, setIsDocumentHidden] = useState(false);
+  const [isCardIntersecting, setIsCardIntersecting] = useState(true);
+  const [isUserManualPaused, setIsUserManualPaused] = useState(false);
+
+  const {
+    index: activeSlideIndex,
+    next: handleNextSlide,
+    prev: handlePrevSlide,
+    goTo: handleGoToSlide,
+    setPaused: setRotationPaused,
+    isManual,
+  } = useFeaturedShowcase({
+    total: featuredSlides.length,
+    intervalMs: 5000,
+    reducedMotion: shouldReduceMotion,
+  });
+
+  useEffect(() => {
+    const shouldPause =
+      isUserManualPaused ||
+      isPointerOver ||
+      isFocusedInside ||
+      isDocumentHidden ||
+      !isCardIntersecting;
+    setRotationPaused(shouldPause);
+  }, [isUserManualPaused, isPointerOver, isFocusedInside, isDocumentHidden, isCardIntersecting, setRotationPaused]);
+
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      setIsDocumentHidden(document.hidden);
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!featuredCardRef.current || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsCardIntersecting(entry.isIntersecting);
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(featuredCardRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  // Preload next slide's image
+  useEffect(() => {
+    if (featuredSlides.length <= 1) return;
+    const nextIdx = (activeSlideIndex + 1) % featuredSlides.length;
+    const nextImgSrc = featuredSlides[nextIdx]?.image;
+    if (nextImgSrc && typeof window !== 'undefined') {
+      const img = new Image();
+      img.src = nextImgSrc;
+    }
+  }, [activeSlideIndex, featuredSlides]);
+
+  // Keyboard & Touch for Featured Showcase
+  const touchStartXRef = useRef<number | null>(null);
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartXRef.current;
+    if (Math.abs(deltaX) > 40) {
+      if (deltaX > 0) {
+        handlePrevSlide();
+      } else {
+        handleNextSlide();
+      }
+    }
+    touchStartXRef.current = null;
+  };
+
+  const handleShowcaseKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      handlePrevSlide();
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      handleNextSlide();
+    }
+  };
   const [newArrivals, setNewArrivals] = useState<Product[]>([]);
   const [bestSellers, setBestSellers] = useState<Product[]>([]);
   const [morphProduct, setMorphProduct] = useState<Product | null>(null);
@@ -175,9 +280,9 @@ export const HomePage: React.FC = () => {
     productService.getBestSellers(8).then((res) => {
       if (isMounted) setBestSellers(res || []);
     });
-    productService.getBySlug('royal-print-jacquard-full-sleeve').then((p) => {
-      if (isMounted && p) {
-        setHeroProduct(p);
+    productService.getAll().then((res) => {
+      if (isMounted && res && res.length > 0) {
+        setAllProducts(res);
       }
     });
     productService.getBySlug('t-shirt-102-tai-dai').then((p) => {
@@ -417,47 +522,251 @@ export const HomePage: React.FC = () => {
 
             {/* Right Column: Editorial Garment Showcase */}
             <div className="lg:col-span-5 relative flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden border border-gold/40 shadow-luxury bg-graphite group"
-              >
-                <img
-                  src={heroProduct?.variants?.[0]?.images?.[0] || '/brand/tshirt-silhouette.svg'}
-                  srcSet={getProductSrcSet(heroProduct?.variants?.[0]?.images?.[0])}
-                  sizes={PRODUCT_IMAGE_SIZES}
-                  alt={heroProduct ? `${heroProduct.name} - Signature Drop` : 'Ateevibes Signature China Jacquard'}
-                  onError={(e) => {
-                    e.currentTarget.srcset = '';
-                    e.currentTarget.src = '/brand/tshirt-silhouette.svg';
-                  }}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-midnight via-midnight/80 to-transparent flex flex-col justify-end p-6 sm:p-7 text-warm-neutral">
-                  <span className="inline-block px-3 py-1 rounded-full bg-gold text-midnight text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
-                    FEATURED SILHOUETTE
-                  </span>
-                  <h3 className="font-serif text-2xl font-normal text-warm-neutral">
-                    {heroProduct?.name || 'Royal Print Jacquard Full Sleeve T-Shirt'}
-                  </h3>
-                  <p className="text-xs text-sandstone/80 mt-1 line-clamp-2 font-sans">
-                    {heroProduct?.description || 'Engineered architectural weave with distinctive dimensional texture.'}
-                  </p>
-                  <div className="flex items-center justify-between pt-4 border-t border-sandstone/20 mt-3">
-                    <span className="font-serif text-2xl font-normal text-gold tabular-nums">
-                      {heroProduct ? formatPrice(heroProduct.mrp) : '₹709'}
-                    </span>
-                    <Link
-                      to={`/product/${heroProduct?.slug || 'royal-print-jacquard-full-sleeve'}`}
-                      className="px-4 py-2 rounded-full bg-gold text-midnight text-xs font-bold uppercase tracking-wider hover:bg-gold-light transition-colors inline-flex items-center gap-1.5 shadow-sm"
-                    >
-                      <span>Shop Piece</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-midnight" />
-                    </Link>
+              {featuredSlides.length < 2 ? (
+                /* Static fallback if fewer than 2 products resolve */
+                featuredSlides[0] && (
+                  <div className="relative w-full max-w-md aspect-[4/5] rounded-3xl overflow-hidden border border-gold/40 shadow-luxury bg-graphite group">
+                    <img
+                      src={featuredSlides[0].image}
+                      srcSet={getProductSrcSet(featuredSlides[0].image)}
+                      sizes={PRODUCT_IMAGE_SIZES}
+                      alt={featuredSlides[0].name}
+                      onError={(e) => {
+                        e.currentTarget.srcset = '';
+                        e.currentTarget.src = '/brand/tshirt-silhouette.svg';
+                      }}
+                      className="w-full h-full object-cover object-top"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-midnight from-35% via-midnight/90 via-60% to-transparent flex flex-col justify-end p-6 sm:p-7 text-warm-neutral">
+                      <span className="inline-block px-3 py-1 rounded-full bg-gold text-midnight text-[10px] font-bold uppercase tracking-wider w-fit mb-2">
+                        FEATURED SILHOUETTE
+                      </span>
+                      <h3 className="font-serif text-2xl font-normal text-warm-neutral">
+                        {featuredSlides[0].name}
+                      </h3>
+                      <p className="text-xs text-sandstone/80 mt-1 line-clamp-3 font-sans">
+                        {featuredSlides[0].description}
+                      </p>
+                      <div className="flex items-center justify-between pt-4 border-t border-sandstone/20 mt-3">
+                        <span className="font-serif text-2xl font-normal text-gold tabular-nums">
+                          {formatPrice(featuredSlides[0].mrp)}
+                        </span>
+                        <Link
+                          to={`/product/${featuredSlides[0].slug}`}
+                          className="px-4 py-2 rounded-full bg-gold text-midnight text-xs font-bold uppercase tracking-wider hover:bg-gold-light transition-colors inline-flex items-center gap-1.5 shadow-sm"
+                        >
+                          <span>Shop Piece</span>
+                          <ArrowRight className="w-3.5 h-3.5 text-midnight" />
+                        </Link>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                )
+              ) : (
+                /* Rotating 6-Item Showcase */
+                (() => {
+                  const currentSlide = featuredSlides[activeSlideIndex] || featuredSlides[0];
+                  return (
+                    <div
+                      ref={featuredCardRef}
+                      tabIndex={0}
+                      role="region"
+                      aria-roledescription="carousel"
+                      aria-label="Featured Silhouette showcase"
+                      aria-live={isManual ? 'polite' : 'off'}
+                      onKeyDown={handleShowcaseKeyDown}
+                      onTouchStart={handleTouchStart}
+                      onTouchEnd={handleTouchEnd}
+                      onMouseEnter={() => setIsPointerOver(true)}
+                      onMouseLeave={() => setIsPointerOver(false)}
+                      onFocus={() => setIsFocusedInside(true)}
+                      onBlur={(e) => {
+                        if (!e.currentTarget.contains(e.relatedTarget)) {
+                          setIsFocusedInside(false);
+                        }
+                      }}
+                      style={{
+                        background: `radial-gradient(ellipse at 50% 25%, ${currentSlide.tintColor}26 0%, #0B0F0E 75%)`,
+                        transition: 'background 0.6s ease',
+                      }}
+                      className="relative w-full max-w-md aspect-[4/5] h-[520px] rounded-3xl overflow-hidden border border-gold/40 shadow-luxury flex flex-col justify-between group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                    >
+                      {/* Top Bar: Badge, 1/6 counter, Pause/Play Button */}
+                      <div className="relative z-20 p-5 sm:p-6 flex items-center justify-between">
+                        <span className="inline-block px-3 py-1 rounded-full bg-gold text-midnight text-[10px] font-bold uppercase tracking-wider shadow-sm">
+                          FEATURED SILHOUETTE
+                        </span>
+
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-mono font-semibold text-sandstone/90 tabular-nums px-2.5 py-1 rounded-full bg-midnight/80 border border-sandstone/30">
+                            {activeSlideIndex + 1} / {featuredSlides.length}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setIsUserManualPaused(!isUserManualPaused)}
+                            aria-label={isUserManualPaused ? 'Play auto-rotation' : 'Pause auto-rotation'}
+                            className="p-1.5 rounded-full bg-midnight/80 border border-sandstone/30 text-sandstone hover:text-gold hover:border-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                          >
+                            {isUserManualPaused ? (
+                              <Play className="w-3.5 h-3.5 fill-current" />
+                            ) : (
+                              <Pause className="w-3.5 h-3.5 fill-current" />
+                            )}
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Center: Garment Image Canvas with AnimatePresence */}
+                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                        <AnimatePresence mode="wait">
+                          <motion.img
+                            key={currentSlide.product.id}
+                            src={currentSlide.image}
+                            srcSet={getProductSrcSet(currentSlide.image)}
+                            sizes={PRODUCT_IMAGE_SIZES}
+                            alt={`${currentSlide.name} - Featured Drop`}
+                            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}
+                            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                            onError={(e) => {
+                              e.currentTarget.srcset = '';
+                              e.currentTarget.src = '/brand/tshirt-silhouette.svg';
+                            }}
+                            className="w-full h-full object-cover object-top"
+                          />
+                        </AnimatePresence>
+                      </div>
+
+                      {/* Bottom Overlay: Dark luxury gradient with staggered text, swatches, navigation, price */}
+                      <div
+                        role="group"
+                        aria-roledescription="slide"
+                        aria-label={`${activeSlideIndex + 1} of ${featuredSlides.length}`}
+                        className="relative z-20 mt-auto bg-gradient-to-t from-midnight from-40% via-midnight/95 via-65% to-transparent p-5 sm:p-6 text-warm-neutral space-y-2.5"
+                      >
+                        <AnimatePresence mode="wait">
+                          <motion.div
+                            key={currentSlide.product.id}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.4 }}
+                            className="space-y-1.5"
+                          >
+                            <motion.div
+                              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.06 }}
+                              className="flex items-center gap-2 text-[10px] sm:text-[11px] font-bold tracking-widest text-gold uppercase font-sans"
+                            >
+                              <span>{currentSlide.categoryLabel}</span>
+                              <span className="text-sandstone/40">·</span>
+                              <span className="text-sandstone/90">{currentSlide.fabricLine}</span>
+                            </motion.div>
+
+                            <motion.h3
+                              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.12 }}
+                              className="font-serif text-2xl font-normal text-warm-neutral line-clamp-2 leading-snug"
+                            >
+                              {currentSlide.name}
+                            </motion.h3>
+
+                            <motion.p
+                              initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 6 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.4, delay: shouldReduceMotion ? 0 : 0.18 }}
+                              className="text-xs text-sandstone/90 line-clamp-3 font-sans leading-relaxed"
+                            >
+                              {currentSlide.description}
+                            </motion.p>
+                          </motion.div>
+                        </AnimatePresence>
+
+                        {/* Colour Swatches & Navigation Controls */}
+                        <div className="flex items-center justify-between pt-1">
+                          <div className="flex items-center gap-1.5">
+                            {currentSlide.swatches.map((swatch) => (
+                              <span
+                                key={swatch.id}
+                                title={swatch.colourName}
+                                className="w-3.5 h-3.5 rounded-full border border-sandstone/40 shadow-sm flex-shrink-0"
+                                style={
+                                  swatch.patternImage
+                                    ? {
+                                        backgroundImage: `url(${swatch.patternImage})`,
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                      }
+                                    : { backgroundColor: swatch.hex }
+                                }
+                              />
+                            ))}
+                          </div>
+
+                          {/* Dots & Arrow Controls */}
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1">
+                              {featuredSlides.map((_, idx) => (
+                                <button
+                                  key={idx}
+                                  type="button"
+                                  onClick={() => handleGoToSlide(idx)}
+                                  aria-label={`Go to slide ${idx + 1}`}
+                                  className={cn(
+                                    'h-1.5 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold',
+                                    idx === activeSlideIndex
+                                      ? 'w-5 bg-gold'
+                                      : 'w-1.5 bg-sandstone/30 hover:bg-sandstone/70'
+                                  )}
+                                />
+                              ))}
+                            </div>
+
+                            <div className="flex items-center gap-1">
+                              <button
+                                type="button"
+                                onClick={handlePrevSlide}
+                                aria-label="Previous slide"
+                                className="p-1 rounded-full bg-graphite border border-sandstone/30 text-warm-neutral hover:border-gold hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+                              >
+                                <ChevronLeft className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={handleNextSlide}
+                                aria-label="Next slide"
+                                className="p-1 rounded-full bg-graphite border border-sandstone/30 text-warm-neutral hover:border-gold hover:text-gold transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gold"
+                              >
+                                <ChevronRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Price & Shop Piece Button */}
+                        <div className="flex items-center justify-between pt-2.5 border-t border-sandstone/20">
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="font-serif text-2xl font-normal text-gold tabular-nums">
+                              {formatPrice(currentSlide.mrp)}
+                            </span>
+                            <span className="text-[10px] text-sandstone/70 font-normal">tax incl.</span>
+                          </div>
+                          <Link
+                            to={`/product/${currentSlide.slug}`}
+                            className="px-4 py-2 rounded-full bg-gold text-midnight text-xs font-bold uppercase tracking-wider hover:bg-gold-light transition-colors inline-flex items-center gap-1.5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+                          >
+                            <span>Shop Piece</span>
+                            <ArrowRight className="w-3.5 h-3.5 text-midnight" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()
+              )}
             </div>
           </div>
         </section>

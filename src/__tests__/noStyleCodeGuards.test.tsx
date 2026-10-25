@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { HomePage } from '../pages/HomePage';
@@ -33,11 +33,37 @@ describe('Style Code and P.NO Removal Guards (Section 6 & 7)', () => {
     );
   };
 
-  it('asserts Home page renders with no match for P.NO or style codes', async () => {
+  it('asserts Home page renders with no match for P.NO or style codes across all slides', async () => {
     const { container } = renderWithProviders(<HomePage />);
-    const text = container.textContent || '';
-    expect(text).not.toMatch(NO_PNO_REGEX);
-    expect(text).not.toMatch(NO_STYLE_CODE_REGEX);
+
+    // Wait for the featured silhouette showcase carousel to mount
+    await waitFor(() => {
+      const carousel = container.querySelector(
+        '[aria-roledescription="carousel"][aria-label*="Featured Silhouette"]'
+      );
+      expect(carousel).not.toBeNull();
+    });
+
+    const showcase = container.querySelector(
+      '[aria-roledescription="carousel"][aria-label*="Featured Silhouette"]'
+    );
+    expect(showcase).not.toBeNull();
+
+    // Check full page text content
+    const fullText = container.textContent || '';
+    expect(fullText).not.toMatch(NO_PNO_REGEX);
+    expect(fullText).not.toMatch(NO_STYLE_CODE_REGEX);
+
+    // Click through each slide in the featured showcase and assert no P.NO or style codes
+    const nextBtn = showcase?.querySelector('button[aria-label="Next slide"]');
+    if (nextBtn) {
+      for (let i = 0; i < 6; i++) {
+        fireEvent.click(nextBtn);
+        const slideText = showcase?.textContent || '';
+        expect(slideText).not.toMatch(NO_PNO_REGEX);
+        expect(slideText).not.toMatch(NO_STYLE_CODE_REGEX);
+      }
+    }
   });
 
   it('asserts Shop page renders with no match for P.NO or style codes', async () => {

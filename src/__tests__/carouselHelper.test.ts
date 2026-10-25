@@ -84,7 +84,6 @@ describe('carouselHelper', () => {
     const gap = 24;
     const perView = 4;
     const totalItems = 8;
-    const pageStep = perView * (cardWidth + gap); // 1216px
 
     it('determines current page from scroll position accurately', () => {
       expect(getCurrentPage(0, cardWidth, gap, perView, totalItems)).toBe(0);
