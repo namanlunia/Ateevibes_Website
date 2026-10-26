@@ -3,6 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ColourSwatch } from '../components/product/ColourSwatch';
+import { getVariantHex } from '../data/colours';
 import { ProductCard } from '../components/product/ProductCard';
 import { ProductPage } from '../pages/ProductPage';
 import { QuickViewModal } from '../components/product/QuickViewModal';
@@ -278,5 +279,62 @@ describe('ColourSwatch Component & Swatch Interactions', () => {
     expect(screen.getByText(secondVariant.colourName)).toBeInTheDocument();
     const swatches = screen.getAllByRole('radio', { name: /^colour:/i });
     expect(swatches[1]).toHaveAttribute('aria-checked', 'true');
+  });
+  it("getVariantHex resolves normalized colour names and slugs", () => {
+    expect(getVariantHex("pastel-green")).toBe("#9BD39B");
+    expect(getVariantHex({ colourName: "Pastel Green" })).toBe("#9BD39B");
+    expect(getVariantHex({ colourSlug: "PASTEL_GREEN" })).toBe("#9BD39B");
+    expect(getVariantHex({ colourName: "Leather Brown" })).toBe("#9A5B2D");
+    expect(getVariantHex({ colourSlug: "leather-brown" })).toBe("#9A5B2D");
+    expect(getVariantHex({ colourName: "Jalapeno Red" })).toBe("#B3202A");
+    expect(getVariantHex({ colourName: "R.Gold" })).toBe("#E3B88A");
+    expect(getVariantHex({ colourSlug: "r-gold" })).toBe("#E3B88A");
+    expect(getVariantHex({ colourName: "D.Grey" })).toBe("#8D8D92");
+    expect(getVariantHex({ colourSlug: "d-grey" })).toBe("#8D8D92");
+    expect(getVariantHex({ colourName: "Design 01" })).toBe("#1B2A4A");
+  });
+
+  it("getVariantHex rejects corrupted #111111 on non-black colours and resolves to authoritative hex", () => {
+    // Style 500 phone screen recording bug: Pastel Green & Leather Brown had #111111
+    expect(getVariantHex({ hex: "#111111", colourName: "Pastel Green", colourSlug: "pastel-green" })).toBe("#9BD39B");
+    expect(getVariantHex({ hex: "#111111", colourName: "Leather Brown", colourSlug: "leather-brown" })).toBe("#9A5B2D");
+    expect(getVariantHex({ hex: "#111111", colourName: "Jalapeno Red", colourSlug: "jalapeno-red" })).toBe("#B3202A");
+    expect(getVariantHex({ hex: "#000000", colourName: "Mint Green", colourSlug: "mint-green" })).toBe("#8FD1B0");
+
+    // Genuine black / charcoal retains black
+    expect(getVariantHex({ hex: "#111111", colourName: "Black", colourSlug: "black" })).toBe("#111111");
+    expect(getVariantHex({ hex: "#2F3338", colourName: "Charcoal", colourSlug: "charcoal" })).toBe("#2F3338");
+  });
+
+  it("getVariantHex throws in dev/test for unknown colours without valid hex", () => {
+    expect(() => getVariantHex({ colourName: "Mystery Neon", hex: "#111111" })).toThrow(/Unknown colour/);
+    expect(() => getVariantHex({ colourName: "NonExistent" })).toThrow(/Unknown colour/);
+  });
+
+  it("ProductCard displays caption with selected variant colour name next to swatches and updates on hover", () => {
+    const product = PRODUCTS[0];
+    render(
+      <MemoryRouter>
+        <ProductCard product={product} />
+      </MemoryRouter>
+    );
+
+    // Initial caption is first variant ("Black")
+    expect(screen.getByText("Black")).toBeInTheDocument();
+
+    const swatches = screen.getAllByRole("radio");
+    // Hover third swatch (Pastel Green)
+    fireEvent.mouseEnter(swatches[2]);
+    expect(screen.getByText("Pastel Green")).toBeInTheDocument();
+
+    // Mouse leave reverts to selected ("Black")
+    const cardLinks = screen.getAllByRole("link");
+    const cardContainer = cardLinks[0].closest(".product-card-container")!;
+    fireEvent.mouseLeave(cardContainer);
+    expect(screen.getByText("Black")).toBeInTheDocument();
+
+    // Click third swatch selects Pastel Green
+    fireEvent.click(swatches[2]);
+    expect(screen.getByText("Pastel Green")).toBeInTheDocument();
   });
 });

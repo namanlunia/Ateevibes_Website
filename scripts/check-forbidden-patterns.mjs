@@ -23,6 +23,8 @@ const FORBIDDEN_PATTERNS = [
   { name: 'custom-cursor', regex: /\bcustom-cursor\b/i },
   { name: 'data-cursor', regex: /data-cursor\b/i },
   { name: 'PageCurtain', regex: /\bPageCurtain\b/ },
+  { name: 'dynamic tailwind colour: bg-[${', regex: /bg-\[\$\{/ },
+  { name: 'silent black fallback (?? or || to #111/#000)', regex: /(\?\?|\|\|)\s*['"]#(?:111|000|111111|000000)['"]/i },
 ];
 
 const ALLOWED_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.css', '.html', '.svg', '.json']);

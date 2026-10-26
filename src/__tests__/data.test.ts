@@ -5,6 +5,7 @@ import crypto from 'node:crypto';
 import { PRODUCTS } from '../data/products';
 import { COLOUR_PALETTE } from '../data/colours';
 import { CATEGORIES } from '../data/categories';
+import { normalizeServerProduct } from '../services/productMapper';
 
 describe('Ateevibes Catalog Data Integrity', () => {
   it('contains exactly 16 curated catalog products', () => {
@@ -209,4 +210,64 @@ describe('Ateevibes Catalog Data Integrity', () => {
     });
   });
 
+  it("normalizeServerProduct correctly heals backend seed #111111 anomalies", () => {
+    const rawStyle500 = {
+      id: "prod-500",
+      pno: "500",
+      name: "Premium Matty T-Shirt",
+      slug: "premium-matty-t-shirt",
+      category: "t-shirts",
+      variants: [
+        { id: "var-1", colourName: "Black", colourSlug: "black", hex: "#111111" },
+        { id: "var-2", colourName: "Pastel Green", colourSlug: "pastel-green", hex: "#111111" },
+        { id: "var-3", colourName: "Leather Brown", colourSlug: "leather-brown", hex: "#111111" },
+        { id: "var-4", colourName: "Jalapeno Red", colourSlug: "jalapeno-red", hex: "#111111" },
+        { id: "var-5", colourName: "Turquoise", colourSlug: "turquoise" },
+      ],
+    };
+
+    const normalized = normalizeServerProduct(rawStyle500);
+    expect(normalized).not.toBeNull();
+    if (!normalized) return;
+
+    expect(normalized.variants[0].hex).toBe("#111111");
+    expect(normalized.variants[1].hex).toBe("#9BD39B");
+    expect(normalized.variants[2].hex).toBe("#9A5B2D");
+    expect(normalized.variants[3].hex).toBe("#B3202A");
+    expect(normalized.variants[4].hex).toBe("#1FB8A5");
+  });
+
+  it("audits sibling backend seed-products.json to confirm all 23 hex anomalies heal without black fallback", () => {
+    const seedPath = "/Users/namanlunia/Ateevibes_Website_backend/apps/api/prisma/seed-products.json";
+    if (!fs.existsSync(seedPath)) {
+      return;
+    }
+
+    const seed = JSON.parse(fs.readFileSync(seedPath, "utf8"));
+    let healedCount = 0;
+
+    for (const rawProduct of seed) {
+      const normalized = normalizeServerProduct(rawProduct);
+      expect(normalized).not.toBeNull();
+      if (!normalized) continue;
+
+      for (const variant of normalized.variants) {
+        const isBlackNamed = /black|charcoal/i.test(variant.colourName) || /black|charcoal/i.test(variant.colourSlug);
+        if (!isBlackNamed) {
+          expect(variant.hex).not.toBe("#111111");
+          expect(variant.hex).not.toBe("#000000");
+          expect(variant.hex).toMatch(/^#[0-9A-Fa-f]{6}$/);
+        }
+      }
+
+      for (const rawV of rawProduct.variants || []) {
+        const isBlackNamed = /black|charcoal/i.test(rawV.colourName || "") || /black|charcoal/i.test(rawV.colourSlug || "");
+        if (!isBlackNamed && (rawV.hex === "#111111" || rawV.hex === "#000000")) {
+          healedCount++;
+        }
+      }
+    }
+
+    expect(healedCount).toBe(23);
+  });
 });
