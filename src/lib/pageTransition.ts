@@ -131,3 +131,18 @@ export function announcePageTitle(title?: string): void {
     announcer.textContent = `${pageTitle}`;
   }
 }
+
+export function announce(message: string): void {
+  if (typeof document === "undefined" || !message) return;
+  const liveRegion = document.querySelector("[aria-live=\"polite\"]");
+  if (liveRegion) {
+    let announcer = document.getElementById("a11y-announcer");
+    if (!announcer) {
+      announcer = document.createElement("span");
+      announcer.id = "a11y-announcer";
+      announcer.className = "sr-only";
+      liveRegion.appendChild(announcer);
+    }
+    announcer.textContent = message;
+  }
+}

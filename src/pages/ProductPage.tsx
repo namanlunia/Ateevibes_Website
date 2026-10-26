@@ -34,6 +34,7 @@ import { useUIStore } from '../store/uiStore';
 import { useRecentlyViewedStore } from '../store/recentlyViewedStore';
 import { productService } from '../services/productService';
 import { ProductCard } from '../components/product/ProductCard';
+import { ColourSwatch } from '../components/product/ColourSwatch';
 import { SizeGuideModal } from '../components/product/SizeGuideModal';
 import { PincodeChecker } from '../components/product/PincodeChecker';
 import { ProductLightbox } from '../components/product/ProductLightbox';
@@ -112,6 +113,11 @@ export const ProductPage: React.FC = () => {
       }
     }
   }, [product?.id, slug]);
+
+  const handleSelectVariant = (v: Variant) => {
+    setSelectedVariant(v);
+    setActiveImageIdx(0);
+  };
 
   // Observer for sticky mobile CTA bar
   useEffect(() => {
@@ -455,41 +461,14 @@ export const ProductPage: React.FC = () => {
                 <span className="font-semibold text-gold">{selectedVariant.colourName}</span>
               </div>
 
-              <div className="flex flex-wrap gap-2.5">
-                {product.variants.map((v) => {
-                  const isSelected = selectedVariant.id === v.id;
-                  return (
-                    <button
-                      key={v.id}
-                      onClick={() => {
-                        setSelectedVariant(v);
-                        setActiveImageIdx(0);
-                      }}
-                      title={v.colourName}
-                      className={`relative w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
-                        isSelected
-                          ? 'border-obsidian ring-2 ring-gold ring-offset-2 scale-110 shadow-sm'
-                          : 'border-sandstone hover:scale-105 shadow-subtle'
-                      }`}
-                      style={
-                        v.patternImage
-                          ? { backgroundImage: `url(${v.patternImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-                          : { backgroundColor: v.hex }
-                      }
-                    >
-                      {isSelected && (
-                        <Check
-                          className={`w-4 h-4 ${
-                            v.colourSlug === 'white' || v.colourSlug === 'off-white'
-                              ? 'text-obsidian'
-                              : 'text-white'
-                          }`}
-                        />
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
+              <ColourSwatch
+                variants={product.variants}
+                selectedVariantId={selectedVariant.id}
+                onSelect={handleSelectVariant}
+                size="lg"
+                showCheckmark={true}
+                ringOffsetClass="ring-offset-surface"
+              />
             </div>
 
             {/* Size Selector with Stock Rules */}

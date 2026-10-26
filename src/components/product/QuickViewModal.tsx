@@ -6,6 +6,7 @@ import { useUIStore } from '../../store/uiStore';
 import { useCartStore } from '../../store/cartStore';
 import { Variant, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
+import { ColourSwatch } from './ColourSwatch';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 
 export const QuickViewModal: React.FC = () => {
@@ -176,26 +177,16 @@ export const QuickViewModal: React.FC = () => {
                 <span className="font-bold text-ink-900">Colour:</span>
                 <span className="text-ink-700 font-medium">{selectedVariant.colourName}</span>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {product.variants.map((v) => {
-                  const isSelected = selectedVariant.id === v.id;
-                  return (
-                    <button
-                      key={v.id}
-                      onClick={() => {
-                        setSelectedVariant(v);
-                        setActiveImageIdx(0);
-                      }}
-                      className={`w-7 h-7 rounded-full border-2 transition-all flex items-center justify-center ${
-                        isSelected
-                          ? 'border-ink-900 ring-2 ring-ink-900/20 scale-110'
-                          : 'border-white hover:scale-105'
-                      }`}
-                      style={{ backgroundColor: v.hex }}
-                    />
-                  );
-                })}
-              </div>
+              <ColourSwatch
+                variants={product.variants}
+                selectedVariantId={selectedVariant.id}
+                onSelect={(v) => {
+                  setSelectedVariant(v);
+                  setActiveImageIdx(0);
+                }}
+                size="md"
+                ringOffsetClass="ring-offset-white"
+              />
             </div>
 
             {/* Size Selector */}

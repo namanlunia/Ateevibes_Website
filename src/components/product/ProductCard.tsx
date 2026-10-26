@@ -8,6 +8,7 @@ import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useCartStore } from '../../store/cartStore';
 import { useUIStore } from '../../store/uiStore';
+import { ColourSwatch } from './ColourSwatch';
 
 interface ProductCardProps {
   product: Product;
@@ -15,7 +16,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '' }) => {
-  const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0] || {} as Variant);
+  const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0] || ({} as Variant));
   const [hoveredVariant, setHoveredVariant] = useState<Variant | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [quickAddOpen, setQuickAddOpen] = useState(false);
@@ -85,9 +86,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
     openQuickView(product);
   };
 
-  // Color preview limit: 5 swatches + "+N" badge
-  const displayVariants = product.variants.slice(0, 5);
-  const remainingVariantsCount = product.variants.length - 5;
+  
 
   return (
     <div
@@ -296,34 +295,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
 
         {/* Colorway Swatches Preview Row */}
         {product.variants.length > 1 && (
-          <div className="flex items-center gap-1.5 pt-0.5">
-            {displayVariants.map((v) => {
-              const isSelected = activeVariant.id === v.id;
-              return (
-                <button
-                  key={v.id}
-                  type="button"
-                  aria-label={`Preview ${v.colourName}`}
-                  onMouseEnter={() => setHoveredVariant(v)}
-                  onClick={() => setSelectedVariant(v)}
-                  className={`w-3.5 h-3.5 rounded-full border transition-transform ${
-                    isSelected
-                      ? 'ring-2 ring-obsidian ring-offset-1 scale-110 border-gold'
-                      : 'border-sandstone hover:scale-110'
-                  }`}
-                  style={
-                    v.patternImage
-                      ? { backgroundImage: `url(${v.patternImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-                      : { backgroundColor: v.hex }
-                  }
-                />
-              );
-            })}
-            {remainingVariantsCount > 0 && (
-              <span className="text-[10px] font-bold text-ink-500 pl-0.5">
-                +{remainingVariantsCount}
-              </span>
-            )}
+          <div className="pt-0.5">
+            <ColourSwatch
+              variants={product.variants}
+              selectedVariantId={selectedVariant.id}
+              onSelect={(v) => setSelectedVariant(v)}
+              onHover={(v) => setHoveredVariant(v)}
+              size="sm"
+              maxVisible={5}
+              ringOffsetClass="ring-offset-white"
+            />
           </div>
         )}
 

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, within } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { ProductPage } from "../pages/ProductPage";
@@ -47,7 +47,7 @@ describe("Size Selector Gold Chips & Contrast Verification", () => {
     const radiogroup = await screen.findByRole("radiogroup", { name: /select size/i });
     expect(radiogroup).toBeInTheDocument();
 
-    const sizeChips = screen.getAllByRole("radio");
+    const sizeChips = within(radiogroup).getAllByRole("radio");
     expect(sizeChips.length).toBeGreaterThan(0);
 
     // Default first size is selected
@@ -90,7 +90,7 @@ describe("Size Selector Gold Chips & Contrast Verification", () => {
     const radiogroup = screen.getByRole("radiogroup", { name: /select size/i });
     expect(radiogroup).toBeInTheDocument();
 
-    const chips = screen.getAllByRole("radio");
+    const chips = within(radiogroup).getAllByRole("radio");
     const active = chips.find((c) => c.getAttribute("aria-checked") === "true");
     expect(active).toBeDefined();
     expect(active?.className).toContain("bg-chip-active-bg");
