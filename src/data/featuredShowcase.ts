@@ -1,4 +1,5 @@
 import { Product } from '../types';
+import { getVariantHex } from './colours';
 
 export interface ShowcaseItemConfig {
   productName: string;
@@ -90,7 +91,7 @@ export function resolveFeaturedSlides(products: Product[]): FeaturedSlide[] {
     const swatches = (product.variants || []).slice(0, 5).map((v) => ({
       id: v.id,
       colourName: v.colourName,
-      hex: v.hex,
+      hex: getVariantHex(v),
       patternImage: v.patternImage,
     }));
 
@@ -104,7 +105,7 @@ export function resolveFeaturedSlides(products: Product[]): FeaturedSlide[] {
       image,
       mrp: product.mrp,
       swatches,
-      tintColor: firstVariant?.hex || '#C9A45C',
+      tintColor: firstVariant ? getVariantHex(firstVariant) : '#C9A45C',
     });
   }
 

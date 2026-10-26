@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { Check } from 'lucide-react';
-import { Variant } from '../../types';
-import { announce } from '../../lib/pageTransition';
+import React, { useState, useRef } from "react";
+import { Check } from "lucide-react";
+import { Variant } from "../../types";
+import { announce } from "../../lib/pageTransition";
+import { getVariantHex, isDarkHex, FALLBACK_HEX } from "../../data/colours";
 
 export interface ColourSwatchProps {
   variants: Variant[];
   selectedVariantId: string;
   onSelect: (variant: Variant) => void;
   onHover?: (variant: Variant | null) => void;
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   maxVisible?: number;
   showCheckmark?: boolean;
   ringOffsetClass?: string;
@@ -20,11 +21,11 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
   selectedVariantId,
   onSelect,
   onHover,
-  size = 'sm',
+  size = "sm",
   maxVisible,
   showCheckmark = false,
-  ringOffsetClass = 'ring-offset-white',
-  className = '',
+  ringOffsetClass = "ring-offset-white",
+  className = "",
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const swatchRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -37,7 +38,7 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
     variants.forEach((v) => {
       if (v.id !== selectedVariantId && v.images?.[0]) {
         const img = new Image();
-        img.decoding = 'async';
+        img.decoding = "async";
         img.src = v.images[0];
       }
     });
@@ -55,7 +56,7 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const currentIndex = visibleVariants.findIndex((v) => v.id === selectedVariantId);
 
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       if (currentIndex >= 0 && visibleVariants[currentIndex]) {
         handleSelect(visibleVariants[currentIndex]);
@@ -64,19 +65,19 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
     }
 
     let targetIndex: number;
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    if (e.key === "ArrowRight" || e.key === "ArrowDown") {
       e.preventDefault();
       targetIndex = currentIndex >= 0 ? (currentIndex + 1) % visibleVariants.length : 0;
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
       e.preventDefault();
       targetIndex =
         currentIndex >= 0
           ? (currentIndex - 1 + visibleVariants.length) % visibleVariants.length
           : visibleVariants.length - 1;
-    } else if (e.key === 'Home') {
+    } else if (e.key === "Home") {
       e.preventDefault();
       targetIndex = 0;
-    } else if (e.key === 'End') {
+    } else if (e.key === "End") {
       e.preventDefault();
       targetIndex = visibleVariants.length - 1;
     } else {
@@ -113,6 +114,26 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
         const hasSelection = visibleVariants.some((item) => item.id === selectedVariantId);
         const tabIndex = isSelected ? 0 : !hasSelection && isFirst ? 0 : -1;
 
+        const hex = getVariantHex(v);
+        const isDark = isDarkHex(hex);
+        const isFallback = hex.toUpperCase() === FALLBACK_HEX;
+
+        const backgroundStyle = v.patternImage
+          ? {
+              backgroundImage: `url(${v.patternImage})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }
+          : isFallback
+          ? {
+              backgroundColor: FALLBACK_HEX,
+              backgroundImage:
+                "linear-gradient(135deg, transparent calc(50% - 1.5px), #ffffff calc(50% - 1.5px), #ffffff calc(50% + 1.5px), transparent calc(50% + 1.5px))",
+            }
+          : {
+              backgroundColor: hex,
+            };
+
         return (
           <button
             key={v.id}
@@ -135,27 +156,17 @@ export const ColourSwatch: React.FC<ColourSwatchProps> = ({
             className={`relative rounded-full transition-all flex items-center justify-center shrink-0 ${sizeClasses} ${
               isSelected
                 ? `ring-2 ring-gold ring-offset-2 ${ringOffsetClass} scale-105 z-10`
-                : 'hover:ring-2 hover:ring-gold/70 hover:scale-105'
+                : `hover:ring-2 hover:ring-gold/70 hover:scale-105 ${isDark ? "ring-1 ring-white/20" : ""}`
             } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2`}
             style={{
-              boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.12)',
-              ...(v.patternImage
-                ? {
-                    backgroundImage: `url(${v.patternImage})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }
-                : {
-                    backgroundColor: v.hex,
-                  }),
+              boxShadow: "inset 0 0 0 1px rgba(0, 0, 0, 0.28), 0 1px 2px rgba(0, 0, 0, 0.12)",
+              ...backgroundStyle,
             }}
           >
             {showCheckmark && isSelected && (
               <Check
                 className={`w-4 h-4 ${
-                  v.colourSlug === 'white' || v.colourSlug === 'off-white'
-                    ? 'text-obsidian'
-                    : 'text-white'
+                  isDark ? "text-white" : "text-obsidian"
                 }`}
                 strokeWidth={2.5}
                 aria-hidden="true"

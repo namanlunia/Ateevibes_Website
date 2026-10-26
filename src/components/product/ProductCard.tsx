@@ -279,7 +279,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {!isComingSoon && (
           <div className="lg:hidden absolute bottom-2.5 right-2.5 z-10">
             <button
-              onClick={() => setQuickAddOpen(!quickAddOpen)}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickAddOpen(!quickAddOpen); }}
               aria-label="Select size"
               className="w-8 h-8 rounded-full bg-obsidian text-gold border border-gold/30 flex items-center justify-center shadow-md active:scale-95"
             >
@@ -349,7 +349,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Colorway Swatches Preview Row */}
         {product.variants.length > 1 && (
-          <div className="pt-0.5">
+          <div className="pt-0.5 flex items-center justify-between gap-1.5 min-h-[26px]">
             <ColourSwatch
               variants={product.variants}
               selectedVariantId={selectedVariant.id}
@@ -359,6 +359,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               maxVisible={5}
               ringOffsetClass="ring-offset-white"
             />
+            <span
+              className="text-[11px] font-medium text-ink-600 truncate max-w-[100px] text-right"
+              title={displayVariant.colourName}
+            >
+              {displayVariant.colourName}
+            </span>
           </div>
         )}
 

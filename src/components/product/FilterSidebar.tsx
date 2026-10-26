@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, RotateCcw, SlidersHorizontal, Check } from 'lucide-react';
 import { FilterOptions } from '../../hooks/useFilters';
-import { COLOUR_PALETTE } from '../../data/colours';
+import { COLOUR_PALETTE, getVariantHex, isDarkHex } from '../../data/colours';
 import { SleeveType, NeckType, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
 
@@ -251,6 +251,8 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               if (!def) return null;
               const isSelected = filters.colors.includes(slug);
               const count = facetCounts.colors[slug] || 0;
+              const hex = getVariantHex({ colourSlug: slug, colourName: def.name });
+              const isDark = isDarkHex(hex);
 
               return (
                 <button
@@ -265,9 +267,9 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                   className={`relative w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
                     isSelected
                       ? 'ring-2 ring-gold ring-offset-2 scale-110 shadow-sm'
-                      : 'border-white hover:scale-105 shadow-subtle'
+                      : `border-white hover:scale-105 shadow-subtle ${isDark ? 'ring-1 ring-white/20' : ''}`
                   }`}
-                  style={{ backgroundColor: def.hex }}
+                  style={{ backgroundColor: hex }}
                 >
                   {isSelected && (
                     <Check

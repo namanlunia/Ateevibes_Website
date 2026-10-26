@@ -19,6 +19,7 @@ import { productService } from '../services/productService';
 import { useCartStore } from '../store/cartStore';
 import { useUIStore } from '../store/uiStore';
 import { Product, SizeType } from '../types';
+import { getVariantHex } from '../data/colours';
 import { formatPrice } from '../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { cn } from '../lib/utils';
@@ -132,17 +133,20 @@ const VALUE_PROPS = [
 
 // Curated Colour Swatches for Home Page
 const HOME_COLOUR_SWATCHES = [
-  { name: 'Pista Green', slug: 'pista', hex: '#A9D6C0' },
-  { name: 'Rose Pink', slug: 'rose-pink', hex: '#D890A8' },
-  { name: 'Off White', slug: 'off-white', hex: '#F4EFE6' },
-  { name: 'Bottle Green', slug: 'bottle-green', hex: '#0E5A6B' },
-  { name: 'Wine', slug: 'wine', hex: '#5A1F2E' },
-  { name: 'R.Gold', slug: 'r-gold', hex: '#E3B88A' },
-  { name: 'Sky Blue', slug: 'sky-blue', hex: '#7DB6E3' },
-  { name: 'Charcoal', slug: 'charcoal', hex: '#2F3338' },
-  { name: 'Rust', slug: 'rust', hex: '#9C3B1E' },
-  { name: 'Turquoise', slug: 'turquoise', hex: '#1FB8A5' },
-];
+  { name: 'Pista Green', slug: 'pista' },
+  { name: 'Rose Pink', slug: 'rose-pink' },
+  { name: 'Off White', slug: 'off-white' },
+  { name: 'Bottle Green', slug: 'bottle-green' },
+  { name: 'Wine', slug: 'wine' },
+  { name: 'R.Gold', slug: 'r-gold' },
+  { name: 'Sky Blue', slug: 'sky-blue' },
+  { name: 'Charcoal', slug: 'charcoal' },
+  { name: 'Rust', slug: 'rust' },
+  { name: 'Turquoise', slug: 'turquoise' },
+].map((item) => ({
+  ...item,
+  hex: getVariantHex({ colourName: item.name, colourSlug: item.slug }),
+}));
 
 export const HomePage: React.FC = () => {
   const addItem = useCartStore((state) => state.addItem);
@@ -682,7 +686,7 @@ export const HomePage: React.FC = () => {
                                         backgroundSize: 'cover',
                                         backgroundPosition: 'center',
                                       }
-                                    : { backgroundColor: swatch.hex }
+                                    : { backgroundColor: getVariantHex(swatch) }
                                 }
                               />
                             ))}
@@ -1117,7 +1121,7 @@ export const HomePage: React.FC = () => {
                   <div className="absolute top-4 left-4 bg-midnight/90 text-ivory backdrop-blur px-4 py-1.5 rounded-full border border-gold/40 shadow-luxury flex items-center gap-2">
                     <span
                       className="w-3.5 h-3.5 rounded-full border border-white/20"
-                      style={{ backgroundColor: activeMorphVariant.hex }}
+                      style={{ backgroundColor: getVariantHex(activeMorphVariant) }}
                     />
                     <span className="text-xs font-bold tracking-wider uppercase">
                       {activeMorphVariant.colourName}
@@ -1173,7 +1177,7 @@ export const HomePage: React.FC = () => {
                         >
                           <span
                             className="w-3.5 h-3.5 rounded-full border border-black/20 flex-shrink-0"
-                            style={{ backgroundColor: v.hex }}
+                            style={{ backgroundColor: getVariantHex(v) }}
                           />
                           <span className={`text-xs ${isActive ? 'font-bold text-midnight' : 'font-medium'}`}>
                             {v.colourName}
@@ -1414,7 +1418,7 @@ export const HomePage: React.FC = () => {
                 >
                   <div
                     className="w-12 h-12 rounded-full border-2 border-white shadow-luxury group-hover:scale-110 group-hover:ring-2 group-hover:ring-gold transition-all flex items-center justify-center"
-                    style={{ backgroundColor: swatch.hex }}
+                    style={{ backgroundColor: getVariantHex(swatch) }}
                   />
                   <span className="text-[11px] font-bold tracking-wider text-graphite group-hover:text-obsidian transition-colors font-sans">
                     {swatch.name}
