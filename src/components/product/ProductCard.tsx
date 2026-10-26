@@ -5,6 +5,7 @@ import { Heart, Eye, Plus, Star, Check } from 'lucide-react';
 import { Product, Variant, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
+import { cn } from '../../lib/utils';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useCartStore } from '../../store/cartStore';
 import { useUIStore } from '../../store/uiStore';
@@ -14,6 +15,37 @@ interface ProductCardProps {
   product: Product;
   initialColourSlug?: string;
   className?: string;
+}
+
+
+export function getQuickAddChipClasses({
+  isJustAdded = false,
+  isOutOfStock = false,
+}: {
+  isJustAdded?: boolean;
+  isOutOfStock?: boolean;
+} = {}): string {
+  const baseClasses =
+    "min-w-[32px] h-7 px-2 text-[13px] font-semibold rounded transition-[background-color,color,border-color] duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2";
+
+  if (isJustAdded) {
+    return cn(
+      baseClasses,
+      "bg-status-success text-white border border-status-success shadow-sm"
+    );
+  }
+
+  if (isOutOfStock) {
+    return cn(
+      baseClasses,
+      "bg-sandstone/20 text-ink-600 border border-sandstone/60 line-through cursor-not-allowed"
+    );
+  }
+
+  return cn(
+    baseClasses,
+    "bg-white text-obsidian border border-obsidian/35 hover:bg-obsidian hover:text-gold hover:border-gold focus-visible:bg-obsidian focus-visible:text-gold focus-visible:border-gold active:scale-90"
+  );
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -241,7 +273,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         {/* Desktop Quick Add Bar (Slides up on Hover) */}
         {!isComingSoon && (
           <div className="hidden lg:block absolute bottom-0 left-0 right-0 p-3 z-10 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out bg-gradient-to-t from-obsidian/85 via-obsidian/45 to-transparent">
-            <div className="bg-white/95 backdrop-blur rounded-lg p-2.5 shadow-luxury border border-sandstone">
+            <div className="bg-white/98 text-obsidian backdrop-blur rounded-lg p-2.5 shadow-luxury border border-sandstone">
               <p className="text-[10px] font-bold text-ink-700 tracking-wider uppercase mb-1.5 text-center">
                 Quick Add Size
               </p>
@@ -258,13 +290,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                       aria-label={`Quick add size ${size}${isOutOfStock ? ' - Sold out' : ''}`}
                       disabled={isOutOfStock}
                       onClick={(e) => handleQuickAddSize(e, size)}
-                      className={`min-w-[32px] h-7 px-2 text-xs font-bold rounded transition-[color,background-color,border-color,transform] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
-                        isJustAdded
-                          ? 'bg-status-success text-white'
-                          : isOutOfStock
-                          ? 'bg-sandstone/20 text-ink-400 line-through cursor-not-allowed opacity-60'
-                          : 'bg-chip-inactive-bg border border-chip-inactive-border text-chip-inactive-text hover:bg-chip-active-bg hover:text-chip-active-text hover:border-chip-active-border active:scale-90'
-                      }`}
+                      className={getQuickAddChipClasses({ isJustAdded, isOutOfStock })}
                     >
                       {isJustAdded ? <Check className="w-3.5 h-3.5 mx-auto" /> : size}
                     </button>
