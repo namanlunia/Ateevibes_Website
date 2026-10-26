@@ -4,9 +4,8 @@ import path from "node:path";
 const NO_PNO_REGEX = /P\.?\s*NO\b/i;
 const NO_STYLE_CODE_REGEX = /style\s*(code)?\s*[:#-]?\s*\d{3,4}/i;
 
-// Scans generated SVGs and crop-pipeline source files
+// Scans generated SVGs and asset generator source files
 const filesToScan = [
-  "scripts/crop-catalog.mjs",
   "scripts/generate-catalog-assets.mjs",
 ];
 

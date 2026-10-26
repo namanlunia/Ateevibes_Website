@@ -43,4 +43,6 @@ export const COLOUR_PALETTE: Record<string, ColourDefinition> = {
   'design-03': { name: 'Design 03', slug: 'design-03', hex: '#4C79C6', family: 'pattern' },
   'design-04': { name: 'Design 04', slug: 'design-04', hex: '#8D8D92', family: 'pattern' },
   'design-05': { name: 'Design 05', slug: 'design-05', hex: '#D9A62A', family: 'pattern' },
+  // Coming soon placeholder
+  'coming-soon': { name: 'Colours TBD', slug: 'coming-soon', hex: '#D9C7A5', family: 'pattern' },
 };

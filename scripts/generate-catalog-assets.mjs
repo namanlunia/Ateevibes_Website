@@ -208,72 +208,202 @@ function generateTShirtSvg(options) {
   `;
 }
 
+// Helper to load and parse COLOUR_PALETTE from src/data/colours.ts at runtime
+function loadPalette() {
+  const coloursTsPath = path.resolve('src/data/colours.ts');
+  if (!fs.existsSync(coloursTsPath)) {
+    throw new Error(`COLOUR_PALETTE source file not found at: ${coloursTsPath}`);
+  }
+  const fileContent = fs.readFileSync(coloursTsPath, 'utf8');
+  const palette = {};
+  const regex = /['"]?([a-z0-9-]+)['"]?\s*:\s*\{[^}]*?hex:\s*['"]([#A-Fa-f0-9]{7})['"][^}]*?\}/g;
+  let match;
+  while ((match = regex.exec(fileContent)) !== null) {
+    palette[match[1]] = match[2];
+  }
+  if (Object.keys(palette).length === 0) {
+    throw new Error('Failed to parse any colours from COLOUR_PALETTE');
+  }
+  return palette;
+}
+
 // Catalog definitions matching the 16 spec styles
 const catalogStyles = [
-  { pno: '500', poster: 'pno-500.jpg', name: 'Premium Matty T-Shirt', fabric: 'Ultra Soft Matty', neck: 'round', sleeve: 'half', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'white', hex: '#FFFFFF' }, { slug: 'pastel-green', hex: '#9BD39B' },
-    { slug: 'lavender', hex: '#B9A5E8' }, { slug: 'jalapeno-red', hex: '#B3202A' }, { slug: 'leather-brown', hex: '#9A5B2D' },
-    { slug: 'turquoise', hex: '#1FB8A5' }, { slug: 'navy', hex: '#1B2A4A' }, { slug: 'blue', hex: '#4C79C6' }
-  ]},
-  { pno: '107', poster: 'pno-107.jpg', name: '2-Way Round Neck', fabric: '2-Way Stretch', neck: 'round', sleeve: 'half', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'bottle-green', hex: '#0E5A6B' }, { slug: 'wine', hex: '#5A1F2E' },
-    { slug: 'rust', hex: '#9C3B1E' }, { slug: 'off-white', hex: '#F4EFE6' }, { slug: 'grey', hex: '#6F6BA6' }
-  ]},
-  { pno: '600', poster: 'pno-600.jpg', name: 'Imported Tencil Round Neck', fabric: 'Imported Tencil Weave', neck: 'round', sleeve: 'half', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'bottle-green', hex: '#0E5A6B' }, { slug: 'rust', hex: '#9C3B1E' },
-    { slug: 'off-white', hex: '#F4EFE6' }, { slug: 'grey', hex: '#6F6BA6' }
-  ]},
-  { pno: '501', poster: 'pno-501.jpg', name: 'Premium Waffle Round Neck', fabric: 'Waffle Honeycomb Texture', neck: 'round', sleeve: 'half', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'beige', hex: '#D9C7A5' }, { slug: 'brown', hex: '#4A2C1F' },
-    { slug: 'aqua', hex: '#6FB5BE' }, { slug: 'white', hex: '#FFFFFF' }
-  ]},
-  { pno: '1400', poster: 'pno-1400.jpg', name: 'Premium Matty Polo', fabric: 'Matty Collar Weave', neck: 'polo', sleeve: 'half', colours: [
-    { slug: 'white', hex: '#FFFFFF' }, { slug: 'navy', hex: '#1B2A4A' }, { slug: 'jalapeno-red', hex: '#B3202A' },
-    { slug: 'leather-brown', hex: '#9A5B2D' }, { slug: 'black', hex: '#111111' }
-  ]},
-  { pno: '105', poster: 'pno-105.jpg', name: 'Jacquard Half Sleeve Polo', fabric: 'Jacquard Knit', neck: 'polo', sleeve: 'half', isPattern: true, patternType: 'jacquard', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'mint-green', hex: '#8FD1B0' }, { slug: 'rust', hex: '#9C3B1E' },
-    { slug: 'charcoal', hex: '#2F3338' }, { slug: 'lemon', hex: '#D9A62A' }, { slug: 'white', hex: '#FFFFFF' }
-  ]},
-  { pno: '1401', poster: 'pno-1401.jpg', name: 'Waffle Polo T-Shirt', fabric: 'Premium Waffle Knit (Coming Soon)', neck: 'polo', sleeve: 'half', isComingSoon: true, colours: [
-    { slug: 'coming-soon', hex: '#6FB5BE' }
-  ]},
-  { pno: '1700-A', poster: 'pno-1700-stripes.jpg', name: 'Printed Collar Stripe Gradient', fabric: 'Stripe Gradient Knit', neck: 'polo', sleeve: 'half', isPattern: true, patternType: 'stripes', colours: [
-    { slug: 'rose-pink', hex: '#D890A8' }, { slug: 'sky-blue', hex: '#7DB6E3' }, { slug: 'lilac-grey', hex: '#9A96B8' },
-    { slug: 'sand-beige', hex: '#D2B48C' }, { slug: 'sage-green', hex: '#A8C4A2' }
-  ]},
-  { pno: '1700-B', poster: 'pno-1700-abstract.jpg', name: 'Printed Collar Abstract', fabric: 'Geometric Abstract Knit', neck: 'polo', sleeve: 'half', isPattern: true, patternType: 'abstract', colours: [
-    { slug: 'design-01', hex: '#A8C4A2' }, { slug: 'design-02', hex: '#7DB6E3' }, { slug: 'design-03', hex: '#D890A8' },
-    { slug: 'design-04', hex: '#D2B48C' }, { slug: 'design-05', hex: '#8FD1B0' }
-  ]},
-  { pno: '711', poster: 'pno-711.jpg', name: 'Jacquard Half Sleeve', fabric: 'Pure Jacquard Structure', neck: 'round', sleeve: 'half', isPattern: true, patternType: 'jacquard', colours: [
-    { slug: 'black', hex: '#111111' }, { slug: 'mint-green', hex: '#8FD1B0' }, { slug: 'rust', hex: '#9C3B1E' },
-    { slug: 'charcoal', hex: '#2F3338' }, { slug: 'lemon', hex: '#D9A62A' }, { slug: 'white', hex: '#FFFFFF' }
-  ]},
-  { pno: '1005', poster: 'pno-1005.jpg', name: 'Jacquard Full Sleeve', fabric: 'Full Sleeve Jacquard', neck: 'round', sleeve: 'full', isPattern: true, patternType: 'jacquard', colours: [
-    { slug: 'rust', hex: '#9C3B1E' }, { slug: 'mint-green', hex: '#8FD1B0' }, { slug: 'black', hex: '#111111' },
-    { slug: 'charcoal', hex: '#2F3338' }, { slug: 'lemon', hex: '#D9A62A' }, { slug: 'white', hex: '#FFFFFF' }
-  ]},
-  { pno: '701', poster: 'pno-701.jpg', name: 'Royal Print Jacquard Half Sleeve', fabric: 'China Jacquard Knit', neck: 'round', sleeve: 'half', isPattern: true, patternType: 'jacquard', colours: [
-    { slug: 'green', hex: '#1F4D3A' }, { slug: 'black', hex: '#111111' }, { slug: 'lavender', hex: '#B9A5E8' },
-    { slug: 'grey', hex: '#8D8D92' }, { slug: 'chocolate', hex: '#8A5A3C' }
-  ]},
-  { pno: '1007', poster: 'pno-1007.jpg', name: 'Royal Print Jacquard Full Sleeve', fabric: 'China Jacquard Full Sleeve', neck: 'round', sleeve: 'full', isPattern: true, patternType: 'jacquard', colours: [
-    { slug: 'green', hex: '#1F4D3A' }, { slug: 'black', hex: '#111111' }, { slug: 'lavender', hex: '#B9A5E8' },
-    { slug: 'grey', hex: '#8D8D92' }, { slug: 'chocolate', hex: '#8A5A3C' }
-  ]},
-  { pno: '102', poster: 'pno-102.jpg', name: 'Tai Dai Print T-Shirt', fabric: 'Tai Dai Soft Texture', neck: 'round', sleeve: 'half', isPattern: true, patternType: 'tai-dai', colours: [
-    { slug: 'r-gold', hex: '#E3B88A' }, { slug: 'lavender', hex: '#B9A5E8' }, { slug: 'd-grey', hex: '#8D8D92' },
-    { slug: 'pista', hex: '#A9D6C0' }, { slug: 'choco', hex: '#8C5A4A' }
-  ]},
-  { pno: '1002', poster: 'pno-1002.jpg', name: 'Tai Dai Print Full Sleeve', fabric: 'Tai Dai Full Sleeve Stretch', neck: 'round', sleeve: 'full', isPattern: true, patternType: 'tai-dai', colours: [
-    { slug: 'r-gold', hex: '#E3B88A' }, { slug: 'lavender', hex: '#B9A5E8' }, { slug: 'd-grey', hex: '#8D8D92' },
-    { slug: 'pista', hex: '#A9D6C0' }, { slug: 'choco', hex: '#8C5A4A' }
-  ]},
-  { pno: '800', poster: 'pno-800.jpg', name: 'Premium Printed Round Neck', fabric: 'Artisan Printed Knit', neck: 'round', sleeve: 'half', isPattern: true, patternType: 'abstract', colours: [
-    { slug: 'design-01', hex: '#1B2A4A' }, { slug: 'design-02', hex: '#1F4D3A' }, { slug: 'design-03', hex: '#4C79C6' },
-    { slug: 'design-04', hex: '#8D8D92' }, { slug: 'design-05', hex: '#2F3338' }
-  ]},
+  {
+    pno: '500',
+    poster: 'pno-500.jpg',
+    name: 'Premium Matty T-Shirt',
+    fabric: 'Ultra Soft Matty',
+    neck: 'round',
+    sleeve: 'half',
+    colourSlugs: [
+      'black',
+      'white',
+      'pastel-green',
+      'lavender',
+      'jalapeno-red',
+      'leather-brown',
+      'turquoise',
+      'navy',
+      'blue',
+    ],
+  },
+  {
+    pno: '107',
+    poster: 'pno-107.jpg',
+    name: '2-Way Round Neck',
+    fabric: '2-Way Stretch',
+    neck: 'round',
+    sleeve: 'half',
+    colourSlugs: ['black', 'bottle-green', 'wine', 'rust', 'off-white', 'grey'],
+  },
+  {
+    pno: '600',
+    poster: 'pno-600.jpg',
+    name: 'Imported Tencil Round Neck',
+    fabric: 'Imported Tencil Weave',
+    neck: 'round',
+    sleeve: 'half',
+    colourSlugs: ['black', 'bottle-green', 'rust', 'off-white', 'grey'],
+  },
+  {
+    pno: '501',
+    poster: 'pno-501.jpg',
+    name: 'Premium Waffle Round Neck',
+    fabric: 'Waffle Honeycomb Texture',
+    neck: 'round',
+    sleeve: 'half',
+    colourSlugs: ['black', 'beige', 'brown', 'aqua', 'white'],
+  },
+  {
+    pno: '1400',
+    poster: 'pno-1400.jpg',
+    name: 'Premium Matty Polo',
+    fabric: 'Matty Collar Weave',
+    neck: 'polo',
+    sleeve: 'half',
+    colourSlugs: ['white', 'navy', 'jalapeno-red', 'leather-brown', 'black'],
+  },
+  {
+    pno: '105',
+    poster: 'pno-105.jpg',
+    name: 'Jacquard Half Sleeve Polo',
+    fabric: 'Jacquard Knit',
+    neck: 'polo',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'jacquard',
+    colourSlugs: ['black', 'mint-green', 'rust', 'charcoal', 'lemon', 'white'],
+  },
+  {
+    pno: '1401',
+    poster: 'pno-1401.jpg',
+    name: 'Waffle Polo T-Shirt',
+    fabric: 'Premium Waffle Knit (Coming Soon)',
+    neck: 'polo',
+    sleeve: 'half',
+    isComingSoon: true,
+    colourSlugs: ['coming-soon'],
+  },
+  {
+    pno: '1700-A',
+    poster: 'pno-1700-stripes.jpg',
+    name: 'Printed Collar Stripe Gradient',
+    fabric: 'Stripe Gradient Knit',
+    neck: 'polo',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'stripes',
+    colourSlugs: ['rose-pink', 'sky-blue', 'lilac-grey', 'sand-beige', 'sage-green'],
+  },
+  {
+    pno: '1700-B',
+    poster: 'pno-1700-abstract.jpg',
+    name: 'Printed Collar Abstract',
+    fabric: 'Geometric Abstract Knit',
+    neck: 'polo',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'abstract',
+    colourSlugs: ['design-01', 'design-02', 'design-03', 'design-04', 'design-05'],
+  },
+  {
+    pno: '711',
+    poster: 'pno-711.jpg',
+    name: 'Jacquard Half Sleeve',
+    fabric: 'Pure Jacquard Structure',
+    neck: 'round',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'jacquard',
+    colourSlugs: ['black', 'mint-green', 'rust', 'charcoal', 'lemon', 'white'],
+  },
+  {
+    pno: '1005',
+    poster: 'pno-1005.jpg',
+    name: 'Jacquard Full Sleeve',
+    fabric: 'Full Sleeve Jacquard',
+    neck: 'round',
+    sleeve: 'full',
+    isPattern: true,
+    patternType: 'jacquard',
+    colourSlugs: ['rust', 'mint-green', 'black', 'charcoal', 'lemon', 'white'],
+  },
+  {
+    pno: '701',
+    poster: 'pno-701.jpg',
+    name: 'Royal Print Jacquard Half Sleeve',
+    fabric: 'China Jacquard Knit',
+    neck: 'round',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'jacquard',
+    colourSlugs: ['green', 'black', 'lavender', 'grey', 'chocolate'],
+  },
+  {
+    pno: '1007',
+    poster: 'pno-1007.jpg',
+    name: 'Royal Print Jacquard Full Sleeve',
+    fabric: 'China Jacquard Full Sleeve',
+    neck: 'round',
+    sleeve: 'full',
+    isPattern: true,
+    patternType: 'jacquard',
+    colourSlugs: ['green', 'black', 'lavender', 'grey', 'chocolate'],
+  },
+  {
+    pno: '102',
+    poster: 'pno-102.jpg',
+    name: 'Tai Dai Print T-Shirt',
+    fabric: 'Tai Dai Soft Texture',
+    neck: 'round',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'tai-dai',
+    colourSlugs: ['r-gold', 'lavender', 'd-grey', 'pista', 'choco'],
+  },
+  {
+    pno: '1002',
+    poster: 'pno-1002.jpg',
+    name: 'Tai Dai Print Full Sleeve',
+    fabric: 'Tai Dai Full Sleeve Stretch',
+    neck: 'round',
+    sleeve: 'full',
+    isPattern: true,
+    patternType: 'tai-dai',
+    colourSlugs: ['r-gold', 'lavender', 'd-grey', 'pista', 'choco'],
+  },
+  {
+    pno: '800',
+    poster: 'pno-800.jpg',
+    name: 'Premium Printed Round Neck',
+    fabric: 'Artisan Printed Knit',
+    neck: 'round',
+    sleeve: 'half',
+    isPattern: true,
+    patternType: 'abstract',
+    colourSlugs: ['design-01', 'design-02', 'design-03', 'design-04', 'design-05'],
+  },
 ];
 
 async function run() {
@@ -285,17 +415,32 @@ async function run() {
     neck: 'round',
     sleeve: 'half',
     fabricName: 'Architectural Knitwear',
-    fabricName: 'Architectural Knitwear',
   });
   fs.writeFileSync(path.join(brandDir, 'tshirt-silhouette.svg'), genericSvg);
   fs.writeFileSync(path.join(brandDir, 'placeholder.svg'), genericSvg);
 
+  const palette = loadPalette();
+
   // 2. Generate each poster and cropped variant packs
   for (const style of catalogStyles) {
+    if (!Array.isArray(style.colourSlugs) || style.colourSlugs.length === 0) {
+      throw new Error(`Style ${style.pno} must define a non-empty colourSlugs array.`);
+    }
+
+    const colours = style.colourSlugs.map((slug) => {
+      const hex = palette[slug];
+      if (!hex) {
+        throw new Error(
+          `Unknown or missing colour slug: "${slug}" for style ${style.pno} in COLOUR_PALETTE.`
+        );
+      }
+      return { slug, hex };
+    });
+
     const posterSvg = generateTShirtSvg({
       width: 800,
       height: 1200,
-      color: style.colours[0].hex,
+      color: colours[0].hex,
       neck: style.neck,
       sleeve: style.sleeve,
       fabricName: style.fabric,
@@ -312,7 +457,7 @@ async function run() {
     const outPnoDir = path.join(productsDir, style.pno);
     fs.mkdirSync(outPnoDir, { recursive: true });
 
-    for (const c of style.colours) {
+    for (const c of colours) {
       const variantSvg = generateTShirtSvg({
         width: 800,
         height: 1000,

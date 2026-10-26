@@ -511,7 +511,7 @@ export const PRODUCTS: Product[] = [
         id: 'var-1401-coming-soon',
         colourName: 'Colours TBD',
         colourSlug: 'coming-soon',
-        hex: '#D9C7A5',
+        hex: COLOUR_PALETTE['coming-soon'].hex,
         images: ['/products/1401/coming-soon.jpg'],
         stockBySize: { M: 0, L: 0, XL: 0 },
       },
