@@ -17,7 +17,7 @@ The following 6 styles have their MRP marked as `PLACEHOLDER` in the catalog spe
 
 ## 2. Coming Soon Products & Missing Assets
 - [ ] **Style 1401 (Waffle Polo)**: Marked with `status: 'coming-soon'`. Colors and sizes are currently TBD. Displays a placeholder image, "Coming Soon" badge, and a mock "Notify Me" email capture modal. Purchases are blocked.
-- [ ] **Catalog Clean Photography**: Clean e-commerce model photos and variant crops were generated via `scripts/crop-catalog.mjs` using the poster source coordinates. High-resolution studio packshots should replace placeholder crops before commercial deployment.
+- [ ] **Catalog Clean Photography**: Clean e-commerce model photos and per-colour variant renders are generated via `scripts/generate-catalog-assets.mjs` (`npm run generate:assets`). High-resolution studio packshots should replace placeholder crops before commercial deployment.
 
 ---
 

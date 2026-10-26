@@ -131,7 +131,7 @@ Every single source, config, test, and script file was audited line by line.
 | `src/lib/__tests__/validators.test.ts` | Reviewed | Zod validation test active |
 | **Scripts** | | |
 | `scripts/check-images.mjs` | Reviewed | Prebuild image integrity validator (151 images) |
-| `scripts/crop-catalog.mjs` | Reviewed | Image cropping utility |
+| `scripts/crop-catalog.mjs` | Deleted | Image cropping utility — removed 2026-10-26; clobbered per-colour variant renders with identical poster crops, superseded by `generate-catalog-assets.mjs` |
 | `scripts/generate-catalog-assets.mjs` | Reviewed | WebP asset generation utility |
 | `scripts/generate-logo.mjs` | Reviewed | Brand logo generator |
 | `scripts/generate-og-image.mjs` | Reviewed | OpenGraph asset generator |

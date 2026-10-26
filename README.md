@@ -54,7 +54,7 @@ ateevibes/
 │   ├── services/            # productService, orderService, authService (mock API layer)
 │   ├── store/               # cartStore, wishlistStore, authStore, uiStore, ordersStore
 │   └── styles/              # globals.css, theme variables
-├── scripts/                 # generate-placeholders.mjs, crop-catalog.mjs
+├── scripts/                 # generate-*.mjs asset pipelines, check-*.mjs build guards
 ├── TODO.md                  # Tracker of unconfirmed prices, placeholders & assumptions
 ├── QA.md                    # Comprehensive audit & testing report
 └── README.md
