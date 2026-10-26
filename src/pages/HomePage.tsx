@@ -611,6 +611,9 @@ export const HomePage: React.FC = () => {
                             srcSet={getProductSrcSet(currentSlide.image)}
                             sizes={PRODUCT_IMAGE_SIZES}
                             alt={`${currentSlide.name} - Featured Drop`}
+                            loading={activeSlideIndex === 0 ? "eager" : "lazy"}
+                            fetchPriority={activeSlideIndex === 0 ? "high" : "low"}
+                            decoding="async"
                             initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 16 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -16 }}

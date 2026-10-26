@@ -25,6 +25,36 @@ async function fetchCatalogLive(): Promise<Product[]> {
   return normalized;
 }
 
+// Cache the categories list so MegaMenu/ShopPage share one fetch per 30s window.
+let categoriesCache: { fetchedAt: number; categories: Category[] } | null = null;
+let categoriesFetch: Promise<Category[]> | null = null;
+
+async function fetchCategoriesLive(): Promise<Category[]> {
+  const serverCategories = await api.get<any[]>('/categories');
+  if (!Array.isArray(serverCategories) || serverCategories.length === 0) {
+    throw new Error('Empty categories response.');
+  }
+  return serverCategories.map((sc: any) => {
+    const fallback = CATEGORIES.find((c) => c.slug === sc.slug || c.id === sc.id);
+    return {
+      id: sc.id || fallback?.id || `cat-${sc.slug}`,
+      slug: sc.slug,
+      name: sc.name,
+      tagline: sc.tagline || fallback?.tagline || '',
+      description: sc.description || fallback?.description || '',
+      image: sc.image || fallback?.image || '/brand/tshirt-silhouette.svg',
+      subCategories: Array.isArray(sc.subCategories)
+        ? sc.subCategories.map((sub: any) => ({
+            id: sub.id,
+            slug: sub.slug,
+            name: sub.name,
+            description: sub.description || '',
+          }))
+        : fallback?.subCategories || [],
+    };
+  });
+}
+
 export const productService = {
   async getAll(): Promise<Product[]> {
     const now = Date.now();
@@ -81,34 +111,26 @@ export const productService = {
   },
 
   async getCategories(): Promise<Category[]> {
-    try {
-      const serverCategories = await api.get<any[]>('/categories');
-      if (Array.isArray(serverCategories) && serverCategories.length > 0) {
-        return serverCategories.map((sc) => {
-          const fallback = CATEGORIES.find((c) => c.slug === sc.slug || c.id === sc.id);
-          return {
-            id: sc.id || fallback?.id || `cat-${sc.slug}`,
-            slug: sc.slug,
-            name: sc.name,
-            tagline: sc.tagline || fallback?.tagline || '',
-            description: sc.description || fallback?.description || '',
-            image: sc.image || fallback?.image || '/brand/tshirt-silhouette.svg',
-            subCategories: Array.isArray(sc.subCategories)
-              ? sc.subCategories.map((sub: any) => ({
-                  id: sub.id,
-                  slug: sub.slug,
-                  name: sub.name,
-                  description: sub.description || '',
-                }))
-              : fallback?.subCategories || [],
-          };
-        });
-      }
-    } catch {
-      // Graceful fallback to static categories
+    const now = Date.now();
+    if (categoriesCache && now - categoriesCache.fetchedAt < CATALOG_CACHE_TTL_MS) {
+      return categoriesCache.categories;
     }
-    await new Promise((r) => setTimeout(r, 20));
-    return [...CATEGORIES];
+    if (!categoriesFetch) {
+      categoriesFetch = fetchCategoriesLive()
+        .then((categories) => {
+          categoriesCache = { fetchedAt: Date.now(), categories };
+          return categories;
+        })
+        .catch(() => {
+          // Server unreachable or unusable — serve the static categories without caching them,
+          // so the next call retries the live API immediately.
+          return [...CATEGORIES];
+        })
+        .finally(() => {
+          categoriesFetch = null;
+        });
+    }
+    return categoriesFetch;
   },
 
   async getByCategory(categorySlug: string, subCategorySlug?: string): Promise<Product[]> {

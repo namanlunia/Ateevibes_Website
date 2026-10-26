@@ -160,12 +160,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     openQuickView(product, selectedVariant);
   };
 
+  // Warm the PDP route chunk as soon as a shopper engages with the card.
+  const handlePrefetch = () => {
+    void import('../../pages/ProductPage');
+  };
+
   const productHref = `/product/${product.slug}?colour=${selectedVariant.colourSlug}`;
 
   return (
     <div
       className={`product-card-container group relative flex flex-col h-full bg-white rounded-xl border border-sandstone overflow-hidden transition-all duration-300 hover:border-gold/60 hover:shadow-soft-hover ${className}`}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => {
+        setIsHovered(true);
+        handlePrefetch();
+      }}
+      onFocus={handlePrefetch}
       onMouseLeave={() => {
         setIsHovered(false);
         setHoveredVariant(null);
