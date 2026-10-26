@@ -98,7 +98,7 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div className="space-y-4">
             <Link to="/" className="inline-flex items-center gap-2.5 group" aria-label="Ateevibes Home">
-              <img src="/brand/emblem.svg" alt="" className="h-9 w-9 object-contain" />
+              <img src="/brand/emblem.png" alt="Ateevibes" width={36} height={36} className="h-9 w-9 object-contain" />
               <span className="font-display text-2xl font-bold tracking-widest text-gold">ATEEVIBES</span>
             </Link>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold font-sans">

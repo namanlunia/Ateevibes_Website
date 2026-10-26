@@ -30,7 +30,7 @@ export const RouteErrorElement: React.FC = () => {
     <div className="min-h-[80vh] flex items-center justify-center p-6 bg-gradient-to-br from-brand-green/20 via-brand-cream/40 to-surface text-ink-900 font-sans">
       <div className="max-w-md w-full bg-white/95 backdrop-blur-xl rounded-3xl border border-border p-8 sm:p-10 text-center space-y-6 shadow-2xl">
         <Link to="/" className="inline-block">
-          <img src="/brand/logo.png" alt="Ateevibes" className="h-9 w-auto mx-auto" />
+          <img src="/brand/logo.png" alt="Ateevibes" width={144} height={36} className="h-9 w-auto mx-auto" />
         </Link>
 
         <div className="w-14 h-14 rounded-2xl bg-brand-green/30 text-ink-900 flex items-center justify-center mx-auto">

@@ -48,7 +48,7 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
             {/* Header */}
             <div className="flex items-center justify-between p-5 border-b border-border bg-white/80">
               <Link to="/" onClick={onClose} className="flex items-center gap-2">
-                <img src="/brand/logo.png" alt="Ateevibes" className="h-8 w-auto object-contain" />
+                <img src="/brand/logo.png" alt="Ateevibes" width={128} height={32} className="h-8 w-auto object-contain" />
               </Link>
               <button
                 onClick={onClose}
