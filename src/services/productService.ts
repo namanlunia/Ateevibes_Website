@@ -6,25 +6,48 @@ import { API_ROUTES } from "../config/contract";
 import { normalizeServerProduct } from "./productMapper";
 import { useUIStore } from "../store/uiStore";
 
+// Cache the catalog list so every page shares one fetch per 30s window.
+const CATALOG_CACHE_TTL_MS = 30_000;
+let catalogCache: { fetchedAt: number; products: Product[] } | null = null;
+let catalogFetch: Promise<Product[]> | null = null;
+
+async function fetchCatalogLive(): Promise<Product[]> {
+  const res = await api.get<{ items?: unknown[] } | unknown[]>(`${API_ROUTES.products.base}?limit=100`);
+  const rawList = Array.isArray(res) ? res : res?.items;
+  if (!Array.isArray(rawList) || rawList.length === 0) {
+    throw new Error('Empty catalog response.');
+  }
+  const normalized = rawList.map(normalizeServerProduct).filter((p): p is Product => p !== null);
+  if (normalized.length === 0) {
+    throw new Error('Unparseable catalog response.');
+  }
+  useUIStore.getState().setOfflineCatalog(false);
+  return normalized;
+}
+
 export const productService = {
   async getAll(): Promise<Product[]> {
-    try {
-      const res = await api.get<{ items?: unknown[] } | unknown[]>(`${API_ROUTES.products.base}?limit=100`);
-      const rawList = Array.isArray(res) ? res : res?.items;
-      if (Array.isArray(rawList) && rawList.length > 0) {
-        const normalized = rawList
-          .map(normalizeServerProduct)
-          .filter((p): p is Product => p !== null);
-        if (normalized.length > 0) {
-          useUIStore.getState().setOfflineCatalog(false);
-          return normalized;
-        }
-      }
-    } catch {
-      useUIStore.getState().setOfflineCatalog(true);
+    const now = Date.now();
+    if (catalogCache && now - catalogCache.fetchedAt < CATALOG_CACHE_TTL_MS) {
+      return catalogCache.products;
     }
-    await new Promise((r) => setTimeout(r, 40));
-    return [...PRODUCTS];
+    if (!catalogFetch) {
+      catalogFetch = fetchCatalogLive()
+        .then((products) => {
+          catalogCache = { fetchedAt: Date.now(), products };
+          return products;
+        })
+        .catch(() => {
+          // Server unreachable or unusable — serve the static catalog without caching it,
+          // so the next call retries the live API immediately.
+          useUIStore.getState().setOfflineCatalog(true);
+          return [...PRODUCTS];
+        })
+        .finally(() => {
+          catalogFetch = null;
+        });
+    }
+    return catalogFetch;
   },
 
   async getBySlug(slug: string): Promise<Product | null> {
