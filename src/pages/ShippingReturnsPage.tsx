@@ -166,7 +166,7 @@ export const ShippingReturnsPage: React.FC = () => {
                 <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
                   <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 1</span>
                   <p className="font-bold text-obsidian text-xs">Notify Within 48 Hours</p>
-                  <p className="text-[11px] text-graphite/70">Reach out to our WhatsApp concierge or email support@ateevibes.com within 48 hours of parcel delivery.</p>
+                  <p className="text-[11px] text-graphite/70">Reach out to our WhatsApp concierge or email {siteConfig.contact.email} within 48 hours of parcel delivery.</p>
                 </div>
                 <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
                   <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 2</span>

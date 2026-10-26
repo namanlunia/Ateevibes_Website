@@ -57,6 +57,7 @@ export function generateOrganizationJsonLd() {
     contactPoint: {
       '@type': 'ContactPoint',
       ...(siteConfig.contact.phoneIsPlaceholder ? {} : { telephone: siteConfig.contact.phone }),
+      ...(siteConfig.contact.emailIsPlaceholder ? {} : { email: siteConfig.contact.email }),
       contactType: 'customer service',
       areaServed: 'IN',
       availableLanguage: ['en', 'hi'],

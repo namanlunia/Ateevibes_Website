@@ -129,13 +129,22 @@ export const ContactPage: React.FC = () => {
                 <div>
                   <h4 className="font-serif text-base font-normal text-obsidian">Email Concierge</h4>
                   <a
-                    href="mailto:support@ateevibes.com"
+                    href={`mailto:${siteConfig.contact.email}`}
                     className="text-xs font-semibold text-gold hover:text-obsidian transition-colors"
                   >
-                    support@ateevibes.com
+                    {siteConfig.contact.email}
                   </a>
                 </div>
               </div>
+              {!siteConfig.contact.phoneIsPlaceholder && (
+                <a
+                  href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`}
+                  className="text-[11px] font-semibold text-gold hover:text-obsidian transition-colors pl-13 font-sans"
+                  aria-label={`Call Ateevibes at ${siteConfig.contact.phone}`}
+                >
+                  Prefer to call? {siteConfig.contact.phone}
+                </a>
+              )}
               <p className="text-[11px] text-graphite/70 pl-13 font-sans">
                 Average reply time: within 12–24 business hours.
               </p>

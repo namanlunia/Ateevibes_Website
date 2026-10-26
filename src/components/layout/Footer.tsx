@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import confetti from 'canvas-confetti';
 import { ArrowRight, CheckCircle2, ShieldCheck, Truck, CreditCard } from 'lucide-react';
-import { activeSocials } from '../../config/site';
+import { activeSocials, siteConfig } from '../../config/site';
 import { useUIStore } from '../../store/uiStore';
 
 const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -142,6 +142,28 @@ export const Footer: React.FC = () => {
                 </a>
               ))}
             </div>
+
+            <p className="flex flex-wrap items-center gap-x-3 gap-y-1 pt-3 text-[10px] font-bold uppercase tracking-wider text-ivory/70">
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="hover:text-gold transition-colors"
+                aria-label={`Email Ateevibes at ${siteConfig.contact.email}`}
+              >
+                {siteConfig.contact.email}
+              </a>
+              {!siteConfig.contact.phoneIsPlaceholder && (
+                <>
+                  <span aria-hidden="true">•</span>
+                  <a
+                    href={`tel:${siteConfig.contact.phone.replace(/\D/g, '')}`}
+                    className="hover:text-gold transition-colors"
+                    aria-label={`Call Ateevibes at ${siteConfig.contact.phone}`}
+                  >
+                    {siteConfig.contact.phone}
+                  </a>
+                </>
+              )}
+            </p>
           </div>
 
           {/* Shop Column */}

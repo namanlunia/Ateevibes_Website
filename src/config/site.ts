@@ -5,7 +5,7 @@ export interface SocialLink {
   ariaLabel: string;
 }
 
-// PLACEHOLDER: Business details to be confirmed before launch (tracked in /TODO.md)
+// Contact details: email, phone & WhatsApp are confirmed and published. Address, legal entity and GSTIN remain placeholders until verified (tracked in /TODO.md).
 export const siteConfig = {
   name: 'Ateevibes',
   tagline: 'Feel the Vibes',
@@ -17,12 +17,12 @@ export const siteConfig = {
   url: import.meta.env.VITE_SITE_URL || 'https://ateevibes.com',
   ogImage: '/brand/logo.png',
   contact: {
-    email: 'support@ateevibes.com',
+    email: 'ateevibes@gmail.com',
     emailIsPlaceholder: false, // Confirmed support email
-    phone: '+91 98765 43210',
-    phoneIsPlaceholder: true, // Hidden from customer UI until confirmed
-    whatsapp: '+91 98765 43210',
-    whatsappIsPlaceholder: true, // Floating button and contact cards hidden until confirmed
+    phone: '+91 7378475666',
+    phoneIsPlaceholder: false, // Confirmed company phone, live across contact surfaces
+    whatsapp: '+91 7378475666',
+    whatsappIsPlaceholder: false, // Confirmed number powering the floating concierge and cards
     whatsappMessage: 'Hi Ateevibes team! I would like to know more about your collection.',
     address: 'Mumbai, Maharashtra 400001, India',
     addressIsPlaceholder: true, // Specific address hidden from customers until verified

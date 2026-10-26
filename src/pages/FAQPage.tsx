@@ -79,7 +79,7 @@ const FAQ_LIST: FAQItem[] = [
     category: 'returns',
     question: 'What should I do if my package arrives damaged or incorrect?',
     answer:
-      'If your parcel arrives damaged from courier transit or contains an incorrect item, contact our WhatsApp concierge or email support@ateevibes.com within 48 hours of delivery with unboxing photos and your Order ID. Our quality team will promptly arrange a replacement.',
+      `If your parcel arrives damaged from courier transit or contains an incorrect item, contact our WhatsApp concierge or email ${siteConfig.contact.email} within 48 hours of delivery with unboxing photos and your Order ID. Our quality team will promptly arrange a replacement.`,
   },
   {
     id: 'f-10',
@@ -236,7 +236,7 @@ export const FAQPage: React.FC = () => {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <a
-              href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I have a question.')}`}
+              href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent('Hi Ateevibes team, I have a question.')}`}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
@@ -245,7 +245,7 @@ export const FAQPage: React.FC = () => {
               <span>Chat on WhatsApp</span>
             </a>
             <a
-              href="mailto:support@ateevibes.com"
+              href={`mailto:${siteConfig.contact.email}`}
               className="btn-secondary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 bg-white"
             >
               <Mail className="w-4 h-4 text-gold" />

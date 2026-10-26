@@ -23,12 +23,12 @@ The following 6 styles have their MRP marked as `PLACEHOLDER` in the catalog spe
 
 ## 3. Business & Contact Details (in `src/config/site.ts`)
 The following items are marked with `isPlaceholder: true` flags and are **hidden from customer-facing UI** until confirmed by the brand owner:
-- [ ] **Support Phone**: `+91 98765 43210` (`phoneIsPlaceholder: true`) — Omitted from SEO telephone schema and customer contact lines.
-- [ ] **WhatsApp Number**: `+91 98765 43210` (`whatsappIsPlaceholder: true`) — The floating WhatsApp button and the Contact Page WhatsApp card are currently hidden.
+- [x] **Support Phone**: `+91 7378475666` (`phoneIsPlaceholder: false`) — Confirmed company number; live in the SEO telephone schema, ContactPage, and footer.
+- [x] **WhatsApp Number**: `+91 7378475666` (`whatsappIsPlaceholder: false`) — Confirmed; the floating WhatsApp button and the Contact Page WhatsApp card are live.
 - [ ] **Physical Postal Address**: `Mumbai, Maharashtra 400001, India` (`addressIsPlaceholder: true`) — Specific street and postal details are hidden; generic regional note shown.
 - [ ] **Legal Entity**: `Ateevibes Apparels LLP` (`companyNameIsPlaceholder: true`) — Needs official registered business name confirmation.
 - [ ] **GSTIN / CIN**: `24AAACA0000A1Z5` (`cinOrGstinIsPlaceholder: true`) — Omitted from footer, invoices, and legal pages. Note: State code `24` belongs to Gujarat; Maharashtra entity must use state code `27`.
-- [x] **Support Email**: `support@ateevibes.com` (`emailIsPlaceholder: false`) — Confirmed active support email and primary customer contact channel.
+- [x] **Support Email**: `ateevibes@gmail.com` (`emailIsPlaceholder: false`) — Confirmed active support email and primary customer contact channel.
 - [x] **Facebook Page**: `https://www.facebook.com/profile.php?id=61579257735135` (`isPlaceholder: false`) — Confirmed active page rendered in footer.
 - [x] **X Profile**: `https://x.com/Adsarmataji_ind` (`isPlaceholder: false`) — Confirmed active account rendered in footer.
 
