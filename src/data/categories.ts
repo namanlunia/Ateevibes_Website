@@ -26,7 +26,7 @@ export const CATEGORIES: Category[] = [
     subCategories: [
       { id: 'sub-matty', slug: 'matty', name: 'Matty Round Neck', description: 'Ultra soft matty fabric for all-day comfort.' },
       { id: 'sub-2-way', slug: '2-way', name: '2-Way Round Neck', description: 'Engineered 2-way stretch with breathable recovery.' },
-      { id: 'sub-tencil', slug: 'tencil', name: 'Tencil Round Neck', description: 'Silky smooth imported tencil fabric.' },
+      { id: 'sub-tencil', slug: 'tencil', name: 'Tencil Round Neck', description: 'Soft touch imported tencil fabric.' },
       { id: 'sub-waffle', slug: 'waffle', name: 'Waffle Round Neck', description: 'Textured honeycomb waffle weave with a modern drape.' },
     ],
   },

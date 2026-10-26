@@ -44,13 +44,13 @@ export const FABRIC_STORIES = [
   },
   {
     id: 'tencil',
-    name: 'Silk-Touch Tencil',
+    name: 'Soft-Touch Tencil',
     tagline: 'Ultra-Fluid Drape',
     description:
       'Engineered with premium tencil yarns for a cool-to-touch hand feel and luxurious drape. Naturally manages moisture for peak comfort.',
     image: '/products/600/black.jpg',
     details: ['Cool-to-touch finish', 'Natural thermo-regulation', 'Fluid body contour', 'Gentle on skin'],
-    recommendedStyle: 'Silk-Touch Tencil Round Neck',
+    recommendedStyle: 'Soft-Touch Tencil Round Neck',
     slug: 'round-neck',
   },
   {
@@ -773,7 +773,7 @@ export const HomePage: React.FC = () => {
                 <span className="text-gold">★</span>
                 <span>PIQUE MATTY POLOS</span>
                 <span className="text-gold">★</span>
-                <span>SILK-TOUCH TENCIL</span>
+                <span>SOFT-TOUCH TENCIL</span>
                 <span className="text-gold">★</span>
                 <span>SAME PRINT, DIFFERENT VIBES</span>
                 <span className="text-gold">★</span>
