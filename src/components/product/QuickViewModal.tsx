@@ -11,6 +11,7 @@ import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
 
 export const QuickViewModal: React.FC = () => {
   const product = useUIStore((state) => state.quickViewProduct);
+  const initialVariant = useUIStore((state) => state.quickViewVariant);
   const closeQuickView = useUIStore((state) => state.closeQuickView);
   const openCart = useUIStore((state) => state.openCart);
   const addToast = useUIStore((state) => state.addToast);
@@ -23,12 +24,12 @@ export const QuickViewModal: React.FC = () => {
 
   useEffect(() => {
     if (product) {
-      setSelectedVariant(product.variants[0] || null);
+      setSelectedVariant(initialVariant || product.variants[0] || null);
       setSelectedSize(product.sizes[0] || 'M');
       setQty(1);
       setActiveImageIdx(0);
     }
-  }, [product]);
+  }, [product, initialVariant]);
 
   if (!product || !selectedVariant) return null;
 

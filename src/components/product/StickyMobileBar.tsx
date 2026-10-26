@@ -44,7 +44,7 @@ export const StickyMobileBar: React.FC<StickyMobileBarProps> = ({
                   {formatPrice(product.mrp)}
                 </span>
                 <span className="text-ink-600 font-medium text-[11px]">
-                  Size {selectedSize} • {selectedVariant.colourName}
+                  {selectedSize ? `Size ${selectedSize} • ` : ""}{selectedVariant.colourName}
                 </span>
               </div>
             </div>

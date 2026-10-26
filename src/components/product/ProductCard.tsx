@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Eye, Plus, Star, Check } from 'lucide-react';
@@ -12,15 +12,42 @@ import { ColourSwatch } from './ColourSwatch';
 
 interface ProductCardProps {
   product: Product;
+  initialColourSlug?: string;
   className?: string;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '' }) => {
-  const [selectedVariant, setSelectedVariant] = useState<Variant>(product.variants[0] || ({} as Variant));
+export const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  initialColourSlug,
+  className = '',
+}) => {
+  const getInitialVariant = (): Variant => {
+    if (initialColourSlug) {
+      const match = product.variants.find(
+        (v) => v.colourSlug.toLowerCase() === initialColourSlug.toLowerCase()
+      );
+      if (match) return match;
+    }
+    return product.variants[0] || ({} as Variant);
+  };
+
+  const [selectedVariant, setSelectedVariant] = useState<Variant>(getInitialVariant);
   const [hoveredVariant, setHoveredVariant] = useState<Variant | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [quickAddOpen, setQuickAddOpen] = useState(false);
   const [addedSize, setAddedSize] = useState<string | null>(null);
+
+  // Sync initialColourSlug when shop filter changes
+  useEffect(() => {
+    if (initialColourSlug) {
+      const match = product.variants.find(
+        (v) => v.colourSlug.toLowerCase() === initialColourSlug.toLowerCase()
+      );
+      if (match) {
+        setSelectedVariant(match);
+      }
+    }
+  }, [initialColourSlug, product.variants]);
 
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) =>
@@ -34,9 +61,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
   const activeVariant = hoveredVariant || selectedVariant;
   const isComingSoon = product.status === 'coming-soon';
 
+  // Smooth crossfade on variant switch (~220ms)
+  const [displayVariant, setDisplayVariant] = useState<Variant>(activeVariant);
+  const [prevVariant, setPrevVariant] = useState<Variant | null>(null);
+
+  useEffect(() => {
+    if (activeVariant.id !== displayVariant.id) {
+      setPrevVariant(displayVariant);
+      setDisplayVariant(activeVariant);
+      const timer = setTimeout(() => {
+        setPrevVariant(null);
+      }, 220);
+      return () => clearTimeout(timer);
+    }
+  }, [activeVariant.id, displayVariant.id]);
+
   // Images: main image and alternate/second image for hover swap
-  const mainImage = activeVariant.images?.[0] || product.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg';
-  const secondImage = activeVariant.images?.[1] || mainImage;
+  const mainImage = displayVariant.images?.[0] || product.variants[0]?.images?.[0] || '/brand/tshirt-silhouette.svg';
+  const secondImage = displayVariant.images?.[1] || mainImage;
 
   const handleWishlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -83,10 +125,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
   const handleQuickView = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    openQuickView(product);
+    openQuickView(product, selectedVariant);
   };
 
-  
+  const productHref = `/product/${product.slug}?colour=${selectedVariant.colourSlug}`;
 
   return (
     <div
@@ -99,19 +141,31 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
     >
       {/* 4:5 Aspect Ratio Image Canvas */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-ivory rounded-t-xl">
-        <Link to={`/product/${product.slug}`} className="block w-full h-full">
+        <Link to={productHref} className="block w-full h-full relative">
+          {/* Previous image during 220ms crossfade */}
+          {prevVariant && (
+            <img
+              src={prevVariant.images?.[0] || '/brand/tshirt-silhouette.svg'}
+              srcSet={getProductSrcSet(prevVariant.images?.[0] || '')}
+              sizes={PRODUCT_IMAGE_SIZES}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            />
+          )}
+
           {/* Main Photo with smooth crossfade and zoom */}
           <img
             src={mainImage}
             srcSet={getProductSrcSet(mainImage)}
             sizes={PRODUCT_IMAGE_SIZES}
-            alt={`${product.name} - ${activeVariant.colourName}`}
+            alt={`${product.name} - ${displayVariant.colourName}`}
             loading="lazy"
             onError={(e) => {
               e.currentTarget.srcset = '';
               e.currentTarget.src = '/brand/placeholder.svg';
             }}
-            className={`w-full h-full object-cover transition-[transform,opacity] duration-700 ease-out group-hover:scale-105 ${
+            className={`w-full h-full object-cover transition-[transform,opacity] duration-[220ms] ease-out group-hover:scale-105 ${
               isHovered && secondImage ? 'opacity-0 scale-100' : 'opacity-100'
             }`}
           />
@@ -287,7 +341,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, className = '
         </div>
 
         {/* Product Name */}
-        <Link to={`/product/${product.slug}`} className="block group-hover:text-gold transition-colors">
+        <Link to={productHref} className="block group-hover:text-gold transition-colors">
           <h3 className="font-sans font-medium text-sm sm:text-base text-obsidian line-clamp-2 leading-snug min-h-[2.5rem] sm:min-h-[2.75rem]">
             {product.name}
           </h3>

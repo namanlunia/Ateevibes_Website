@@ -455,11 +455,26 @@ export const ShopPage: React.FC = () => {
                       : 'lg:grid-cols-4'
                   } gap-3 sm:gap-6`}
                 >
-                  {displayedProducts.map((product) => (
-                    <div key={product.id}>
-                      <ProductCard product={product} />
-                    </div>
-                  ))}
+                  {displayedProducts.map((product) => {
+                    const matchingVariant = filters.colors.length > 0
+                      ? product.variants.find((v) =>
+                          filters.colors.some(
+                            (c) =>
+                              v.colourSlug.toLowerCase().includes(c.toLowerCase()) ||
+                              v.colourName.toLowerCase().includes(c.toLowerCase())
+                          )
+                        )
+                      : undefined;
+
+                    return (
+                      <div key={product.id}>
+                        <ProductCard
+                          product={product}
+                          initialColourSlug={matchingVariant?.colourSlug}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Load More Pagination */}

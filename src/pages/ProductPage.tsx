@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, Link, useNavigate, Navigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, Navigate, useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -46,11 +46,25 @@ import { siteConfig } from '../config/site';
 export const ProductPage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const colourParam = searchParams.get('colour');
 
   const product = PRODUCTS.find((p) => p.slug === (slug && OLD_SLUG_MAP[slug] ? OLD_SLUG_MAP[slug] : slug));
 
-  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(() => product?.variants[0] || null);
+  const getInitialVariant = (): Variant | null => {
+    if (!product) return null;
+    if (colourParam) {
+      const matched = product.variants.find(
+        (v) => v.colourSlug.toLowerCase() === colourParam.toLowerCase()
+      );
+      if (matched) return matched;
+    }
+    return product.variants[0] || null;
+  };
+
+  const [selectedVariant, setSelectedVariant] = useState<Variant | null>(getInitialVariant);
   const [selectedSize, setSelectedSize] = useState<SizeType | string>(() => product?.sizes[0] || 'M');
+  const [sizeClearedNote, setSizeClearedNote] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -95,8 +109,12 @@ export const ProductPage: React.FC = () => {
   // Initialize product state & recently viewed
   useEffect(() => {
     if (product) {
-      setSelectedVariant(product.variants[0] || null);
+      const matched = colourParam
+        ? product.variants.find((v) => v.colourSlug.toLowerCase() === colourParam.toLowerCase()) || product.variants[0]
+        : product.variants[0];
+      setSelectedVariant(matched || null);
       setSelectedSize(product.sizes[0] || 'M');
+      setSizeClearedNote(null);
       setQty(1);
       setActiveImageIdx(0);
 
@@ -106,17 +124,35 @@ export const ProductPage: React.FC = () => {
       }
 
       productService.getRelated(product.id, 4).then(setRelatedProducts);
-      if (product.variants[0]?.colourName) {
+      const activeColour = matched?.colourName || product.variants[0]?.colourName;
+      if (activeColour) {
         productService
-          .getComplementarySet(product.id, product.variants[0].colourName, 4)
+          .getComplementarySet(product.id, activeColour, 4)
           .then(setCompleteSetProducts);
       }
     }
-  }, [product?.id, slug]);
+  }, [product?.id, slug, colourParam]);
 
   const handleSelectVariant = (v: Variant) => {
     setSelectedVariant(v);
     setActiveImageIdx(0);
+
+    if (selectedSize) {
+      const stock = v.stockBySize?.[selectedSize as SizeType] ?? 10;
+      if (stock <= 0) {
+        const cleared = selectedSize;
+        setSelectedSize('');
+        setSizeClearedNote(`Size ${cleared} is sold out in ${v.colourName}. Please choose another size.`);
+      } else {
+        setSizeClearedNote(null);
+      }
+    }
+
+    if (product) {
+      productService
+        .getComplementarySet(product.id, v.colourName, 4)
+        .then(setCompleteSetProducts);
+    }
   };
 
   // Observer for sticky mobile CTA bar
@@ -145,8 +181,10 @@ export const ProductPage: React.FC = () => {
   }
 
   const isComingSoon = product.status === 'coming-soon';
-  const availableStock = selectedVariant.stockBySize?.[selectedSize] ?? 10;
-  const isOutOfStock = availableStock <= 0;
+  const availableStock = selectedSize && selectedVariant.stockBySize?.[selectedSize] !== undefined
+    ? selectedVariant.stockBySize[selectedSize]
+    : (selectedSize ? 10 : 0);
+  const isOutOfStock = !selectedSize || availableStock <= 0;
 
   // Active gallery photos (never render catalog posters with style numbers printed)
   const currentPhotos =
@@ -476,12 +514,12 @@ export const ProductPage: React.FC = () => {
               <div className="flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-obsidian uppercase tracking-wider">Select Size</span>
-                  {availableStock <= 5 && availableStock > 0 && (
+                  {selectedSize && availableStock <= 5 && availableStock > 0 && (
                     <span className="text-status-warning font-semibold text-[11px] bg-status-warning/10 px-2 py-0.5 rounded-full">
                       Only {availableStock} left
                     </span>
                   )}
-                  {isOutOfStock && (
+                  {selectedSize && isOutOfStock && (
                     <span className="text-status-error font-semibold text-[11px] bg-status-error/10 px-2 py-0.5 rounded-full">
                       Sold Out
                     </span>
@@ -510,7 +548,7 @@ export const ProductPage: React.FC = () => {
                       aria-checked={isSelected}
                       aria-label={`Size ${size}${outOfStock ? ' - Sold out' : ` - ${stock} in stock`}`}
                       disabled={outOfStock}
-                      onClick={() => setSelectedSize(size)}
+                      onClick={() => { setSelectedSize(size); setSizeClearedNote(null); }}
                       className={`relative py-3 rounded-xl text-xs font-bold flex flex-col items-center justify-center transition-[background-color,color,border-color] duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
                         isSelected
                           ? 'bg-chip-active-bg text-chip-active-text border-[1.5px] border-chip-active-border shadow-sm'
@@ -530,6 +568,11 @@ export const ProductPage: React.FC = () => {
                   );
                 })}
               </div>
+              {sizeClearedNote && (
+                <p className="text-xs text-status-warning font-medium mt-1.5" role="alert">
+                  {sizeClearedNote}
+                </p>
+              )}
             </div>
 
             {/* Quantity Stepper & Add to Bag / Buy Now / Coming Soon */}
@@ -566,7 +609,7 @@ export const ProductPage: React.FC = () => {
                       className="flex-1 btn-primary py-3.5 px-6 text-xs sm:text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-luxury"
                     >
                       <ShoppingBag className="w-4 h-4 text-gold" />
-                      <span>{isOutOfStock ? 'Sold Out' : `Add to Bag • ${formatPrice(product.mrp * qty)}`}</span>
+                      <span>{!selectedSize ? 'Select a Size' : isOutOfStock ? 'Sold Out' : `Add to Bag • ${formatPrice(product.mrp * qty)}`}</span>
                     </button>
                   </div>
 

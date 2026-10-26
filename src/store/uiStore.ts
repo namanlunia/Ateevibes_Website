@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Product } from '../types';
+import { Product, Variant } from '../types';
 
 interface ToastItem {
   id: string;
@@ -15,6 +15,7 @@ interface UIState {
   isMobileMenuOpen: boolean;
   isSearchOpen: boolean;
   quickViewProduct: Product | null;
+  quickViewVariant: Variant | null;
   toasts: ToastItem[];
   preloaderFinished: boolean;
   isOfflineCatalog: boolean;
@@ -30,7 +31,7 @@ interface UIState {
   openSearch: () => void;
   closeSearch: () => void;
 
-  openQuickView: (product: Product) => void;
+  openQuickView: (product: Product, variant?: Variant) => void;
   closeQuickView: () => void;
 
   addToast: (toast: Omit<ToastItem, 'id'>) => string;
@@ -45,6 +46,7 @@ export const useUIStore = create<UIState>((set) => ({
   isMobileMenuOpen: false,
   isSearchOpen: false,
   quickViewProduct: null,
+  quickViewVariant: null,
   toasts: [],
   preloaderFinished: typeof window !== 'undefined' ? Boolean(sessionStorage.getItem('atv:preloader_done')) : false,
   isOfflineCatalog: false,
@@ -59,8 +61,8 @@ export const useUIStore = create<UIState>((set) => ({
   openSearch: () => set({ isSearchOpen: true }),
   closeSearch: () => set({ isSearchOpen: false }),
 
-  openQuickView: (product) => set({ quickViewProduct: product }),
-  closeQuickView: () => set({ quickViewProduct: null }),
+  openQuickView: (product, variant) => set({ quickViewProduct: product, quickViewVariant: variant || product.variants[0] || null }),
+  closeQuickView: () => set({ quickViewProduct: null, quickViewVariant: null }),
 
   addToast: (toast) => {
     const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
