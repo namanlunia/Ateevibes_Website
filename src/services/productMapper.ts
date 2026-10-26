@@ -1,4 +1,5 @@
 import { Product, Variant, SizeType, SleeveType, NeckType } from "../types";
+import { getVariantHex } from "../data/colours";
 
 export function normalizeServerProduct(raw: unknown): Product | null {
   if (!raw || typeof raw !== "object") {
@@ -41,7 +42,8 @@ export function normalizeServerProduct(raw: unknown): Product | null {
     const vId = typeof v.id === "string" ? v.id : `var-${id}-${idx + 1}`;
     const colourName = typeof v.colourName === "string" ? v.colourName : "Signature";
     const colourSlug = typeof v.colourSlug === "string" ? v.colourSlug : "signature";
-    const hex = typeof v.hex === "string" ? v.hex : "#111111";
+    const rawHex = typeof v.hex === "string" ? v.hex : undefined;
+    const hex = getVariantHex({ hex: rawHex, colourName, colourSlug });
     const patternImage = typeof v.patternImage === "string" ? v.patternImage : undefined;
     const images = Array.isArray(v.images) && v.images.length > 0
       ? (v.images as string[])

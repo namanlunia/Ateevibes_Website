@@ -46,3 +46,145 @@ export const COLOUR_PALETTE: Record<string, ColourDefinition> = {
   // Coming soon placeholder
   'coming-soon': { name: 'Colours TBD', slug: 'coming-soon', hex: '#D9C7A5', family: 'pattern' },
 };
+
+export interface VariantColourInput {
+  hex?: string | null;
+  colourName?: string | null;
+  colourSlug?: string | null;
+}
+
+export const FALLBACK_HEX = "#888888";
+
+const AUTHORITATIVE_COLOUR_MAP: Record<string, string> = {
+  black: "#111111",
+  white: "#FFFFFF",
+  offwhite: "#F4EFE6",
+  pastelgreen: "#9BD39B",
+  lavender: "#B9A5E8",
+  jalapenored: "#B3202A",
+  leatherbrown: "#9A5B2D",
+  turquoise: "#1FB8A5",
+  navy: "#1B2A4A",
+  blue: "#4C79C6",
+  bottlegreen: "#0E5A6B",
+  wine: "#5A1F2E",
+  rust: "#9C3B1E",
+  grey: "#6F6BA6",
+  gray: "#6F6BA6",
+  beige: "#D9C7A5",
+  brown: "#4A2C1F",
+  aqua: "#6FB5BE",
+  mintgreen: "#8FD1B0",
+  charcoal: "#2F3338",
+  lemon: "#D9A62A",
+  chocolate: "#8A5A3C",
+  green: "#1F4D3A",
+  rgold: "#E3B88A",
+  rosegold: "#E3B88A",
+  dgrey: "#8D8D92",
+  darkgrey: "#8D8D92",
+  dgray: "#8D8D92",
+  darkgray: "#8D8D92",
+  pista: "#A9D6C0",
+  pistagreen: "#A9D6C0",
+  choco: "#8C5A4A",
+  rosepink: "#D890A8",
+  skyblue: "#7DB6E3",
+  lilacgrey: "#9A96B8",
+  lilacgray: "#9A96B8",
+  sandbeige: "#D2B48C",
+  sagegreen: "#A8C4A2",
+  // Pattern designs
+  design01: "#1B2A4A",
+  design1: "#1B2A4A",
+  design02: "#1F4D3A",
+  design2: "#1F4D3A",
+  design03: "#4C79C6",
+  design3: "#4C79C6",
+  design04: "#8D8D92",
+  design4: "#8D8D92",
+  design05: "#D9A62A",
+  design5: "#D9A62A",
+  comingsoon: "#D9C7A5",
+  colourstbd: "#D9C7A5",
+  colorstbd: "#D9C7A5",
+};
+
+function normalizeColourKey(nameOrSlug?: string | null): string {
+  if (!nameOrSlug || typeof nameOrSlug !== "string") return "";
+  return nameOrSlug
+    .toLowerCase()
+    .trim()
+    .replace(/[\s\-_.]+/g, "")
+    .replace(/[^a-z0-9]/g, "");
+}
+
+export function isDarkHex(hex?: string | null): boolean {
+  if (!hex || typeof hex !== "string") return false;
+  const clean = hex.replace("#", "").trim();
+  if (clean.length !== 6 && clean.length !== 3) return false;
+  const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean;
+  const r = parseInt(full.substring(0, 2), 16);
+  const g = parseInt(full.substring(2, 4), 16);
+  const b = parseInt(full.substring(4, 6), 16);
+  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) return false;
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  return luminance < 0.35;
+}
+
+export function getVariantHex(variant: VariantColourInput | string | null | undefined): string {
+  if (!variant) {
+    return handleFallback("unknown", undefined);
+  }
+
+  const v: VariantColourInput =
+    typeof variant === "string"
+      ? { colourSlug: variant, colourName: variant }
+      : variant;
+
+  const rawSlug = v.colourSlug?.trim() || "";
+  const rawName = v.colourName?.trim() || "";
+  const rawHex = typeof v.hex === "string" ? v.hex.trim() : "";
+
+  const slugKey = normalizeColourKey(rawSlug);
+  const nameKey = normalizeColourKey(rawName);
+
+  // 1. Authoritative palette lookup by normalized slug or name
+  if (slugKey && AUTHORITATIVE_COLOUR_MAP[slugKey]) {
+    return AUTHORITATIVE_COLOUR_MAP[slugKey];
+  }
+  if (nameKey && AUTHORITATIVE_COLOUR_MAP[nameKey]) {
+    return AUTHORITATIVE_COLOUR_MAP[nameKey];
+  }
+
+  // 2. Validate rawHex if provided
+  if (rawHex && /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(rawHex)) {
+    const isCorruptedBlack = /^#(111|000|111111|000000)$/i.test(rawHex);
+    const isBlackNamed =
+      (slugKey && (slugKey.includes("black") || slugKey.includes("charcoal"))) ||
+      (nameKey && (nameKey.includes("black") || nameKey.includes("charcoal")));
+
+    if (!isCorruptedBlack || isBlackNamed) {
+      const clean = rawHex.replace("#", "");
+      const full = clean.length === 3 ? clean.split("").map((c) => c + c).join("") : clean;
+      return `#${full.toUpperCase()}`;
+    }
+  }
+
+  // 3. Fallback handling: throw in dev/test, neutral grey in production
+  return handleFallback(rawName || rawSlug || "unknown", rawHex || undefined);
+}
+
+function handleFallback(identifier: string, invalidHex?: string): string {
+  const isDevOrTest =
+    (typeof process !== "undefined" && process.env?.NODE_ENV === "test") ||
+    (typeof import.meta !== "undefined" && Boolean(import.meta.env?.DEV));
+
+  if (isDevOrTest) {
+    throw new Error(
+      `[getVariantHex] Unknown colour "${identifier}" with invalid or missing hex "${invalidHex ?? "undefined"}". All variant colours must be defined in COLOUR_PALETTE.`
+    );
+  }
+
+  return FALLBACK_HEX;
+}
