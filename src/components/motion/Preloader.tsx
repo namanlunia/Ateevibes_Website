@@ -48,10 +48,11 @@ export const Preloader: React.FC = () => {
   useEffect(() => {
     if (!isVisible || shouldReduceMotion || typeof window === 'undefined') return;
 
-    PRELOADER_GARMENTS.forEach((garment) => {
+    const uniquePaths = new Set(PRELOADER_GARMENTS.map((g) => g.imagePath));
+    uniquePaths.forEach((src) => {
       const img = new Image();
       img.decoding = 'async';
-      img.src = garment.imagePath;
+      img.src = src;
     });
   }, [isVisible, shouldReduceMotion]);
 
@@ -187,7 +188,7 @@ export const Preloader: React.FC = () => {
                 <motion.div
                   key={garment.id}
                   data-testid={`preloader-garment-${garment.id}`}
-                  className={`absolute pointer-events-none will-change-transform ${
+                  className={`absolute pointer-events-none ${isExiting ? '' : 'will-change-transform'} ${
                     garment.showOnMobile ? 'block' : 'hidden sm:block'
                   }`}
                   style={{
