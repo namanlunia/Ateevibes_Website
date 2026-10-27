@@ -1,7 +1,8 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
-import fs from 'node:fs';
-import path from 'node:path';
+import * as framerMotion from 'framer-motion';
+import fs from 'fs';
+import path from 'path';
 import { Preloader } from '../components/motion/Preloader';
 import {
   PRELOADER_GARMENTS,
@@ -10,58 +11,61 @@ import {
   buildPreloaderGarments,
 } from '../components/motion/preloaderConfig';
 import { useUIStore } from '../store/uiStore';
-import * as framerMotion from 'framer-motion';
 
-// Mock framer-motion useReducedMotion when needed
+// Mock framer-motion hooks and components
 vi.mock('framer-motion', async () => {
-  const actual = await vi.importActual<typeof framerMotion>('framer-motion');
+  const actual = await vi.importActual<typeof import('framer-motion')>('framer-motion');
   return {
     ...actual,
-    useReducedMotion: vi.fn(() => false),
+    useReducedMotion: vi.fn(),
   };
 });
 
-describe('Garment Preloader Configuration', () => {
-  it('contains exactly 8 garments on desktop and 5 in the mobile subset', () => {
-    expect(PRELOADER_GARMENTS).toHaveLength(8);
-    expect(PRELOADER_MOBILE_GARMENTS).toHaveLength(5);
+describe('Garment Preloader Configuration & Asset Integrity', () => {
+  it('defines 18 garments on desktop and 10 on mobile across 3 distinct depth layers', () => {
+    expect(PRELOADER_GARMENTS).toHaveLength(18);
+    expect(PRELOADER_MOBILE_GARMENTS).toHaveLength(10);
+
+    const desktopBg = PRELOADER_GARMENTS.filter((g) => g.layer === 'background');
+    const desktopMid = PRELOADER_GARMENTS.filter((g) => g.layer === 'middle');
+    const desktopFg = PRELOADER_GARMENTS.filter((g) => g.layer === 'foreground');
+
+    expect(desktopBg).toHaveLength(7);
+    expect(desktopMid).toHaveLength(7);
+    expect(desktopFg).toHaveLength(4);
+
+    const mobileBg = PRELOADER_MOBILE_GARMENTS.filter((g) => g.layer === 'background');
+    const mobileMid = PRELOADER_MOBILE_GARMENTS.filter((g) => g.layer === 'middle');
+    const mobileFg = PRELOADER_MOBILE_GARMENTS.filter((g) => g.layer === 'foreground');
+
+    expect(mobileBg).toHaveLength(4);
+    expect(mobileMid).toHaveLength(4);
+    expect(mobileFg).toHaveLength(2);
   });
 
-  it('covers all 3 depth layers (background, middle, foreground) in desktop and mobile subsets', () => {
-    const desktopLayers = new Set(PRELOADER_GARMENTS.map((g) => g.layer));
-    const mobileLayers = new Set(PRELOADER_MOBILE_GARMENTS.map((g) => g.layer));
-
-    expect(desktopLayers.size).toBe(3);
-    expect(desktopLayers.has('background')).toBe(true);
-    expect(desktopLayers.has('middle')).toBe(true);
-    expect(desktopLayers.has('foreground')).toBe(true);
-
-    expect(mobileLayers.size).toBe(3);
-    expect(mobileLayers.has('background')).toBe(true);
-    expect(mobileLayers.has('middle')).toBe(true);
-    expect(mobileLayers.has('foreground')).toBe(true);
-  });
-
-  it('validates every garment has bounded size, delay, duration, sway, and rotation', () => {
+  it('guarantees valid sizes, opacities, z-indices, delays, durations, sways, and rotations', () => {
     for (const g of PRELOADER_GARMENTS) {
       if (g.layer === 'background') {
         expect(g.size).toBeGreaterThanOrEqual(80);
         expect(g.size).toBeLessThanOrEqual(110);
         expect(g.opacity).toBe(0.35);
+        expect(g.zIndex).toBe(10);
       } else if (g.layer === 'middle') {
         expect(g.size).toBeGreaterThanOrEqual(130);
         expect(g.size).toBeLessThanOrEqual(170);
         expect(g.opacity).toBe(0.65);
+        expect(g.zIndex).toBe(15);
       } else if (g.layer === 'foreground') {
         expect(g.size).toBeGreaterThanOrEqual(190);
         expect(g.size).toBeLessThanOrEqual(240);
         expect(g.opacity).toBe(0.95);
+        expect(g.zIndex).toBe(20);
       }
 
       expect(g.delay).toBeGreaterThanOrEqual(0);
-      expect(g.delay).toBeLessThanOrEqual(2.0);
+      expect(g.delay).toBeLessThanOrEqual(2.5);
 
-      expect(g.duration).toBeGreaterThanOrEqual(1.5);
+      expect(g.duration).toBeGreaterThanOrEqual(1.8);
       expect(g.duration).toBeLessThanOrEqual(3.5);
 
       expect(Math.abs(g.sway)).toBeGreaterThanOrEqual(10);
@@ -72,15 +76,54 @@ describe('Garment Preloader Configuration', () => {
     }
   });
 
+  it('ensures no two neighbouring slots share the same image', () => {
+    for (let i = 0; i < PRELOADER_GARMENTS.length - 1; i++) {
+      expect(PRELOADER_GARMENTS[i].imagePath).not.toBe(PRELOADER_GARMENTS[i + 1].imagePath);
+    }
+  });
+
+  it('covers viewport width with at least two garments in each fifth on desktop', () => {
+    const fifths = [0, 0, 0, 0, 0];
+    for (const g of PRELOADER_GARMENTS) {
+      const fifthIndex = Math.min(4, Math.floor(g.xPercent / 20));
+      fifths[fifthIndex]++;
+    }
+    for (const count of fifths) {
+      expect(count).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it('keeps foreground garments outside the center hero column', () => {
+    const fgGarments = PRELOADER_GARMENTS.filter((g) => g.layer === 'foreground');
+    for (const g of fgGarments) {
+      expect(g.xPercent < 35 || g.xPercent > 65).toBe(true);
+    }
+  });
+
   it('guarantees all image paths exist in public/ and are responsive webp assets', () => {
     const publicDir = path.resolve(process.cwd(), 'public');
 
     for (const g of PRELOADER_GARMENTS) {
-      expect(g.imagePath).toMatch(/^-?\/products\/[^/]+\/[^/]+-480\.webp$/);
+      expect(g.imagePath).toMatch(/^\/?products\/[^/]+\/[^/]+-480\.webp$/);
       const cleanPath = g.imagePath.startsWith('/') ? g.imagePath.slice(1) : g.imagePath;
       const fullPath = path.join(publicDir, cleanPath);
       expect(fs.existsSync(fullPath)).toBe(true);
     }
+  });
+
+  it('keeps total image weight across unique preloader images under 250 KB', () => {
+    const publicDir = path.resolve(process.cwd(), 'public');
+    const uniqueImages = new Set(PRELOADER_GARMENTS.map((g) => g.imagePath));
+    let totalBytes = 0;
+
+    for (const imgPath of uniqueImages) {
+      const cleanPath = imgPath.startsWith('/') ? imgPath.slice(1) : imgPath;
+      const fullPath = path.join(publicDir, cleanPath);
+      expect(fs.existsSync(fullPath)).toBe(true);
+      totalBytes += fs.statSync(fullPath).size;
+    }
+
+    expect(totalBytes).toBeLessThan(250 * 1024);
   });
 
   it('never includes coming-soon products and contains no style codes in alt or texts', () => {
