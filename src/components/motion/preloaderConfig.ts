@@ -26,6 +26,7 @@ export interface PreloaderGarmentConfig {
 interface ProductSeed {
   id: string;
   slug: string;
+  variantIndex?: number;
   styleDescription: string;
   layer: PreloaderLayer;
   size: number;
@@ -39,131 +40,309 @@ interface ProductSeed {
   showOnMobile: boolean;
 }
 
+/**
+ * 18 deterministic garments on desktop, 10 on mobile across 3 depth layers:
+ * - Desktop: 7 background, 7 middle, 4 foreground
+ * - Mobile: 4 background, 4 middle, 2 foreground
+ *
+ * Spans all catalog categories: round neck, polo and collar, jacquard,
+ * printed, tai dai, waffle, matty, and stripe gradient.
+ * Staggered across 5 waves so shirts continuously rise throughout the entire load time.
+ */
 const SEED_GARMENTS: ProductSeed[] = [
-  // 1. Plain Tee / Matty Solid (Foreground, left)
+  // --- Wave 1 (0.0s - 0.35s) ---
   {
-    id: 'garment-plain-tee',
+    id: 'garment-1-matty-black',
     slug: 'premium-matty-round-neck',
-    styleDescription: 'Plain Tee',
+    variantIndex: 0, // Black
+    styleDescription: 'Plain Matty Tee',
     layer: 'foreground',
     size: 215,
     xPercent: 12,
     delay: 0.0,
-    duration: 2.0,
+    duration: 1.9,
     sway: 16,
     rotation: -6,
     opacity: 0.95,
     zIndex: 20,
     showOnMobile: true,
   },
-  // 2. Waffle Knit (Middle, right)
   {
-    id: 'garment-waffle',
+    id: 'garment-2-waffle-beige',
     slug: 'premium-waffle-round-neck',
-    styleDescription: 'Waffle',
+    variantIndex: 1, // Beige
+    styleDescription: 'Waffle Knit',
     layer: 'middle',
-    size: 150,
-    xPercent: 78,
-    delay: 0.2,
-    duration: 2.4,
-    sway: 20,
+    size: 155,
+    xPercent: 68,
+    delay: 0.1,
+    duration: 2.3,
+    sway: -18,
     rotation: 5,
     opacity: 0.65,
     zIndex: 15,
     showOnMobile: true,
   },
-  // 3. Polo Collar (Background, inner-left)
   {
-    id: 'garment-polo',
+    id: 'garment-3-polo-white',
     slug: 'premium-matty-polo',
-    styleDescription: 'Polo',
+    variantIndex: 0, // White
+    styleDescription: 'Matty Polo',
     layer: 'background',
     size: 95,
-    xPercent: 28,
-    delay: 0.45,
-    duration: 3.0,
+    xPercent: 42,
+    delay: 0.2,
+    duration: 3.1,
     sway: 14,
     rotation: -4,
     opacity: 0.35,
     zIndex: 10,
     showOnMobile: true,
   },
-  // 4. Stripe Gradient (Middle, mid-left)
   {
-    id: 'garment-stripe-gradient',
+    id: 'garment-4-stripe-gradient-pink',
     slug: 'premium-printed-collar-stripe-gradient',
-    styleDescription: 'Stripe Gradient',
+    variantIndex: 0, // Rose Pink
+    styleDescription: 'Stripe Gradient Collar',
     layer: 'middle',
-    size: 160,
-    xPercent: 22,
-    delay: 0.7,
+    size: 150,
+    xPercent: 32,
+    delay: 0.35,
     duration: 2.5,
-    sway: 18,
+    sway: 20,
     rotation: 7,
     opacity: 0.65,
     zIndex: 15,
-    showOnMobile: true,
+    showOnMobile: false,
   },
-  // 5. China Jacquard (Background, inner-right)
+
+  // --- Wave 2 (0.45s - 0.8s) ---
   {
-    id: 'garment-jacquard',
+    id: 'garment-5-jacquard-lemon',
     slug: 'jacquard-half-sleeve',
-    styleDescription: 'Jacquard',
+    variantIndex: 4, // Lemon
+    styleDescription: 'Jacquard Knit',
     layer: 'background',
     size: 100,
-    xPercent: 68,
-    delay: 0.95,
-    duration: 3.1,
-    sway: 22,
-    rotation: -7,
+    xPercent: 85,
+    delay: 0.45,
+    duration: 2.9,
+    sway: -15,
+    rotation: -5,
     opacity: 0.35,
     zIndex: 10,
     showOnMobile: true,
   },
-  // 6. Tai Dai Print (Foreground, far-right)
   {
-    id: 'garment-tai-dai',
+    id: 'garment-6-tai-dai-gold',
     slug: 'tai-dai-print-half-sleeve',
-    styleDescription: 'Tai Dai',
+    variantIndex: 0, // R.Gold
+    styleDescription: 'Tai Dai Print',
     layer: 'foreground',
     size: 205,
-    xPercent: 84,
-    delay: 1.2,
-    duration: 1.9,
-    sway: 15,
+    xPercent: 76,
+    delay: 0.55,
+    duration: 2.0,
+    sway: 18,
     rotation: 6,
     opacity: 0.95,
     zIndex: 20,
     showOnMobile: false,
   },
-  // 7. Graphic Printed (Middle, far-left)
   {
-    id: 'garment-printed',
+    id: 'garment-7-twoway-wine',
+    slug: 'two-way-round-neck',
+    variantIndex: 2, // Wine
+    styleDescription: '2-Way Round Neck',
+    layer: 'middle',
+    size: 145,
+    xPercent: 6,
+    delay: 0.68,
+    duration: 2.4,
+    sway: -22,
+    rotation: -6,
+    opacity: 0.65,
+    zIndex: 15,
+    showOnMobile: true,
+  },
+  {
+    id: 'garment-8-tencil-green',
+    slug: 'imported-tencil-round-neck',
+    variantIndex: 1, // Bottle Green
+    styleDescription: 'Imported Tencil Tee',
+    layer: 'background',
+    size: 90,
+    xPercent: 28,
+    delay: 0.8,
+    duration: 3.2,
+    sway: 12,
+    rotation: 4,
+    opacity: 0.35,
+    zIndex: 10,
+    showOnMobile: false,
+  },
+
+  // --- Wave 3 (0.95s - 1.3s) ---
+  {
+    id: 'garment-9-royal-jacquard-lavender',
+    slug: 'royal-print-jacquard-half-sleeve',
+    variantIndex: 2, // Lavender
+    styleDescription: 'Royal Print Jacquard',
+    layer: 'foreground',
+    size: 220,
+    xPercent: 88,
+    delay: 0.95,
+    duration: 1.9,
+    sway: -17,
+    rotation: -7,
+    opacity: 0.95,
+    zIndex: 20,
+    showOnMobile: true,
+  },
+  {
+    id: 'garment-10-printed-round-design1',
     slug: 'premium-printed-round-neck',
-    styleDescription: 'Printed',
+    variantIndex: 0, // Design 01
+    styleDescription: 'Printed Round Neck',
+    layer: 'middle',
+    size: 160,
+    xPercent: 46,
+    delay: 1.05,
+    duration: 2.6,
+    sway: 19,
+    rotation: 5,
+    opacity: 0.65,
+    zIndex: 15,
+    showOnMobile: true,
+  },
+  {
+    id: 'garment-11-polo-jacquard-mint',
+    slug: 'jacquard-half-sleeve-polo',
+    variantIndex: 1, // Mint Green
+    styleDescription: 'Jacquard Polo',
+    layer: 'background',
+    size: 105,
+    xPercent: 15,
+    delay: 1.15,
+    duration: 3.0,
+    sway: -14,
+    rotation: -4,
+    opacity: 0.35,
+    zIndex: 10,
+    showOnMobile: true,
+  },
+  {
+    id: 'garment-12-matty-red',
+    slug: 'premium-matty-round-neck',
+    variantIndex: 4, // Jalapeno Red
+    styleDescription: 'Premium Matty Red',
     layer: 'middle',
     size: 140,
-    xPercent: 8,
-    delay: 1.45,
+    xPercent: 82,
+    delay: 1.3,
     duration: 2.3,
-    sway: 18,
+    sway: 16,
+    rotation: 6,
+    opacity: 0.65,
+    zIndex: 15,
+    showOnMobile: true,
+  },
+
+  // --- Wave 4 (1.45s - 1.8s) ---
+  {
+    id: 'garment-13-abstract-collar-design1',
+    slug: 'premium-printed-collar-abstract',
+    variantIndex: 0, // Design 01
+    styleDescription: 'Abstract Collar Polo',
+    layer: 'background',
+    size: 95,
+    xPercent: 72,
+    delay: 1.45,
+    duration: 3.3,
+    sway: -21,
     rotation: -5,
+    opacity: 0.35,
+    zIndex: 10,
+    showOnMobile: true,
+  },
+  {
+    id: 'garment-14-waffle-aqua',
+    slug: 'premium-waffle-round-neck',
+    variantIndex: 3, // Aqua
+    styleDescription: 'Aqua Waffle Knit',
+    layer: 'foreground',
+    size: 210,
+    xPercent: 24,
+    delay: 1.55,
+    duration: 2.1,
+    sway: 15,
+    rotation: 7,
+    opacity: 0.95,
+    zIndex: 20,
+    showOnMobile: false,
+  },
+  {
+    id: 'garment-15-jacquard-full-rust',
+    slug: 'jacquard-full-sleeve',
+    variantIndex: 0, // Rust
+    styleDescription: 'Jacquard Full Sleeve',
+    layer: 'middle',
+    size: 165,
+    xPercent: 54,
+    delay: 1.68,
+    duration: 2.5,
+    sway: -18,
+    rotation: -6,
     opacity: 0.65,
     zIndex: 15,
     showOnMobile: false,
   },
-  // 8. Royal Print Jacquard (Background, mid-right)
   {
-    id: 'garment-royal-jacquard',
-    slug: 'royal-print-jacquard-half-sleeve',
-    styleDescription: 'Royal Print Jacquard',
+    id: 'garment-16-royal-full-green',
+    slug: 'royal-print-jacquard-full-sleeve',
+    variantIndex: 0, // Green
+    styleDescription: 'Royal Print Full Sleeve',
     layer: 'background',
-    size: 90,
-    xPercent: 60,
-    delay: 1.65,
-    duration: 2.9,
-    sway: 12,
+    size: 85,
+    xPercent: 58,
+    delay: 1.8,
+    duration: 2.8,
+    sway: 13,
     rotation: 4,
+    opacity: 0.35,
+    zIndex: 10,
+    showOnMobile: false,
+  },
+
+  // --- Wave 5 (1.95s - 2.15s) ---
+  {
+    id: 'garment-17-tai-dai-choco',
+    slug: 'tai-dai-print-full-sleeve',
+    variantIndex: 4, // Choco
+    styleDescription: 'Tai Dai Full Sleeve',
+    layer: 'middle',
+    size: 135,
+    xPercent: 18,
+    delay: 1.95,
+    duration: 2.4,
+    sway: 23,
+    rotation: 6,
+    opacity: 0.65,
+    zIndex: 15,
+    showOnMobile: false,
+  },
+  {
+    id: 'garment-18-royal-half-green',
+    slug: 'royal-print-jacquard-half-sleeve',
+    variantIndex: 0, // Green
+    styleDescription: 'Royal Print Half Sleeve',
+    layer: 'background',
+    size: 110,
+    xPercent: 36,
+    delay: 2.15,
+    duration: 3.1,
+    sway: -16,
+    rotation: -4,
     opacity: 0.35,
     zIndex: 10,
     showOnMobile: false,
@@ -171,7 +350,7 @@ const SEED_GARMENTS: ProductSeed[] = [
 ];
 
 /**
- * Builds the deterministic list of 8 preloader garments by resolving active products
+ * Builds the deterministic list of 18 preloader garments by resolving active products
  * from data/products.ts and their smallest responsive webp asset (-480.webp).
  */
 export function buildPreloaderGarments(): PreloaderGarmentConfig[] {
@@ -181,14 +360,14 @@ export function buildPreloaderGarments(): PreloaderGarmentConfig[] {
       throw new Error(`Preloader target product not found or not active: ${seed.slug}`);
     }
 
-    const firstVariant = product.variants[0];
-    if (!firstVariant || !firstVariant.images[0]) {
-      throw new Error(`Preloader target product missing first variant image: ${seed.slug}`);
+    const targetVariant = product.variants[seed.variantIndex ?? 0];
+    if (!targetVariant || !targetVariant.images[0]) {
+      throw new Error(`Preloader target product missing variant image: ${seed.slug}`);
     }
 
-    const variants = getResponsiveVariants(firstVariant.images[0]);
+    const variants = getResponsiveVariants(targetVariant.images[0]);
     if (!variants?.w480) {
-      throw new Error(`Preloader target image missing 480w webp variant: ${firstVariant.images[0]}`);
+      throw new Error(`Preloader target image missing 480w webp variant: ${targetVariant.images[0]}`);
     }
 
     return {
@@ -197,7 +376,7 @@ export function buildPreloaderGarments(): PreloaderGarmentConfig[] {
       name: product.name,
       category: product.category,
       styleDescription: seed.styleDescription,
-      colorName: firstVariant.colourName,
+      colorName: targetVariant.colourName,
       imagePath: variants.w480,
       layer: seed.layer,
       size: seed.size,
