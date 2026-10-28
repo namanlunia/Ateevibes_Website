@@ -64,7 +64,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   // Fabrics & Print types from palette/data
   const availableFabrics = ['Matty', 'Tencil', 'Waffle', 'Jacquard', 'China Jacquard', '2-Way', 'Printed'];
   const availablePrints = ['Solid', 'Tai Dai', 'Royal Print', 'Stripe', 'Abstract', 'Brush/Geometric'];
-  const availableSizes: SizeType[] = ['S', 'M', 'L', 'XL'];
+  const availableSizes: SizeType[] = ['S', 'M', 'L', 'XL', 'XXL'];
   const popularColors = ['black', 'white', 'bottle-green', 'rust', 'lavender', 'mint-green', 'lemon', 'charcoal', 'navy', 'r-gold'];
 
   return (

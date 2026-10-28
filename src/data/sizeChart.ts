@@ -1,6 +1,6 @@
 // PLACEHOLDER: Size measurements pending brand confirmation (tracked in /TODO.md)
 export interface SizeMeasurement {
-  size: 'S' | 'M' | 'L' | 'XL';
+  size: 'S' | 'M' | 'L' | 'XL' | 'XXL';
   chestInches: number;
   chestCm: number;
   lengthInches: number;
@@ -55,6 +55,17 @@ export const SIZE_CHART: SizeMeasurement[] = [
     shoulderCm: 50.8,
     sleeveHalfInches: 10.0,
     sleeveFullInches: 26.0,
+  },
+  {
+    size: 'XXL',
+    chestInches: 46,
+    chestCm: 116.8,
+    lengthInches: 31,
+    lengthCm: 78.7,
+    shoulderInches: 21,
+    shoulderCm: 53.3,
+    sleeveHalfInches: 10.5,
+    sleeveFullInches: 26.5,
   },
 ];
 

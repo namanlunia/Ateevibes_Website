@@ -88,13 +88,13 @@ export const FABRIC_STORIES = [
   },
   {
     id: '2-way',
-    name: '2-Way Performance Lycra',
+    name: '2-Way Performance Stretch',
     tagline: 'Fluid Mobility',
     description:
       'Blended with targeted mechanical stretch to flex naturally with upper-body movement. Returns to shape instantly without bagging or collar deformation.',
     image: '/products/107/black.jpg',
     details: ['2-way mechanical recovery', 'Unrestricted shoulder motion', 'Crease-resistant finish', 'Ultra-lightweight'],
-    recommendedStyle: '2-Way Lycra Round Neck',
+    recommendedStyle: '2-Way Stretch Round Neck',
     slug: 'round-neck',
   },
 ];

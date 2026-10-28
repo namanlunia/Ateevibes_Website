@@ -58,12 +58,12 @@ describe('Data Sanity and Catalog Integrity', () => {
 
     sToXlIds.forEach((id) => {
       const prod = PRODUCTS.find((p) => p.id === id);
-      expect(prod?.sizes).toEqual(['S', 'M', 'L', 'XL']);
+      expect(prod?.sizes).toEqual(['S', 'M', 'L', 'XL', 'XXL']);
     });
 
     mToXlIds.forEach((id) => {
       const prod = PRODUCTS.find((p) => p.id === id);
-      expect(prod?.sizes).toEqual(['M', 'L', 'XL']);
+      expect(prod?.sizes).toEqual(['M', 'L', 'XL', 'XXL']);
     });
   });
 
