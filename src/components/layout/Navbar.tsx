@@ -105,10 +105,10 @@ export const Navbar: React.FC = () => {
             <img
               src="/brand/logo.png"
               alt="Ateevibes"
-              width={144}
-              height={36}
+              width={192}
+              height={48}
               className={`w-auto transition-all duration-300 ${
-                isScrolled ? 'h-7 sm:h-8' : 'h-8 sm:h-9'
+                isScrolled ? 'h-9 sm:h-10' : 'h-10 sm:h-12'
               }`}
             />
           </Link>
