@@ -128,7 +128,9 @@ export const Preloader: React.FC = () => {
       window.addEventListener('load', onPageReady, { once: true });
     }
 
-    // Interval to smoothly drive progress line
+    // Interval to drive the progress line (250ms cadence; the bar's CSS width
+    // transition renders the smoothing — keeps React re-renders off the
+    // animation frame budget while 18 garment animations are running).
     const progressInterval = setInterval(() => {
       if (isFinishedRef.current) return;
       const elapsed = Date.now() - startTimeRef.current;
@@ -136,7 +138,7 @@ export const Preloader: React.FC = () => {
       const pct = Math.min(95, Math.round((elapsed / targetTime) * 100));
       setProgress((prev) => Math.max(prev, pct));
       tryFinish();
-    }, 40);
+    }, 250);
 
     // Hard min timer: attempt finish as soon as min duration elapses
     const minTimer = setTimeout(() => {
@@ -262,7 +264,7 @@ export const Preloader: React.FC = () => {
                 className="h-full bg-gold rounded-full"
                 style={{
                   width: `${progress}%`,
-                  transition: 'width 100ms ease-out',
+                  transition: 'width 250ms linear',
                 }}
               />
             </div>

@@ -26,6 +26,20 @@
     color: var(--ink-900);
   }
 
+  /* Lenis smooth-scroll compatibility (official lenis.css runtime rules).
+     While Lenis is active it writes scrollTop every animation frame; native
+     CSS smooth-scrolling must not re-animate those assignments or scrolling
+     stutters (double interpolation). Reduced-motion visitors skip Lenis
+     entirely (Layout.tsx) and keep the native smooth behavior above. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
   /* Typography headings */
   h1, h2, h3, h4, .font-display {
     font-family: 'Instrument Serif', Georgia, serif;
