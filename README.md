@@ -1,7 +1,9 @@
-# Ateevibes — E-Commerce Web Application
+# Ateevibes - E-Commerce Web Application
 
 > **"Feel the Vibes. Wear the Statement."**  
-> Premium Men's T-Shirt E-Commerce Brand (Round Neck, Polo & Collar, China Jacquard, Printed; Half & Full Sleeve; Sizes S–XL).
+> Premium Men's T-Shirt E-Commerce Brand (Round Neck, Polo & Collar, China Jacquard, Printed; Half & Full Sleeve; Sizes S-XL).
+
+Live Store: [https://clothing-rose-three.vercel.app/](https://clothing-rose-three.vercel.app/)
 
 ---
 
@@ -10,7 +12,7 @@
 Ateevibes is a mobile-first, high-performance e-commerce platform built for an Indian apparel label specializing in architectural knits, China jacquards, waffle textures, and tie-dye drops.
 
 ### Key Highlights
-- **Curated Aesthetics**: Light-theme-only visual luxury with Playfair Display & DM Sans typography, fluid micro-interactions, liquid SVG preloader, and seamless page transitions (`PageTransition.tsx`).
+- **Curated Aesthetics**: Dark luxury theme with Playfair Display & DM Sans typography, fluid micro-interactions, liquid SVG preloader, and seamless page transitions (`PageTransition.tsx`).
 - **Catalog Precision**: 16 exact product catalog representations, variant swatches with background tint morphs, dual-thumb price filter, facet counts, and URL query param synchronization (`?category=&sleeve=&neck=&fabric=&color=&size=&price=&sort=`).
 - **Interactive "Same Print, Different Vibes" Engine**: Live colorway morphing with ambient background tint matching the active variant.
 - **Full Commerce Lifecycle**: Fly-to-cart bezier trajectory animation, slide-over cart drawer with free shipping progress bar (₹1,499 threshold), promo code discounts (`ATEE10`, `WELCOME15`), 4-step checkout wizard, Luhn card check, simulated UPI/Card payment flow, order confirmation confetti, invoice printing, and real-time progressive milestone tracking (`ATV-YYMMDD-####`).
@@ -154,7 +156,7 @@ Before production launch:
 ## 6. Production Integration Guide
 
 ### Backend Connection (`VITE_API_BASE_URL`)
-The storefront communicates with REPO-B (NestJS 10 API) via `src/services/apiClient.ts`:
+The storefront communicates with the [Ateevibes Backend](https://github.com/namanlunia/Ateevibes_Website_backend) (NestJS 10 API) via `src/services/apiClient.ts`:
 - Environment variable: `VITE_API_BASE_URL` (default: `http://localhost:3000/api/v1`).
 - Auth tokens are stored in `atv:v1:auth_token` and `atv:v1:refresh_token` with transparent single-flight refresh on 401 via `POST /auth/refresh`.
 - If the backend is unreachable (status 0), the storefront falls back to offline catalog browsing with a visible notice, while checkout placement is safely halted to prevent phantom orders.
