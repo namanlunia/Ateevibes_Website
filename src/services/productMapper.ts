@@ -49,11 +49,18 @@ export function normalizeServerProduct(raw: unknown): Product | null {
       ? (v.images as string[])
       : [typeof v.image === "string" ? v.image : "/brand/tshirt-silhouette.svg"];
 
-    let stockBySize: Record<string, number> = { S: 10, M: 12, L: 8, XL: 4 };
+    let stockBySize: Record<string, number> = { S: 10, M: 12, L: 8, XL: 4, XXL: 0 };
     if (v.stockBySize && typeof v.stockBySize === "object") {
-      stockBySize = v.stockBySize as Record<string, number>;
+      stockBySize = {
+        S: 0,
+        M: 0,
+        L: 0,
+        XL: 0,
+        XXL: 0,
+        ...(v.stockBySize as Record<string, number>),
+      };
     } else if (Array.isArray(v.stockLevels)) {
-      stockBySize = {};
+      stockBySize = { S: 0, M: 0, L: 0, XL: 0, XXL: 0 };
       for (const sl of v.stockLevels) {
         if (sl && typeof sl === "object") {
           const sObj = sl as Record<string, unknown>;
@@ -76,7 +83,7 @@ export function normalizeServerProduct(raw: unknown): Product | null {
     };
   });
 
-  const sizes: SizeType[] = ["S", "M", "L", "XL"];
+  const sizes: SizeType[] = ["S", "M", "L", "XL", "XXL"];
 
   return {
     id,
