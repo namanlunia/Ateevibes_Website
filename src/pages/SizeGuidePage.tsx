@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import {
   Ruler,
   CheckCircle2,
@@ -7,6 +8,8 @@ import {
 } from 'lucide-react';
 import { SIZE_CHART, FIT_NOTES } from '../data/sizeChart';
 import { siteConfig } from '../config/site';
+import { POLICY_CONSTANTS } from '../config/policyCopy';
+import { formatPrice } from '../lib/format';
 
 export const SizeGuidePage: React.FC = () => {
   const [unit, setUnit] = useState<'in' | 'cm'>('in');
@@ -113,6 +116,24 @@ export const SizeGuidePage: React.FC = () => {
           <p className="text-[11px] text-graphite/60 italic pt-2 font-sans">
             * All measurements are taken on un-stretched garments lying flat. A tolerance of ±0.5 inches (±1.2 cm) is normal across industrial knitting batches.
           </p>
+        </div>
+
+        {/* Exchange Policy Note */}
+        <div className="p-5 rounded-2xl bg-ivory border border-sandstone flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-luxury">
+          <div className="space-y-1">
+            <p className="font-bold text-xs uppercase tracking-wider text-obsidian">
+              Choose Your Size Carefully
+            </p>
+            <p className="text-xs text-graphite/80 leading-relaxed font-sans">
+              Size exchanges are allowed only within our exchange rules ({POLICY_CONSTANTS.EXCHANGE_WINDOW_HOURS} hours from delivery, {formatPrice(POLICY_CONSTANTS.EXCHANGE_FEE)} exchange fee, maximum {POLICY_CONSTANTS.MAX_EXCHANGES_PER_ORDER} per order, subject to stock availability).
+            </p>
+          </div>
+          <Link
+            to="/shipping-returns"
+            className="text-xs font-bold text-gold underline hover:text-obsidian whitespace-nowrap self-start sm:self-auto"
+          >
+            Review Policy →
+          </Link>
         </div>
 
         {/* How to Measure Section */}

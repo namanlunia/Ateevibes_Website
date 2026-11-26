@@ -368,6 +368,14 @@ export const AccountOrderDetailPage: React.FC = () => {
             <p className="text-[10px] text-graphite/60 text-right">All prices inclusive of applicable GST</p>
           </div>
         </div>
+
+        {/* Policy Summary Note */}
+        <div className="p-4 rounded-2xl bg-ivory border border-sandstone text-xs text-graphite/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-subtle">
+          <span>Returns (within 24 hours) and size exchanges (within 48 hours) follow our policy.</span>
+          <Link to="/shipping-returns" className="text-gold font-bold underline hover:text-obsidian whitespace-nowrap">
+            Returns & Exchanges Policy →
+          </Link>
+        </div>
       </div>
     </div>
   );

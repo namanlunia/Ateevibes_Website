@@ -9,6 +9,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
+import { getPolicyFAQs, generateFaqJsonLd } from '../config/policyCopy';
 
 interface FAQItem {
   id: string;
@@ -17,7 +18,14 @@ interface FAQItem {
   answer: string;
 }
 
-const FAQ_LIST: FAQItem[] = [
+const POLICY_FAQ_ITEMS: FAQItem[] = getPolicyFAQs().map((faq) => ({
+  id: faq.id,
+  category: 'returns' as const,
+  question: faq.question,
+  answer: faq.answer,
+}));
+
+const GENERAL_FAQ_LIST: FAQItem[] = [
   {
     id: 'f-1',
     category: 'shipping',
@@ -67,20 +75,7 @@ const FAQ_LIST: FAQItem[] = [
     answer:
       'All our fabrics are engineered with durable shape retention knits to maintain their structure and fit. When washed according to label guidelines (cold wash, gentle cycle, dry in shade), shape and drape are reliably preserved.',
   },
-  {
-    id: 'f-8',
-    category: 'returns',
-    question: 'What is the return and exchange policy?',
-    answer:
-      'All sales are final once delivered. Because each garment is produced in specialized limited fabric runs, Ateevibes does not accept standard returns or exchanges. In the rare event of transit damage or dispatch error reported within 48 hours of delivery, our concierge resolves it directly with a prompt replacement.',
-  },
-  {
-    id: 'f-9',
-    category: 'returns',
-    question: 'What should I do if my package arrives damaged or incorrect?',
-    answer:
-      `If your parcel arrives damaged from courier transit or contains an incorrect item, contact our WhatsApp concierge or email ${siteConfig.contact.email} within 48 hours of delivery with unboxing photos and your Order ID. Our quality team will promptly arrange a replacement.`,
-  },
+  ...POLICY_FAQ_ITEMS,
   {
     id: 'f-10',
     category: 'payments',
@@ -90,12 +85,14 @@ const FAQ_LIST: FAQItem[] = [
   },
 ];
 
+export const FAQ_LIST = GENERAL_FAQ_LIST;
+
 const CATEGORIES = [
   { key: 'all', label: 'All Questions' },
   { key: 'shipping', label: 'Shipping & Delivery' },
   { key: 'sizing', label: 'Sizing & Fit' },
   { key: 'fabrics', label: 'Fabrics & Care' },
-  { key: 'returns', label: 'Returns & Policy' },
+  { key: 'returns', label: 'Returns & Exchanges' },
   { key: 'payments', label: 'Payment & Security' },
 ];
 
@@ -119,14 +116,19 @@ export const FAQPage: React.FC = () => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const faqJsonLd = generateFaqJsonLd(FAQ_LIST);
+
   return (
     <>
       <Helmet>
         <title>{`Frequently Asked Questions | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Find answers to common questions about Ateevibes t-shirts, shipping times, sizing charts, fabric care, and order guidelines."
+          content="Find answers to common questions about Ateevibes t-shirts, shipping times, sizing charts, fabric care, and our returns and size exchange policy."
         />
+        <script type="application/ld+json">
+          {JSON.stringify(faqJsonLd)}
+        </script>
       </Helmet>
 
       <div className="py-12 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-12">
@@ -147,7 +149,7 @@ export const FAQPage: React.FC = () => {
           <div className="relative max-w-md mx-auto pt-2">
             <input
               type="text"
-              placeholder="Search by keyword (e.g. shipping, sizing, fabrics)..."
+              placeholder="Search by keyword (e.g. shipping, sizing, exchange, return)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-ivory border border-sandstone rounded-2xl text-xs sm:text-sm text-obsidian placeholder:text-graphite/50 focus:outline-none focus:border-obsidian focus:ring-1 focus:ring-obsidian shadow-sm"

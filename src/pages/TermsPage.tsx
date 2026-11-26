@@ -1,7 +1,13 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { FileText } from 'lucide-react';
 import { siteConfig } from '../config/site';
+import {
+  POLICY_LEGAL_NOTE,
+  POLICY_CONSTANTS,
+} from '../config/policyCopy';
+import { formatPrice } from '../lib/format';
 
 export const TermsPage: React.FC = () => {
   return (
@@ -51,25 +57,41 @@ export const TermsPage: React.FC = () => {
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">4. Product Representation & Colors</h2>
+            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">4. Returns, Refunds & Exchanges</h2>
             <p>
-              We strive to display garment colors, China jacquard weaves, and tie-dye gradients as accurately as possible. However, actual colors may vary slightly depending on monitor color calibration, lighting conditions during photography, and natural variations in batch dyeing.
+              Returns are accepted within {POLICY_CONSTANTS.RETURN_WINDOW_HOURS} hours of delivery for defective, damaged, incorrect, or undelivered items and are refunded as a store credit coupon code valid for {POLICY_CONSTANTS.STORE_CREDIT_VALIDITY_DAYS} days. Size-only exchanges are permitted within {POLICY_CONSTANTS.EXCHANGE_WINDOW_HOURS} hours of delivery for a {formatPrice(POLICY_CONSTANTS.EXCHANGE_FEE)} exchange fee (maximum {POLICY_CONSTANTS.MAX_EXCHANGES_PER_ORDER} exchange per order, subject to stock availability; no store credit or compensation if size is out of stock). Products sold during a sale are final. For full details, please review our authoritative{' '}
+              <Link to="/shipping-returns" className="text-gold font-bold underline hover:text-obsidian transition-colors">
+                Returns & Exchanges Policy
+              </Link>.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">5. Intellectual Property</h2>
+            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">5. Product Representation & Colors</h2>
+            <p>
+              We strive to display garment colors, China jacquard weaves, and tie-dye patterns as accurately as possible. However, actual colors may vary slightly depending on monitor color calibration, lighting conditions during photography, and natural variations in batch dyeing.
+            </p>
+          </section>
+
+          <section className="space-y-2">
+            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">6. Intellectual Property</h2>
             <p>
               All trademarks, graphics, logo marks (&ldquo;Feel the Vibes&rdquo;), product photography, and text content on this site are the exclusive intellectual property of Ateevibes. Reproduction or commercial exploitation without written consent is strictly prohibited.
             </p>
           </section>
 
           <section className="space-y-2">
-            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">6. Governing Law & Jurisdiction</h2>
+            <h2 className="font-serif text-xl font-normal text-obsidian tracking-tight">7. Governing Law & Jurisdiction</h2>
             <p>
               These Terms and any separate agreements shall be governed by and construed in accordance with the laws of the Republic of India. Any disputes arising hereunder shall be subject to the exclusive jurisdiction of the courts in Mumbai, Maharashtra, India.
             </p>
           </section>
+
+          <div className="pt-4 border-t border-sandstone">
+            <p className="text-xs text-graphite/70 italic font-sans">
+              {POLICY_LEGAL_NOTE}
+            </p>
+          </div>
         </div>
       </div>
     </>

@@ -24,6 +24,7 @@ import { useOrdersStore } from '../store/ordersStore';
 import { useAuthStore } from '../store/authStore';
 import { useUIStore } from '../store/uiStore';
 import { formatPrice, generateOrderId, formatDate } from '../lib/format';
+import { POLICY_BULLETS } from '../config/policyCopy';
 import {
   validateLuhn,
   validateExpiry,
@@ -200,7 +201,7 @@ export const CheckoutPage: React.FC = () => {
     if (!termsAccepted) {
       addToast({
         type: 'error',
-        message: 'Please accept the Terms & Conditions to place your order.',
+        message: 'Please accept the Terms & Conditions and Returns & Exchanges Policy to place your order.',
       });
       return;
     }
@@ -1078,12 +1079,34 @@ export const CheckoutPage: React.FC = () => {
                     <span className="font-bold text-obsidian uppercase tracking-wider block text-[11px]">
                       Payment & Shipping
                     </span>
-                    <p><strong>Shipping:</strong> {isExpress ? 'Express Priority Air (2-3 days, ₹99 surcharge)' : 'Standard Surface (3-7 days)'}</p>
+                    <p><strong>Shipping:</strong> {isExpress ? 'Express Priority Air (2-3 days, ₹99 surcharge)' : 'Standard Surface (3 to 5 business days)'}</p>
                     <p><strong>Payment Method:</strong> <span className="uppercase font-bold text-obsidian">{paymentMethod}</span></p>
                     <button onClick={() => setCurrentStep(3)} className="text-gold font-semibold underline pt-2 block hover:text-obsidian transition-colors">
                       Change payment method
                     </button>
                   </div>
+                </div>
+
+                {/* Returns & Exchanges Policy Summary */}
+                <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-2">
+                  <span className="font-bold text-obsidian uppercase tracking-wider block text-[11px]">
+                    Returns & Exchanges Policy Summary
+                  </span>
+                  <ul className="space-y-1.5 text-xs text-graphite/80 list-disc pl-4 font-sans leading-relaxed">
+                    {POLICY_BULLETS.map((bullet, idx) => (
+                      <li key={idx}>{bullet}</li>
+                    ))}
+                  </ul>
+                  <p className="text-[11px] text-graphite/70 pt-1">
+                    Read the complete{' '}
+                    <Link
+                      to="/shipping-returns"
+                      target="_blank"
+                      className="text-gold font-semibold underline hover:text-obsidian transition-colors"
+                    >
+                      Returns & Exchanges Policy
+                    </Link>.
+                  </p>
                 </div>
 
                 {/* Terms checkbox */}
@@ -1099,7 +1122,11 @@ export const CheckoutPage: React.FC = () => {
                     <Link to="/terms" target="_blank" className="underline font-bold text-obsidian hover:text-gold transition-colors">
                       Terms of Service
                     </Link>{' '}
-                    and acknowledge that this is a simulated demo transaction with no real payment.
+                    and the{' '}
+                    <Link to="/shipping-returns" target="_blank" className="underline font-bold text-obsidian hover:text-gold transition-colors">
+                      Returns & Exchanges Policy
+                    </Link>
+                    , and acknowledge that this is a simulated demo transaction with no real payment.
                   </span>
                 </label>
 

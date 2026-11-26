@@ -26,6 +26,7 @@ import { PRODUCTS, OLD_SLUG_MAP } from '../data/products';
 import { REVIEWS_DATA } from '../data/reviews';
 import { Product, Variant, SizeType } from '../types';
 import { formatPrice } from '../lib/format';
+import { POLICY_BULLETS } from '../config/policyCopy';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../lib/images';
 import { generateProductJsonLd, generateBreadcrumbJsonLd } from '../lib/seo';
 import { useCartStore } from '../store/cartStore';
@@ -710,13 +711,13 @@ export const ProductPage: React.FC = () => {
                 )}
               </div>
 
-              {/* Shipping & Delivery Policy */}
+              {/* Shipping & Returns Policy */}
               <div className="py-3.5">
                 <button
                   onClick={() => setAccordions((a) => ({ ...a, shipping: !a.shipping }))}
                   className="w-full flex items-center justify-between font-semibold text-obsidian uppercase tracking-wider text-xs text-left"
                 >
-                  <span>Shipping & Delivery Information</span>
+                  <span>Shipping & Returns</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 text-gold ${
                       accordions.shipping ? 'rotate-180' : ''
@@ -724,12 +725,28 @@ export const ProductPage: React.FC = () => {
                   />
                 </button>
                 {accordions.shipping && (
-                  <div className="mt-2 space-y-1.5 text-xs text-ink-600">
-                    <p>• Free standard delivery on all orders over ₹1,499 (otherwise flat ₹79).</p>
-                    <p>• Dispatched within 24 to 48 hours directly from the Ateevibes Mumbai hub.</p>
-                    <p>• Estimated delivery time: 3 to 5 business days via Express Air courier networks.</p>
-                    <p>• Cash on Delivery (COD) available across 25,000+ PIN codes with flat ₹49 fee.</p>
-                    <p>• Multi-point quality inspection conducted prior to shipping.</p>
+                  <div className="mt-2 space-y-2.5 text-xs text-ink-600">
+                    <div className="space-y-1">
+                      <p className="font-semibold text-obsidian">Shipping Information:</p>
+                      <p>• Free standard delivery on all orders over ₹1,499 (otherwise flat ₹79).</p>
+                      <p>• Dispatched within 24 to 48 hours directly from the Ateevibes Mumbai hub.</p>
+                      <p>• Estimated delivery time: 3 to 5 business days via Express Air courier networks.</p>
+                      <p>• Cash on Delivery (COD) available across 25,000+ PIN codes with flat ₹49 fee.</p>
+                    </div>
+                    <div className="space-y-1.5 pt-2 border-t border-sandstone/60">
+                      <p className="font-semibold text-obsidian">Returns & Exchanges Policy:</p>
+                      <ul className="space-y-1 pl-3.5 list-disc">
+                        {POLICY_BULLETS.map((bullet, idx) => (
+                          <li key={idx}>{bullet}</li>
+                        ))}
+                      </ul>
+                      <Link
+                        to="/shipping-returns"
+                        className="text-gold font-semibold underline block pt-1 hover:text-obsidian transition-colors"
+                      >
+                        View full Returns & Exchanges Policy →
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>

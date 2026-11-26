@@ -3,22 +3,28 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import {
   Truck,
-  CheckCircle2,
   Clock,
   ShieldCheck,
   MessageCircle,
-  AlertCircle,
+  RotateCcw,
 } from 'lucide-react';
 import { siteConfig } from '../config/site';
+import {
+  getPolicySections,
+  getPolicyGlance,
+  POLICY_LEGAL_NOTE,
+} from '../config/policyCopy';
 
 export const ShippingReturnsPage: React.FC = () => {
+  const policyGlance = getPolicyGlance();
+  const policySections = getPolicySections();
   return (
     <>
       <Helmet>
-        <title>{`Shipping & Order Policy | ${siteConfig.name}`}</title>
+        <title>{`Shipping, Returns & Exchanges | ${siteConfig.name}`}</title>
         <meta
           name="description"
-          content="Learn about Ateevibes order fulfillment, express domestic shipping timelines, free delivery threshold above ₹1,499, and order quality inspection policies."
+          content="Learn about Ateevibes order fulfillment, express domestic shipping timelines, free delivery threshold above ₹1,499, and our authoritative returns and size-exchange policies."
         />
       </Helmet>
 
@@ -27,13 +33,13 @@ export const ShippingReturnsPage: React.FC = () => {
         <div className="text-center space-y-3.5">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-ivory border border-sandstone text-xs font-bold text-gold uppercase tracking-wider">
             <Truck className="w-3.5 h-3.5" />
-            <span>Ateevibes Fulfillment & Orders</span>
+            <span>Ateevibes Delivery & Returns</span>
           </div>
           <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal text-obsidian tracking-tight">
-            Shipping & Order Policy
+            Shipping, Returns & Exchanges
           </h1>
           <p className="text-xs sm:text-base text-graphite/80 max-w-lg mx-auto font-sans">
-            Every Ateevibes garment is engineered, inspected, and dispatched directly from the Ateevibes Mumbai production hub. Review our delivery timelines and customer support guidelines below.
+            Every Ateevibes garment is engineered, inspected, and dispatched directly from our Mumbai production hub. Review our delivery timelines, returns policy, and size exchange guidelines below.
           </p>
         </div>
 
@@ -50,14 +56,14 @@ export const ShippingReturnsPage: React.FC = () => {
             <p className="text-xs text-graphite/70 font-sans">Dispatched in 24–48h via Express Air courier networks.</p>
           </div>
           <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2.5 shadow-luxury">
-            <ShieldCheck className="w-6 h-6 text-gold" />
-            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Inspected Quality</h4>
-            <p className="text-xs text-graphite/70 font-sans">Multi-point manual check for stitches and fabric before dispatch.</p>
+            <RotateCcw className="w-6 h-6 text-gold" />
+            <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Clear Returns</h4>
+            <p className="text-xs text-graphite/70 font-sans">24h returns for defective/damaged orders; 48h size exchanges.</p>
           </div>
           <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2.5 shadow-luxury">
             <MessageCircle className="w-6 h-6 text-gold" />
             <h4 className="font-serif text-base font-normal text-obsidian tracking-tight">Concierge Help</h4>
-            <p className="text-xs text-graphite/70 font-sans">Direct WhatsApp assistance for sizing questions and order status.</p>
+            <p className="text-xs text-graphite/70 font-sans">Direct WhatsApp & email assistance for orders and sizing.</p>
           </div>
         </div>
 
@@ -111,91 +117,83 @@ export const ShippingReturnsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Section 2: Order Quality & Return Policy Notice */}
-        <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-10 shadow-luxury space-y-6">
+        {/* Section 2: Returns, Refunds & Exchanges Policy */}
+        <div className="bg-white rounded-3xl border border-sandstone p-6 sm:p-10 shadow-luxury space-y-8">
           <div className="flex items-center gap-3.5 pb-4 border-b border-sandstone">
             <div className="w-10 h-10 rounded-xl bg-ivory border border-sandstone flex items-center justify-center text-gold shadow-sm">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-obsidian tracking-tight">
-                Order Verification & Return Policy
+                Returns, Refunds & Exchanges Policy
               </h2>
-              <p className="text-xs text-graphite/70 font-sans mt-0.5">Accurate, transparent guidelines for every customer</p>
+              <p className="text-xs text-graphite/70 font-sans mt-0.5">Authoritative policy guidelines for every order</p>
             </div>
           </div>
 
-          <div className="space-y-5 text-xs sm:text-sm text-graphite leading-relaxed font-sans">
-            <div className="p-5 rounded-2xl bg-ivory border border-sandstone space-y-2">
-              <div className="flex items-center gap-2 text-obsidian font-bold text-xs uppercase tracking-wider">
-                <AlertCircle className="w-4 h-4 text-gold shrink-0" />
-                <span>Notice Regarding Returns</span>
-              </div>
-              <p className="text-xs text-graphite/80 leading-relaxed">
-                All sales are final once delivered. Because each garment is produced in specialized limited fabric runs and tailored with dimensional knits, Ateevibes does not accept standard returns or exchanges, unless an item has arrived with transit damage reported within 48 hours or an incorrect variant was dispatched.
-              </p>
+          {/* Policy at a Glance Table */}
+          <div className="space-y-3">
+            <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">
+              Policy at a Glance
+            </h3>
+            <div className="overflow-x-auto rounded-2xl border border-sandstone">
+              <table className="w-full text-left text-xs sm:text-sm">
+                <thead>
+                  <tr className="bg-ivory border-b border-sandstone text-[11px] font-bold uppercase text-graphite/70 tracking-wider">
+                    <th className="py-3 px-4 w-1/4">Aspect</th>
+                    <th className="py-3 px-4">Policy Detail</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-sandstone bg-white">
+                  {policyGlance.map((row) => (
+                    <tr key={row.label} className="hover:bg-ivory/40 transition-colors">
+                      <td className="py-3.5 px-4 font-bold text-obsidian">{row.label}</td>
+                      <td className="py-3.5 px-4 text-graphite/80 leading-relaxed font-sans">{row.detail}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Ateevibes Quality Guarantee</h3>
-              <p>
-                Before any t-shirt leaves our Mumbai workshop, it undergoes thorough quality verification:
-              </p>
-              <ul className="space-y-2 text-xs text-graphite/80 pt-1">
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>Stitching, collar ribbing, and hem density are inspected for structural integrity.</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>Chinese jacquard weaves and tie-dye wash patterns are verified against master standards.</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-gold flex-shrink-0" />
-                  <span>Garments are packaged in secure protective mailers to prevent dust or moisture during transit.</span>
-                </li>
-              </ul>
-            </div>
-
-            <div className="space-y-2 pt-2">
-              <h3 className="font-bold text-obsidian uppercase tracking-wider text-xs">Damaged or Incorrect Items</h3>
-              <p>
-                In the rare instance that your package arrives with physical damage from courier transit or you received a size or colorway different from what you ordered:
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-2">
-                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 1</span>
-                  <p className="font-bold text-obsidian text-xs">Notify Within 48 Hours</p>
-                  <p className="text-[11px] text-graphite/70">Reach out to our WhatsApp concierge or email {siteConfig.contact.email} within 48 hours of parcel delivery.</p>
-                </div>
-                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 2</span>
-                  <p className="font-bold text-obsidian text-xs">Share Unboxing Evidence</p>
-                  <p className="text-[11px] text-graphite/70">Provide clear photos or video showing the outer shipping label, packaging condition, and the garment flaw.</p>
-                </div>
-                <div className="p-4 rounded-xl border border-sandstone bg-ivory space-y-1">
-                  <span className="text-gold font-bold text-[10px] uppercase tracking-wider block">STEP 3</span>
-                  <p className="font-bold text-obsidian text-xs">Prompt Ateevibes Resolution</p>
-                  <p className="text-[11px] text-graphite/70">Once verified by our quality control manager, a replacement piece is immediately dispatched.</p>
+          {/* Structured Policy Sections */}
+          <div className="space-y-6 pt-2">
+            {policySections.map((section) => (
+              <div key={section.id} className="space-y-2">
+                <h3 className="font-serif text-lg font-normal text-obsidian tracking-tight">
+                  {section.title}
+                </h3>
+                <div className="space-y-2 text-xs sm:text-sm text-graphite/80 leading-relaxed font-sans">
+                  {section.paragraphs.map((para, idx) => (
+                    <p key={idx}>{para}</p>
+                  ))}
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="pt-5 border-t border-sandstone flex flex-wrap items-center justify-between gap-4">
-              <div className="space-y-0.5">
-                <p className="font-bold text-obsidian text-xs">Questions About Sizing Before Ordering?</p>
-                <p className="text-[11px] text-graphite/70">Check our comprehensive <Link to="/size-guide" className="text-gold underline hover:text-obsidian">Size Guide</Link> or chat with our team.</p>
-              </div>
-              <a
-                href={`https://wa.me/919999999999?text=${encodeURIComponent('Hi Ateevibes team, I have a question about sizing and ordering.')}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
-              >
-                <MessageCircle className="w-3.5 h-3.5 text-gold" />
-                <span>Chat on WhatsApp</span>
-              </a>
+          {/* Statutory Rights Legal Note */}
+          <div className="pt-4 border-t border-sandstone">
+            <p className="text-xs text-graphite/70 italic font-sans">
+              {POLICY_LEGAL_NOTE}
+            </p>
+          </div>
+
+          {/* Concierge Help Strip */}
+          <div className="pt-4 border-t border-sandstone flex flex-wrap items-center justify-between gap-4">
+            <div className="space-y-0.5">
+              <p className="font-bold text-obsidian text-xs">Need to raise a request or have questions?</p>
+              <p className="text-[11px] text-graphite/70">
+                Contact us via our <Link to="/contact" className="text-gold underline hover:text-obsidian">Contact Page</Link> or email {siteConfig.contact.email}.
+              </p>
             </div>
+            <Link
+              to="/contact"
+              className="btn-primary px-6 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-luxury"
+            >
+              <MessageCircle className="w-3.5 h-3.5 text-gold" />
+              <span>Contact Concierge</span>
+            </Link>
           </div>
         </div>
       </div>

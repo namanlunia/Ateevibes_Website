@@ -342,6 +342,12 @@ export const CartPage: React.FC = () => {
                     <span className="tabular-nums font-display text-2xl">{formatPrice(breakdown.grandTotal)}</span>
                   </div>
                   <p className="text-[11px] text-ink-500">Tax inclusive MRP • No hidden fees</p>
+                  <p className="text-[11px] text-ink-600">
+                    Returns and exchanges follow our{' '}
+                    <Link to="/shipping-returns" className="text-gold underline hover:text-obsidian transition-colors">
+                      policy
+                    </Link>.
+                  </p>
                 </div>
 
                 {/* Checkout CTA */}

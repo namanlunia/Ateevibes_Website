@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Mail,
@@ -8,6 +9,7 @@ import {
   Send,
   MessageCircle,
   CheckCircle2,
+  RotateCcw,
 } from 'lucide-react';
 import { useUIStore } from '../store/uiStore';
 import { siteConfig } from '../config/site';
@@ -16,7 +18,7 @@ import { contactSchema } from '../lib/validators';
 const SUBJECT_OPTIONS = [
   'Order Status & Tracking Inquiry',
   'Size & Fit Recommendation',
-  'Order Inquiry or Transit Flaw',
+  'Return or Size Exchange Request',
   'Product Fabric & Care Details',
   'Wholesale & Bulk Orders',
   'General Feedback or Suggestion',
@@ -147,6 +149,27 @@ export const ContactPage: React.FC = () => {
               )}
               <p className="text-[11px] text-graphite/70 pl-13 font-sans">
                 Average reply time: within 12–24 business hours.
+              </p>
+            </div>
+
+            {/* Returns & Exchanges Inquiries */}
+            <div className="p-6 rounded-3xl bg-ivory border border-sandstone space-y-2 shadow-luxury">
+              <div className="flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-white border border-sandstone flex items-center justify-center text-gold shadow-sm">
+                  <RotateCcw className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="font-serif text-base font-normal text-obsidian">Returns & Exchanges</h4>
+                  <Link
+                    to="/shipping-returns"
+                    className="text-xs font-semibold text-gold hover:text-obsidian transition-colors underline"
+                  >
+                    View Policy Guidelines
+                  </Link>
+                </div>
+              </div>
+              <p className="text-[11px] text-graphite/70 pl-13 font-sans">
+                To request a return (within 24 hours) or size exchange (within 48 hours), provide your Order ID in your message or contact our support concierge.
               </p>
             </div>
 

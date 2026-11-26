@@ -197,6 +197,12 @@ export const OrderConfirmationPage: React.FC = () => {
             <p className="text-[11px] text-graphite/60">
               Payment mode: <strong className="uppercase font-semibold text-obsidian">{order.paymentMethod}</strong> ({order.paymentStatus})
             </p>
+            <p className="text-[11px] text-graphite/70 pt-2 border-t border-sandstone font-sans">
+              Returns and exchanges follow our{' '}
+              <Link to="/shipping-returns" className="text-gold font-medium underline hover:text-obsidian transition-colors">
+                Returns & Exchanges Policy
+              </Link>.
+            </p>
           </div>
         </div>
 

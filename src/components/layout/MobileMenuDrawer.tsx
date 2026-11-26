@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronDown, Compass, Heart, ShoppingBag, User, HelpCircle, Phone, Sparkles } from 'lucide-react';
+import { X, ChevronDown, Compass, Heart, ShoppingBag, User, HelpCircle, Phone, Sparkles, RotateCcw } from 'lucide-react';
 import { CATEGORIES } from '../../data/categories';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useCartStore } from '../../store/cartStore';
@@ -163,6 +163,14 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
                 >
                   <HelpCircle className="w-4 h-4 text-ink-600" />
                   <span>Track Order</span>
+                </Link>
+                <Link
+                  to="/shipping-returns"
+                  onClick={onClose}
+                  className="flex items-center gap-2 py-1.5 hover:text-ink-900"
+                >
+                  <RotateCcw className="w-4 h-4 text-ink-600" />
+                  <span>Returns & Exchanges</span>
                 </Link>
                 <Link
                   to="/size-guide"

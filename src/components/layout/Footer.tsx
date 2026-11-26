@@ -183,7 +183,7 @@ export const Footer: React.FC = () => {
             <p className="text-xs font-bold text-gold uppercase tracking-[0.1em]">Help</p>
             <ul className="space-y-2 text-xs sm:text-sm text-ivory/70">
               <li><Link to="/track-order" className="hover:text-gold transition-colors">Track Order</Link></li>
-              <li><Link to="/shipping-returns" className="hover:text-gold transition-colors">Shipping & Order Policy</Link></li>
+              <li><Link to="/shipping-returns" className="hover:text-gold transition-colors">Returns & Exchanges</Link></li>
               <li><Link to="/size-guide" className="hover:text-gold transition-colors">Size Guide</Link></li>
               <li><Link to="/faq" className="hover:text-gold transition-colors">FAQs</Link></li>
               <li><Link to="/contact" className="hover:text-gold transition-colors">Contact Us</Link></li>
