@@ -17,6 +17,9 @@ const mockOrderBase: Order = {
   createdAt: '2026-11-26T10:00:00.000Z',
   items: [
     {
+      id: 'ci-1',
+      productId: 'p-1',
+      variantId: 'var-1',
       product: {
         id: 'p-1',
         name: 'Pastel Green Classic',
