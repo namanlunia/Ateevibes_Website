@@ -40,7 +40,11 @@ The following items are marked with `isPlaceholder: true` flags and are **hidden
 - [x] **Express Surcharge**: ₹99 (authoritative contract)
 - [x] **Cash on Delivery (COD) Fee**: ₹49 (authoritative contract)
 - [x] **Reservation Window**: 15 minutes (authoritative contract)
-- [x] **Return Policy**: Final sale unless transit damage is reported within 48 hours (synchronized with backend policy; 7-day return claims removed)
+- [x] **Returns, Refunds & Exchanges Policy**: Returns accepted within 24 hours of delivery for defective, damaged, incorrect, or undelivered items (refunded as 50-day store credit coupon). Size-only exchanges within 48 hours for ₹250 fee (max 1 exchange per order, subject to stock). Sale items final.
+- [ ] **Policy Owner Confirmation — Exchange Window**: Confirm 24 or 48 hour exchange window (currently 48 hours in code).
+- [ ] **Policy Owner Confirmation — Undelivered Order Starting Point**: Confirm the undelivered-order starting point (currently within 24 hours of expected delivery date shown in order tracking).
+- [ ] **Policy Owner Decision — Store Credit Coupons**: Decide how store credit coupons are generated and issued (valid for 50 days from date of issue).
+- [ ] **Policy Legal Review**: Have the returns, refunds, and exchanges policy reviewed by a qualified Indian e-commerce lawyer.
 
 ---
 

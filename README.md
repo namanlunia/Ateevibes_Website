@@ -135,6 +135,7 @@ Commercial rules reside in `src/config/commerce.ts` and `src/lib/pricing.ts`:
 - **Free Shipping Threshold**: Set `FREE_SHIPPING_THRESHOLD: 1499` in `src/config/commerce.ts`.
 - **Flat Shipping Fee**: Set `FLAT_SHIPPING_FEE: 79`.
 - **COD Fee**: Set `COD_FEE: 49`.
+- **Returns & Exchanges Policy**: Typed constants (`RETURN_WINDOW_HOURS = 24`, `EXCHANGE_WINDOW_HOURS = 48`, `STORE_CREDIT_VALIDITY_DAYS = 50`, `EXCHANGE_FEE = 250`, `MAX_EXCHANGES_PER_ORDER = 1`) reside in `src/config/commerce.ts` and drive copy generated in `src/config/policyCopy.ts`.
 - **Promo Codes**: Add or adjust discount rules in `calculatePricing()` in `src/lib/pricing.ts`:
   - `WELCOME15`: 15% discount on first purchase for new members.
   - `ATEE10`: 10% discount on cart subtotal.
