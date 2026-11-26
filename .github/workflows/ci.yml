@@ -25,7 +25,7 @@ jobs:
       - name: TypeScript Typecheck
         run: npx tsc --noEmit
 
-      - name: Lint (Oxlint & ESLint)
+      - name: Lint (Oxlint)
         run: npm run lint
 
       - name: Dead Code Analysis (Knip)

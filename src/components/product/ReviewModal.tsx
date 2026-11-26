@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Star } from 'lucide-react';
 import { useUIStore } from '../../store/uiStore';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface ReviewModalProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, produ
   const [error, setError] = useState('');
 
   const addToast = useUIStore((state) => state.addToast);
+  const modalRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
@@ -45,9 +47,13 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose, produ
   return (
     <AnimatePresence>
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label="Write a Review"
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') onClose();
+        }}
         className="fixed inset-0 z-[120] flex items-center justify-center p-4 sm:p-6"
       >
         <motion.div

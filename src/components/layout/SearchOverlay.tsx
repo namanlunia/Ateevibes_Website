@@ -7,6 +7,7 @@ import { CATEGORIES, Category } from '../../data/categories';
 import { Product } from '../../types';
 import { formatPrice } from '../../lib/format';
 import { fuzzyScore, styleCodeScore, buildSuggestion } from '../../lib/fuzzy';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface SearchOverlayProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const searchRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   // Load recent searches
   useEffect(() => {
@@ -109,6 +111,7 @@ export const SearchOverlay: React.FC<SearchOverlayProps> = ({ isOpen, onClose })
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          ref={searchRef}
           role="dialog"
           aria-modal="true"
           aria-label="Search dialog"

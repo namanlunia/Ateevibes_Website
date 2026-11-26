@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Ruler, Info } from 'lucide-react';
 import { SIZE_CHART, FIT_NOTES } from '../../data/sizeChart';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface SizeGuideModalProps {
   isOpen: boolean;
@@ -10,12 +11,14 @@ interface SizeGuideModalProps {
 
 export const SizeGuideModal: React.FC<SizeGuideModalProps> = ({ isOpen, onClose }) => {
   const [unit, setUnit] = useState<'in' | 'cm'>('in');
+  const modalRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label="Size & Fit Guide"

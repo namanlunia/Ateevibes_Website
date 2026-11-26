@@ -771,16 +771,24 @@ export const CheckoutPage: React.FC = () => {
                 </div>
 
                 {/* Shipping Radio Options */}
-                <div className="space-y-3">
+                <div className="space-y-3" role="radiogroup" aria-label="Shipping Method">
                   {/* Standard Shipping */}
                   <label
-                    onClick={() => setIsExpress(false)}
                     className={`p-4 sm:p-5 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
                       !isExpress ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
                     <div className="flex items-center gap-3.5">
+                      <input
+                        type="radio"
+                        name="shippingMethod"
+                        value="standard"
+                        checked={!isExpress}
+                        onChange={() => setIsExpress(false)}
+                        className="sr-only"
+                      />
                       <div
+                        aria-hidden="true"
                         className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
                           !isExpress ? 'border-obsidian' : 'border-sandstone'
                         }`}
@@ -799,13 +807,21 @@ export const CheckoutPage: React.FC = () => {
 
                   {/* Express Air Delivery */}
                   <label
-                    onClick={() => setIsExpress(true)}
                     className={`p-4 sm:p-5 rounded-2xl border-2 cursor-pointer flex items-center justify-between transition-all ${
                       isExpress ? 'border-obsidian bg-ivory shadow-sm' : 'border-sandstone bg-white hover:border-gold/50'
                     }`}
                   >
                     <div className="flex items-center gap-3.5">
+                      <input
+                        type="radio"
+                        name="shippingMethod"
+                        value="express"
+                        checked={isExpress}
+                        onChange={() => setIsExpress(true)}
+                        className="sr-only"
+                      />
                       <div
+                        aria-hidden="true"
                         className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${
                           isExpress ? 'border-obsidian' : 'border-sandstone'
                         }`}

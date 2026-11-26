@@ -8,6 +8,7 @@ import { Variant, SizeType } from '../../types';
 import { formatPrice } from '../../lib/format';
 import { ColourSwatch } from './ColourSwatch';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 export const QuickViewModal: React.FC = () => {
   const product = useUIStore((state) => state.quickViewProduct);
@@ -30,6 +31,8 @@ export const QuickViewModal: React.FC = () => {
       setActiveImageIdx(0);
     }
   }, [product, initialVariant]);
+
+  const modalRef = useFocusTrap<HTMLDivElement>(Boolean(product && selectedVariant));
 
   if (!product || !selectedVariant) return null;
 
@@ -62,6 +65,7 @@ export const QuickViewModal: React.FC = () => {
   return (
     <AnimatePresence>
       <div
+        ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-label={`Quick view: ${product.name}`}

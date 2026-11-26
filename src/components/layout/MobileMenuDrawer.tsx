@@ -5,6 +5,7 @@ import { X, ChevronDown, Compass, Heart, ShoppingBag, User, HelpCircle, Phone, S
 import { CATEGORIES } from '../../data/categories';
 import { useWishlistStore } from '../../store/wishlistStore';
 import { useCartStore } from '../../store/cartStore';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface MobileMenuDrawerProps {
   isOpen: boolean;
@@ -15,6 +16,7 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const wishlistCount = useWishlistStore((state) => state.items.length);
   const cartCount = useCartStore((state) => state.items.reduce((sum, i) => sum + i.qty, 0));
+  const drawerRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   const toggleCategory = (slug: string) => {
     setExpandedCategory((prev) => (prev === slug ? null : slug));
@@ -36,9 +38,13 @@ export const MobileMenuDrawer: React.FC<MobileMenuDrawerProps> = ({ isOpen, onCl
 
           {/* Drawer */}
           <motion.div
+            ref={drawerRef}
             role="dialog"
             aria-modal="true"
             aria-label="Mobile Navigation"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') onClose();
+            }}
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
             exit={{ x: '-100%' }}

@@ -8,6 +8,7 @@ import { useUIStore } from '../../store/uiStore';
 import { formatPrice } from '../../lib/format';
 import { commerceConfig } from '../../config/commerce';
 import { RecommendedStyles } from './RecommendedStyles';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -80,12 +81,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     Math.round(((breakdown.subtotal - breakdown.discount) / commerceConfig.FREE_SHIPPING_THRESHOLD) * 100)
   );
 
-
+  const drawerRef = useFocusTrap<HTMLDivElement>(isOpen);
 
   return (
     <AnimatePresence>
       {isOpen && (
         <div
+          ref={drawerRef}
           role="dialog"
           aria-modal="true"
           aria-label="Shopping Bag"

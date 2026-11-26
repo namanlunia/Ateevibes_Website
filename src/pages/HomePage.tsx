@@ -820,6 +820,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet('/products/500/pastel-green.jpg')}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt="Round Neck T-shirts"
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/placeholder.svg';
@@ -855,6 +856,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet('/products/1400/white.jpg')}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt="Polo Collar T-shirts"
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/placeholder.svg';
@@ -890,6 +892,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet('/products/1007/black.jpg')}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt="China Jacquard Drops"
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/placeholder.svg';
@@ -925,6 +928,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet('/products/102/r-gold.jpg')}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt="Signature Printed Tees"
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/placeholder.svg';
@@ -960,6 +964,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet("/products/500/pastel-green.jpg")}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt="Kids styles — dropping soon"
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = "";
                     e.currentTarget.src = "/brand/placeholder.svg";
@@ -1307,6 +1312,7 @@ export const HomePage: React.FC = () => {
                   srcSet={getProductSrcSet(activeFabric.image)}
                   sizes={PRODUCT_IMAGE_SIZES}
                   alt={activeFabric.name}
+                  loading="lazy"
                   onError={(e) => {
                     e.currentTarget.srcset = '';
                     e.currentTarget.src = '/brand/placeholder.svg';
@@ -1444,6 +1450,7 @@ export const HomePage: React.FC = () => {
                 srcSet={getProductSrcSet('/products/1007/green.jpg')}
                 sizes={PRODUCT_IMAGE_SIZES}
                 alt="Ateevibes Editorial Lookbook"
+                loading="lazy"
                 onError={(e) => {
                   e.currentTarget.srcset = '';
                   e.currentTarget.src = '/brand/placeholder.svg';

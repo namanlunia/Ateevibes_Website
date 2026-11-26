@@ -54,7 +54,7 @@ The following items are marked with `isPlaceholder: true` flags and are **hidden
 ---
 
 ## 6. Fabric Composition & Care
-- [ ] Lab certifications and exact fiber percentages (e.g., 100% Cotton, Cotton-Poly blend ratio, Lycra percentage) to be provided by brand. Displays as `"Composition: to be confirmed"` on product detail pages.
+- [ ] Lab certifications and exact fiber percentages (e.g., 100% Cotton, Cotton-Poly blend ratio, stretch fibre / elastane percentage) to be provided by brand. Displays as `"Composition: to be confirmed"` on product detail pages.
 
 ---
 

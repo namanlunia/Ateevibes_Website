@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Helmet } from 'react-helmet-async';
 import confetti from 'canvas-confetti';
 import {
@@ -18,6 +18,7 @@ import { siteConfig } from '../config/site';
 export const OrderConfirmationPage: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const getOrderById = useOrdersStore((state) => state.getOrderById);
+  const shouldReduceMotion = useReducedMotion();
 
   const [order, setOrder] = useState<Order | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,8 +31,7 @@ export const OrderConfirmationPage: React.FC = () => {
 
         if (found) {
           // Trigger celebratory confetti in brand colors
-          const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          if (!prefersReducedMotion) {
+          if (!shouldReduceMotion) {
             confetti({
               particleCount: 75,
               spread: 70,
@@ -43,7 +43,7 @@ export const OrderConfirmationPage: React.FC = () => {
         }
       });
     }
-  }, [orderId, getOrderById]);
+  }, [orderId, getOrderById, shouldReduceMotion]);
 
   if (isLoading) {
     return (
@@ -94,9 +94,13 @@ export const OrderConfirmationPage: React.FC = () => {
             >
               <motion.path
                 d="M20 6L9 17l-5-5"
-                initial={{ pathLength: 0 }}
+                initial={{ pathLength: shouldReduceMotion ? 1 : 0 }}
                 animate={{ pathLength: 1 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+                transition={
+                  shouldReduceMotion
+                    ? { duration: 0 }
+                    : { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }
+                }
               />
             </motion.svg>
           </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, RotateCcw } from 'lucide-react';
 import { getProductSrcSet, PRODUCT_IMAGE_SIZES } from '../../lib/images';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 
 interface ProductLightboxProps {
   images: string[];
@@ -49,11 +50,14 @@ export const ProductLightbox: React.FC<ProductLightboxProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, nextImage, prevImage, onClose]);
 
+  const lightboxRef = useFocusTrap<HTMLDivElement>(isOpen);
+
   if (!isOpen || images.length === 0) return null;
 
   return (
     <AnimatePresence>
       <div
+        ref={lightboxRef}
         role="dialog"
         aria-modal="true"
         aria-label="Image Lightbox"
