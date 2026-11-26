@@ -85,6 +85,10 @@ export interface Order {
   paymentMethod: PaymentMethod;
   paymentStatus: 'paid' | 'pending';
   estimatedDeliveryDate: string;
+  carrier?: string;
+  courier?: string;
+  awb?: string;
+  trackingNumber?: string;
 }
 
 export interface Review {

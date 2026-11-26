@@ -274,11 +274,15 @@ export const TrackOrderPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-5 rounded-2xl bg-ivory border border-sandstone text-xs">
                   <div>
                     <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Carrier</span>
-                    <span className="font-bold text-obsidian">Bluedart / Express Air</span>
+                    <span className="font-bold text-obsidian">
+                      {order.carrier || order.courier || 'Awaiting carrier details'}
+                    </span>
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">AWB Number</span>
-                    <span className="font-mono font-bold text-obsidian">EXP-IN-8893921</span>
+                    <span className="font-mono font-bold text-obsidian">
+                      {order.awb || order.trackingNumber || 'Not assigned yet'}
+                    </span>
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-bold text-graphite/60 tracking-wider block">Destination</span>
@@ -384,7 +388,7 @@ export const TrackOrderPage: React.FC = () => {
 
                   <div className="flex items-center gap-2.5">
                     <a
-                      href={`https://wa.me/919999999999?text=${encodeURIComponent(`Hi Ateevibes team, I am checking status on order ${order.id}`)}`}
+                      href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Hi Ateevibes team, I am checking status on order ${order.id}`)}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="btn-secondary px-4 py-2 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5"
@@ -439,7 +443,7 @@ export const TrackOrderPage: React.FC = () => {
                   <span>Try Again</span>
                 </button>
                 <a
-                  href={`https://wa.me/919999999999?text=${encodeURIComponent(`Hi Ateevibes team, I need help finding my order ${orderId}`)}`}
+                  href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}?text=${encodeURIComponent(`Hi Ateevibes team, I need help finding my order ${orderId}`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary px-5 py-2.5 text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 shadow-luxury"
