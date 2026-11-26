@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import { MemoryRouter, useNavigate } from 'react-router-dom';
@@ -39,11 +39,19 @@ describe('PageTransition System', () => {
 
   describe('Sequencing & Query-string Safety', () => {
     it('does not re-mount or trigger transition on query-string changes on same pathname', async () => {
-      let triggerSearchChange: (sort: string) => void = () => {};
+      const triggerSearchChange = 'test:trigger-search-change';
 
       const TestHost: React.FC = () => {
         const navigate = useNavigate();
-        triggerSearchChange = (sort: string) => navigate(`/shop?sort=${sort}`);
+
+        useEffect(() => {
+          const handleTrigger = (event: Event) => {
+            const sort = (event as CustomEvent<string>).detail;
+            navigate(`/shop?sort=${sort}`);
+          };
+          window.addEventListener(triggerSearchChange, handleTrigger);
+          return () => window.removeEventListener(triggerSearchChange, handleTrigger);
+        }, [navigate]);
 
         return <PageTransition />;
       };
@@ -57,7 +65,7 @@ describe('PageTransition System', () => {
       expect(screen.getByRole('main')).toBeInTheDocument();
 
       act(() => {
-        triggerSearchChange('date');
+        window.dispatchEvent(new CustomEvent(triggerSearchChange, { detail: 'date' }));
       });
 
       rerender(

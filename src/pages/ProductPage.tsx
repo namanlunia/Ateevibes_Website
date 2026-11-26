@@ -106,9 +106,18 @@ export const ProductPage: React.FC = () => {
   );
 
   const lastTrackedProductIdRef = useRef<string | null>(null);
+  const isMountedRef = useRef(true);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
   // Initialize product state & recently viewed
   useEffect(() => {
+    let isActive = true;
     if (product) {
       const matched = colourParam
         ? product.variants.find((v) => v.colourSlug.toLowerCase() === colourParam.toLowerCase()) || product.variants[0]
@@ -124,14 +133,21 @@ export const ProductPage: React.FC = () => {
         addRecentlyViewed(product);
       }
 
-      productService.getRelated(product.id, 4).then(setRelatedProducts);
+      void productService.getRelated(product.id, 4).then((related) => {
+        if (isActive) setRelatedProducts(related);
+      });
       const activeColour = matched?.colourName || product.variants[0]?.colourName;
       if (activeColour) {
-        productService
+        void productService
           .getComplementarySet(product.id, activeColour, 4)
-          .then(setCompleteSetProducts);
+          .then((completeSet) => {
+            if (isActive) setCompleteSetProducts(completeSet);
+          });
       }
     }
+    return () => {
+      isActive = false;
+    };
   }, [product?.id, slug, colourParam]);
 
   const handleSelectVariant = (v: Variant) => {
@@ -150,9 +166,11 @@ export const ProductPage: React.FC = () => {
     }
 
     if (product) {
-      productService
+      void productService
         .getComplementarySet(product.id, v.colourName, 4)
-        .then(setCompleteSetProducts);
+        .then((completeSet) => {
+          if (isMountedRef.current) setCompleteSetProducts(completeSet);
+        });
     }
   };
 

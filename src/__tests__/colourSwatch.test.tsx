@@ -1,5 +1,5 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { ColourSwatch } from '../components/product/ColourSwatch';
@@ -14,6 +14,15 @@ import { Variant } from '../types';
 describe('ColourSwatch Component & Swatch Interactions', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
+  });
+
+  afterEach(async () => {
+    // Reset global UI state and unmount before jsdom teardown, then flush pending
+    // microtasks so React cannot schedule a state update after `window` is gone.
+    useUIStore.getState().closeQuickView();
+    cleanup();
+    await Promise.resolve();
+    await new Promise((resolve) => setTimeout(resolve, 0));
   });
 
   const testVariants: Variant[] = [
