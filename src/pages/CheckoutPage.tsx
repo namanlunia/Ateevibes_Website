@@ -45,6 +45,19 @@ import { commerceConfig } from '../config/commerce';
 const CHECKOUT_SESSION_KEY = 'atv:v1:checkout_form';
 const FAILED_SIMULATION_CARD = '4000 0000 0000 0002';
 
+export function resolvePaymentOutcome(
+  payRes: { isSimulation?: boolean; gatewayOrderId?: string; id?: string } | null | undefined,
+  verifyRes: { paymentStatus?: string; success?: boolean } | null | undefined
+): 'paid' | 'pending' {
+  if (verifyRes?.paymentStatus === 'paid' || verifyRes?.success === true) {
+    return 'paid';
+  }
+  if (payRes?.isSimulation === true) {
+    return 'paid';
+  }
+  return 'pending';
+}
+
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const items = useCartStore((state) => state.items);
@@ -271,26 +284,26 @@ export const CheckoutPage: React.FC = () => {
       const serverOrder = await api.post<any>(API_ROUTES.checkout.createOrder, payload);
 
       if (paymentMethod !== 'cod') {
-        try {
-          const payRes = await api.post<any>(API_ROUTES.payments.createOrder, {
-            orderId: serverOrder.id,
-          });
+        const payRes = await api.post<any>(API_ROUTES.payments.createOrder, {
+          orderId: serverOrder.id,
+        });
 
-          if (payRes?.isSimulation === true || !payRes?.gatewayOrderId) {
-            await new Promise((r) => setTimeout(r, 1200));
-            const gatewayOrderId = payRes?.gatewayOrderId || payRes?.id || `sim_${Date.now()}`;
-            await api.post(API_ROUTES.payments.verify, {
-              orderId: serverOrder.id,
-              razorpayOrderId: gatewayOrderId,
-              razorpayPaymentId: `demo_pay_${Date.now()}`,
-              razorpaySignature: 'demo_verified',
-            });
-            serverOrder.paymentStatus = 'paid';
-          } else {
-            await new Promise((r) => setTimeout(r, 1000));
-          }
-        } catch {
-          serverOrder.paymentStatus = 'paid';
+        if (payRes?.isSimulation === true || !payRes?.gatewayOrderId) {
+          await new Promise((r) => setTimeout(r, 1200));
+          const gatewayOrderId = payRes?.gatewayOrderId || payRes?.id || `sim_${Date.now()}`;
+          const verifyRes = await api.post<any>(API_ROUTES.payments.verify, {
+            orderId: serverOrder.id,
+            razorpayOrderId: gatewayOrderId,
+            razorpayPaymentId: `demo_pay_${Date.now()}`,
+            razorpaySignature: 'demo_verified',
+          });
+          serverOrder.paymentStatus = resolvePaymentOutcome(payRes, verifyRes);
+        } else {
+          await new Promise((r) => setTimeout(r, 1000));
+        }
+
+        if (serverOrder.paymentStatus !== 'paid') {
+          throw new Error('Payment confirmation could not be verified. Please retry payment.');
         }
       }
 
